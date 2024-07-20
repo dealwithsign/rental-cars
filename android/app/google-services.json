@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "687007904789",
+    "project_id": "deal-with-sign",
+    "storage_bucket": "deal-with-sign.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:687007904789:android:900ab9d3e983ad0a700a1c",
+        "android_client_info": {
+          "package_name": "com.braiyenmassora.rents_cars_apps"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWTubmneXQSGjOLPs3P2A5VivLOQNjowQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
