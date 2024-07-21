@@ -6,6 +6,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:intl/intl.dart';
+import 'package:rents_cars_app/models/bookings.dart';
 import 'package:rents_cars_app/models/users.dart';
 import 'package:rents_cars_app/pages/screens/details_book.dart';
 import 'package:rents_cars_app/pages/screens/maps/pick_locations.dart';
@@ -13,6 +14,7 @@ import 'package:rents_cars_app/services/users/auth_services.dart';
 import 'package:rents_cars_app/utils/widgets/button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../bloc/auth/bloc/auth_bloc.dart';
 import '../../bloc/auth/bloc/auth_event.dart';
@@ -43,6 +45,7 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
   String selectedPassengers = '1 Orang';
   String _selectedLocationPick = '';
   String _selectedLocationDrop = '';
+  BookingModels? bookingModels;
 
   final TextEditingController _phoneController = TextEditingController();
 
@@ -890,18 +893,13 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
             ).show(context);
           } else {
             saveData();
-            // Debug print untuk mengecek data
-            print('Data Tanggal Jemput: ${selectedDate.toString()}');
-            print('Data Waktu Berangkat: $selectedTime');
-            print('Data Jumlah Penumpang: $selectedPassengers');
-            print('Data Lokasi Jemput: $_selectedLocationPick');
-            print('Data Lokasi Drop-off: $_selectedLocationDrop');
-            // Data Permintaan Khusus: Check if input is empty and provide default text if so
-
-            // Navigate to next screen or perform other actions
+            var uuid = Uuid();
+            String orderId = uuid.v1().replaceAll('-', '').substring(0, 8);
+            bookingModels?.id = orderId;
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) => DetailBookingPage(
+                  id: orderId,
                   carFrom: widget.carFrom,
                   carTo: widget.carTo,
                   carDate: widget.carDate,

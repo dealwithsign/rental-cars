@@ -1,4 +1,5 @@
 import 'package:rents_cars_app/models/bookings.dart';
+import 'package:rents_cars_app/models/users.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
 
@@ -9,6 +10,7 @@ class BookingServices {
 
   Future<bool> saveBookingData({
     required CarsModels carModel,
+    required String id,
     required DateTime selectedDate,
     required String selectedTime,
     required int selectedPassengers,
@@ -24,14 +26,14 @@ class BookingServices {
     required int totalPayment,
   }) async {
     try {
-      var uuid = Uuid();
-      String bookingId = uuid.v1().replaceAll('-', '').substring(0, 8);
+      // var uuid = Uuid();
+      // String bookingId = uuid.v1().replaceAll('-', '').substring(0, 8);
       String formattedUserPhone =
           userPhone.startsWith('0') ? userPhone : '0$userPhone';
 
       // Prepare the data for insertion
       final bookingData = {
-        'id': bookingId,
+        'id': id,
         'car_id': carModel.id,
         'car_name': carModel.carName,
         'selected_date': selectedDate.toIso8601String(),
@@ -57,7 +59,7 @@ class BookingServices {
       final res = await supabase.from('bookings').insert(bookingData);
       print(res);
       // Log success or handle response
-      print("Booking saved successfully: $bookingId");
+      print("Booking saved successfully: $res");
 
       return true; // Indicate success
     } catch (e) {
@@ -93,5 +95,28 @@ class BookingServices {
     }
     return bookings;
   }
-  //
+
+  // save token
+
+  Future<void> createPaymentUrl({
+    required String token,
+    required String redirectUrl,
+    required String userId,
+    required String orderId,
+  }) async {
+    try {
+      var uuid = const Uuid();
+      String paymentId = uuid.v1().replaceAll('-', '').substring(0, 8);
+      final response = await supabase.from('payments').insert({
+        'id': paymentId,
+        'token': token,
+        'payment_links': redirectUrl,
+        'user_id': userId, // Add this line
+        'booking_id': orderId, // And this line
+      });
+      print("Payment saved successfully: $response");
+    } catch (e) {
+      print("Error saving token: $e)");
+    }
+  }
 }

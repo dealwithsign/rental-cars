@@ -15,7 +15,7 @@ Color kSuccessColor = const Color(0xff00a119);
 Color kFailedColor = const Color(0xffff3f32);
 Color kPendingColor = const Color(0xffffbf00);
 
-Color kIcon = const Color(0xff096416);
+Color kIcon = const Color(0xff002855);
 
 Color kBackgroundColor = const Color(0xfff4f7fe);
 Color kPriceColor = const Color(0xffED2739);

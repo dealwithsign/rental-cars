@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_single_cascade_in_expression_statements, prefer_const_constructors
+
 import 'dart:async';
 import 'dart:convert';
 
@@ -13,6 +15,7 @@ import 'package:rents_cars_app/bloc/auth/bloc/auth_event.dart';
 import 'package:rents_cars_app/models/bookings.dart';
 import 'package:rents_cars_app/models/cars.dart';
 import 'package:rents_cars_app/models/users.dart';
+import 'package:rents_cars_app/pages/screens/midtrans_page.dart';
 import 'package:rents_cars_app/utils/widgets/button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -34,7 +37,7 @@ class DetailBookingPage extends StatefulWidget {
   final int selectedPassengers;
   final String selectedLocationPick;
   final String selectedLocationDrop; // Add this line
-
+  final String id;
   final int phone_number;
   final String carFrom;
   final String carTo;
@@ -53,6 +56,7 @@ class DetailBookingPage extends StatefulWidget {
     required this.carFrom,
     required this.carTo,
     required this.carDate,
+    required this.id,
   });
 
   @override
@@ -65,6 +69,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
   late String selectedPassengers;
   late String selectedLocationPick;
   late String selectedLocationDrop;
+  late String orderId;
 
   late String phone_number;
   bool isLoading = true;
@@ -73,13 +78,14 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
   void initState() {
     super.initState();
     // Initialize state variables
+    orderId = widget.id;
     selectedDate = DateFormat('dd MMMM yyyy').format(widget.selectedDate);
     selectedTime = widget.selectedTime;
     selectedPassengers = '${widget.selectedPassengers} Orang';
     selectedLocationPick = widget.selectedLocationPick;
     selectedLocationDrop = widget.selectedLocationDrop;
-
     phone_number = widget.phone_number.toString();
+
     context.read<AuthBloc>().add(GetCurrentUserRequested());
     Future.delayed(const Duration(seconds: 2), () {
       setState(() {
@@ -141,6 +147,9 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
                             prefs.remove('selectedPassengers');
                             prefs.remove('selectedLocationPick');
                             prefs.remove('selectedLocationDrop');
+                            prefs.remove('selectedTime');
+                            prefs.remove('selectedDate');
+                            prefs.remove('orderId');
                             Navigator.of(context)
                                 .pop(); // Close the bottom sheet
                             Navigator.of(context)
@@ -176,12 +185,23 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
           icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => _showConfirmationBottomSheet(context),
         ),
-        title: Text(
-          'Detail Pesanan',
-          style: blackTextStyle.copyWith(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Detail Pesanan',
+              style: blackTextStyle.copyWith(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Text(
+              "Order ID: ${widget.id.toUpperCase()}",
+              style: subTitleTextStyle.copyWith(
+                fontSize: 14,
+              ),
+            ),
+          ],
         ),
       ),
       body: SingleChildScrollView(
@@ -204,7 +224,6 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
         if (state is AuthSuccess) {
-          // User is authenticated, display the content
           return Skeletonizer(
             enabled: isLoading,
             child: SingleChildScrollView(
@@ -254,75 +273,67 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
                     child: CustomButton(
                       title: "Lanjut Bayar",
                       onPressed: () async {
-                        final int carPrice =
-                            int.parse(widget.carModel.carPrice);
-                        final int totalPriceWithoutAdmin =
-                            carPrice * widget.selectedPassengers;
-                        const int adminFee = 12000;
-                        final int totalPayment =
-                            totalPriceWithoutAdmin + adminFee;
-                        var uui = Uuid();
-                        String ticketId = uui.v4().substring(0, 8);
-                        print('Ticket ID: $ticketId');
-                        // mapping
-                        Map<String, dynamic> data = {
-                          "transaction_details": {
-                            "order_id": ticketId,
-                            "gross_amount": totalPayment,
-                            "payment_link_id": widget.carModel.carName,
-                          },
-                          "credit_card": {"secure": true},
-                          "customer_details": {
-                            "first_name": state.user!.username,
-                            "last_name": "",
-                            "email": state
-                                .user!.email, // Use email from AuthCubit state
-                            "phone": state.user!.phone_number
-                                .toString(), // Use phoneNumber from AuthCubit state
-                            "notes": "Pembayaran sewa mobil",
-                          },
-                          "expiry": {"duration": 1, "unit": "month"},
-                          "usage_limit": 1,
-                          "item_details": [
-                            {
-                              "id": widget.carModel.id,
-                              "price": carPrice,
-                              "quantity": widget
-                                  .selectedPassengers, // Use selectedPassengers from widget
-                              "name": widget.carModel.carName,
-                            }
-                          ]
-                        };
-                        print('Data sent to API: $data');
-                        var response = await http.post(
-                          Uri.parse(
-                              "https://eed1-110-137-194-43.ngrok-free.app/v1/payment-links" // api postan
-                              ),
-                          headers: {"Content-Type": "application/json"},
-                          body: jsonEncode(data),
-                        );
-                        print('Server response: ${response.body}');
-                        print(
-                            'Server response status code: ${response.statusCode}');
-                        print(
-                            'Server response status message: ${response.reasonPhrase}');
-                        print('Server response headers: ${response.headers}');
-                        if (response.statusCode == 200) {
-                          try {
-                            var result = jsonDecode(response.body);
-                            print('Payment link created: $result');
-                            String token = result['token'];
-                            String redirectUrl = result['redirect_url'];
-                            print(token);
-                            print(redirectUrl);
-                            print('Payment link created: $result');
-                            var paymentUrl = result['payment_url'];
-                            print('Payment URL: $paymentUrl');
-                          } catch (e) {
-                            print('Error creating payment link: $e');
-                          }
-                        } else {
-                          print('Failed to create payment link');
+                        setState(() {
+                          isLoading = true; // Menampilkan skeleton loading
+                        });
+
+                        try {
+                          await _handlePayment(
+                            context,
+                            state.user!,
+                            (success, token, redirectUrl) async {
+                              setState(() {
+                                isLoading =
+                                    false; // Menghentikan skeleton loading
+                              });
+                              print(token);
+                              print(redirectUrl);
+                              if (success) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => MidtransPayment(
+                                      token: token,
+                                      redirectUrl: redirectUrl,
+                                    ),
+                                  ),
+                                );
+                              } else {
+                                Flushbar(
+                                  flushbarPosition: FlushbarPosition.TOP,
+                                  flushbarStyle: FlushbarStyle.FLOATING,
+                                  duration: const Duration(seconds: 5),
+                                  backgroundColor: Color(0xff171616),
+                                  titleText: Text(
+                                    "Transaksi Gagal",
+                                    style: whiteTextStyle.copyWith(
+                                      fontSize: 14,
+                                      fontWeight: bold,
+                                    ),
+                                  ),
+                                  messageText: Text(
+                                    "Silakan lakukan pemesanan tiket kembali",
+                                    style: whiteTextStyle.copyWith(
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                  margin: EdgeInsets.only(
+                                    left: defaultMargin,
+                                    right: defaultMargin,
+                                    bottom: defaultMargin,
+                                  ),
+                                  borderRadius:
+                                      BorderRadius.circular(defaultRadius),
+                                ).show(context);
+                              }
+                            },
+                          );
+                        } catch (e) {
+                          print('Terjadi kesalahan: $e');
+                          setState(() {
+                            isLoading =
+                                false; // Menghentikan skeleton loading jika ada kesalahan
+                          });
                         }
                       },
                     ),
@@ -333,12 +344,10 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
             ),
           );
         } else if (state is AuthFailure) {
-          // User is not authenticated, display a login prompt or similar
           return const Center(
-            child: Text("Please log in to continue"),
+            child: Text("Silakan login untuk melanjutkan"),
           );
         } else {
-          // Loading or initial state, adjust according to your needs
           return Center(
             child: SpinKitThreeBounce(
               color: kPrimaryColor,
@@ -348,6 +357,104 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
         }
       },
     );
+  }
+
+  Future<void> _handlePayment(
+    BuildContext context,
+    UserModel user,
+    void Function(bool, String, String) onResult,
+  ) async {
+    final int carPrice = int.parse(widget.carModel.carPrice);
+    final int totalPriceWithoutAdmin = carPrice * widget.selectedPassengers;
+    const int adminFee = 12000;
+    final int totalPayment = totalPriceWithoutAdmin + adminFee;
+
+    BookingServices bookingServices = BookingServices();
+    final String orderId = widget.id;
+    final String userId = user.id;
+    final String userName = user.username;
+    final String userEmail = user.email;
+    final String formattedUserPhone =
+        user.phone_number.toString().startsWith('0')
+            ? user.phone_number.toString()
+            : '0${user.phone_number}';
+    final String userPhone = formattedUserPhone;
+
+    print('Membuat tiket rental...');
+    await bookingServices.saveBookingData(
+      id: orderId,
+      carModel: widget.carModel,
+      selectedDate: widget.selectedDate,
+      selectedTime: widget.selectedTime,
+      selectedPassengers: widget.selectedPassengers,
+      selectedLocationPick: widget.selectedLocationPick,
+      selectedLocationDrop: widget.selectedLocationDrop,
+      carFrom: widget.carFrom,
+      carTo: widget.carTo,
+      carDate: widget.carDate,
+      userId: userId,
+      userName: userName,
+      userPhone: userPhone,
+      userEmail: userEmail,
+      totalPayment: totalPayment,
+    );
+    print('Tiket bus berhasil dibuat.');
+
+    Map<String, dynamic> data = {
+      "transaction_details": {
+        "order_id": orderId,
+        "gross_amount": widget.selectedPassengers * carPrice,
+        "payment_link_id": widget.carModel.carName,
+      },
+      "credit_card": {"secure": true},
+      "customer_details": {
+        "first_name": userName,
+        "last_name": "",
+        "email": userEmail,
+        "phone": userPhone,
+        "notes": "Pemesanan sewa mobil",
+      },
+      "expiry": {"duration": 1, "unit": "hours"},
+      "usage_limit": 1,
+      "item_details": [
+        {
+          "id": widget.carModel.id,
+          "price": carPrice,
+          "quantity": widget.selectedPassengers,
+          "name": widget.carModel.carName,
+        }
+      ]
+    };
+
+    print('Request ke API Midtrans...');
+    var response = await http.post(
+      Uri.parse("https://6997-110-137-193-229.ngrok-free.app/v1/payment-links"),
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode(data),
+    );
+
+    print('Server response: ${response.body}');
+
+    if (response.statusCode == 200) {
+      var responseData = jsonDecode(response.body);
+      String token = responseData['token'];
+      String redirectUrl = responseData['redirect_url'];
+
+      context.read<BookingBloc>().add(
+            CreatePaymentUrl(
+              token: token,
+              redirectUrl: redirectUrl,
+              orderId: orderId,
+              userId: userId,
+            ),
+          );
+
+      onResult(
+          true, token, redirectUrl); // Menandakan bahwa pembayaran berhasil
+    } else {
+      print('Error: ${response.body}');
+      onResult(false, "", ""); // Menandakan bahwa pembayaran gagal
+    }
   }
 
   Widget _buildUserProfile(UserModel user) {
@@ -421,7 +528,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
             ),
             SizedBox(height: defaultMargin),
             Text(
-              "Pastikan data yang kamu masukkan sudah benar, sebelum ke halaman pembayaran.",
+              "Sebelum melanjutkan pembayaran, pastikan datamu sudah benar. Tidak bisa diubah setelah pembayaran dilakukan.",
               style: whiteTextStyle.copyWith(
                 fontSize: 14,
               ),

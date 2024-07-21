@@ -1,7 +1,9 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:equatable/equatable.dart';
 
 class BookingModels extends Equatable {
-  final String id;
+  String id;
   final String carId;
   final String carName;
   final DateTime selectedDate;
@@ -19,7 +21,7 @@ class BookingModels extends Equatable {
   final bool isPayment;
   final int totalPayment;
 
-  const BookingModels({
+  BookingModels({
     required this.id,
     required this.carId,
     required this.carName,

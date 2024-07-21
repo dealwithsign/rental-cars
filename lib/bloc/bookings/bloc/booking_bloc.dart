@@ -14,6 +14,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
         emit(BookingLoading());
         try {
           final bookings = await bookingServices.saveBookingData(
+              id: event.id,
               carModel: event.carModel,
               selectedDate: event.selectedDate,
               selectedTime: event.selectedTime,
@@ -41,6 +42,21 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
         try {
           final bookings = await bookingServices.getUserBookings(event.userId);
           emit(BookingSuccess(bookings));
+        } catch (e) {
+          emit(BookingError(e.toString()));
+        }
+      },
+    );
+    on<CreatePaymentUrl>(
+      (event, emit) async {
+        emit(BookingLoading());
+        try {
+          final paymentUrl = await bookingServices.createPaymentUrl(
+              token: event.token,
+              redirectUrl: event.redirectUrl,
+              orderId: event.orderId,
+              userId: event.userId);
+          emit(BookingSuccess(paymentUrl as List<BookingModels>));
         } catch (e) {
           emit(BookingError(e.toString()));
         }
