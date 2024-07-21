@@ -7,6 +7,19 @@ class FetchBookingsEvent extends BookingEvent {
   FetchBookingsEvent(this.userId);
 }
 
+class CreatePaymentUrl extends BookingEvent {
+  final token;
+  final redirectUrl;
+  final String orderId;
+  final String userId;
+  CreatePaymentUrl({
+    required this.token,
+    required this.redirectUrl,
+    required this.orderId,
+    required this.userId,
+  });
+}
+
 class CreateBookingEvent extends BookingEvent {
   final String id;
   final CarsModels carModel;

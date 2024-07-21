@@ -39,6 +39,8 @@ dependencies:
   flutter_spinkit: ^5.2.1
   font_awesome_flutter: ^10.7.0
   fluttertoast: ^8.2.6
+  flutter_inappwebview: ^6.0.0
+  webview_flutter: ^4.8.0
   uuid: ^4.4.2
   dio: ^5.5.0+1
   flutter_localizations:

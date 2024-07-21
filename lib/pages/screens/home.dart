@@ -61,8 +61,8 @@ class _HomeScreenState extends State<HomeScreen> {
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: <Color>[
-                Color(0xFF138880),
-                Color(0xFF1C9E82),
+                Color(0xff002855),
+                Color(0xff002855),
               ],
             ),
           ),
@@ -79,8 +79,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 decoration: const BoxDecoration(
                   gradient: LinearGradient(
                     colors: <Color>[
-                      const Color(0xFF138880),
-                      Color(0xFF1C9E82),
+                      const Color(0xff002855),
+                      Color(0xff002855),
                     ],
                   ),
                 ),
