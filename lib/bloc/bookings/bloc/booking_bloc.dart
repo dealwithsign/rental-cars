@@ -14,21 +14,23 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
         emit(BookingLoading());
         try {
           final bookings = await bookingServices.saveBookingData(
-              id: event.id,
-              carModel: event.carModel,
-              selectedDate: event.selectedDate,
-              selectedTime: event.selectedTime,
-              selectedPassengers: event.selectedPassengers,
-              selectedLocationPick: event.selectedLocationPick,
-              selectedLocationDrop: event.selectedLocationDrop,
-              carFrom: event.carFrom,
-              carTo: event.carTo,
-              carDate: event.carDate,
-              userId: event.userId,
-              userName: event.userName,
-              userPhone: event.userPhone,
-              userEmail: event.userEmail,
-              totalPayment: event.totalPayment);
+            id: event.id,
+            carModel: event.carModel,
+            selectedDate: event.selectedDate,
+            selectedTime: event.selectedTime,
+            selectedPassengers: event.selectedPassengers,
+            selectedLocationPick: event.selectedLocationPick,
+            selectedLocationDrop: event.selectedLocationDrop,
+            carFrom: event.carFrom,
+            carTo: event.carTo,
+            carDate: event.carDate,
+            userId: event.userId,
+            userName: event.userName,
+            userPhone: event.userPhone,
+            userEmail: event.userEmail,
+            isPayment: event.isPayment,
+            totalPayment: event.totalPayment,
+          );
 
           emit(BookingSuccess(bookings as List<BookingModels>));
         } catch (e) {
@@ -52,10 +54,12 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
         emit(BookingLoading());
         try {
           final paymentUrl = await bookingServices.createPaymentUrl(
-              token: event.token,
-              redirectUrl: event.redirectUrl,
-              orderId: event.orderId,
-              userId: event.userId);
+            token: event.token,
+            redirectUrl: event.redirectUrl,
+            orderId: event.orderId,
+            userId: event.userId,
+            userName: event.userName,
+          );
           emit(BookingSuccess(paymentUrl as List<BookingModels>));
         } catch (e) {
           emit(BookingError(e.toString()));

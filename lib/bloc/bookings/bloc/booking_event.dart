@@ -12,11 +12,13 @@ class CreatePaymentUrl extends BookingEvent {
   final redirectUrl;
   final String orderId;
   final String userId;
+  final String userName;
   CreatePaymentUrl({
     required this.token,
     required this.redirectUrl,
     required this.orderId,
     required this.userId,
+    required this.userName,
   });
 }
 
@@ -36,6 +38,7 @@ class CreateBookingEvent extends BookingEvent {
   final String userPhone;
   final String userEmail;
   final int totalPayment;
+  final bool isPayment;
 
   CreateBookingEvent({
     required this.carModel,
@@ -53,6 +56,7 @@ class CreateBookingEvent extends BookingEvent {
     required this.userEmail,
     required this.totalPayment,
     required this.id,
+    required this.isPayment,
   });
 
   List<Object> get props => [
@@ -71,5 +75,6 @@ class CreateBookingEvent extends BookingEvent {
         userPhone,
         userEmail,
         totalPayment,
+        isPayment,
       ];
 }
