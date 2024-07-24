@@ -7,7 +7,7 @@ import '../../utils/fonts/constant.dart';
 import '../../utils/widgets/navigation.dart';
 import '../accounts/accounts.dart';
 import '../screens/home.dart';
-import '../screens/notif.dart';
+import '../screens/ticket.dart';
 import '../../bloc/navigations/bloc/pages_bloc.dart';
 
 // Import your PagesBloc
@@ -57,7 +57,7 @@ class NavigationScreen extends StatelessWidget {
             CustomBottomNavigationItem(
               index: 1,
               iconData: FontAwesomeIcons.ticketSimple,
-              label: 'Notifikasi',
+              label: 'Tiket',
             ),
             CustomBottomNavigationItem(
               index: 2,
