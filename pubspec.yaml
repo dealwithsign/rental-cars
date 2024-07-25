@@ -43,6 +43,7 @@ dependencies:
   webview_flutter: ^4.8.0
   uuid: ^4.4.2
   dio: ^5.5.0+1
+  flutter_countdown_timer: ^4.1.0
   flutter_localizations:
     sdk: flutter
 

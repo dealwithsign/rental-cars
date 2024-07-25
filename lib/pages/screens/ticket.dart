@@ -1,5 +1,7 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:rents_cars_app/bloc/tickets/bloc/tickets_bloc.dart';
@@ -9,6 +11,7 @@ import 'package:skeletonizer/skeletonizer.dart';
 import '../../bloc/auth/bloc/auth_bloc.dart';
 import '../../bloc/auth/bloc/auth_event.dart';
 import '../../utils/fonts/constant.dart';
+import 'package:http/http.dart' as http;
 
 class TicketScreen extends StatefulWidget {
   const TicketScreen({Key? key}) : super(key: key);
@@ -72,18 +75,23 @@ class _TicketScreenState extends State<TicketScreen> {
     return BlocBuilder<TicketsBloc, TicketsState>(
       builder: (context, state) {
         if (state is TicketsLoading) {
-          return Center(child: CircularProgressIndicator(color: kPrimaryColor));
+          return Center(
+            child: SpinKitThreeBounce(
+              color: kPrimaryColor,
+              size: 25,
+            ),
+          );
         } else if (state is TicketsSuccess) {
           if (state.tickets.isEmpty) {
             return Center(
-                child: Text('Belum ada booking', style: blackTextStyle));
+              child: Text('Belum ada booking', style: blackTextStyle),
+            );
           }
           return RefreshIndicator(
             onRefresh: () async {
               context.read<TicketsBloc>().add(
                     FetchTransactionsUserEvent(state.tickets.first.userId),
                   );
-              // Wait until the new state is loaded
               await Future.delayed(const Duration(seconds: 2));
             },
             child: ListView.builder(
@@ -102,7 +110,8 @@ class _TicketScreenState extends State<TicketScreen> {
           );
         } else if (state is TicketsError) {
           return Center(
-              child: Text('Error: ${state.message}', style: blackTextStyle));
+            child: Text('Error: ${state.message}', style: blackTextStyle),
+          );
         } else {
           return Container();
         }
@@ -133,84 +142,144 @@ class _TicketScreenState extends State<TicketScreen> {
     );
   }
 
+  Future<TicketModels> fetchPaymentDetails(String bookingId) async {
+    final response = await http.get(Uri.parse(
+        'https://midtrans-fumjwv6jv-dealwithsign.vercel.app/v1/$bookingId/status'));
+
+    if (response.statusCode == 200) {
+      return TicketModels.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception('Failed to load payment details');
+    }
+  }
+
   Widget _buildBookingCard(TicketModels ticket) {
-    return Skeletonizer(
-      enabled: isLoading,
-      child: GestureDetector(
-        onTap: () {
-          Navigator.pushNamed(context, '/ticket-detail', arguments: ticket);
-        },
-        child: Card(
-          margin: EdgeInsets.symmetric(vertical: defaultMargin),
-          clipBehavior: Clip.antiAlias,
-          color: kWhiteColor,
-          elevation: 1,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(defaultRadius),
-          ),
-          child: Padding(
-            padding: EdgeInsets.all(defaultMargin),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Order ID ${ticket.bookingId.toUpperCase()}",
-                  style: subTitleTextStyle.copyWith(
-                    fontSize: 14,
-                    fontWeight: bold,
-                  ),
-                ),
-                SizedBox(height: defaultMargin),
-                Row(
-                  children: [
-                    Icon(FontAwesomeIcons.carSide, color: kIcon),
-                    SizedBox(width: defaultMargin),
-                    Expanded(
-                      child: Text(
-                        '${ticket.carFrom} - ${ticket.carTo}',
-                        style: blackTextStyle.copyWith(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    Icon(
-                      FontAwesomeIcons.chevronRight,
-                      color: kIcon,
-                      size: 15,
-                    ),
-                  ],
-                ),
-                SizedBox(height: defaultMargin / 2),
-                Text(
-                  formatIndonesianDate(ticket.carDate),
-                  style: subTitleTextStyle.copyWith(fontSize: 14),
-                ),
-                Text(ticket.carName,
-                    style: subTitleTextStyle.copyWith(fontSize: 14)),
-                SizedBox(height: defaultMargin / 2),
-                Row(
+    // Convert UTC time to local time
+
+    return FutureBuilder<TicketModels>(
+      future: fetchPaymentDetails(ticket.bookingId),
+      builder: (context, snapshot) {
+        String status;
+        Color statusColor;
+
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          // While waiting for data
+          status = 'Loading...';
+          statusColor = Colors.grey;
+        } else if (snapshot.hasError) {
+          // Error occurred while fetching data
+          status = 'Error fetching status';
+          statusColor = Colors.red;
+        } else if (snapshot.hasData) {
+          // Data successfully fetched
+          final details = snapshot.data!;
+          switch (details.transaction_status) {
+            case 'settlement':
+              status = 'Selesai';
+              statusColor = Colors.green;
+              break;
+            case 'pending':
+              status = 'Menunggu Pembayaran';
+              statusColor = Colors.red;
+              break;
+            case 'expire':
+              status = 'Dibatalkan';
+              statusColor = Colors.grey;
+              break;
+            default:
+              status = 'Unknown Status';
+              statusColor = Colors.orange;
+          }
+        } else {
+          // No data
+          status = 'No status available';
+          statusColor = Colors.orange;
+        }
+
+        return Skeletonizer(
+          enabled: isLoading,
+          child: GestureDetector(
+            onTap: () {
+              // Navigate based on status
+              if (status == 'Selesai') {
+                Navigator.pushNamed(context, '/ticket-detail',
+                    arguments: ticket);
+              } else if (status == 'Menunggu Pembayaran') {
+                Navigator.pushNamed(context, '/payment-page', arguments: {
+                  'redirectUrl': ticket.paymentLinks,
+                  'token': ticket.bookingId,
+                });
+              }
+            },
+            child: Card(
+              margin: EdgeInsets.symmetric(vertical: defaultMargin),
+              clipBehavior: Clip.antiAlias,
+              color: kWhiteColor,
+              elevation: 1,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(defaultRadius),
+              ),
+              child: Padding(
+                padding: EdgeInsets.all(defaultMargin),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      ticket.isPaid ? 'Selesai' : 'Menunggu Pembayaran',
+                      "Order ID ${ticket.bookingId.toUpperCase()}",
                       style: subTitleTextStyle.copyWith(
                         fontSize: 14,
-                        fontWeight: bold,
-                        color: ticket.isPaid ? Colors.green : Colors.red,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: defaultMargin),
+                    Row(
+                      children: [
+                        Icon(FontAwesomeIcons.carSide, color: kIcon),
+                        SizedBox(width: defaultMargin),
+                        Expanded(
+                          child: Text(
+                            '${ticket.carFrom} - ${ticket.carTo}',
+                            style: blackTextStyle.copyWith(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        Icon(
+                          FontAwesomeIcons.chevronRight,
+                          color: kIcon,
+                          size: 15,
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: defaultMargin / 2),
+                    Text(
+                      formatIndonesianDate(ticket.carDate),
+                      style: subTitleTextStyle.copyWith(fontSize: 14),
+                    ),
+                    Text(ticket.carName,
+                        style: subTitleTextStyle.copyWith(fontSize: 14)),
+                    SizedBox(height: defaultMargin / 2),
+                    Text(
+                      status,
+                      style: subTitleTextStyle.copyWith(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: statusColor,
                       ),
                     ),
                   ],
                 ),
-              ],
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 
   String formatIndonesianDate(DateTime date) {
-    Intl.defaultLocale = 'id_ID'; // Ensure the locale is set to Indonesian
+    Intl.defaultLocale = 'id_ID';
     var formatter = DateFormat('EEEE, dd MMMM yyyy');
     return formatter.format(date);
   }

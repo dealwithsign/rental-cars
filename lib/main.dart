@@ -10,6 +10,7 @@ import 'package:rents_cars_app/bloc/tickets/bloc/tickets_bloc.dart';
 import 'package:rents_cars_app/models/ticket.dart';
 import 'package:rents_cars_app/pages/auth/sign_in.dart';
 import 'package:rents_cars_app/pages/screens/home.dart';
+import 'package:rents_cars_app/pages/screens/midtrans/midtrans_page.dart';
 import 'package:rents_cars_app/pages/splash.dart';
 import 'package:rents_cars_app/pages/wrapper.dart';
 import 'package:rents_cars_app/services/bookings/booking_services.dart';
@@ -98,6 +99,14 @@ Map<String, WidgetBuilder> getRoutes() {
     },
     // payment
     '/carsPayment': (context) => const CarsPayment(),
+    '/payment-page': (context) {
+      final args =
+          ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+      return MidtransPayment(
+        redirectUrl: args['redirectUrl'],
+        token: args['token'],
+      );
+    },
     // tickets
     '/ticket-detail': (context) => TicketDetailScreen(
         ticket: ModalRoute.of(context)!.settings.arguments as TicketModels),

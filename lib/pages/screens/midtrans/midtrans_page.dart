@@ -56,7 +56,7 @@ class _MidtransPaymentState extends State<MidtransPayment> {
             BookingServices bookingServices = BookingServices();
             if (orderId != null) {
               try {
-                // Memeriksa apakah URL mengandung status transaksi sukses
+                // success
                 if (url.contains(
                     'status_code=200&transaction_status=settlement')) {
                   print(
@@ -79,6 +79,33 @@ class _MidtransPaymentState extends State<MidtransPayment> {
                         false, // Menghapus semua route sebelumnya
                   );
                 }
+                // pending
+                else if (url.contains(
+                        'status_code=201&transaction_status=pending') ||
+                    url.contains(
+                        'status_code=202&transaction_status=pending')) {
+                  print('Payment is pending');
+                  bookingServices.updateOrderStatus(
+                    widget.token,
+                    false,
+                  );
+                  print('Order ID: $orderId');
+                  // Navigator.pushAndRemoveUntil(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //     builder: (context) => MidtransSuccess(
+                  //       orderId: extractOrderIdFromUrl(url),
+                  //     ),
+                  //   ),
+                  //   (Route<dynamic> route) => false,
+                  // );
+                }
+                // deny
+                else if (url
+                    .contains('status_code=400&transaction_status=deny')) {
+                  // Handle error payment
+                  print('Payment was denied');
+                }
               } catch (e) {
                 print(
                     'Error updating order status: $e'); // Menampilkan pesan kesalahan jika pembaruan gagal
@@ -91,18 +118,6 @@ class _MidtransPaymentState extends State<MidtransPayment> {
           },
           onHttpError: (HttpResponseError error) {
             print('HTTP error: $error'); // Menampilkan pesan kesalahan HTTP
-          },
-          onWebResourceError: (WebResourceError error) {
-            print(
-                'Web resource error: ${error.description}'); // Menampilkan pesan kesalahan web resource
-          },
-          onNavigationRequest: (NavigationRequest request) {
-            if (request.url.startsWith('https://www.youtube.com')) {
-              // Mencegah navigasi ke YouTube
-              print('Blocking navigation to $request');
-              return NavigationDecision.prevent;
-            }
-            return NavigationDecision.navigate;
           },
         ),
       )
