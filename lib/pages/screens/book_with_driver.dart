@@ -863,9 +863,7 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
       child: CustomButton(
         title: 'Lanjutkan',
         onPressed: () {
-          if (_selectedLocationPick.isEmpty ||
-              _selectedLocationDrop.isEmpty ||
-              _phoneController.text.isEmpty) {
+          if (_selectedLocationPick.isEmpty || _selectedLocationDrop.isEmpty) {
             Flushbar(
               flushbarPosition: FlushbarPosition.BOTTOM,
               flushbarStyle: FlushbarStyle.FLOATING,
@@ -912,7 +910,6 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                       '1'), // Extracts digits and falls back to '1' if none found
                   selectedLocationPick: _selectedLocationPick,
                   selectedLocationDrop: _selectedLocationDrop,
-                  phone_number: int.parse(_phoneController.text),
                 ),
               ),
             );

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:line_icons/line_icons.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../utils/fonts/constant.dart';
 import '../../utils/widgets/navigation.dart';
 import '../accounts/accounts.dart';
 import '../screens/home.dart';
-import '../screens/notif.dart';
+import '../screens/ticket.dart';
 import '../../bloc/navigations/bloc/pages_bloc.dart';
 
 // Import your PagesBloc
@@ -20,7 +20,7 @@ class NavigationScreen extends StatelessWidget {
       case 0:
         return const HomeScreen();
       case 1:
-        return const NotificationsScreen();
+        return const TicketScreen();
       case 2:
         return const AccountsScreen();
       default:
@@ -57,7 +57,7 @@ class NavigationScreen extends StatelessWidget {
             CustomBottomNavigationItem(
               index: 1,
               iconData: FontAwesomeIcons.ticketSimple,
-              label: 'Notifikasi',
+              label: 'Tiket',
             ),
             CustomBottomNavigationItem(
               index: 2,

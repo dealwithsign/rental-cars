@@ -24,6 +24,7 @@ class BookingServices {
     required String userPhone,
     required String userEmail,
     required int totalPayment,
+    required bool isPayment,
   }) async {
     try {
       // var uuid = Uuid();
@@ -48,10 +49,9 @@ class BookingServices {
         'user_name': userName,
         'user_phone': formattedUserPhone,
         'user_email': userEmail,
-        'isPayment': carModel.isPayment,
+        'is_payment': carModel.isPayment,
         'total_payment': totalPayment,
         'created_at': DateTime.now().toIso8601String(),
-
         // Consider adding user-related information if necessary
       };
 
@@ -103,20 +103,67 @@ class BookingServices {
     required String redirectUrl,
     required String userId,
     required String orderId,
+    required String userName,
+    required String cityTo,
+    required String cityFrom,
+    required String carName,
+    required DateTime carDate,
+    required int selectedPassengers,
+    required String selectedTime,
+    required String ownerCar,
+    required String selectedLocationPick,
+    required String selectedLocationDrop,
   }) async {
     try {
-      var uuid = const Uuid();
-      String paymentId = uuid.v1().replaceAll('-', '').substring(0, 8);
-      final response = await supabase.from('payments').insert({
-        'id': paymentId,
-        'token': token,
+      final response = await supabase.from('tickets').insert({
+        'id': token,
         'payment_links': redirectUrl,
         'user_id': userId, // Add this line
         'booking_id': orderId, // And this line
+        'is_paid': false,
+        'user_name': userName,
+        'city_to': cityTo,
+        'city_from': cityFrom,
+        'car_name': carName,
+        'car_date': carDate.toIso8601String(),
+        'created_at': DateTime.now().toIso8601String(),
+        'selected_passengers': selectedPassengers,
+        'selected_date': selectedTime,
+        'owner_car': ownerCar,
+        'selected_location_pick': selectedLocationPick,
+        'selected_location_drop': selectedLocationDrop,
       });
       print("Payment saved successfully: $response");
     } catch (e) {
       print("Error saving token: $e)");
+    }
+  }
+
+  // update transaction status with token and is_paid
+  Future<void> updateOrderStatus(String id, bool status) async {
+    try {
+      final response = await supabase
+          .from('tickets')
+          .update({'is_paid': status}).eq('id', id);
+
+      // Check if response is null
+      if (response == null) {
+        print('No response received from the server.');
+        return;
+      }
+
+      // Log the entire response for debugging
+      print('Response: ${response.data}');
+      print('Error: ${response.error}');
+
+      if (response.error != null) {
+        throw Exception(
+            'Failed to update order status: ${response.error!.message}');
+      }
+
+      print('Order status updated successfully');
+    } catch (e) {
+      print("Error updating order status: $e");
     }
   }
 }

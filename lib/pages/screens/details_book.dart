@@ -15,7 +15,7 @@ import 'package:rents_cars_app/bloc/auth/bloc/auth_event.dart';
 import 'package:rents_cars_app/models/bookings.dart';
 import 'package:rents_cars_app/models/cars.dart';
 import 'package:rents_cars_app/models/users.dart';
-import 'package:rents_cars_app/pages/screens/midtrans_page.dart';
+import 'package:rents_cars_app/pages/screens/midtrans/midtrans_page.dart';
 import 'package:rents_cars_app/utils/widgets/button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -38,7 +38,7 @@ class DetailBookingPage extends StatefulWidget {
   final String selectedLocationPick;
   final String selectedLocationDrop; // Add this line
   final String id;
-  final int phone_number;
+
   final String carFrom;
   final String carTo;
   final DateTime carDate;
@@ -52,7 +52,6 @@ class DetailBookingPage extends StatefulWidget {
     required this.selectedLocationDrop, // Add this line
 
     required this.carModel,
-    required this.phone_number,
     required this.carFrom,
     required this.carTo,
     required this.carDate,
@@ -84,7 +83,6 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
     selectedPassengers = '${widget.selectedPassengers} Orang';
     selectedLocationPick = widget.selectedLocationPick;
     selectedLocationDrop = widget.selectedLocationDrop;
-    phone_number = widget.phone_number.toString();
 
     context.read<AuthBloc>().add(GetCurrentUserRequested());
     Future.delayed(const Duration(seconds: 2), () {
@@ -273,28 +271,74 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
                     child: CustomButton(
                       title: "Lanjut Bayar",
                       onPressed: () async {
-                        setState(() {
-                          isLoading = true; // Menampilkan skeleton loading
-                        });
-
+                        // Tampilkan dialog loading
+                        showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (BuildContext context) {
+                            return WillPopScope(
+                              onWillPop: () async => false,
+                              child: Center(
+                                child: Container(
+                                  margin: EdgeInsets.symmetric(
+                                      horizontal: defaultMargin * 5),
+                                  padding: EdgeInsets.all(defaultMargin),
+                                  decoration: BoxDecoration(
+                                    color: kWhiteColor,
+                                    borderRadius:
+                                        BorderRadius.circular(defaultRadius),
+                                  ),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      SpinKitThreeBounce(
+                                        color: kPrimaryColor,
+                                        size: 25.0,
+                                      ),
+                                      SizedBox(height: defaultMargin),
+                                      Center(
+                                        child: Text(
+                                          "Mohon tunggu...",
+                                          style: blackTextStyle.copyWith(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(height: 5),
+                                      Center(
+                                        child: Text(
+                                          "Sedang mengarahkan ke halaman pembayaran.",
+                                          textAlign: TextAlign.center,
+                                          style: subTitleTextStyle.copyWith(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        );
                         try {
                           await _handlePayment(
                             context,
                             state.user!,
                             (success, token, redirectUrl) async {
-                              setState(() {
-                                isLoading =
-                                    false; // Menghentikan skeleton loading
-                              });
-                              print(token);
-                              print(redirectUrl);
+                              Navigator.of(context, rootNavigator: true).pop();
+
                               if (success) {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => MidtransPayment(
-                                      token: token,
                                       redirectUrl: redirectUrl,
+                                      token: token,
                                     ),
                                   ),
                                 );
@@ -305,14 +349,14 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
                                   duration: const Duration(seconds: 5),
                                   backgroundColor: Color(0xff171616),
                                   titleText: Text(
-                                    "Transaksi Gagal",
+                                    "Transaksi gagal",
                                     style: whiteTextStyle.copyWith(
                                       fontSize: 14,
                                       fontWeight: bold,
                                     ),
                                   ),
                                   messageText: Text(
-                                    "Silakan lakukan pemesanan tiket kembali",
+                                    "Mobil yang kamu pesan tidak tersedia. Silakan coba lagi.",
                                     style: whiteTextStyle.copyWith(
                                       fontSize: 14,
                                     ),
@@ -329,11 +373,8 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
                             },
                           );
                         } catch (e) {
-                          print('Terjadi kesalahan: $e');
-                          setState(() {
-                            isLoading =
-                                false; // Menghentikan skeleton loading jika ada kesalahan
-                          });
+                          Navigator.of(context, rootNavigator: true).pop();
+                          print('Error: $e');
                         }
                       },
                     ),
@@ -370,6 +411,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
     final int totalPayment = totalPriceWithoutAdmin + adminFee;
 
     BookingServices bookingServices = BookingServices();
+    // data to be saved
     final String orderId = widget.id;
     final String userId = user.id;
     final String userName = user.username;
@@ -379,7 +421,11 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
             ? user.phone_number.toString()
             : '0${user.phone_number}';
     final String userPhone = formattedUserPhone;
+    final String ownerCar = widget.carModel.ownerCar;
+    final String selectedLocationPick = widget.selectedLocationPick;
+    final String selectedLocationDrop = widget.selectedLocationDrop;
 
+    // services
     print('Membuat tiket rental...');
     await bookingServices.saveBookingData(
       id: orderId,
@@ -397,6 +443,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
       userPhone: userPhone,
       userEmail: userEmail,
       totalPayment: totalPayment,
+      isPayment: false,
     );
     print('Tiket bus berhasil dibuat.');
 
@@ -428,7 +475,8 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
 
     print('Request ke API Midtrans...');
     var response = await http.post(
-      Uri.parse("https://6997-110-137-193-229.ngrok-free.app/v1/payment-links"),
+      Uri.parse(
+          "https://midtrans-fumjwv6jv-dealwithsign.vercel.app/v1/payment-links"),
       headers: {"Content-Type": "application/json"},
       body: jsonEncode(data),
     );
@@ -446,6 +494,16 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
               redirectUrl: redirectUrl,
               orderId: orderId,
               userId: userId,
+              userName: userName,
+              cityFrom: widget.carFrom,
+              cityTo: widget.carTo,
+              carName: widget.carModel.carName,
+              carDate: widget.carDate,
+              seletedTime: widget.selectedTime,
+              selectedPassengers: widget.selectedPassengers,
+              ownerCar: ownerCar,
+              selectedLocationPick: selectedLocationPick,
+              selectedLocationDrop: selectedLocationDrop,
             ),
           );
 
