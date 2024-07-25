@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:line_icons/line_icons.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../utils/fonts/constant.dart';
@@ -20,7 +20,7 @@ class NavigationScreen extends StatelessWidget {
       case 0:
         return const HomeScreen();
       case 1:
-        return const NotificationsScreen();
+        return const TicketScreen();
       case 2:
         return const AccountsScreen();
       default:

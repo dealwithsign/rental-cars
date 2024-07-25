@@ -1,31 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:rents_cars_app/bloc/tickets/bloc/tickets_bloc.dart';
 import 'package:rents_cars_app/models/bookings.dart';
+import 'package:rents_cars_app/models/ticket.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import '../../bloc/auth/bloc/auth_bloc.dart';
 import '../../bloc/auth/bloc/auth_event.dart';
-import '../../bloc/bookings/bloc/booking_bloc.dart';
-import '../../bloc/bookings/bloc/booking_event.dart';
-import '../../utils/fonts/constant.dart'; // Update this path
-// Corrected import path for constants
+import '../../utils/fonts/constant.dart';
 
-class NotificationsScreen extends StatefulWidget {
-  const NotificationsScreen({Key? key});
+class TicketScreen extends StatefulWidget {
+  const TicketScreen({Key? key}) : super(key: key);
 
   @override
-  State<NotificationsScreen> createState() => _NotificationsScreenState();
+  State<TicketScreen> createState() => _TicketScreenState();
 }
 
-class _NotificationsScreenState extends State<NotificationsScreen> {
+class _TicketScreenState extends State<TicketScreen> {
   bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    // Request the current user
     context.read<AuthBloc>().add(GetCurrentUserRequested());
     Future.delayed(const Duration(seconds: 2), () {
       setState(() {
@@ -38,11 +35,13 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: _buildAppBar(context),
+      appBar: _buildAppBar(),
       body: BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is AuthSuccess) {
-            context.read<BookingBloc>().add(FetchBookingsEvent(state.user!.id));
+            context.read<TicketsBloc>().add(
+                  FetchTransactionsUserEvent(state.user!.id),
+                );
           }
         },
         child: Padding(
@@ -53,15 +52,15 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
     );
   }
 
-  AppBar _buildAppBar(BuildContext context) {
+  AppBar _buildAppBar() {
     return AppBar(
-      backgroundColor: Colors.white,
+      backgroundColor: kWhiteColor,
       surfaceTintColor: kWhiteColor,
       title: Text(
-        'Tiket', // Changed app bar title to 'Tiket'
+        'Tiket',
         style: blackTextStyle.copyWith(
           fontSize: 18,
-          fontWeight: FontWeight.bold, // Corrected FontWeight enum usage
+          fontWeight: FontWeight.bold,
         ),
       ),
       centerTitle: false,
@@ -70,39 +69,42 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
   }
 
   Widget _buildBody() {
-    return BlocBuilder<BookingBloc, BookingState>(
+    return BlocBuilder<TicketsBloc, TicketsState>(
       builder: (context, state) {
-        if (state is BookingLoading) {
-          return Center(
-            child: SpinKitThreeBounce(
-              color: kPrimaryColor,
-              size: 25.0,
+        if (state is TicketsLoading) {
+          return Center(child: CircularProgressIndicator(color: kPrimaryColor));
+        } else if (state is TicketsSuccess) {
+          if (state.tickets.isEmpty) {
+            return Center(
+                child: Text('Belum ada booking', style: blackTextStyle));
+          }
+          return RefreshIndicator(
+            onRefresh: () async {
+              context.read<TicketsBloc>().add(
+                    FetchTransactionsUserEvent(state.tickets.first.userId),
+                  );
+              // Wait until the new state is loaded
+              await Future.delayed(const Duration(seconds: 2));
+            },
+            child: ListView.builder(
+              physics: BouncingScrollPhysics(),
+              itemCount: state.tickets.length + 1,
+              itemBuilder: (context, index) {
+                if (index == 0) {
+                  return _otherInformations();
+                } else {
+                  final booking = state.tickets[index - 1];
+                  return _buildBookingCard(booking);
+                }
+              },
+              padding: EdgeInsets.only(bottom: defaultMargin * 7),
             ),
           );
-        } else if (state is BookingSuccess) {
-          if (state.bookings.isEmpty) {
-            return Center(child: Text('Belum ada booking'));
-          }
-          return ListView.builder(
-            physics: BouncingScrollPhysics(),
-            itemCount:
-                state.bookings.length + 1, // +1 for additional information
-            itemBuilder: (context, index) {
-              if (index == 0) {
-                return _otherInformations(); // Show additional information widget
-              } else {
-                final booking = state.bookings[index - 1];
-                return _buildBookingCard(booking);
-              }
-            },
-            padding: EdgeInsets.only(
-              bottom: defaultMargin * 7,
-            ), // Adjust bottom padding as needed
-          );
-        } else if (state is BookingError) {
-          return Center(child: Text('Error: ${state.message}'));
+        } else if (state is TicketsError) {
+          return Center(
+              child: Text('Error: ${state.message}', style: blackTextStyle));
         } else {
-          return Container(); // For other states or if there are no bookings
+          return Container();
         }
       },
     );
@@ -110,116 +112,106 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
 
   Widget _otherInformations() {
     return Container(
-      margin: EdgeInsets.only(
-        top: defaultMargin,
-        bottom: defaultMargin,
-      ),
+      margin: EdgeInsets.symmetric(vertical: defaultMargin),
+      padding: EdgeInsets.all(8.0),
       decoration: BoxDecoration(
         color: kIcon,
         borderRadius: BorderRadius.circular(defaultRadius),
-        border: Border.all(
-          color: kIcon,
-          width: 1.0,
-        ),
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Row(
-          children: [
-            Icon(
-              Icons.info,
-              color: kWhiteColor,
+      child: Row(
+        children: [
+          Icon(Icons.info, color: kWhiteColor),
+          SizedBox(width: defaultMargin),
+          Expanded(
+            child: Text(
+              "Semua tiket sewa mobil yang sudah aktif dan menunggu pembayaran akan muncul di sini.",
+              style: whiteTextStyle.copyWith(fontSize: 14),
             ),
-            SizedBox(
-              width: defaultMargin,
-            ), // Add some space between the icon and the text
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Menampilkan semua riwayat perjalananmu selama 30 hari terakhir",
-                    style: whiteTextStyle.copyWith(
-                      fontSize: 14,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 
-  Widget _buildBookingCard(BookingModels booking) {
+  Widget _buildBookingCard(TicketModels ticket) {
     return Skeletonizer(
       enabled: isLoading,
-      child: Card(
-        clipBehavior: Clip.antiAlias,
-        color: kWhiteColor,
-        elevation: 0.5,
-        child: Padding(
-          padding: EdgeInsets.only(
-            top: defaultMargin,
-            bottom: defaultMargin,
+      child: GestureDetector(
+        onTap: () {
+          Navigator.pushNamed(context, '/ticket-detail', arguments: ticket);
+        },
+        child: Card(
+          margin: EdgeInsets.symmetric(vertical: defaultMargin),
+          clipBehavior: Clip.antiAlias,
+          color: kWhiteColor,
+          elevation: 1,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(defaultRadius),
           ),
-          child: ListTile(
-            title: Row(
+          child: Padding(
+            padding: EdgeInsets.all(defaultMargin),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Icon(
-                  FontAwesomeIcons.car,
-                  color: kIcon,
-                ),
-                SizedBox(
-                  width: defaultMargin,
-                ),
                 Text(
-                  booking.carFrom + ' - ' + booking.carTo,
-                  style: blackTextStyle.copyWith(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
+                  "Order ID ${ticket.bookingId.toUpperCase()}",
+                  style: subTitleTextStyle.copyWith(
+                    fontSize: 14,
+                    fontWeight: bold,
                   ),
+                ),
+                SizedBox(height: defaultMargin),
+                Row(
+                  children: [
+                    Icon(FontAwesomeIcons.carSide, color: kIcon),
+                    SizedBox(width: defaultMargin),
+                    Expanded(
+                      child: Text(
+                        '${ticket.carFrom} - ${ticket.carTo}',
+                        style: blackTextStyle.copyWith(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    Icon(
+                      FontAwesomeIcons.chevronRight,
+                      color: kIcon,
+                      size: 15,
+                    ),
+                  ],
+                ),
+                SizedBox(height: defaultMargin / 2),
+                Text(
+                  formatIndonesianDate(ticket.carDate),
+                  style: subTitleTextStyle.copyWith(fontSize: 14),
+                ),
+                Text(ticket.carName,
+                    style: subTitleTextStyle.copyWith(fontSize: 14)),
+                SizedBox(height: defaultMargin / 2),
+                Row(
+                  children: [
+                    Text(
+                      ticket.isPaid ? 'Selesai' : 'Menunggu Pembayaran',
+                      style: subTitleTextStyle.copyWith(
+                        fontSize: 14,
+                        fontWeight: bold,
+                        color: ticket.isPaid ? Colors.green : Colors.red,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
-            subtitle: Container(
-              margin: EdgeInsets.only(
-                top: defaultMargin,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    formatIndonesianDate(booking.carDate),
-                    style: subTitleTextStyle.copyWith(
-                      fontSize: 14,
-                    ),
-                  ),
-                  SizedBox(height: 5),
-                  Text(
-                    booking.carName + ' . ' + booking.carFrom,
-                    style: subTitleTextStyle.copyWith(
-                      fontSize: 14,
-                    ),
-                  ),
-                  // Add more properties of your booking model here
-                ],
-              ),
-            ),
           ),
         ),
       ),
     );
   }
 
-// Assuming booking.carDate is a DateTime object
   String formatIndonesianDate(DateTime date) {
-    // Set the locale
-    Intl.defaultLocale = 'id';
-    // Define the date format
-    var formatter = DateFormat('EEEE, dd MMMM yyyy . HH:mm');
-    // Return the formatted date string
+    Intl.defaultLocale = 'id_ID'; // Ensure the locale is set to Indonesian
+    var formatter = DateFormat('EEEE, dd MMMM yyyy');
     return formatter.format(date);
   }
 }

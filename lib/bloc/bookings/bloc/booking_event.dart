@@ -13,12 +13,30 @@ class CreatePaymentUrl extends BookingEvent {
   final String orderId;
   final String userId;
   final String userName;
+  final String cityTo;
+  final String cityFrom;
+  final String carName;
+  final DateTime carDate;
+  final String seletedTime;
+  final int selectedPassengers;
+  final String ownerCar;
+  final String selectedLocationPick;
+  final String selectedLocationDrop;
   CreatePaymentUrl({
     required this.token,
     required this.redirectUrl,
     required this.orderId,
     required this.userId,
     required this.userName,
+    required this.cityTo,
+    required this.cityFrom,
+    required this.carName,
+    required this.carDate,
+    required this.seletedTime,
+    required this.selectedPassengers,
+    required this.ownerCar,
+    required this.selectedLocationPick,
+    required this.selectedLocationDrop,
   });
 }
 

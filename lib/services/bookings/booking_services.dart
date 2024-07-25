@@ -104,15 +104,34 @@ class BookingServices {
     required String userId,
     required String orderId,
     required String userName,
+    required String cityTo,
+    required String cityFrom,
+    required String carName,
+    required DateTime carDate,
+    required int selectedPassengers,
+    required String selectedTime,
+    required String ownerCar,
+    required String selectedLocationPick,
+    required String selectedLocationDrop,
   }) async {
     try {
-      final response = await supabase.from('payments').insert({
+      final response = await supabase.from('tickets').insert({
         'id': token,
         'payment_links': redirectUrl,
         'user_id': userId, // Add this line
         'booking_id': orderId, // And this line
         'is_paid': false,
         'user_name': userName,
+        'city_to': cityTo,
+        'city_from': cityFrom,
+        'car_name': carName,
+        'car_date': carDate.toIso8601String(),
+        'created_at': DateTime.now().toIso8601String(),
+        'selected_passengers': selectedPassengers,
+        'selected_date': selectedTime,
+        'owner_car': ownerCar,
+        'selected_location_pick': selectedLocationPick,
+        'selected_location_drop': selectedLocationDrop,
       });
       print("Payment saved successfully: $response");
     } catch (e) {
@@ -124,7 +143,7 @@ class BookingServices {
   Future<void> updateOrderStatus(String id, bool status) async {
     try {
       final response = await supabase
-          .from('payments')
+          .from('tickets')
           .update({'is_paid': status}).eq('id', id);
 
       // Check if response is null

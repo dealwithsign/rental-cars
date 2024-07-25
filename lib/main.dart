@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:firebase_core/firebase_core.dart'; // Import Firebase core
 import 'package:rents_cars_app/bloc/auth/bloc/auth_bloc.dart';
 import 'package:rents_cars_app/bloc/bookings/bloc/booking_bloc.dart';
 import 'package:rents_cars_app/bloc/cars/bloc/cars_bloc.dart';
+import 'package:rents_cars_app/bloc/tickets/bloc/tickets_bloc.dart';
+import 'package:rents_cars_app/models/ticket.dart';
 import 'package:rents_cars_app/pages/auth/sign_in.dart';
 import 'package:rents_cars_app/pages/screens/home.dart';
 import 'package:rents_cars_app/pages/splash.dart';
 import 'package:rents_cars_app/pages/wrapper.dart';
 import 'package:rents_cars_app/services/bookings/booking_services.dart';
+import 'package:rents_cars_app/services/ticket/ticket.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:timeago/src/messages/id_messages.dart' as id_messages;
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -22,6 +26,7 @@ import 'pages/navigations/navigation.dart';
 import 'pages/screens/book_with_driver.dart';
 import 'pages/screens/cars_details.dart';
 import 'pages/screens/cars_payment.dart';
+import 'pages/screens/detail_ticket.dart';
 import 'pages/screens/erros/list_cars_scheduled_404.dart';
 import 'pages/screens/list_cars_scheduled.dart';
 import 'services/cars/cars_services.dart';
@@ -93,7 +98,9 @@ Map<String, WidgetBuilder> getRoutes() {
     },
     // payment
     '/carsPayment': (context) => const CarsPayment(),
-
+    // tickets
+    '/ticket-detail': (context) => TicketDetailScreen(
+        ticket: ModalRoute.of(context)!.settings.arguments as TicketModels),
     // accounts
     '/editAccounts': (context) => const EditAccounts(),
   };
@@ -122,6 +129,11 @@ class MyApp extends StatelessWidget {
         BlocProvider<BookingBloc>(
           create: (context) => BookingBloc(
             BookingServices(),
+          ),
+        ),
+        BlocProvider<TicketsBloc>(
+          create: (context) => TicketsBloc(
+            TicketServices(),
           ),
         ),
       ],

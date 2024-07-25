@@ -59,6 +59,15 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
             orderId: event.orderId,
             userId: event.userId,
             userName: event.userName,
+            cityFrom: event.cityFrom,
+            cityTo: event.cityTo,
+            carName: event.carName,
+            carDate: event.carDate,
+            selectedTime: event.seletedTime,
+            selectedPassengers: event.selectedPassengers,
+            ownerCar: event.ownerCar,
+            selectedLocationPick: event.selectedLocationPick,
+            selectedLocationDrop: event.selectedLocationDrop,
           );
           emit(BookingSuccess(paymentUrl as List<BookingModels>));
         } catch (e) {

@@ -1,14 +1,18 @@
+import 'dart:convert';
+
 import 'package:rents_cars_app/models/ticket.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class TicketServices {
   final supabase = Supabase.instance.client;
-
+// get user tickets
   Future<List<TicketModels>> getUserTickets(String userId) async {
     List<TicketModels> tickets = [];
     try {
       final res = await supabase
-          .from("payments")
+          .from("tickets")
           .select()
           .eq("user_id", userId)
           .order("created_at", ascending: false);
@@ -16,7 +20,8 @@ class TicketServices {
       if (res.isNotEmpty) {
         for (var row in res as List) {
           print("Row data: $row");
-          TicketModels ticket = TicketModels.fromJson(row);
+          TicketModels ticket =
+              TicketModels.fromJson(Map<String, dynamic>.from(row));
           print("Parsed ticket model: $ticket");
           tickets.add(ticket);
         }
@@ -27,5 +32,16 @@ class TicketServices {
       print("Error fetching user tickets: $e");
     }
     return tickets;
+  }
+
+  Future<TicketModels> fetchPaymentDetails(String bookingId) async {
+    final response = await http.get(Uri.parse(
+        'https://midtrans-fumjwv6jv-dealwithsign.vercel.app/v1/$bookingId/status'));
+
+    if (response.statusCode == 200) {
+      return TicketModels.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception('Failed to load payment details');
+    }
   }
 }

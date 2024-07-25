@@ -411,6 +411,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
     final int totalPayment = totalPriceWithoutAdmin + adminFee;
 
     BookingServices bookingServices = BookingServices();
+    // data to be saved
     final String orderId = widget.id;
     final String userId = user.id;
     final String userName = user.username;
@@ -420,7 +421,11 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
             ? user.phone_number.toString()
             : '0${user.phone_number}';
     final String userPhone = formattedUserPhone;
-    final paymentStatus = false;
+    final String ownerCar = widget.carModel.ownerCar;
+    final String selectedLocationPick = widget.selectedLocationPick;
+    final String selectedLocationDrop = widget.selectedLocationDrop;
+
+    // services
     print('Membuat tiket rental...');
     await bookingServices.saveBookingData(
       id: orderId,
@@ -490,6 +495,15 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
               orderId: orderId,
               userId: userId,
               userName: userName,
+              cityFrom: widget.carFrom,
+              cityTo: widget.carTo,
+              carName: widget.carModel.carName,
+              carDate: widget.carDate,
+              seletedTime: widget.selectedTime,
+              selectedPassengers: widget.selectedPassengers,
+              ownerCar: ownerCar,
+              selectedLocationPick: selectedLocationPick,
+              selectedLocationDrop: selectedLocationDrop,
             ),
           );
 
