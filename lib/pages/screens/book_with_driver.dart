@@ -285,8 +285,9 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                                   color: kWhiteColor,
                                   borderRadius:
                                       BorderRadius.circular(defaultRadius),
-                                  border:
-                                      Border.all(color: kDivider, width: 1.0),
+                                  border: Border.all(
+                                    color: kDivider,
+                                  ),
                                 ),
                                 child: Padding(
                                   padding: EdgeInsets.only(
@@ -357,7 +358,9 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
             decoration: BoxDecoration(
               color: kWhiteColor,
               borderRadius: BorderRadius.circular(defaultRadius),
-              border: Border.all(color: kDivider, width: 1.0),
+              border: Border.all(
+                color: kDivider,
+              ),
             ),
             child: Padding(
               padding: EdgeInsets.all(defaultMargin),
@@ -420,7 +423,9 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
             decoration: BoxDecoration(
               color: kWhiteColor,
               borderRadius: BorderRadius.circular(defaultRadius),
-              border: Border.all(color: kDivider, width: 1.0),
+              border: Border.all(
+                color: kDivider,
+              ),
             ),
             child: Column(
               children: [
@@ -599,7 +604,9 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
               decoration: BoxDecoration(
                 color: kWhiteColor,
                 borderRadius: BorderRadius.circular(defaultRadius),
-                border: Border.all(color: kDivider, width: 1.0),
+                border: Border.all(
+                  color: kDivider,
+                ),
               ),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -720,7 +727,9 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
               decoration: BoxDecoration(
                 color: kWhiteColor,
                 borderRadius: BorderRadius.circular(defaultRadius),
-                border: Border.all(color: kDivider, width: 1.0),
+                border: Border.all(
+                  color: kDivider,
+                ),
               ),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -767,7 +776,9 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
               decoration: BoxDecoration(
                 color: kWhiteColor,
                 borderRadius: BorderRadius.circular(defaultRadius),
-                border: Border.all(color: kDivider, width: 1.0),
+                border: Border.all(
+                  color: kDivider,
+                ),
               ),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -818,7 +829,9 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
               decoration: BoxDecoration(
                 color: kWhiteColor,
                 borderRadius: BorderRadius.circular(defaultRadius),
-                border: Border.all(color: kDivider, width: 1.0),
+                border: Border.all(
+                  color: kDivider,
+                ),
               ),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -927,7 +940,9 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
       decoration: BoxDecoration(
         color: kIcon,
         borderRadius: BorderRadius.circular(defaultRadius),
-        border: Border.all(color: kIcon, width: 1.0),
+        border: Border.all(
+          color: kIcon,
+        ),
       ),
       child: Padding(
         padding: const EdgeInsets.all(8.0),

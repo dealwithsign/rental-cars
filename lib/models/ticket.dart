@@ -24,6 +24,8 @@ class TicketModels extends Equatable {
   final String orderId;
   final String paymentType;
   final String transaction_status;
+  final DateTime settlement_time;
+
   TicketModels({
     required this.id,
     required this.paymentLinks,
@@ -48,6 +50,7 @@ class TicketModels extends Equatable {
     required this.orderId,
     required this.paymentType,
     required this.transaction_status,
+    required this.settlement_time,
   });
 
   factory TicketModels.fromJson(Map<String, dynamic> json) {
@@ -77,6 +80,8 @@ class TicketModels extends Equatable {
       orderId: json['order_id'] ?? '',
       paymentType: json['payment_type'] ?? '',
       transaction_status: json['transaction_status'] ?? '',
+      settlement_time: DateTime.parse(
+          json['settlement_time'] ?? DateTime.now().toIso8601String()),
     );
   }
 
@@ -105,6 +110,7 @@ class TicketModels extends Equatable {
       'order_id': orderId,
       'payment_type': paymentType,
       'transaction_status': transaction_status,
+      'settlement_time': settlement_time.toIso8601String(),
     };
   }
 
@@ -133,5 +139,6 @@ class TicketModels extends Equatable {
         orderId,
         paymentType,
         transaction_status,
+        settlement_time,
       ];
 }

@@ -180,117 +180,127 @@ class _ListCarPageState extends State<ListCarPage> {
                         },
                       );
                     },
-                    child: Card(
-                      clipBehavior: Clip.antiAlias,
-                      color: kWhiteColor,
-                      elevation: 0,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Image.network(
-                            car.carLogo,
-                            width: double.infinity,
-                            height: 180,
-                            fit: BoxFit.cover,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const SizedBox(height: 5),
-                                Text(
-                                  car.carName,
-                                  style: blackTextStyle.copyWith(
-                                    fontSize: 16,
-                                    fontWeight: bold,
-                                  ),
-                                ),
-                                const SizedBox(height: 5),
-                                Row(
-                                  children: [
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        color: kBackgroundColor,
-                                        borderRadius: BorderRadius.circular(
-                                          defaultRadius,
-                                        ),
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Row(
-                                          children: [
-                                            FaIcon(
-                                              FontAwesomeIcons.peopleGroup,
-                                              size: 15,
-                                              color: kIcon,
-                                            ),
-                                            SizedBox(width: defaultMargin),
-                                            Text(
-                                              '${car.availableSeats} kursi',
-                                              style: subTitleTextStyle.copyWith(
-                                                fontSize: 14,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(width: defaultMargin),
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        color: kBackgroundColor,
-                                        borderRadius: BorderRadius.circular(
-                                          defaultRadius,
-                                        ),
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Row(
-                                          children: [
-                                            FaIcon(
-                                              FontAwesomeIcons.suitcaseRolling,
-                                              size: 15,
-                                              color: kIcon,
-                                            ),
-                                            SizedBox(width: defaultMargin),
-                                            Text(
-                                              '${car.availableSeats} bagasi',
-                                              style: subTitleTextStyle.copyWith(
-                                                fontSize: 14,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(height: defaultMargin),
-                                Column(
+                    child: Column(
+                      children: [
+                        Card(
+                          clipBehavior: Clip.antiAlias,
+                          color: kWhiteColor,
+                          elevation: 0.5,
+                          shadowColor: kDivider,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Image.network(
+                                car.carLogo,
+                                width: double.infinity,
+                                height: 180,
+                                fit: BoxFit.cover,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
+                                    const SizedBox(height: 5),
                                     Text(
-                                      "Mulai dari",
-                                      style: subTitleTextStyle.copyWith(
-                                        fontSize: 12,
-                                      ),
-                                    ),
-                                    Text(
-                                      "Rp. ${NumberFormat('#,##0', 'id_ID').format(int.parse(car.carPrice))} / orang",
+                                      car.carName,
                                       style: blackTextStyle.copyWith(
                                         fontSize: 16,
                                         fontWeight: bold,
                                       ),
                                     ),
+                                    const SizedBox(height: 5),
+                                    Row(
+                                      children: [
+                                        Container(
+                                          decoration: BoxDecoration(
+                                            color: kBackgroundColor,
+                                            borderRadius: BorderRadius.circular(
+                                              defaultRadius,
+                                            ),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Row(
+                                              children: [
+                                                FaIcon(
+                                                  FontAwesomeIcons.personBooth,
+                                                  size: 15,
+                                                  color: kIcon,
+                                                ),
+                                                SizedBox(width: defaultMargin),
+                                                Text(
+                                                  '${car.availableSeats} kursi',
+                                                  style: subTitleTextStyle
+                                                      .copyWith(
+                                                    fontSize: 14,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(width: defaultMargin),
+                                        Container(
+                                          decoration: BoxDecoration(
+                                            color: kBackgroundColor,
+                                            borderRadius: BorderRadius.circular(
+                                              defaultRadius,
+                                            ),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Row(
+                                              children: [
+                                                FaIcon(
+                                                  FontAwesomeIcons
+                                                      .suitcaseRolling,
+                                                  size: 15,
+                                                  color: kIcon,
+                                                ),
+                                                SizedBox(width: defaultMargin),
+                                                Text(
+                                                  '${car.availableSeats} bagasi',
+                                                  style: subTitleTextStyle
+                                                      .copyWith(
+                                                    fontSize: 14,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(height: defaultMargin),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "Mulai dari",
+                                          style: subTitleTextStyle.copyWith(
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                        Text(
+                                          "Rp. ${NumberFormat('#,##0', 'id_ID').format(int.parse(car.carPrice))} / orang",
+                                          style: blackTextStyle.copyWith(
+                                            fontSize: 16,
+                                            fontWeight: bold,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 5),
                                   ],
                                 ),
-                                const SizedBox(height: 5),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
+                        ),
+                        Padding(padding: EdgeInsets.only(top: defaultMargin)),
+                      ],
                     ),
                   ),
                 ),

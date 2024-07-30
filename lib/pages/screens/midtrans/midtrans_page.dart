@@ -146,7 +146,7 @@ class _MidtransPaymentState extends State<MidtransPayment> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        backgroundColor: const Color(0xff002855),
+        backgroundColor: const Color(0xff3253a2),
         elevation: 0,
       ),
       body: Stack(
