@@ -234,8 +234,6 @@ class _TicketScreenState extends State<TicketScreen> {
                     SizedBox(height: defaultMargin),
                     Row(
                       children: [
-                        Icon(FontAwesomeIcons.carSide, color: kIcon),
-                        SizedBox(width: defaultMargin),
                         Expanded(
                           child: Text(
                             '${ticket.carFrom} - ${ticket.carTo}',

@@ -347,17 +347,17 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
                                   flushbarPosition: FlushbarPosition.TOP,
                                   flushbarStyle: FlushbarStyle.FLOATING,
                                   duration: const Duration(seconds: 5),
-                                  backgroundColor: Color(0xff171616),
+                                  backgroundColor: kflushBackError,
                                   titleText: Text(
                                     "Transaksi gagal",
-                                    style: whiteTextStyle.copyWith(
+                                    style: redTextStyle.copyWith(
                                       fontSize: 14,
                                       fontWeight: bold,
                                     ),
                                   ),
                                   messageText: Text(
                                     "Mobil yang kamu pesan tidak tersedia. Silakan coba lagi.",
-                                    style: whiteTextStyle.copyWith(
+                                    style: redTextStyle.copyWith(
                                       fontSize: 14,
                                     ),
                                   ),
@@ -569,7 +569,6 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
         borderRadius: BorderRadius.circular(defaultRadius),
         border: Border.all(
           color: kIcon,
-          width: 1.0,
         ),
       ),
       child: Padding(
@@ -659,7 +658,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
             ],
           ),
           Divider(
-            color: kDividerColor,
+            color: kDivider,
             thickness: 1,
           ),
           Row(

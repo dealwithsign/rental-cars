@@ -307,7 +307,7 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
       padding: EdgeInsets.all(defaultMargin),
       margin: EdgeInsets.only(bottom: defaultMargin / 2),
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey[300]!, width: 1.0),
+        border: Border.all(color: kDivider),
         borderRadius: BorderRadius.circular(defaultRadius),
       ),
       child: Row(
@@ -416,7 +416,7 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
             decoration: BoxDecoration(
               color: kWhiteColor,
               borderRadius: BorderRadius.circular(defaultRadius),
-              border: Border.all(color: Colors.grey[300]!),
+              border: Border.all(color: kDivider),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

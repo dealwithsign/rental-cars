@@ -36,14 +36,14 @@ class CustomBottomNavigationItem extends StatelessWidget {
                   const SizedBox(height: 10),
                   Icon(
                     iconData,
-                    size: 20,
-                    color: isActive ? kPrimaryColor : kBottomNavUnActive,
+                    size: 15,
+                    color: isActive ? kIcon : descGrey,
                   ),
                   const SizedBox(height: 5),
                   Text(
                     label,
                     style: blackTextStyle.copyWith(
-                      color: isActive ? kPrimaryColor : kBottomNavUnActive,
+                      color: isActive ? kIcon : descGrey,
                       fontSize: 14,
                       fontWeight:
                           isActive ? FontWeight.bold : FontWeight.normal,
