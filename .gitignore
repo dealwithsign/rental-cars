@@ -1,25 +1,92 @@
-# Flutter/Dart/Pub related
-.dart_tool/
-.flutter-plugins
-.flutter-plugins-dependencies
-.packages
-.pub-cache/
-.pub/
-build/
+# Dart analysis options
+analysis_options.yaml
 
-# IntelliJ related
-.idea/
-.settings/
-*.iml
+
+# Flutter generated files
+.flutter-plugins-dependencies
+.flutter-plugins
+.packages
+.pub/
+.dart_tool/
+
+
+# Flutter build output
+build/
+*.apk
+*.ap_
+*.aab
+
+# Android related
+android/.gradle/
+android/captures/
+android/gradle/
+android/keystore/
+android/local.properties
+android/app/build/
+android/app/outputs/
+
+
+# iOS related
+ios/Flutter/Flutter.framework
+ios/Flutter/Flutter.podspec
+ios/Flutter/FlutterPluginRegistrant
+ios/Pods/
+ios/Podfile.lock
 
 # VS Code related
 .vscode/
 
+# IntelliJ related
+.idea/
+
 # macOS related
-.DS_Store
+macos/
+
+# Linux related
+linux/
 
 # Web related
 lib/generated_plugin_registrant.dart
 
+# Windows related
+windows/
+
 # Symbolicated files
 *.symbols
+
+# Node.js related
+node_modules/
+
+# Local development files
+*.env
+*.local
+*.dev
+*.test
+*.tmp
+*.bak
+*.backup
+*.orig
+*.old
+*.cache
+*.pid
+*.seed
+*.pid.lock
+*.pidfile
+*.log
+*.log.*
+*.log-*
+*.tmp
+*.tmp.*
+
+# User-specific files
+*.swp
+*.swo
+*.swn
+*.log
+*.DS_Store
+*.project
+*.settings
+
+
+# Flutter/Dart specific
+*.dart_tool/
