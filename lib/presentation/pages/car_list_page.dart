@@ -88,7 +88,7 @@ class _ListCarPageState extends State<ListCarPage> {
           ),
           const SizedBox(height: 5),
           Text(
-            DateFormat('EEEE, d MMM', 'id_ID').format(widget.carDate),
+            DateFormat('EEEE, d MMMM yyyy', 'id_ID').format(widget.carDate),
             style: blackTextStyle.copyWith(
               fontSize: 15,
               fontWeight: regular,
@@ -233,8 +233,8 @@ class _ListCarPageState extends State<ListCarPage> {
                                         Row(
                                           children: [
                                             FaIcon(
-                                              LineIcons.suitcase,
-                                              size: 20,
+                                              FontAwesomeIcons.briefcase,
+                                              size: 15,
                                               color: kPrimaryColor,
                                             ),
                                             SizedBox(width: defaultMargin),
@@ -250,8 +250,8 @@ class _ListCarPageState extends State<ListCarPage> {
                                         Row(
                                           children: [
                                             FaIcon(
-                                              LineIcons.userFriends,
-                                              size: 20,
+                                              FontAwesomeIcons.peopleLine,
+                                              size: 15,
                                               color: kPrimaryColor,
                                             ),
                                             SizedBox(width: defaultMargin),
@@ -278,7 +278,7 @@ class _ListCarPageState extends State<ListCarPage> {
                                         ),
                                         Text(
                                           "Rp. ${NumberFormat('#,##0', 'id_ID').format(int.parse(car.carPrice))} / orang",
-                                          style: kPriceTextStyle.copyWith(
+                                          style: blackTextStyle.copyWith(
                                             fontSize: 16,
                                             fontWeight: bold,
                                           ),

@@ -125,7 +125,8 @@ class _MidtransPaymentState extends State<MidtransPayment> {
         ),
       )
       ..loadRequest(
-          Uri.parse(widget.redirectUrl)); // Memuat URL untuk pembayaran
+        Uri.parse(widget.redirectUrl),
+      ); // Memuat URL untuk pembayaran
   }
 
   @override
@@ -135,7 +136,7 @@ class _MidtransPaymentState extends State<MidtransPayment> {
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(
-            LineIcons.arrowLeft,
+            LineIcons.angleLeft,
             color: kWhiteColor,
           ),
           onPressed: () {
@@ -150,11 +151,11 @@ class _MidtransPaymentState extends State<MidtransPayment> {
           ),
         ),
         flexibleSpace: Container(
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: <Color>[
-                Color(0xFF138880),
-                Color(0xFF138880),
+                kappBar,
+                kappBar,
               ],
             ),
           ),
