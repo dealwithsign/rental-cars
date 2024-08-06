@@ -1,24 +1,22 @@
 // presentation/pages/home_page.dart
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:rents_cars_app/blocs/auth/auth_bloc.dart';
-import 'package:rents_cars_app/blocs/cars/cars_bloc.dart';
-import 'package:rents_cars_app/blocs/cars/cars_state.dart';
-
 import 'package:skeletonizer/skeletonizer.dart';
 
+import '../../blocs/auth/auth_bloc.dart';
 import '../../blocs/auth/auth_event.dart';
-
+import '../../blocs/cars/cars_bloc.dart';
 import '../../blocs/cars/cars_event.dart';
-import '../../data/models/cars_model.dart';
+import '../../blocs/cars/cars_state.dart';
 import '../../data/services/cars_services.dart';
 import '../../utils/fonts.dart';
 import '../widgets/button_widget.dart';
-import 'car_list_page.dart';
+import '../widgets/clip_path_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -72,65 +70,77 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        physics: const AlwaysScrollableScrollPhysics(),
-        child: Stack(
-          children: [
-            ClipPath(
-              clipper: ClipPathClass(),
-              child: Container(
-                height: MediaQuery.of(context).size.height * 0.3,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: <Color>[
-                      kappBar,
-                      kappBar,
-                    ],
-                  ),
-                ),
+      body: Stack(
+        children: [
+          Container(
+            height: MediaQuery.of(context).size.height * 0.20,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: <Color>[
+                  kappBar,
+                  kappBar,
+                ],
               ),
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+          ),
+          SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Stack(
               children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Selamat Datang',
-                        style: whiteTextStyle.copyWith(
-                          fontWeight: bold,
-                          fontSize: 15,
-                        ),
+                ClipPath(
+                  clipper: ClipPathClass(),
+                  child: Container(
+                    height: MediaQuery.of(context).size.height * 0.3,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: <Color>[
+                          kappBar,
+                          kappBar,
+                        ],
                       ),
-                      Text(
-                        'Pesan Mobil Sewa-mu Sekarang!',
-                        style: whiteTextStyle.copyWith(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
                 ),
-                SizedBox(height: defaultMargin),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-                  child: _buildSearchTicket(),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: defaultMargin),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(height: defaultMargin),
+                          Text(
+                            'Rental Mobil Online ',
+                            style: whiteTextStyle.copyWith(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            ),
+                          ),
+                          const SizedBox(height: 5),
+                          Text(
+                            'Sewa mobil cukup di genggaman Anda \nkapan saja dan di mana saja.',
+                            style: whiteTextStyle.copyWith(
+                              fontWeight: FontWeight.normal,
+                              fontSize: 15,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: defaultMargin),
+                    _buildSearchTicket(),
+                    SizedBox(height: defaultMargin),
+                    Container(
+                      color: kWhiteColor,
+                      child: buildBody(),
+                    ),
+                  ],
                 ),
-                SizedBox(height: defaultMargin),
-                Divider(
-                  color: kDivider,
-                  thickness: 5,
-                ),
-                SizedBox(height: defaultMargin),
-                buildBody(),
               ],
             ),
-          ],
-        ),
+          )
+        ],
       ),
     );
   }
@@ -152,11 +162,14 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: EdgeInsets.symmetric(horizontal: defaultMargin),
               child: Column(
                 children: [
-                  // buildPartnerRental(state.cars),
-                  // SizedBox(height: defaultMargin * 2),
+                  SizedBox(height: defaultMargin),
+                  _buildHowToBePartners(),
+                  SizedBox(height: defaultMargin * 2),
                   _buildOtherInformations(),
                   Padding(
-                    padding: EdgeInsets.only(bottom: defaultMargin * 6),
+                    padding: EdgeInsets.only(
+                      bottom: defaultMargin * 8,
+                    ),
                   ),
                 ],
               ),
@@ -172,156 +185,131 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget buildPartnerRental(List<CarsModels> cars) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Partner Rental',
-          style: blackTextStyle.copyWith(
-            fontSize: 18,
-            fontWeight: bold,
+  Widget _buildHowToBePartners() {
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushNamed(context, '/partnerPage');
+      },
+      child: Card(
+        clipBehavior: Clip.antiAlias,
+        color: kTransparentColor,
+        elevation: 0.5,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(defaultRadius),
+          side: BorderSide(
+            color: kTransparentColor,
+            width: 1.0,
           ),
         ),
-        SizedBox(height: defaultMargin),
-        SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          scrollDirection: Axis.horizontal,
+        child: SizedBox(
+          height: 110,
           child: Row(
-            children: cars.map((car) {
-              return Card(
-                clipBehavior: Clip.antiAlias,
-                color: kWhiteColor,
-                elevation: 0.5,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(defaultRadius),
-                  side: BorderSide(
-                    color: kDivider,
-                    width: 0.5,
-                  ),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      width: 150,
-                      height: 100,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: NetworkImage(car.carLogo),
-                          fit: BoxFit.cover,
+            children: [
+              Expanded(
+                flex: 2,
+                child: Container(
+                  color: const Color(0xffF1F3F4),
+                  padding: EdgeInsets.all(defaultMargin),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Daftarkan mobil Anda ke aplikasi kami & raih lebih banyak pelanggan.',
+                        style: blackTextStyle.copyWith(
+                          fontSize: 15,
+                          fontWeight: bold,
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 10),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            car.ownerCar,
-                            style: blackTextStyle.copyWith(
-                              fontSize: 14,
-                              fontWeight: bold,
-                            ),
-                          ),
-                          const SizedBox(height: 5),
-                          Text(
-                            car.carDesc.length > 18
-                                ? '${car.carDesc.substring(0, 18)}...'
-                                : car.carDesc,
-                            style: subTitleTextStyle.copyWith(
-                              fontSize: 14,
-                            ),
-                          ),
-                          const SizedBox(height: 5),
-                          Row(
-                            children: [
-                              Icon(
-                                LineIcons.starAlt,
-                                size: 15,
-                                color: descGrey,
-                              ),
-                              const SizedBox(width: 5),
-                              Text(
-                                "5.2",
-                                style: subTitleTextStyle.copyWith(
-                                  fontSize: 13,
-                                ),
-                              ),
-                            ],
-                          )
-                        ],
+                      SizedBox(height: defaultMargin),
+                      Text(
+                        'Cek disini →',
+                        style: subTitleTextStyle.copyWith(
+                          fontSize: 14,
+                          fontWeight: bold,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              );
-            }).toList(),
+              ),
+              Expanded(
+                flex: 1,
+                child: SizedBox(
+                  height: double.infinity,
+                  child: Image.network(
+                    'https://images.unsplash.com/photo-1612345642327-e79b84fd94f6?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
-      ],
+      ),
     );
   }
 
   Widget _buildSearchTicket() {
-    return Card(
-      color: kWhiteColor,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(defaultRadius),
-        side: BorderSide(
-          color: kDivider,
-          width: 1.0,
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: defaultMargin),
+      child: Card(
+        color: kWhiteColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(defaultRadius),
+          side: BorderSide(
+            color: kDivider,
+            width: 1.0,
+          ),
         ),
-      ),
-      elevation: 1,
-      child: Padding(
-        padding: EdgeInsets.all(defaultMargin),
-        child: Column(
-          children: [
-            _buildCityPicker('Pilih Kota Asal', selectedFrom, (String city) {
-              setState(() {
-                selectedFrom = city;
-              });
-            }),
-            SizedBox(height: defaultMargin),
-            _buildCityPicker('Pilih Kota Tujuan', selectedTo, (String city) {
-              setState(() {
-                selectedTo = city;
-              });
-            }),
-            SizedBox(height: defaultMargin),
-            _buildDatePicker('Pilih Tanggal Jemput', selectedDate,
-                (DateTime date) {
-              setState(() {
-                selectedDate = date;
-              });
-            }),
-            SizedBox(height: defaultMargin * 2),
-            CustomButton(
-              title: "Cari Mobil",
-              onPressed: () async {
-                context.read<CarBloc>().add(
-                      FetchCarsScheduleEvent(
-                        carFrom: selectedFrom,
-                        carTo: selectedTo,
-                        carDate: selectedDate.toString(),
-                      ),
-                    );
-                Navigator.pushNamed(
-                  context,
-                  '/carListPage',
-                  arguments: {
-                    'carFrom': selectedFrom,
-                    'carTo': selectedTo,
-                    'carDate': selectedDate,
-                    'fetchedDataCar': const [],
-                  },
-                );
-              },
-            ),
-          ],
+        elevation: 1,
+        child: Padding(
+          padding: EdgeInsets.all(defaultMargin),
+          child: Column(
+            children: [
+              _buildCityPicker('Pilih Kota Asal', selectedFrom, (String city) {
+                setState(() {
+                  selectedFrom = city;
+                });
+              }),
+              SizedBox(height: defaultMargin),
+              _buildCityPicker('Pilih Kota Tujuan', selectedTo, (String city) {
+                setState(() {
+                  selectedTo = city;
+                });
+              }),
+              SizedBox(height: defaultMargin),
+              _buildDatePicker('Pilih Tanggal Jemput', selectedDate,
+                  (DateTime date) {
+                setState(() {
+                  selectedDate = date;
+                });
+              }),
+              SizedBox(height: defaultMargin * 2),
+              CustomButton(
+                title: "Cari Mobil",
+                onPressed: () async {
+                  context.read<CarBloc>().add(
+                        FetchCarsScheduleEvent(
+                          carFrom: selectedFrom,
+                          carTo: selectedTo,
+                          carDate: selectedDate.toString(),
+                        ),
+                      );
+                  Navigator.pushNamed(
+                    context,
+                    '/carListPage',
+                    arguments: {
+                      'carFrom': selectedFrom,
+                      'carTo': selectedTo,
+                      'carDate': selectedDate,
+                      'fetchedDataCar': const [],
+                    },
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -546,55 +534,54 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildOtherInformations() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Lebih Hemat',
-          style: blackTextStyle.copyWith(
-            fontSize: 18,
-            fontWeight: bold,
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: defaultMargin / 2),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Mengapa sewa mobil di Aplikasi?',
+            style: blackTextStyle.copyWith(
+              fontSize: 18,
+              fontWeight: bold,
+            ),
           ),
-        ),
-        SizedBox(height: defaultMargin),
-        _buildInfoRow(
-          'Pilihan Tiket Lengkap',
-          'Temukan tiket untuk berbagai jenis sewa mobil dan destinasi lewat aplikasi.',
-          FontAwesomeIcons.car,
-        ),
-        SizedBox(height: defaultMargin),
-        _buildInfoRow(
-          'Bebas Antre',
-          'Ngak perlu antre di terminal. Kamu bisa pesan mobil dari mana saja, kapan pun kamu mau.',
-          FontAwesomeIcons.clock,
-        ),
-        SizedBox(height: defaultMargin),
-        _buildInfoRow(
-          'Beli Tiket Lebih Awal',
-          'Dengan Aplikasi, kamu bisa pesan tiket lebih awal dan tidak kehabisan tiket.',
-          FontAwesomeIcons.ticket,
-        ),
-        SizedBox(height: defaultMargin),
-        _buildInfoRow(
-          'Beragam Metode Pembayaran',
-          'Pilih metode pembayaran yang kamu inginkan, mulai dari transfer bank, scan QRIS, hingga pembayaran di minimarket terdekat.',
-          FontAwesomeIcons.creditCard,
-        ),
-        SizedBox(height: defaultMargin),
-      ],
+          SizedBox(height: defaultMargin),
+          _buildInfoRow(
+            'Pilihan Tiket Lengkap',
+            'Temukan tiket untuk berbagai jenis sewa mobil dan destinasi lewat aplikasi.',
+            FontAwesomeIcons.ticket,
+          ),
+          SizedBox(height: defaultMargin),
+          _buildInfoRow(
+            'Beli Tiket Lebih Awal',
+            'Dengan Aplikasi, kamu bisa pesan tiket lebih awal dan tidak kehabisan tiket.',
+            FontAwesomeIcons.clock,
+          ),
+          SizedBox(height: defaultMargin),
+          _buildInfoRow(
+            'Beragam Metode Pembayaran',
+            'Pilih metode pembayaran yang kamu inginkan, mulai dari transfer bank, scan QRIS, hingga pembayaran di minimarket terdekat.',
+            FontAwesomeIcons.creditCard,
+          ),
+        ],
+      ),
     );
   }
 
   Widget _buildInfoRow(String title, String subtitle, IconData icon) {
     return Row(
       children: [
-        CircleAvatar(
-          radius: 28,
-          backgroundColor: kBackgroundColor,
+        Container(
+          decoration: BoxDecoration(
+            color: kBackgroundColor,
+            shape: BoxShape.circle,
+          ),
+          padding: EdgeInsets.all(defaultMargin), // Adjust padding as needed
           child: Icon(
             icon,
-            color: kappBar,
-            size: 25,
+            color: kPrimaryColor,
+            size: 20,
           ),
         ),
         SizedBox(width: defaultMargin),
@@ -622,30 +609,4 @@ class _HomeScreenState extends State<HomeScreen> {
       ],
     );
   }
-}
-
-class ClipPathClass extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    var path = Path();
-    path.lineTo(0.0, size.height - 30);
-
-    var firstControlPoint = Offset(size.width / 4, size.height);
-    var firstPoint = Offset(size.width / 2, size.height);
-    path.quadraticBezierTo(firstControlPoint.dx, firstControlPoint.dy,
-        firstPoint.dx, firstPoint.dy);
-
-    var secondControlPoint = Offset(size.width - (size.width / 4), size.height);
-    var secondPoint = Offset(size.width, size.height - 30);
-    path.quadraticBezierTo(secondControlPoint.dx, secondControlPoint.dy,
-        secondPoint.dx, secondPoint.dy);
-
-    path.lineTo(size.width, 0.0);
-    path.close();
-
-    return path;
-  }
-
-  @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
 }

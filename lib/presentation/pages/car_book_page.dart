@@ -271,120 +271,129 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
                     child: _buildDetailsPrice(),
                   ),
                   SizedBox(height: defaultMargin * 2),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-                    child: CustomButton(
-                      title: "Lanjut Bayar",
-                      onPressed: () async {
-                        // Tampilkan dialog loading
-                        showDialog(
-                          context: context,
-                          barrierDismissible: false,
-                          builder: (BuildContext context) {
-                            return WillPopScope(
-                              onWillPop: () async => false,
-                              child: Center(
-                                child: Container(
-                                  margin: EdgeInsets.symmetric(
-                                      horizontal: defaultMargin * 5),
-                                  padding: EdgeInsets.all(defaultMargin),
-                                  decoration: BoxDecoration(
-                                    color: kWhiteColor,
-                                    borderRadius:
-                                        BorderRadius.circular(defaultRadius),
-                                  ),
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      SpinKitThreeBounce(
-                                        color: kPrimaryColor,
-                                        size: 25.0,
-                                      ),
-                                      SizedBox(height: defaultMargin),
-                                      Center(
-                                        child: Text(
-                                          "Mohon tunggu...",
-                                          style: blackTextStyle.copyWith(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.bold,
+                  Container(
+                    padding: EdgeInsets.symmetric(vertical: defaultMargin),
+                    decoration: BoxDecoration(
+                      color: kWhiteColor,
+                      border: Border(
+                          top: BorderSide(color: kBackgroundColor, width: 2.5)),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: defaultMargin),
+                      child: CustomButton(
+                        title: "Lanjut Bayar",
+                        onPressed: () async {
+                          // Tampilkan dialog loading
+                          showDialog(
+                            context: context,
+                            barrierDismissible: false,
+                            builder: (BuildContext context) {
+                              return WillPopScope(
+                                onWillPop: () async => false,
+                                child: Center(
+                                  child: Container(
+                                    margin: EdgeInsets.symmetric(
+                                        horizontal: defaultMargin * 5),
+                                    padding: EdgeInsets.all(defaultMargin),
+                                    decoration: BoxDecoration(
+                                      color: kWhiteColor,
+                                      borderRadius:
+                                          BorderRadius.circular(defaultRadius),
+                                    ),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        SpinKitThreeBounce(
+                                          color: kPrimaryColor,
+                                          size: 25.0,
+                                        ),
+                                        SizedBox(height: defaultMargin),
+                                        Center(
+                                          child: Text(
+                                            "Mohon tunggu...",
+                                            style: blackTextStyle.copyWith(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold,
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                      SizedBox(height: defaultMargin / 2),
-                                      Center(
-                                        child: Text(
-                                          "Sedang mengarahkan ke halaman pembayaran.",
-                                          textAlign: TextAlign.center,
-                                          style: subTitleTextStyle.copyWith(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.normal,
+                                        SizedBox(height: defaultMargin / 2),
+                                        Center(
+                                          child: Text(
+                                            "Sedang mengarahkan ke halaman pembayaran.",
+                                            textAlign: TextAlign.center,
+                                            style: subTitleTextStyle.copyWith(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.normal,
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ),
-                            );
-                          },
-                        );
-                        try {
-                          await _handlePayment(
-                            context,
-                            state.user!,
-                            (success, token, redirectUrl) async {
-                              Navigator.of(context, rootNavigator: true).pop();
-
-                              if (success) {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => MidtransPayment(
-                                      redirectUrl: redirectUrl,
-                                      token: token,
-                                    ),
-                                  ),
-                                );
-                              } else {
-                                Flushbar(
-                                  flushbarPosition: FlushbarPosition.TOP,
-                                  flushbarStyle: FlushbarStyle.FLOATING,
-                                  duration: const Duration(seconds: 5),
-                                  backgroundColor: kPrimaryColor,
-                                  titleText: Text(
-                                    "Transaksi gagal",
-                                    style: whiteTextStyle.copyWith(
-                                      fontSize: 14,
-                                      fontWeight: bold,
-                                    ),
-                                  ),
-                                  messageText: Text(
-                                    "Mobil yang kamu pesan tidak tersedia. Silakan coba lagi.",
-                                    style: whiteTextStyle.copyWith(
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                  margin: EdgeInsets.only(
-                                    left: defaultMargin,
-                                    right: defaultMargin,
-                                    bottom: defaultMargin,
-                                  ),
-                                  borderRadius:
-                                      BorderRadius.circular(defaultRadius),
-                                ).show(context);
-                              }
+                              );
                             },
                           );
-                        } catch (e) {
-                          Navigator.of(context, rootNavigator: true).pop();
-                          print('Error: $e');
-                        }
-                      },
+                          try {
+                            await _handlePayment(
+                              context,
+                              state.user!,
+                              (success, token, redirectUrl) async {
+                                Navigator.of(context, rootNavigator: true)
+                                    .pop();
+
+                                if (success) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => MidtransPayment(
+                                        redirectUrl: redirectUrl,
+                                        token: token,
+                                      ),
+                                    ),
+                                  );
+                                } else {
+                                  Flushbar(
+                                    flushbarPosition: FlushbarPosition.TOP,
+                                    flushbarStyle: FlushbarStyle.FLOATING,
+                                    duration: const Duration(seconds: 5),
+                                    backgroundColor: kPrimaryColor,
+                                    titleText: Text(
+                                      "Transaksi gagal",
+                                      style: whiteTextStyle.copyWith(
+                                        fontSize: 14,
+                                        fontWeight: bold,
+                                      ),
+                                    ),
+                                    messageText: Text(
+                                      "Mobil yang kamu pesan tidak tersedia. Silakan coba lagi.",
+                                      style: whiteTextStyle.copyWith(
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                    margin: EdgeInsets.only(
+                                      left: defaultMargin,
+                                      right: defaultMargin,
+                                      bottom: defaultMargin,
+                                    ),
+                                    borderRadius:
+                                        BorderRadius.circular(defaultRadius),
+                                  ).show(context);
+                                }
+                              },
+                            );
+                          } catch (e) {
+                            Navigator.of(context, rootNavigator: true).pop();
+                            print('Error: $e');
+                          }
+                        },
+                      ),
                     ),
                   ),
-                  SizedBox(height: defaultMargin * 2),
+                  Padding(padding: EdgeInsets.only(bottom: defaultMargin)),
                 ],
               ),
             ),

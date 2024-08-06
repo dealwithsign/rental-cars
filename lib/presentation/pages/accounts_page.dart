@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:rents_cars_app/blocs/auth/auth_bloc.dart';
 import 'package:rents_cars_app/blocs/auth/auth_event.dart';
@@ -185,13 +186,13 @@ class _AccountsScreenState extends State<AccountsScreen> {
           Text(
             'Akun',
             style: blackTextStyle.copyWith(
-              fontSize: 16,
+              fontSize: 18,
               fontWeight: bold,
             ),
           ),
           SizedBox(height: defaultMargin),
           _buildSettingItem(
-            icon: LineIcons.question,
+            icon: FontAwesomeIcons.circleQuestion,
             title: 'Pusat Bantuan',
             subTitle: 'Temukan jawaban terbaik dari pertanyaan kamu',
             onTap: () {
@@ -199,19 +200,19 @@ class _AccountsScreenState extends State<AccountsScreen> {
             },
           ),
           _buildSettingItem(
-            icon: LineIcons.userShield,
+            icon: FontAwesomeIcons.shieldHalved,
             title: 'Syarat & Ketentuan',
             subTitle: 'Baca syarat & ketentuan kami disini',
             onTap: () {},
           ),
           _buildSettingItem(
-            icon: LineIcons.star,
+            icon: FontAwesomeIcons.star,
             title: 'Beri Kami Nilai',
             subTitle: 'Beri kami nilai dan ulasan',
             onTap: () {},
           ),
           _buildSettingItem(
-            icon: LineIcons.alternateSignOut,
+            icon: FontAwesomeIcons.rightFromBracket,
             title: 'Keluar',
             subTitle: 'Kamu harus masuk lagi untuk melanjutkan',
             onTap: () async {
@@ -240,7 +241,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
             Icon(
               icon,
               color: kPrimaryColor,
-              size: 24,
+              size: 20,
             ),
             SizedBox(width: defaultMargin),
             Column(
@@ -288,7 +289,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
           Text(
             '© 2021 Rents Cars',
             style: subTitleTextStyle.copyWith(
-              fontSize: 14,
+              fontSize: 13,
             ),
           ),
         ],

@@ -35,7 +35,7 @@ Color kTransparentColor = Colors.transparent;
 Color kPrimaryColor2 = const Color(0xff1D4ED8);
 Color kpinkColor = const Color(0xffe2dcf2);
 Color greySupport = const Color(0xff6B6B6B);
-Color kappBar = const Color(0xff36693D);
+Color kappBar = const Color(0xff0D652D);
 Color kIconColor = const Color(0xff717171);
 Color descGrey = const Color(0xff656E77);
 Color kBlueColor = const Color(0xff1A65C7);
@@ -44,7 +44,9 @@ Color kDivider = const Color(0xffE8ECF1);
 Color kBukti = const Color(0xffF6F6F6);
 Color kImageBack = const Color(0xffF3ECE7);
 
-Color kSpinkitColor = const Color(0xff0163c79);
+Color kIconContextMenu = const Color(0xffB0B0B0);
+
+Color kSpinkitColor = const Color(0xff063c79);
 
 TextStyle blackTextStyle = GoogleFonts.interTight(
   color: kPrimaryColor,

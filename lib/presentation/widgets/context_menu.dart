@@ -32,7 +32,7 @@ class ContextMenu extends StatelessWidget {
           Icon(
             icon,
             size: 100,
-            color: kIconColor,
+            color: const Color(0xFF2b2b2b),
           ),
           SizedBox(height: defaultMargin),
           Text(

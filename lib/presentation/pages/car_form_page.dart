@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:intl/intl.dart';
 
@@ -184,10 +185,8 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                     child: _accountInformations(state.user!),
                   ),
                   SizedBox(height: defaultMargin * 2),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-                    child: _buildBottomBar(context),
-                  ),
+                  _buildBottomBar(context),
+                  Padding(padding: EdgeInsets.only(bottom: defaultMargin)),
                 ],
               ),
             ),
@@ -386,7 +385,7 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                         ),
                       ),
                       Icon(
-                        LineIcons.edit,
+                        FontAwesomeIcons.penToSquare,
                         color: kPrimaryColor,
                         size: 20,
                       ),
@@ -881,61 +880,65 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
         color: kWhiteColor,
         border: Border(top: BorderSide(color: kBackgroundColor, width: 2.5)),
       ),
-      child: CustomButton(
-        title: 'Lanjutkan',
-        onPressed: () {
-          if (_selectedLocationPick.isEmpty || _selectedLocationDrop.isEmpty) {
-            Flushbar(
-              flushbarPosition: FlushbarPosition.TOP,
-              flushbarStyle: FlushbarStyle.FLOATING,
-              duration: const Duration(seconds: 5),
-              backgroundColor: const Color(0xffFAD2CF),
-              titleText: Text(
-                "Data Belum Lengkap",
-                style: blackTextStyle.copyWith(
-                  fontSize: 14,
-                  fontWeight: bold,
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: defaultMargin),
+        child: CustomButton(
+          title: 'Lanjutkan',
+          onPressed: () {
+            if (_selectedLocationPick.isEmpty ||
+                _selectedLocationDrop.isEmpty) {
+              Flushbar(
+                flushbarPosition: FlushbarPosition.TOP,
+                flushbarStyle: FlushbarStyle.FLOATING,
+                duration: const Duration(seconds: 5),
+                backgroundColor: const Color(0xffFAD2CF),
+                titleText: Text(
+                  "Data Belum Lengkap",
+                  style: blackTextStyle.copyWith(
+                    fontSize: 14,
+                    fontWeight: bold,
+                  ),
                 ),
-              ),
-              messageText: Text(
-                "Silahkan lengkapi data terlebih dahulu",
-                style: subTitleTextStyle.copyWith(
-                  fontSize: 14,
+                messageText: Text(
+                  "Silahkan lengkapi data terlebih dahulu",
+                  style: subTitleTextStyle.copyWith(
+                    fontSize: 14,
+                  ),
                 ),
-              ),
-              margin: EdgeInsets.only(
-                left: defaultMargin,
-                right: defaultMargin,
-                bottom: defaultMargin,
-              ),
-              borderRadius: BorderRadius.circular(defaultRadius),
-            ).show(context);
-          } else {
-            saveData();
-            var uuid = const Uuid();
-            String orderId = uuid.v1().replaceAll('-', '').substring(0, 8);
-            bookingModels?.id = orderId;
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => DetailBookingPage(
-                  id: orderId,
-                  carFrom: widget.carFrom,
-                  carTo: widget.carTo,
-                  carDate: widget.carDate,
-                  carModel: widget.car,
-                  selectedDate: selectedDate,
-                  selectedTime: selectedTime,
-                  selectedPassengers: int.parse(RegExp(r'\d+')
-                          .firstMatch(selectedPassengers)
-                          ?.group(0) ??
-                      '1'), // Extracts digits and falls back to '1' if none found
-                  selectedLocationPick: _selectedLocationPick,
-                  selectedLocationDrop: _selectedLocationDrop,
+                margin: EdgeInsets.only(
+                  left: defaultMargin,
+                  right: defaultMargin,
+                  bottom: defaultMargin,
                 ),
-              ),
-            );
-          }
-        },
+                borderRadius: BorderRadius.circular(defaultRadius),
+              ).show(context);
+            } else {
+              saveData();
+              var uuid = const Uuid();
+              String orderId = uuid.v1().replaceAll('-', '').substring(0, 8);
+              bookingModels?.id = orderId;
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => DetailBookingPage(
+                    id: orderId,
+                    carFrom: widget.carFrom,
+                    carTo: widget.carTo,
+                    carDate: widget.carDate,
+                    carModel: widget.car,
+                    selectedDate: selectedDate,
+                    selectedTime: selectedTime,
+                    selectedPassengers: int.parse(RegExp(r'\d+')
+                            .firstMatch(selectedPassengers)
+                            ?.group(0) ??
+                        '1'), // Extracts digits and falls back to '1' if none found
+                    selectedLocationPick: _selectedLocationPick,
+                    selectedLocationDrop: _selectedLocationDrop,
+                  ),
+                ),
+              );
+            }
+          },
+        ),
       ),
     );
   }
@@ -957,7 +960,7 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
         child: Row(
           children: [
             Icon(
-              LineIcons.exclamationCircle,
+              FontAwesomeIcons.circleInfo,
               color: kPrimaryColor,
               size: 20,
             ),

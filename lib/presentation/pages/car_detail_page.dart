@@ -104,7 +104,8 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
                 ),
                 const SizedBox(height: 5),
                 Text(
-                  DateFormat('EEEE, d MMM', 'id_ID').format(widget.carDate),
+                  DateFormat('EEEE, d MMMM yyyy', 'id_ID')
+                      .format(widget.carDate),
                   style: blackTextStyle.copyWith(
                     fontSize: 15,
                     fontWeight: FontWeight.normal,
@@ -176,8 +177,8 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
               Row(
                 children: [
                   FaIcon(
-                    LineIcons.suitcase,
-                    size: 20,
+                    FontAwesomeIcons.briefcase,
+                    size: 15,
                     color: kPrimaryColor,
                   ),
                   SizedBox(width: defaultMargin),
@@ -193,7 +194,7 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
               Row(
                 children: [
                   FaIcon(
-                    LineIcons.userFriends,
+                    FontAwesomeIcons.peopleLine,
                     size: 20,
                     color: kPrimaryColor,
                   ),
@@ -291,10 +292,7 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
           child: _buildLocations(fetchedCar),
         ),
         SizedBox(height: defaultMargin * 2),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-          child: _buildBottomBar(),
-        ),
+        _buildBottomBar(),
       ],
     );
   }
@@ -338,7 +336,7 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
       child: Row(
         children: [
           Icon(
-            LineIcons.checkCircleAlt,
+            FontAwesomeIcons.circleCheck,
             size: 20,
             color: kPrimaryColor,
           ),
@@ -361,19 +359,22 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
         color: kWhiteColor,
         border: Border(top: BorderSide(color: kBackgroundColor, width: 2.5)),
       ),
-      child: CustomButton(
-        title: 'Lanjut ke Form Pemesanan',
-        onPressed: () {
-          Navigator.of(context).pushNamed(
-            '/bookWithDriver',
-            arguments: {
-              'car': widget.car,
-              'carFrom': widget.carFrom,
-              'carTo': widget.carTo,
-              'carDate': widget.carDate,
-            },
-          );
-        },
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: defaultMargin),
+        child: CustomButton(
+          title: 'Lanjut ke Form Pemesanan',
+          onPressed: () {
+            Navigator.of(context).pushNamed(
+              '/bookWithDriver',
+              arguments: {
+                'car': widget.car,
+                'carFrom': widget.carFrom,
+                'carTo': widget.carTo,
+                'carDate': widget.carDate,
+              },
+            );
+          },
+        ),
       ),
     );
   }
@@ -459,7 +460,7 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
                     ),
                     SizedBox(width: defaultMargin),
                     Icon(
-                      LineIcons.starAlt,
+                      FontAwesomeIcons.solidStar,
                       color: kIcon,
                       size: 15,
                     ),
