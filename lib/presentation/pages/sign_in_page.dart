@@ -200,26 +200,6 @@ class _SignInPageState extends State<SignInPage> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         backgroundColor: kWhiteColor,
-        appBar: AppBar(
-          leading: IconButton(
-            icon: Icon(
-              LineIcons.angleLeft,
-              color: kPrimaryColor,
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-          title: Text(
-            'Masuk',
-            style: blackTextStyle.copyWith(
-              fontSize: 24, // H5
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          backgroundColor: Colors.white,
-          elevation: 0,
-        ),
         body: BlocListener<AuthBloc, AuthState>(
           listener: (context, state) {
             if (state is AuthSuccess) {
@@ -267,16 +247,34 @@ class _SignInPageState extends State<SignInPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  SizedBox(
+                    height: defaultMargin * 4,
+                  ),
                   Container(
-                    child: Text(
-                      "Masuk dengan email dan password atau \nmasuk dengan akun Google.",
-                      style: blackTextStyle.copyWith(
-                        fontSize: 16, // Body Large
-                      ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Login",
+                          style: blackTextStyle.copyWith(
+                            fontSize: 24, // Body Large
+                            fontWeight: bold,
+                          ),
+                        ),
+                        SizedBox(
+                          height: defaultMargin / 2,
+                        ),
+                        Text(
+                          "Masuk dengan email dan password \natau menggunakan akun Google",
+                          style: subTitleTextStyle.copyWith(
+                            fontSize: 15, // Body Large
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   SizedBox(
-                    height: defaultMargin,
+                    height: defaultMargin * 2,
                   ),
                   Form(
                     key: _formKey,

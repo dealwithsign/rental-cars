@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:heroicons_flutter/heroicons_flutter.dart';
+import 'package:icons_plus/icons_plus.dart';
 import 'package:intl/intl.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -45,58 +47,57 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   final CarsServices getSchedule = CarsServices();
-  final ScrollController _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: false,
-        title: Text(
-          "Logo",
-          style: whiteTextStyle.copyWith(
-            fontWeight: FontWeight.bold,
-            fontSize: 18,
-          ),
-        ),
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: <Color>[
-                kappBar,
-                kappBar,
-              ],
+      backgroundColor: kWhiteColor,
+      body: CustomScrollView(
+        physics: const ClampingScrollPhysics(),
+        slivers: [
+          SliverAppBar(
+            backgroundColor: kWhiteColor,
+            elevation: 0.0, // Added elevation for a subtle shadow effect
+            floating: true,
+            pinned: true,
+            snap: true,
+            surfaceTintColor: kWhiteColor,
+            title: Text(
+              'Logo',
+              style: whiteTextStyle.copyWith(
+                fontSize: 20, // Slightly larger font size for better visibility
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
-        ),
-      ),
-      body: Stack(
-        children: [
-          Container(
-            height: MediaQuery.of(context).size.height * 0.20,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: <Color>[
-                  kappBar,
-                  kappBar,
-                ],
+            centerTitle: false,
+            flexibleSpace: Container(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  colors: <Color>[
+                    Color(0xff087443),
+                    Color(0xff087443),
+                  ],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                ),
               ),
             ),
           ),
-          SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
+          SliverToBoxAdapter(
             child: Stack(
               children: [
                 ClipPath(
                   clipper: ClipPathClass(),
                   child: Container(
                     height: MediaQuery.of(context).size.height * 0.3,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       gradient: LinearGradient(
                         colors: <Color>[
-                          kappBar,
-                          kappBar,
+                          Color(0xff087443),
+                          Color(0xff087443),
                         ],
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
                       ),
                     ),
                   ),
@@ -111,18 +112,20 @@ class _HomeScreenState extends State<HomeScreen> {
                         children: [
                           SizedBox(height: defaultMargin),
                           Text(
-                            'Rental Mobil Online ',
+                            'Rental Mobil Antar Kota',
                             style: whiteTextStyle.copyWith(
                               fontWeight: FontWeight.bold,
-                              fontSize: 20,
+                              fontSize:
+                                  20, // Increased font size for the main heading
                             ),
                           ),
                           const SizedBox(height: 5),
                           Text(
-                            'Sewa mobil cukup di genggaman Anda \nkapan saja dan di mana saja.',
+                            'Pesan tiketmu dalam genggaman \nkapan saja dan di mana saja',
                             style: whiteTextStyle.copyWith(
                               fontWeight: FontWeight.normal,
-                              fontSize: 15,
+                              fontSize:
+                                  15, // Slightly larger font size for the subheading
                             ),
                           ),
                         ],
@@ -131,6 +134,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     SizedBox(height: defaultMargin),
                     _buildSearchTicket(),
                     SizedBox(height: defaultMargin),
+                    Divider(
+                      color: kBackgroundColor,
+                      thickness: 5,
+                    ),
                     Container(
                       color: kWhiteColor,
                       child: buildBody(),
@@ -139,7 +146,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );
@@ -158,21 +165,24 @@ class _HomeScreenState extends State<HomeScreen> {
         } else if (state is CarsSuccess) {
           return Skeletonizer(
             enabled: isLoading,
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-              child: Column(
-                children: [
-                  SizedBox(height: defaultMargin),
-                  _buildHowToBePartners(),
-                  SizedBox(height: defaultMargin * 2),
-                  _buildOtherInformations(),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      bottom: defaultMargin * 8,
-                    ),
+            child: Column(
+              children: [
+                SizedBox(height: defaultMargin / 2),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: defaultMargin),
+                  child: _buildHowToBePartners(),
+                ),
+                SizedBox(height: defaultMargin),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: defaultMargin),
+                  child: _buildOtherInformations(),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(
+                    bottom: defaultMargin * 4,
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           );
         } else if (state is CarsError) {
@@ -182,71 +192,6 @@ class _HomeScreenState extends State<HomeScreen> {
         }
         return Container();
       },
-    );
-  }
-
-  Widget _buildHowToBePartners() {
-    return GestureDetector(
-      onTap: () {
-        Navigator.pushNamed(context, '/partnerPage');
-      },
-      child: Card(
-        clipBehavior: Clip.antiAlias,
-        color: kTransparentColor,
-        elevation: 0.5,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(defaultRadius),
-          side: BorderSide(
-            color: kTransparentColor,
-            width: 1.0,
-          ),
-        ),
-        child: SizedBox(
-          height: 110,
-          child: Row(
-            children: [
-              Expanded(
-                flex: 2,
-                child: Container(
-                  color: const Color(0xffF1F3F4),
-                  padding: EdgeInsets.all(defaultMargin),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Daftarkan mobil Anda ke aplikasi kami & raih lebih banyak pelanggan.',
-                        style: blackTextStyle.copyWith(
-                          fontSize: 15,
-                          fontWeight: bold,
-                        ),
-                      ),
-                      SizedBox(height: defaultMargin),
-                      Text(
-                        'Cek disini →',
-                        style: subTitleTextStyle.copyWith(
-                          fontSize: 14,
-                          fontWeight: bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Expanded(
-                flex: 1,
-                child: SizedBox(
-                  height: double.infinity,
-                  child: Image.network(
-                    'https://images.unsplash.com/photo-1612345642327-e79b84fd94f6?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
     );
   }
 
@@ -345,7 +290,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   selectedCity,
                   style: blackTextStyle.copyWith(
                     fontWeight: bold,
-                    fontSize: 14,
+                    fontSize: 15,
                   ),
                 ),
               ],
@@ -384,7 +329,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Text(
                     "Pilih Kota",
                     style: blackTextStyle.copyWith(
-                      fontSize: 16,
+                      fontSize: 18,
                       fontWeight: bold,
                     ),
                   ),
@@ -469,7 +414,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Text(
                           label,
                           style: blackTextStyle.copyWith(
-                            fontSize: 16,
+                            fontSize: 18,
                             fontWeight: bold,
                           ),
                         ),
@@ -520,7 +465,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     DateFormat('EEE, dd MMMM yyyy', 'id_ID')
                         .format(selectedDate),
                     style: blackTextStyle.copyWith(
-                      fontSize: 14,
+                      fontSize: 15,
                       fontWeight: bold,
                     ),
                   ),
@@ -533,80 +478,207 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildOtherInformations() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: defaultMargin / 2),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Mengapa sewa mobil di Aplikasi?',
-            style: blackTextStyle.copyWith(
-              fontSize: 18,
-              fontWeight: bold,
+  Widget _buildInfoItem(
+      String title,
+      String description,
+      IconData icon,
+      Color iconColor,
+      List<Color> gradientColors // New parameter for gradient colors
+      ) {
+    return Card(
+      clipBehavior: Clip.antiAlias,
+      elevation: 0.5,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(defaultRadius),
+        side: BorderSide(
+          color: kTransparentColor,
+          width: 0.5,
+        ),
+      ),
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors:
+                gradientColors, // Use the gradient colors passed to the method
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          borderRadius: BorderRadius.circular(defaultRadius),
+        ),
+        padding: EdgeInsets.all(defaultMargin),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Icon(
+              icon,
+              color: iconColor,
+              size: 20,
             ),
-          ),
-          SizedBox(height: defaultMargin),
-          _buildInfoRow(
-            'Pilihan Tiket Lengkap',
-            'Temukan tiket untuk berbagai jenis sewa mobil dan destinasi lewat aplikasi.',
-            FontAwesomeIcons.ticket,
-          ),
-          SizedBox(height: defaultMargin),
-          _buildInfoRow(
-            'Beli Tiket Lebih Awal',
-            'Dengan Aplikasi, kamu bisa pesan tiket lebih awal dan tidak kehabisan tiket.',
-            FontAwesomeIcons.clock,
-          ),
-          SizedBox(height: defaultMargin),
-          _buildInfoRow(
-            'Beragam Metode Pembayaran',
-            'Pilih metode pembayaran yang kamu inginkan, mulai dari transfer bank, scan QRIS, hingga pembayaran di minimarket terdekat.',
-            FontAwesomeIcons.creditCard,
-          ),
-        ],
+            SizedBox(height: defaultMargin),
+            Text(
+              title,
+              style: blackTextStyle.copyWith(
+                fontSize: 15,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: defaultMargin / 2),
+            Text(
+              description,
+              style: subTitleTextStyle.copyWith(
+                fontSize: 14,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  Widget _buildInfoRow(String title, String subtitle, IconData icon) {
-    return Row(
+  Widget _buildOtherInformations() {
+    return Column(
       children: [
-        Container(
-          decoration: BoxDecoration(
-            color: kBackgroundColor,
-            shape: BoxShape.circle,
-          ),
-          padding: EdgeInsets.all(defaultMargin), // Adjust padding as needed
-          child: Icon(
-            icon,
-            color: kPrimaryColor,
-            size: 20,
-          ),
-        ),
-        SizedBox(width: defaultMargin),
-        Expanded(
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: defaultMargin / 2),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              SizedBox(height: defaultMargin),
               Text(
-                title,
+                "Pesan tiket di Aplikasi",
                 style: blackTextStyle.copyWith(
-                  fontSize: 15,
                   fontWeight: bold,
+                  fontSize: 18,
                 ),
               ),
-              const SizedBox(height: 5),
+              SizedBox(height: defaultMargin / 2),
               Text(
-                subtitle,
+                "Beragam kemudahan dengan aplikasi membuat \npengalaman jadi lebih menyenangkan",
                 style: subTitleTextStyle.copyWith(
-                  fontSize: 14,
+                  fontSize: 15,
                 ),
               ),
+              SizedBox(height: defaultMargin),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    _buildInfoItem(
+                      "Pilihan Tiket Lengkap",
+                      "Temukan tiket untuk berbagai jenis \nsewa mobil dan destinasi lewat aplikasi",
+                      HeroiconsSolid.ticket,
+                      const Color(0xff4285F4),
+                      [
+                        const Color(0xffD2E3FC),
+                        const Color(0xffD2E3FC),
+                      ],
+                    ),
+                    SizedBox(width: defaultMargin),
+                    _buildInfoItem(
+                      "Beli Tiket Lebih Awal",
+                      "Dengan Aplikasi, kamu bisa pesan tiket \nlebih awal dan tidak kehabisan tiket",
+                      HeroiconsSolid.clock,
+                      const Color(0xffEA4335),
+                      [
+                        const Color(0xffFAD2CF),
+                        const Color(0xffFAD2CF),
+                      ],
+                    ),
+                    SizedBox(width: defaultMargin),
+                    _buildInfoItem(
+                      "Beragam Metode Pembayaran",
+                      "Pilih metode pembayaran yang kamu inginkan \nmulai dari transfer bank dan QRIS",
+                      HeroiconsSolid.creditCard,
+                      const Color(0xff34A853),
+                      [
+                        const Color(0xffCEEAD6),
+                        const Color(0xffCEEAD6),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                  padding: EdgeInsets.only(
+                bottom: defaultMargin * 2,
+              ))
             ],
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildHowToBePartners() {
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushNamed(context, '/partner-page');
+      },
+      child: Card(
+        clipBehavior: Clip.antiAlias,
+        color: kTransparentColor,
+        elevation: 0.5,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(defaultRadius),
+          side: BorderSide(
+            color: kTransparentColor,
+            width: 1.0,
+          ),
+        ),
+        child: Stack(
+          children: [
+            // Background image
+            SizedBox(
+              height: 110,
+              width: double.infinity,
+              child: Image.network(
+                'https://images.unsplash.com/photo-1612345642327-e79b84fd94f6?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                fit: BoxFit.cover,
+              ),
+            ),
+            // Semi-transparent overlay
+            Container(
+              height: 110,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Colors.black.withOpacity(0.6),
+                    Colors.black.withOpacity(0.4),
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                borderRadius: BorderRadius.circular(defaultRadius),
+              ),
+            ),
+            // Text content
+            Padding(
+              padding: EdgeInsets.all(defaultMargin),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Daftarkan mobilmu ke aplikasi kami \nraih lebih banyak pelanggan',
+                    style: whiteTextStyle.copyWith(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: defaultMargin),
+                  Text(
+                    'Cek disini →',
+                    style: whiteTextStyle.copyWith(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

@@ -2,18 +2,17 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:line_icons/line_icons.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-import '../../blocs/tickets/tickets_bloc.dart';
-
-import '../../data/models/ticket_model.dart';
-
 import 'package:http/http.dart' as http;
 
+import '../../blocs/tickets/tickets_bloc.dart';
+import '../../data/models/ticket_model.dart';
 import '../../utils/fonts.dart';
 
 class TicketDetailScreen extends StatefulWidget {
@@ -61,7 +60,10 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
       backgroundColor: kWhiteColor,
       surfaceTintColor: kWhiteColor,
       leading: IconButton(
-        icon: const Icon(Icons.arrow_back, color: Colors.black),
+        icon: Icon(
+          LineIcons.angleLeft,
+          color: kPrimaryColor,
+        ),
         onPressed: () {
           Navigator.of(context).pop();
         },
@@ -116,9 +118,22 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                   SizedBox(height: defaultMargin),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-                    child: _buildDetailsTravel(
-                      lokasiJemput: widget.ticket.carFrom,
-                      lokasiTujuan: widget.ticket.carTo,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Detail Perjalanan',
+                          style: blackTextStyle.copyWith(
+                            fontSize: 16,
+                            fontWeight: bold,
+                          ),
+                        ),
+                        SizedBox(height: defaultMargin),
+                        _buildDetailsTravel(
+                          lokasiJemput: widget.ticket.carFrom,
+                          lokasiTujuan: widget.ticket.carTo,
+                        ),
+                      ],
                     ),
                   ),
                   SizedBox(height: defaultMargin),
@@ -129,7 +144,20 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                   SizedBox(height: defaultMargin),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-                    child: _buildDetailsPrice(),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Detail Pembayaran',
+                          style: blackTextStyle.copyWith(
+                            fontSize: 16,
+                            fontWeight: bold,
+                          ),
+                        ),
+                        SizedBox(height: defaultMargin),
+                        _buildDetailsPrice(),
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -189,21 +217,21 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                   backgroundColor: kBackgroundColor,
                   child: Icon(
                     FontAwesomeIcons.locationArrow,
-                    color: kIcon,
-                    size: 18,
+                    color: kPrimaryColor,
+                    size: 20,
                   ),
                 ),
                 Container(
                   width: 2,
-                  height: 50,
+                  height: 80,
                   color: kBackgroundColor,
                 ),
                 CircleAvatar(
                   backgroundColor: kBackgroundColor,
                   child: Icon(
                     FontAwesomeIcons.locationDot,
-                    color: kIcon,
-                    size: 18,
+                    color: kPrimaryColor,
+                    size: 20,
                   ),
                 ),
               ],
@@ -227,7 +255,7 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                       fontSize: 14,
                     ),
                   ),
-                  SizedBox(height: defaultMargin * 3),
+                  SizedBox(height: defaultMargin * 4),
                   Text(
                     widget.ticket.carTo,
                     style: blackTextStyle.copyWith(
@@ -271,13 +299,18 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              _buildDetailItem('Referensi Number',
+                  ticket.transactionId.substring(0, 18).toUpperCase()),
               _buildDetailItem('Metode Pembayaran', ticket.paymentType),
               _buildDetailItem('Tanggal Pembayaran',
                   formatIndonesianDate(ticket.settlement_time)),
               _buildDetailItem(
-                  'Total Pembayaran',
-                  NumberFormat.currency(locale: 'id', symbol: 'Rp ')
-                      .format(double.parse(ticket.grossAmount))),
+                'Total Pembayaran',
+                NumberFormat.currency(locale: 'id', symbol: 'Rp ').format(
+                  double.parse(ticket.grossAmount),
+                ),
+              ),
+              _buildDetailItem('Status Pembayaran', ticket.transaction_status),
             ],
           );
         } else if (snapshot.hasError) {
@@ -292,31 +325,49 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
   }
 
   Widget _buildDetailItem(String label, String value) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          '$label:',
-          style: subTitleTextStyle.copyWith(
-            fontSize: 14,
+    String displayValue = value;
+    Color textColor = Colors.black;
+
+    if (label == 'Metode Pembayaran' && value == 'bank_transfer' ||
+        value == 'echannel') {
+      displayValue = 'Virtual Account';
+    } else if (label == 'Status Pembayaran' && value == 'settlement') {
+      displayValue = 'Pembayaran Sukses';
+      textColor = kSuccessColor;
+    } else if (label == 'Metode Pembayaran' && value == 'qris') {
+      displayValue = 'QRIS';
+    }
+
+    return Padding(
+      padding: EdgeInsets.only(
+        bottom: defaultMargin,
+      ), // Add padding to the bottom
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            '$label:',
+            style: subTitleTextStyle.copyWith(
+              fontSize: 14,
+            ),
           ),
-        ),
-        const SizedBox(height: 5),
-        Text(
-          value,
-          style: blackTextStyle.copyWith(
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
+          Text(
+            displayValue,
+            style: blackTextStyle.copyWith(
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+              color: textColor,
+            ),
           ),
-        ),
-        const SizedBox(height: 10),
-      ],
+        ],
+      ),
     );
   }
 
   String formatIndonesianDate(DateTime date) {
     Intl.defaultLocale = 'id_ID'; // Ensure the locale is set to Indonesian
-    var formatter = DateFormat('EEEE, dd MMMM yyyy');
+    var formatter = DateFormat('EEEE, dd MMMM hh:mm a');
     return formatter.format(date);
   }
 

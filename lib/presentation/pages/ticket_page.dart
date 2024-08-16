@@ -92,11 +92,11 @@ class _TicketScreenState extends State<TicketScreen> {
           if (state.tickets.isEmpty) {
             return Center(
               child: ContextMenu(
-                title: 'Belum ada Pesanan',
+                title: 'Belum Ada Pesanan',
                 message:
-                    'Kamu belum memiliki pesanan tiket. \nYuk pesan sekarang!',
-                icon: LineIcons.mapSigns,
-                kIconColor: kIconColor,
+                    'Kamu belum memiliki pesanan tiket \nYuk pesan sekarang!',
+                icon: FontAwesomeIcons.bell,
+                kIconColor: kappBar,
                 kPrimaryColor: blackTextStyle.copyWith(
                   fontSize: 16,
                   fontWeight: bold,
@@ -109,12 +109,12 @@ class _TicketScreenState extends State<TicketScreen> {
           }
           return RefreshIndicator(
             color: kPrimaryColor,
-            backgroundColor: const Color(0xffD2E3FC),
+            backgroundColor: kBackgroundColor,
             onRefresh: () async {
               context.read<TicketsBloc>().add(
                     FetchTransactionsUserEvent(state.tickets.first.userId),
                   );
-              await Future.delayed(const Duration(seconds: 2));
+              await Future.delayed(const Duration(seconds: 5));
             },
             child: ListView.builder(
               physics: const BouncingScrollPhysics(),
@@ -148,10 +148,10 @@ class _TicketScreenState extends State<TicketScreen> {
         bottom: defaultMargin,
       ),
       decoration: BoxDecoration(
-        color: const Color(0xffFEEFC3),
+        color: const Color(0xffCEEAD6),
         borderRadius: BorderRadius.circular(defaultRadius),
         border: Border.all(
-          color: const Color(0xffFEEFC3),
+          color: const Color(0xffCEEAD6),
         ),
       ),
       child: Padding(
@@ -159,8 +159,8 @@ class _TicketScreenState extends State<TicketScreen> {
         child: Row(
           children: [
             Icon(
-              LineIcons.infoCircle,
-              color: kPrimaryColor,
+              FontAwesomeIcons.circleInfo,
+              color: kappBar,
               size: 20,
             ),
             SizedBox(width: defaultMargin),
@@ -214,11 +214,11 @@ class _TicketScreenState extends State<TicketScreen> {
           if (details.transaction_status == 'pending') {
             // Jika status transaksi 'pending', tampilkan "Menunggu Pembayaran"
             status = 'Menunggu Pembayaran';
-            statusColor = const Color(0xffE37400);
+            statusColor = kPendingColor;
           } else if (details.transaction_status == 'settlement') {
             // Jika status transaksi 'settlement', tampilkan "E-Tiket telah terbit"
             status = 'E-Tiket telah terbit';
-            statusColor = const Color(0xff34A853);
+            statusColor = kSuccessColor;
           } else if (details.transaction_status.isEmpty) {
             // Jika status transaksi kosong, tampilkan "Menunggu Pembayaran"
             status = 'Dibatalkan';
@@ -226,12 +226,12 @@ class _TicketScreenState extends State<TicketScreen> {
           } else {
             // Jika tidak, tampilkan "Waktu Pembayaran Habis"
             status = 'Waktu Pembayaran Habis';
-            statusColor = const Color(0xffEA4335);
+            statusColor = kFailedColor;
           }
         } else {
           // Jika data tidak tersedia, tampilkan status "No status available"
           status = 'No status available';
-          statusColor = Colors.orange;
+          statusColor = descGrey;
         }
 
         // Membuat tampilan kartu dengan status dan warna yang ditentukan

@@ -13,6 +13,7 @@ import 'presentation/pages/navigation_page.dart';
 import 'presentation/pages/sign_in_page.dart';
 import 'presentation/pages/sign_up_page.dart';
 import 'presentation/pages/splash_page.dart';
+import 'presentation/pages/ticket_page.dart';
 import 'presentation/pages/wrapper_auth_page.dart';
 
 Map<String, WidgetBuilder> getRoutes() {
@@ -53,7 +54,6 @@ Map<String, WidgetBuilder> getRoutes() {
         carDate: args['carDate'],
       );
     },
-    // payment
 
     '/payment-page': (context) {
       final args =
@@ -63,11 +63,12 @@ Map<String, WidgetBuilder> getRoutes() {
         token: args['token'],
       );
     },
-    // tickets
+
     '/ticket-detail': (context) => TicketDetailScreen(
           ticket: ModalRoute.of(context)!.settings.arguments as TicketModels,
         ),
-    // accounts
-    '/partnerPage': (context) => const HowToBePartner(),
+
+    '/ticket-page': (context) => const TicketScreen(),
+    '/partner-page': (context) => const HowToBePartner(),
   };
 }

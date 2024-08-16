@@ -31,10 +31,10 @@ class ContextMenu extends StatelessWidget {
         children: <Widget>[
           Icon(
             icon,
-            size: 100,
-            color: const Color(0xFF2b2b2b),
+            size: MediaQuery.of(context).size.width * 0.20,
+            color: kappBar,
           ),
-          SizedBox(height: defaultMargin),
+          SizedBox(height: defaultMargin * 2),
           Text(
             title,
             style: kPrimaryColor,

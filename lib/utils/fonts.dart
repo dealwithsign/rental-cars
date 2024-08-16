@@ -1,6 +1,6 @@
 // utils/fonts.dart
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 
 double defaultMargin = 14.0;
@@ -13,9 +13,9 @@ Color kBanner = const Color(0xff2b9a66);
 Color kPrimaryColor = const Color(0xFF191919);
 Color kSubTitle = const Color(0xff717171);
 
-Color kSuccessColor = const Color(0xff00a119);
-Color kFailedColor = const Color(0xffF34040);
-Color kPendingColor = const Color(0xffffbf00);
+Color kSuccessColor = const Color(0xff00AA13);
+Color kFailedColor = const Color(0xffEE2737);
+Color kPendingColor = const Color(0xffF06400);
 
 Color kIcon = const Color(0xFF191919);
 
@@ -35,7 +35,7 @@ Color kTransparentColor = Colors.transparent;
 Color kPrimaryColor2 = const Color(0xff1D4ED8);
 Color kpinkColor = const Color(0xffe2dcf2);
 Color greySupport = const Color(0xff6B6B6B);
-Color kappBar = const Color(0xff0D652D);
+Color kappBar = const Color(0xFF191919);
 Color kIconColor = const Color(0xff717171);
 Color descGrey = const Color(0xff656E77);
 Color kBlueColor = const Color(0xff1A65C7);
@@ -84,7 +84,9 @@ TextStyle redTextStyle = GoogleFonts.interTight(
 TextStyle purpleTextStyle = GoogleFonts.interTight(
   color: kPrimaryColor,
 );
-
+TextStyle linkTextStyle = GoogleFonts.interTight(
+  color: kappBar,
+);
 FontWeight light = FontWeight.w100;
 FontWeight regular = FontWeight.w400;
 FontWeight medium = FontWeight.w500;
@@ -118,6 +120,9 @@ Color kPickedColor = const Color(0xff0163c79);
 TextStyle kPlaceHolderText = GoogleFonts.interTight(
   color: kPlaceHolderColor,
 );
+
+// kappBar,
+//                   const Color(0xff2D745D),
 
 
 // #1c35ec - blue

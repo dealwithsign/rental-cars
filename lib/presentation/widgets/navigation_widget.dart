@@ -1,4 +1,4 @@
-// presentation/widgets/navigation.dart
+// presentation/widgets/navigation_widget.dart
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,17 +6,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../blocs/navigations/pages_bloc.dart';
 import '../../utils/fonts.dart';
 
-// Import your PagesBloc
-
 class CustomBottomNavigationItem extends StatelessWidget {
   final int index;
-  final IconData iconData;
+  final Widget icon; // Changed from IconData to Widget
   final String label;
 
   const CustomBottomNavigationItem({
     super.key,
     required this.index,
-    required this.iconData,
+    required this.icon, // Changed from iconData to icon
     required this.label,
   });
 
@@ -35,13 +33,9 @@ class CustomBottomNavigationItem extends StatelessWidget {
             children: [
               Column(
                 children: [
-                  const SizedBox(height: 10),
-                  Icon(
-                    iconData,
-                    size: 15,
-                    color: isActive ? kPrimaryColor : descGrey,
-                  ),
-                  const SizedBox(height: 5),
+                  SizedBox(height: defaultMargin),
+                  icon, // Use the icon Widget directly
+                  SizedBox(height: defaultMargin / 2),
                   Text(
                     label,
                     style: blackTextStyle.copyWith(
@@ -55,7 +49,7 @@ class CustomBottomNavigationItem extends StatelessWidget {
               ),
               Container(
                 width: 20,
-                height: 5,
+                height: defaultMargin / 2,
                 decoration: BoxDecoration(
                   color: isActive ? kTransparentColor : kTransparentColor,
                 ),

@@ -239,26 +239,7 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(
-            LineIcons.angleLeft,
-            color: kPrimaryColor,
-          ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        title: Text(
-          'Daftar',
-          style: blackTextStyle.copyWith(
-            fontSize: 18,
-            fontWeight: bold,
-          ),
-        ),
-        backgroundColor: Colors.white,
-        elevation: 0,
-      ),
+      backgroundColor: kWhiteColor,
       body: BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is AuthSuccess) {
@@ -301,15 +282,35 @@ class _SignUpPageState extends State<SignUpPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                SizedBox(
+                  height: defaultMargin * 4,
+                ),
                 Container(
-                  child: Text(
-                    "Lengkapi informasi di bawah ini atau \ndaftar dengan akun Google.",
-                    style: blackTextStyle.copyWith(
-                      fontSize: 16,
-                    ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Daftar",
+                        style: blackTextStyle.copyWith(
+                          fontSize: 24, // Body Large
+                          fontWeight: bold,
+                        ),
+                      ),
+                      SizedBox(
+                        height: defaultMargin / 2,
+                      ),
+                      Text(
+                        "Daftar dengan email dan password \natau menggunakan akun Google",
+                        style: subTitleTextStyle.copyWith(
+                          fontSize: 15, // Body Large
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                SizedBox(height: defaultMargin),
+                SizedBox(
+                  height: defaultMargin * 2,
+                ),
                 Form(
                   key: _formKey,
                   child: Column(

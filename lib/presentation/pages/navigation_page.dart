@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:heroicons_flutter/heroicons_flutter.dart';
+import 'package:hugeicons/hugeicons.dart';
 
 import '../../utils/fonts.dart';
 
@@ -44,7 +46,7 @@ class NavigationScreen extends StatelessWidget {
           color: kWhiteColor,
           border: Border(
             top: BorderSide(
-              width: 1.5,
+              width: 0.5,
               color: kBackgroundColor,
             ),
           ),
@@ -54,17 +56,26 @@ class NavigationScreen extends StatelessWidget {
           children: [
             CustomBottomNavigationItem(
               index: 0,
-              iconData: FontAwesomeIcons.house,
+              icon: Icon(
+                HeroiconsSolid.home,
+                size: 20,
+              ),
               label: 'Home',
             ),
             CustomBottomNavigationItem(
               index: 1,
-              iconData: FontAwesomeIcons.ticketSimple,
+              icon: Icon(
+                HeroiconsSolid.documentText,
+                size: 20,
+              ),
               label: 'Tiket',
             ),
             CustomBottomNavigationItem(
               index: 2,
-              iconData: FontAwesomeIcons.userLarge,
+              icon: Icon(
+                HeroiconsSolid.user,
+                size: 20,
+              ),
               label: 'Profile',
             ),
           ],
