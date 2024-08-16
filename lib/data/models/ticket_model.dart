@@ -1,5 +1,33 @@
 // data/models/ticket_model.dart
 import 'package:equatable/equatable.dart';
+import 'package:equatable/equatable.dart';
+
+class VirtualAccountNumber extends Equatable {
+  final String bank;
+  final String vaNumber;
+
+  const VirtualAccountNumber({
+    required this.bank,
+    required this.vaNumber,
+  });
+
+  factory VirtualAccountNumber.fromJson(Map<String, dynamic> json) {
+    return VirtualAccountNumber(
+      bank: json['bank'] ?? '',
+      vaNumber: json['va_number'] ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'bank': bank,
+      'va_number': vaNumber,
+    };
+  }
+
+  @override
+  List<Object?> get props => [bank, vaNumber];
+}
 
 class TicketModels extends Equatable {
   final String id;
@@ -26,7 +54,8 @@ class TicketModels extends Equatable {
   final String paymentType;
   final String transaction_status;
   final DateTime settlement_time;
-  final DateTime expiry_time; // Tambahkan properti ini
+  final DateTime expiry_time;
+  final List<VirtualAccountNumber> vaNumbers; // Add this property
 
   const TicketModels({
     required this.id,
@@ -53,10 +82,16 @@ class TicketModels extends Equatable {
     required this.paymentType,
     required this.transaction_status,
     required this.settlement_time,
-    required this.expiry_time, // Tambahkan inisialisasi ini
+    required this.expiry_time,
+    required this.vaNumbers, // Add this initialization
   });
 
   factory TicketModels.fromJson(Map<String, dynamic> json) {
+    var vaNumbersJson = json['va_numbers'] as List<dynamic>? ?? [];
+    var vaNumbers = vaNumbersJson
+        .map((vaJson) => VirtualAccountNumber.fromJson(vaJson))
+        .toList();
+
     return TicketModels(
       id: json['id']?.toString() ?? '',
       paymentLinks: json['payment_links'],
@@ -85,8 +120,9 @@ class TicketModels extends Equatable {
       transaction_status: json['transaction_status'] ?? '',
       settlement_time: DateTime.parse(
           json['settlement_time'] ?? DateTime.now().toIso8601String()),
-      expiry_time: DateTime.parse(json['expiry_time'] ??
-          DateTime.now().toIso8601String()), // Tambahkan parsing ini
+      expiry_time: DateTime.parse(
+          json['expiry_time'] ?? DateTime.now().toIso8601String()),
+      vaNumbers: vaNumbers, // Add this parsing
     );
   }
 
@@ -116,7 +152,9 @@ class TicketModels extends Equatable {
       'payment_type': paymentType,
       'transaction_status': transaction_status,
       'settlement_time': settlement_time.toIso8601String(),
-      'expiry_time': expiry_time.toIso8601String(), // Tambahkan field ini
+      'expiry_time': expiry_time.toIso8601String(),
+      'va_numbers':
+          vaNumbers.map((va) => va.toJson()).toList(), // Add this field
     };
   }
 
@@ -146,6 +184,7 @@ class TicketModels extends Equatable {
         paymentType,
         transaction_status,
         settlement_time,
-        expiry_time, // Tambahkan properti ini
+        expiry_time,
+        vaNumbers, // Add this property
       ];
 }

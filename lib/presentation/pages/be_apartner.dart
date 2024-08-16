@@ -91,7 +91,7 @@ class _HowToBePartnerState extends State<HowToBePartner> {
                         Text(
                           'Ayo Mulai',
                           style: blackTextStyle.copyWith(
-                            fontSize: 18,
+                            fontSize: 16,
                             fontWeight: bold,
                           ),
                         ),
@@ -138,7 +138,7 @@ class _HowToBePartnerState extends State<HowToBePartner> {
                         Text(
                           'Pasang Iklan',
                           style: blackTextStyle.copyWith(
-                            fontSize: 18,
+                            fontSize: 16,
                             fontWeight: bold,
                           ),
                         ),
@@ -167,7 +167,7 @@ class _HowToBePartnerState extends State<HowToBePartner> {
                         Text(
                           'Punya pertanyaan?',
                           style: blackTextStyle.copyWith(
-                            fontSize: 18,
+                            fontSize: 16,
                             fontWeight: bold,
                           ),
                         ),
@@ -225,22 +225,22 @@ class _HowToBePartnerState extends State<HowToBePartner> {
                     ),
                   ),
                 ),
-                SizedBox(height: defaultMargin * 2),
-                Container(
-                  padding: EdgeInsets.symmetric(vertical: defaultMargin),
-                  decoration: BoxDecoration(
-                    color: kWhiteColor,
-                    border: Border(
-                        top: BorderSide(color: kBackgroundColor, width: 2.5)),
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-                    child: CustomButton(
-                      title: "Daftar Jadi Mitra",
-                      onPressed: () {},
-                    ),
-                  ),
-                ),
+                // SizedBox(height: defaultMargin * 2),
+                // Container(
+                //   padding: EdgeInsets.symmetric(vertical: defaultMargin),
+                //   decoration: BoxDecoration(
+                //     color: kWhiteColor,
+                //     border: Border(
+                //         top: BorderSide(color: kBackgroundColor, width: 2.5)),
+                //   ),
+                //   child: Padding(
+                //     padding: EdgeInsets.symmetric(horizontal: defaultMargin),
+                //     child: CustomButton(
+                //       title: "Daftar Jadi Mitra",
+                //       onPressed: () {},
+                //     ),
+                //   ),
+                // ),
               ],
             ),
           ),
@@ -272,7 +272,7 @@ class _HowToBePartnerState extends State<HowToBePartner> {
                     EdgeInsets.all(defaultMargin), // Adjust padding as needed
                 child: Icon(
                   icon,
-                  color: kPrimaryColor,
+                  color: kappBar,
                   size: 20,
                 ),
               ),

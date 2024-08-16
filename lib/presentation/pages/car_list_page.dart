@@ -118,11 +118,11 @@ class _ListCarPageState extends State<ListCarPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Icon(
-                    FontAwesomeIcons.searchengin,
-                    size: 100,
-                    color: kIconColor,
+                    FontAwesomeIcons.signsPost,
+                    size: MediaQuery.of(context).size.width * 0.20,
+                    color: kappBar,
                   ),
-                  SizedBox(height: defaultMargin),
+                  SizedBox(height: defaultMargin * 2),
                   Text(
                     'Tidak Ada Rute Tersedia',
                     style: blackTextStyle.copyWith(
@@ -130,15 +130,18 @@ class _ListCarPageState extends State<ListCarPage> {
                       fontWeight: bold,
                     ),
                   ),
+                  const SizedBox(height: 5),
                   Text(
-                    'Rute dan jadwal belum tersedia. Coba cari rute lainnya.',
+                    'Rute dan jadwal belum tersedia \nCoba cari rute atau tanggal lainnya',
                     style: subTitleTextStyle.copyWith(
                       fontSize: 14,
                     ),
+                    textAlign: TextAlign.center,
                   ),
                   SizedBox(height: defaultMargin * 2),
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: defaultMargin),
+                    padding:
+                        EdgeInsets.symmetric(horizontal: defaultMargin * 4),
                     child: CustomButton(
                       title: "Cari Rute Lainnya",
                       onPressed: () {
@@ -166,7 +169,9 @@ class _ListCarPageState extends State<ListCarPage> {
     return Skeletonizer(
       enabled: isLoading,
       child: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(
+          parent: AlwaysScrollableScrollPhysics(),
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: cars
@@ -182,6 +187,8 @@ class _ListCarPageState extends State<ListCarPage> {
                           'carFrom': widget.carFrom,
                           'carTo': widget.carTo,
                           'carDate': widget.carDate,
+                          'availableSeats': car.availableSeats -
+                              car.selectedSeats, // Pass the calculated value
                         },
                       );
                     },
@@ -217,7 +224,7 @@ class _ListCarPageState extends State<ListCarPage> {
                                     Text(
                                       car.carName,
                                       style: blackTextStyle.copyWith(
-                                        fontSize: 16,
+                                        fontSize: 18,
                                         fontWeight: bold,
                                       ),
                                     ),
@@ -228,42 +235,12 @@ class _ListCarPageState extends State<ListCarPage> {
                                       ),
                                     ),
                                     SizedBox(height: defaultMargin),
-                                    Row(
-                                      children: [
-                                        Row(
-                                          children: [
-                                            FaIcon(
-                                              FontAwesomeIcons.briefcase,
-                                              size: 15,
-                                              color: kPrimaryColor,
-                                            ),
-                                            SizedBox(width: defaultMargin),
-                                            Text(
-                                              '${car.availableSeats} bagasi',
-                                              style: subTitleTextStyle.copyWith(
-                                                fontSize: 14,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        SizedBox(width: defaultMargin),
-                                        Row(
-                                          children: [
-                                            FaIcon(
-                                              FontAwesomeIcons.peopleLine,
-                                              size: 15,
-                                              color: kPrimaryColor,
-                                            ),
-                                            SizedBox(width: defaultMargin),
-                                            Text(
-                                              '${car.availableSeats} kursi',
-                                              style: subTitleTextStyle.copyWith(
-                                                fontSize: 14,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
+                                    Text(
+                                      'Sisa ${car.availableSeats - car.selectedSeats} kursi',
+                                      style: redTextStyle.copyWith(
+                                        fontSize: 14,
+                                        fontWeight: bold,
+                                      ),
                                     ),
                                     SizedBox(height: defaultMargin),
                                     Column(

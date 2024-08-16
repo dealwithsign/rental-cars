@@ -92,27 +92,27 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
               ),
               onPressed: () => Navigator.of(context).pop(),
             ),
-            title: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  '${widget.carFrom} - ${widget.carTo}',
-                  style: blackTextStyle.copyWith(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 5),
-                Text(
-                  DateFormat('EEEE, d MMMM yyyy', 'id_ID')
-                      .format(widget.carDate),
-                  style: blackTextStyle.copyWith(
-                    fontSize: 15,
-                    fontWeight: FontWeight.normal,
-                  ),
-                ),
-              ],
-            ),
+            // title: Column(
+            //   crossAxisAlignment: CrossAxisAlignment.start,
+            //   children: [
+            //     Text(
+            //       '${widget.carFrom} - ${widget.carTo}',
+            //       style: blackTextStyle.copyWith(
+            //         fontSize: 18,
+            //         fontWeight: FontWeight.bold,
+            //       ),
+            //     ),
+            //     const SizedBox(height: 5),
+            //     Text(
+            //       DateFormat('EEEE, d MMMM yyyy', 'id_ID')
+            //           .format(widget.carDate),
+            //       style: blackTextStyle.copyWith(
+            //         fontSize: 15,
+            //         fontWeight: FontWeight.normal,
+            //       ),
+            //     ),
+            //   ],
+            // ),
             expandedHeight: MediaQuery.of(context).size.height * 0.3,
             flexibleSpace: FlexibleSpaceBar(
               background: _buildCarImage(fetchedCar),
@@ -169,54 +169,43 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
             ),
           ),
         ),
-        SizedBox(height: defaultMargin),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-          child: Row(
-            children: [
-              Row(
-                children: [
-                  FaIcon(
-                    FontAwesomeIcons.briefcase,
-                    size: 15,
-                    color: kPrimaryColor,
-                  ),
-                  SizedBox(width: defaultMargin),
-                  Text(
-                    '${fetchedCar.availableSeats} bagasi',
-                    style: subTitleTextStyle.copyWith(
-                      fontSize: 15,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(width: defaultMargin),
-              Row(
-                children: [
-                  FaIcon(
-                    FontAwesomeIcons.peopleLine,
-                    size: 20,
-                    color: kPrimaryColor,
-                  ),
-                  SizedBox(width: defaultMargin),
-                  Text(
-                    '${fetchedCar.availableSeats} kursi',
-                    style: subTitleTextStyle.copyWith(
-                      fontSize: 15,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
+        // SizedBox(height: defaultMargin),
+        // Padding(
+        //   padding: EdgeInsets.symmetric(horizontal: defaultMargin),
+        //   child: Container(
+        //     decoration: BoxDecoration(
+        //       color: kBackgroundColor,
+        //       borderRadius: BorderRadius.circular(
+        //         defaultRadius,
+        //       ),
+        //       border: Border.all(
+        //         color: kTransparentColor,
+        //       ),
+        //     ),
+        //     child: Padding(
+        //       padding: EdgeInsets.only(
+        //         left: defaultMargin,
+        //         right: defaultMargin,
+        //         top: defaultMargin / 2,
+        //         bottom: defaultMargin / 2,
+        //       ),
+        //       child: Text(
+        //         ' Sisa ${fetchedCar.availableSeats - fetchedCar.selectedSeats} kursi',
+        //         style: linkTextStyle.copyWith(
+        //           fontSize: 14,
+        //           fontWeight: bold,
+        //         ),
+        //       ),
+        //     ),
+        //   ),
+        // ),
         SizedBox(height: defaultMargin),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: defaultMargin),
           child: Text(
             fetchedCar.carDesc,
             style: blackTextStyle.copyWith(
-              fontSize: 15,
+              fontSize: 14,
             ),
           ),
         ),
@@ -225,27 +214,27 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
           color: kBackgroundColor,
           thickness: 5,
         ),
-        SizedBox(height: defaultMargin),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-          child: Text(
-            "Reviews",
-            style: blackTextStyle.copyWith(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-        const SizedBox(height: 8),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-          child: _buildUsersReview(),
-        ),
-        SizedBox(height: defaultMargin),
-        Divider(
-          color: kBackgroundColor,
-          thickness: 5,
-        ),
+        // SizedBox(height: defaultMargin),
+        // Padding(
+        //   padding: EdgeInsets.symmetric(horizontal: defaultMargin),
+        //   child: Text(
+        //     "Reviews",
+        //     style: blackTextStyle.copyWith(
+        //       fontSize: 18,
+        //       fontWeight: FontWeight.bold,
+        //     ),
+        //   ),
+        // ),
+        // const SizedBox(height: 8),
+        // Padding(
+        //   padding: EdgeInsets.symmetric(horizontal: defaultMargin),
+        //   child: _buildUsersReview(),
+        // ),
+        // SizedBox(height: defaultMargin),
+        // Divider(
+        //   color: kBackgroundColor,
+        //   thickness: 5,
+        // ),
         SizedBox(height: defaultMargin),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: defaultMargin),
@@ -335,16 +324,26 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
       ),
       child: Row(
         children: [
-          Icon(
-            FontAwesomeIcons.circleCheck,
-            size: 20,
-            color: kPrimaryColor,
+          Container(
+            decoration: BoxDecoration(
+              color: kBackgroundColor,
+              shape: BoxShape.circle,
+            ),
+            padding:
+                EdgeInsets.all(defaultMargin / 3), // Adjust padding as needed
+            child: Icon(
+              FontAwesomeIcons.check,
+              color: kappBar,
+              size: 20,
+            ),
           ),
           SizedBox(width: defaultMargin),
-          Text(
-            facility,
-            style: blackTextStyle.copyWith(
-              fontSize: 15,
+          Expanded(
+            child: Text(
+              facility,
+              style: blackTextStyle.copyWith(
+                fontSize: 14,
+              ),
             ),
           ),
         ],
@@ -371,6 +370,8 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
                 'carFrom': widget.carFrom,
                 'carTo': widget.carTo,
                 'carDate': widget.carDate,
+                'availableSeats':
+                    widget.car.availableSeats - widget.car.selectedSeats,
               },
             );
           },
@@ -454,14 +455,14 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
                     Text(
                       '${review["rating"]}',
                       style: blackTextStyle.copyWith(
-                        fontSize: 16,
+                        fontSize: 18,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     SizedBox(width: defaultMargin),
                     Icon(
                       FontAwesomeIcons.solidStar,
-                      color: kIcon,
+                      color: kappBar,
                       size: 15,
                     ),
                   ],

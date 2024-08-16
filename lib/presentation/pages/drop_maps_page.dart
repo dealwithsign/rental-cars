@@ -1,9 +1,11 @@
 // presentation/pages/drop_maps_page.dart
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:line_icons/line_icons.dart';
 
 import '../../utils/fonts.dart';
 import '../widgets/button_widget.dart';
@@ -179,7 +181,7 @@ class _PickDropState extends State<PickDrop> {
               child: Container(
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(10.0),
+                  borderRadius: BorderRadius.circular(defaultRadius),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.grey.withOpacity(0.5),
@@ -192,7 +194,10 @@ class _PickDropState extends State<PickDrop> {
                 child: Row(
                   children: [
                     IconButton(
-                      icon: const Icon(Icons.arrow_back),
+                      icon: Icon(
+                        LineIcons.angleLeft,
+                        color: kPrimaryColor,
+                      ),
                       onPressed: () {
                         Navigator.pop(context);
                       },
@@ -204,11 +209,12 @@ class _PickDropState extends State<PickDrop> {
                         decoration: InputDecoration(
                           hintText: 'Masukkan lokasi drop, kota, dll',
                           hintStyle: subTitleTextStyle.copyWith(
-                            fontSize: 14.0,
+                            fontSize: 15.0,
                           ),
                           border: InputBorder.none,
-                          contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 15.0, vertical: 15.0),
+                          contentPadding: EdgeInsets.symmetric(
+                            vertical: defaultMargin,
+                          ),
                         ),
                         onSubmitted: (value) {
                           searchAndNavigate(value);
@@ -216,7 +222,10 @@ class _PickDropState extends State<PickDrop> {
                       ),
                     ),
                     IconButton(
-                      icon: const Icon(Icons.search),
+                      icon: Icon(
+                        Icons.search,
+                        color: kPrimaryColor,
+                      ),
                       onPressed: () {
                         String searchText = _searchController.text;
                         if (searchText.isNotEmpty) {
@@ -248,7 +257,7 @@ class _PickDropState extends State<PickDrop> {
                         child: Text(
                           "Pilih Lokasi Drop",
                           style: blackTextStyle.copyWith(
-                            fontSize: 14,
+                            fontSize: 18,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -264,11 +273,11 @@ class _PickDropState extends State<PickDrop> {
                             Text(
                               selectedLocationName,
                               style: blackTextStyle.copyWith(
-                                fontSize: 14,
+                                fontSize: 15,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            const SizedBox(height: 5),
+                            SizedBox(height: defaultMargin / 2),
                             Text(
                               selectedLocationAddress,
                               style: subTitleTextStyle.copyWith(

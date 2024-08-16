@@ -1,6 +1,5 @@
 // presentation/pages/accounts_page.dart
 import 'package:flutter/material.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -88,29 +87,26 @@ class _AccountsScreenState extends State<AccountsScreen> {
             ),
           );
         } else if (state is AuthSuccess) {
-          return Skeletonizer(
-            enabled: isLoading,
-            child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-                    child: _buildUserProfile(state.user!),
-                  ),
-                  Divider(
-                    color: kBackgroundColor,
-                    thickness: 5,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-                    child: _buildSettings(),
-                  ),
-                  SizedBox(height: defaultMargin * 2),
-                  _buildAppVersions(),
-                ],
-              ),
+          return SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: defaultMargin),
+                  child: _buildUserProfile(state.user!),
+                ),
+                Divider(
+                  color: kBackgroundColor,
+                  thickness: 5,
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: defaultMargin),
+                  child: _buildSettings(),
+                ),
+                SizedBox(height: defaultMargin * 2),
+                _buildAppVersions(),
+              ],
             ),
           );
         } else if (state is AuthFailure) {
@@ -125,54 +121,56 @@ class _AccountsScreenState extends State<AccountsScreen> {
   }
 
   Widget _buildUserProfile(UserModel user) {
-    return Container(
-      margin: EdgeInsets.only(bottom: defaultMargin * 2),
-      child: Row(
-        children: [
-          CircleAvatar(
-            radius: 25,
-            backgroundColor: kPrimaryColor,
-            backgroundImage: user.url_profile.isNotEmpty
-                ? NetworkImage(user.url_profile)
-                : null,
-            child: user.url_profile.isEmpty
-                ? Text(
-                    getInitials(user.username),
-                    style: whiteTextStyle.copyWith(
-                      fontSize: 24,
-                      fontWeight: bold,
-                    ),
-                  )
-                : null,
-          ),
-          SizedBox(width: defaultMargin),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                user.username.split('@').first,
-                style: blackTextStyle.copyWith(
-                  fontSize: 18,
-                  fontWeight: bold,
+    return Skeletonizer(
+      enabled: isLoading,
+      child: Container(
+        margin: EdgeInsets.only(bottom: defaultMargin * 2),
+        child: Row(
+          children: [
+            CircleAvatar(
+              radius: 25,
+              backgroundColor: kappBar,
+              backgroundImage: user.url_profile.isNotEmpty
+                  ? NetworkImage(user.url_profile)
+                  : null,
+              child: user.url_profile.isEmpty
+                  ? Text(
+                      getInitials(user.username),
+                      style: whiteTextStyle.copyWith(
+                        fontSize: 20,
+                        fontWeight: bold,
+                      ),
+                    )
+                  : null,
+            ),
+            SizedBox(width: defaultMargin),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  user.username.split('@').first,
+                  style: blackTextStyle.copyWith(
+                    fontSize: 18,
+                    fontWeight: bold,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 5),
-              Text(
-                user.email,
-                style: subTitleTextStyle.copyWith(
-                  fontSize: 15,
+                SizedBox(height: defaultMargin / 2),
+                Text(
+                  user.email,
+                  style: subTitleTextStyle.copyWith(
+                    fontSize: 15,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 5),
-              Text(
-                user.phone_number.toString(),
-                style: subTitleTextStyle.copyWith(
-                  fontSize: 15,
+                Text(
+                  user.phone_number.toString(),
+                  style: subTitleTextStyle.copyWith(
+                    fontSize: 15,
+                  ),
                 ),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

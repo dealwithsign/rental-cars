@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:line_icons/line_icons.dart';
 
 import '../../utils/fonts.dart';
 import '../widgets/button_widget.dart';
@@ -217,7 +218,10 @@ class _PickLocationsState extends State<PickLocations> {
                 child: Row(
                   children: [
                     IconButton(
-                      icon: const Icon(Icons.arrow_back),
+                      icon: Icon(
+                        LineIcons.angleLeft,
+                        color: kPrimaryColor,
+                      ),
                       onPressed: () {
                         Navigator.pop(context);
                       },
@@ -229,11 +233,12 @@ class _PickLocationsState extends State<PickLocations> {
                         decoration: InputDecoration(
                           hintText: 'Masukan lokasi jemput,kota, dll',
                           hintStyle: subTitleTextStyle.copyWith(
-                            fontSize: 14.0,
+                            fontSize: 15.0,
                           ),
                           border: InputBorder.none,
-                          contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 15.0, vertical: 15.0),
+                          contentPadding: EdgeInsets.symmetric(
+                            vertical: defaultMargin,
+                          ),
                         ),
                         onSubmitted: (value) {
                           searchAndNavigate(value);
@@ -241,7 +246,10 @@ class _PickLocationsState extends State<PickLocations> {
                       ),
                     ),
                     IconButton(
-                      icon: const Icon(Icons.search),
+                      icon: Icon(
+                        Icons.search,
+                        color: kPrimaryColor,
+                      ),
                       onPressed: () {
                         String searchText = _searchController.text;
                         if (searchText.isNotEmpty) {
@@ -287,7 +295,7 @@ class _PickLocationsState extends State<PickLocations> {
                         child: Text(
                           "Pilih Titik Jemput",
                           style: blackTextStyle.copyWith(
-                            fontSize: 14,
+                            fontSize: 18,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -303,11 +311,11 @@ class _PickLocationsState extends State<PickLocations> {
                             Text(
                               selectedLocationName,
                               style: blackTextStyle.copyWith(
-                                fontSize: 14,
+                                fontSize: 15,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            const SizedBox(height: 5),
+                            SizedBox(height: defaultMargin / 2),
                             Text(
                               selectedLocationAddress,
                               style: subTitleTextStyle.copyWith(

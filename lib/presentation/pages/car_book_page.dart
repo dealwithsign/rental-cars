@@ -103,7 +103,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
           width: double.infinity,
           height: MediaQuery.of(context).size.height * 0.28,
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: kWhiteColor,
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(defaultRadius),
               topRight: Radius.circular(defaultRadius),
@@ -125,7 +125,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 5),
+                  SizedBox(height: defaultMargin / 2),
                   Text(
                     'Kembali ke halaman sebelumnya, lokasi, jumlah penumpang dan data yang sudah diisi akan hilang.',
                     textAlign: TextAlign.center, // Center text horizontally
@@ -460,11 +460,11 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
     //   isPayment: false,
     // );
     // data to be saved
-    print('Tiket bus berhasil dibuat.');
-    await bookingServices.updateCarSeat(
-      carId: carId,
-      carSeats: widget.selectedPassengers,
-    );
+    // print('Tiket bus berhasil dibuat.');
+    // await bookingServices.updateCarSeat(
+    //   carId: carId,
+    //   carSeats: widget.selectedPassengers,
+    // );
     print('Mengirim request ke API Midtrans...');
     Map<String, dynamic> data = {
       "transaction_details": {
@@ -592,10 +592,10 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
         bottom: defaultMargin,
       ),
       decoration: BoxDecoration(
-        color: Color(0xffFEEFC3),
+        color: kBackgroundColor,
         borderRadius: BorderRadius.circular(defaultRadius),
         border: Border.all(
-          color: Color(0xffFEEFC3),
+          color: kTransparentColor,
         ),
       ),
       child: Padding(
@@ -604,7 +604,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
           children: [
             Icon(
               FontAwesomeIcons.triangleExclamation,
-              color: kPrimaryColor,
+              color: kappBar,
               size: 20,
             ),
             SizedBox(width: defaultMargin),
@@ -659,7 +659,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
                 // Calculate the car price and the selected passengers, then format the result
                 'Rp ${NumberFormat("#,##0", "id_ID").format(totalPriceWithoutAdmin)}',
                 style: blackTextStyle.copyWith(
-                  fontSize: 15,
+                  fontSize: 14,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -678,7 +678,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
               Text(
                 'Rp ${NumberFormat("#,##0", "id_ID").format(adminFee)}',
                 style: blackTextStyle.copyWith(
-                  fontSize: 15,
+                  fontSize: 14,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -696,7 +696,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
               Text(
                 'Total Harga',
                 style: blackTextStyle.copyWith(
-                  fontSize: 16,
+                  fontSize: 15,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -704,7 +704,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
                 // Format the total price including admin fee
                 'Rp ${NumberFormat("#,##0", "id_ID").format(totalPrice)}',
                 style: blackTextStyle.copyWith(
-                  fontSize: 16,
+                  fontSize: 15,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -743,7 +743,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                DateFormat('EEE, dd MMMM yyyy', 'id_ID').format(widget.carDate),
+                DateFormat('EEEE, d MMMM yyyy', 'id_ID').format(widget.carDate),
                 style: blackTextStyle.copyWith(
                   fontSize: 14,
                   fontWeight: bold,
@@ -759,6 +759,13 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
               ),
               Text(
                 '${widget.carFrom} - ${widget.carTo}',
+                style: blackTextStyle.copyWith(
+                  fontSize: 14,
+                  fontWeight: bold,
+                ),
+              ),
+              Text(
+                widget.carModel.carClass,
                 style: blackTextStyle.copyWith(
                   fontSize: 14,
                   fontWeight: bold,
@@ -782,7 +789,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
     required String lokasiJemput,
     required String lokasiTujuan,
   }) {
-    const double defaultMargin = 16.0;
+    const double defaultMargin = 18.0;
 
     return Container(
       child: Column(
@@ -813,7 +820,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
                     backgroundColor: kBackgroundColor,
                     child: Icon(
                       FontAwesomeIcons.locationArrow,
-                      color: kPrimaryColor,
+                      color: kappBar,
                       size: 20,
                     ),
                   ),
@@ -827,7 +834,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
                     // backgroundColor: const Color(0xffCEEAD6),
                     child: Icon(
                       FontAwesomeIcons.locationDot,
-                      color: kPrimaryColor,
+                      color: kappBar,
                       size: 20,
                     ),
                   ),

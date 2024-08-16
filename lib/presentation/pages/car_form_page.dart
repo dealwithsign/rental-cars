@@ -227,7 +227,7 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                 ),
               ),
               Text(
-                "Pastikan nomor telepon yang kamu masukkan benar.",
+                "Informasi kontak ini akan digunakan untuk pengiriman e-ticket.",
                 style: subTitleTextStyle.copyWith(
                   fontSize: 14,
                 ),
@@ -272,7 +272,7 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                               Text(
                                 "Detail Pemesan",
                                 style: blackTextStyle.copyWith(
-                                  fontSize: 16,
+                                  fontSize: 18,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -446,7 +446,7 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          DateFormat('EEE, dd MMMM yyyy', 'id_ID')
+                          DateFormat('EEEE, d MMMM yyyy', 'id_ID')
                               .format(widget.carDate),
                           style: blackTextStyle.copyWith(
                             fontSize: 14,
@@ -463,6 +463,12 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                         ),
                         Text(
                           "Disediakan oleh ${widget.car.ownerCar}",
+                          style: subTitleTextStyle.copyWith(
+                            fontSize: 14,
+                          ),
+                        ),
+                        Text(
+                          widget.car.carClass,
                           style: subTitleTextStyle.copyWith(
                             fontSize: 14,
                           ),
@@ -572,7 +578,6 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                               ),
                             ),
                             onTap: () {
-                              // Update your state to reflect the pick and close the bottom sheet
                               setState(() {
                                 selectedTime = 'Pagi';
                               });
@@ -588,7 +593,6 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                               ),
                             ),
                             onTap: () {
-                              // Update your state to reflect the pick and close the bottom sheet
                               setState(() {
                                 selectedTime = 'Sore';
                               });
@@ -601,7 +605,6 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                   );
                 },
               ).then((value) {
-                // Assuming you have a state variable to hold the time selection
                 if (value != null) {
                   setState(() {
                     selectedTime = value;
@@ -629,7 +632,6 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                           "Pilih Waktu",
                           style: subTitleTextStyle.copyWith(fontSize: 14),
                         ),
-                        // Display the selected time here
                         Text(
                           selectedTime,
                           style: blackTextStyle.copyWith(
@@ -647,6 +649,19 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
           SizedBox(height: defaultMargin),
           GestureDetector(
             onTap: () {
+              int availableSeats =
+                  widget.car.availableSeats - widget.car.selectedSeats;
+              List<String> passengerOptions = [
+                '1 Orang',
+                '2 Orang',
+                '3 Orang',
+                '4 Orang'
+              ];
+              List<String> filteredOptions = passengerOptions.where((option) {
+                int passengers = int.parse(option.split(' ')[0]);
+                return passengers <= availableSeats;
+              }).toList();
+
               showModalBottomSheet(
                 backgroundColor: kWhiteColor,
                 context: context,
@@ -663,26 +678,10 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                       height: 250, // Adjust the height as needed
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          ListTile(
+                        children: filteredOptions.map((option) {
+                          return ListTile(
                             title: Text(
-                              '1 Orang',
-                              style: blackTextStyle.copyWith(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            onTap: () {
-                              // Update your state to reflect the pick and close the bottom sheet
-                              setState(() {
-                                selectedPassengers = '1 Orang';
-                              });
-                              Navigator.pop(context);
-                            },
-                          ),
-                          ListTile(
-                            title: Text(
-                              '2 Orang',
+                              option,
                               style: blackTextStyle.copyWith(
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
@@ -690,42 +689,12 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                             ),
                             onTap: () {
                               setState(() {
-                                selectedPassengers = '2';
+                                selectedPassengers = option;
                               });
                               Navigator.pop(context);
                             },
-                          ),
-                          ListTile(
-                            title: Text(
-                              '3 Orang',
-                              style: blackTextStyle.copyWith(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            onTap: () {
-                              setState(() {
-                                selectedPassengers = '3 Orang';
-                              });
-                              Navigator.pop(context);
-                            },
-                          ),
-                          ListTile(
-                            title: Text(
-                              '4 Orang',
-                              style: blackTextStyle.copyWith(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            onTap: () {
-                              setState(() {
-                                selectedPassengers = '4 Orang';
-                              });
-                              Navigator.pop(context);
-                            },
-                          ),
-                        ],
+                          );
+                        }).toList(),
                       ),
                     ),
                   );
@@ -753,9 +722,11 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                           style: subTitleTextStyle.copyWith(fontSize: 14),
                         ),
                         Text(
-                          selectedPassengers, // This should be a state variable
+                          selectedPassengers,
                           style: blackTextStyle.copyWith(
-                              fontSize: 14, fontWeight: FontWeight.bold),
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
                         )
                       ],
                     ),
@@ -767,7 +738,6 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
           SizedBox(height: defaultMargin),
           GestureDetector(
             onTap: () async {
-              // Navigate to the pick location screen and wait for the result
               final selectedLocation = await Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) => const PickLocations(),
@@ -776,7 +746,6 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
 
               if (selectedLocation != null) {
                 setState(() {
-                  // Update the location with the selected location
                   _selectedLocationPick = selectedLocation;
                 });
               }
@@ -795,7 +764,6 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                   children: [
                     SizedBox(width: defaultMargin),
                     Expanded(
-                      // Wrap Column in Expanded
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -806,7 +774,9 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                           Text(
                             _selectedLocationPick,
                             style: blackTextStyle.copyWith(
-                                fontSize: 14, fontWeight: FontWeight.bold),
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                            ),
                           )
                         ],
                       ),
@@ -819,7 +789,6 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
           SizedBox(height: defaultMargin),
           GestureDetector(
             onTap: () async {
-              // Navigate to the pick location screen and wait for the result
               final selectedLocation = await Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) => const PickDrop(),
@@ -828,7 +797,6 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
 
               if (selectedLocation != null) {
                 setState(() {
-                  // Update the location with the selected location
                   _selectedLocationDrop = selectedLocation;
                 });
               }
@@ -847,7 +815,6 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                   children: [
                     SizedBox(width: defaultMargin),
                     Expanded(
-                      // Wrap Column in Expanded
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -858,7 +825,9 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                           Text(
                             _selectedLocationDrop,
                             style: blackTextStyle.copyWith(
-                                fontSize: 14, fontWeight: FontWeight.bold),
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                            ),
                           )
                         ],
                       ),
@@ -949,10 +918,10 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
         top: defaultMargin,
       ),
       decoration: BoxDecoration(
-        color: const Color(0xffFEEFC3),
+        color: kBackgroundColor,
         borderRadius: BorderRadius.circular(defaultRadius),
         border: Border.all(
-          color: const Color(0xffFEEFC3),
+          color: kTransparentColor,
         ),
       ),
       child: Padding(
@@ -961,7 +930,7 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
           children: [
             Icon(
               FontAwesomeIcons.circleInfo,
-              color: kPrimaryColor,
+              color: kappBar,
               size: 20,
             ),
             SizedBox(width: defaultMargin),

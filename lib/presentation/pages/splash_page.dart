@@ -1,5 +1,6 @@
 // presentation/pages/splash_page.dart
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:rents_cars_app/presentation/pages/sign_in_page.dart';
@@ -27,7 +28,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Future<void> _checkLoginStatus() async {
     await Future.delayed(
       const Duration(
-        seconds: 3,
+        seconds: 7,
       ),
     );
     if (mounted) {
@@ -50,7 +51,7 @@ class _SplashScreenState extends State<SplashScreen> {
       print('event: $event, session: $session');
     });
     if (user == null) {
-      _navigateTo('/signIn');
+      _navigateTo('/signUp');
     } else {
       _navigateTo('/main');
     }
@@ -59,7 +60,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
-    final double imageHeight = screenSize.height * 0.15;
+    final double imageHeight = screenSize.height * 0.10;
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -73,12 +74,13 @@ class _SplashScreenState extends State<SplashScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Icon(
-                  LineIcons.airbnb,
+                  FontAwesomeIcons.a,
                   size: imageHeight,
-                  color: kPrimaryColor,
+                  color: const Color(0xff087443),
                 ),
+                SizedBox(height: defaultMargin),
                 Text(
-                  'NgeRental Kanda',
+                  'xfy.id',
                   style: blackTextStyle.copyWith(
                     fontSize: 20, // H1
                     fontWeight: FontWeight.bold,

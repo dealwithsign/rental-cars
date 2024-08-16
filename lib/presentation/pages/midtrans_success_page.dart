@@ -1,9 +1,11 @@
 // presentation/pages/midtrans_success_page.dart
-// ignore_for_file: prefer_const_constructors// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../utils/fonts.dart';
+import '../widgets/button_widget.dart';
 
 class MidtransSuccess extends StatefulWidget {
   final String orderId;
@@ -18,40 +20,78 @@ class _MidtransSuccessState extends State<MidtransSuccess> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kWhiteColor,
+      appBar: AppBar(
+        centerTitle: true,
+        title: Column(
+          children: [
+            Text(
+              'Pembayaran Berhasil',
+              style: blackTextStyle.copyWith(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Text(
+              'Order ID: ${widget.orderId.toUpperCase()}',
+              style: subTitleTextStyle.copyWith(
+                fontSize: 14,
+              ),
+            ),
+          ],
+        ),
+        backgroundColor: kWhiteColor,
+      ),
       body: Center(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: EdgeInsets.symmetric(horizontal: defaultMargin),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Icon(
-                Icons.check_circle,
-                color: Colors.green,
-                size: 100,
+              Icon(
+                FontAwesomeIcons.circleCheck,
+                color: kSuccessColor,
+                size: MediaQuery.of(context).size.width * 0.20,
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: defaultMargin),
               Text(
-                'ID Transaksi: ${widget.orderId}',
-                style: blackTextStyle.copyWith(
-                  fontSize: 14,
-                  fontWeight: bold,
-                ),
-              ),
-              Text(
-                'Terima Kasih!',
+                'Pembayaran Berhasil',
                 style: blackTextStyle.copyWith(
                   fontSize: 18,
                   fontWeight: bold,
                 ),
               ),
-              const SizedBox(height: 10),
+              SizedBox(height: defaultMargin * 2),
               Text(
-                'Transaksi Anda telah berhasil.',
+                'Terima kasih! Pembayaran kamu sudah diterima',
                 style: blackTextStyle.copyWith(
-                  fontSize: 14,
+                  fontSize: 15,
                 ),
                 textAlign: TextAlign.center,
+              ),
+              Text(
+                'Silakan cek email untuk detail pesanan',
+                style: blackTextStyle.copyWith(
+                  fontSize: 15,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: defaultMargin * 2),
+              Padding(
+                padding: EdgeInsets.only(
+                  left: defaultMargin,
+                  right: defaultMargin,
+                ),
+                child: CustomButton(
+                  title: 'Kembali ke Beranda',
+                  onPressed: () {
+                    Navigator.pushNamedAndRemoveUntil(
+                      context,
+                      '/main',
+                      (route) => false,
+                    );
+                  },
+                ),
               ),
             ],
           ),

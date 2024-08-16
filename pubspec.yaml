@@ -45,6 +45,11 @@ dependencies:
   dio: ^5.5.0+1
   flutter_countdown_timer: ^4.1.0
   flutter_rating_bar: ^4.0.1
+  icons_plus: ^5.0.0
+  hugeicons: ^0.0.7
+  heroicons_flutter: ^0.4.0
+  flutter_svg: ^2.0.10+1
+  
   
   flutter_localizations:
     sdk: flutter
@@ -66,4 +71,5 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+    - assets/icons/
 
