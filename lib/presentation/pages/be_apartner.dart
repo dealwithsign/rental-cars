@@ -91,7 +91,7 @@ class _HowToBePartnerState extends State<HowToBePartner> {
                         Text(
                           'Ayo Mulai',
                           style: blackTextStyle.copyWith(
-                            fontSize: 16,
+                            fontSize: 18,
                             fontWeight: bold,
                           ),
                         ),
@@ -138,7 +138,7 @@ class _HowToBePartnerState extends State<HowToBePartner> {
                         Text(
                           'Pasang Iklan',
                           style: blackTextStyle.copyWith(
-                            fontSize: 16,
+                            fontSize: 18,
                             fontWeight: bold,
                           ),
                         ),
@@ -167,7 +167,7 @@ class _HowToBePartnerState extends State<HowToBePartner> {
                         Text(
                           'Punya pertanyaan?',
                           style: blackTextStyle.copyWith(
-                            fontSize: 16,
+                            fontSize: 18,
                             fontWeight: bold,
                           ),
                         ),
@@ -185,7 +185,7 @@ class _HowToBePartnerState extends State<HowToBePartner> {
                             Row(
                               children: [
                                 Icon(
-                                  FontAwesomeIcons.envelope,
+                                  FontAwesomeIcons.envelopeOpen,
                                   color: kPrimaryColor,
                                   size: 20,
                                 ),
@@ -204,7 +204,7 @@ class _HowToBePartnerState extends State<HowToBePartner> {
                             Row(
                               children: [
                                 Icon(
-                                  FontAwesomeIcons.phoneVolume,
+                                  FontAwesomeIcons.whatsapp,
                                   color: kPrimaryColor,
                                   size: 20,
                                 ),
@@ -284,7 +284,7 @@ class _HowToBePartnerState extends State<HowToBePartner> {
                     Text(
                       title,
                       style: blackTextStyle.copyWith(
-                        fontSize: 15,
+                        fontSize: 16,
                         fontWeight: bold,
                       ),
                     ),

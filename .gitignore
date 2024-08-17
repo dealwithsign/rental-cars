@@ -1,92 +1,40 @@
-# Dart analysis options
-analysis_options.yaml
-
-
-# Flutter generated files
-.flutter-plugins-dependencies
-.flutter-plugins
-.packages
-.pub/
-.dart_tool/
-
-
-# Flutter build output
-build/
-*.apk
-*.ap_
-*.aab
-
-# Android related
-android/.gradle/
-android/captures/
-android/gradle/
-android/keystore/
-android/local.properties
-android/app/build/
-android/app/outputs/
-
-
-# iOS related
-ios/Flutter/Flutter.framework
-ios/Flutter/Flutter.podspec
-ios/Flutter/FlutterPluginRegistrant
-ios/Pods/
-ios/Podfile.lock
-
-# VS Code related
-.vscode/
-
-# IntelliJ related
-.idea/
-
-# macOS related
-macos/
-
-# Linux related
-linux/
-
-# Web related
-lib/generated_plugin_registrant.dart
-
-# Windows related
-windows/
-
-# Symbolicated files
-*.symbols
-
-# Node.js related
-node_modules/
-
-# Local development files
-*.env
-*.local
-*.dev
-*.test
-*.tmp
-*.bak
-*.backup
-*.orig
-*.old
-*.cache
-*.pid
-*.seed
-*.pid.lock
-*.pidfile
-*.log
-*.log.*
-*.log-*
-*.tmp
-*.tmp.*
-
-# User-specific files
-*.swp
-*.swo
-*.swn
-*.log
-*.DS_Store
-*.project
-*.settings
-
-
-# Flutter/Dart specific
+# Flutter
 *.dart_tool/
+*.packages
+.pub/
+build/
+
+# Dart
+*.dart_tool/
+*.package/
+
+# Android
+.android/
+.idea/
+*.iml
+
+# iOS
+ios/Pods/
+*.xcworkspace
+*.xcuserstate
+*.xcscheme
+*.xcodeproj/
+*.xcuserdatad/
+*.xcuserdata/
+*.xcodeproj/
+
+# Environment files
+.env
+
+# Logs
+*.log
+
+# Miscellaneous
+*.tmp
+*.swp
+
+# MacOS
+.DS_Store
+
+# Windows
+Thumbs.db
