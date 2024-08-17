@@ -52,39 +52,36 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kWhiteColor,
-      body: CustomScrollView(
-        physics: const ClampingScrollPhysics(),
-        slivers: [
-          SliverAppBar(
-            backgroundColor: kWhiteColor,
-            elevation: 0.0, // Added elevation for a subtle shadow effect
-            floating: true,
-            pinned: true,
-            snap: true,
-            surfaceTintColor: kWhiteColor,
-            title: Text(
-              'Logo',
-              style: whiteTextStyle.copyWith(
-                fontSize: 20, // Slightly larger font size for better visibility
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            centerTitle: false,
-            flexibleSpace: Container(
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  colors: <Color>[
-                    Color(0xff087443),
-                    Color(0xff087443),
-                  ],
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                ),
-              ),
+      appBar: AppBar(
+        backgroundColor: kWhiteColor,
+        elevation: 0.0,
+        title: Text(
+          'Logo',
+          style: whiteTextStyle.copyWith(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        centerTitle: false,
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: <Color>[
+                Color(0xff087443),
+                Color(0xff087443),
+              ],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
             ),
           ),
-          SliverToBoxAdapter(
-            child: Stack(
+        ),
+      ),
+      body: SingleChildScrollView(
+        physics: const ClampingScrollPhysics(),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Stack(
               children: [
                 ClipPath(
                   clipper: ClipPathClass(),
@@ -115,8 +112,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             'Rental Mobil Antar Kota',
                             style: whiteTextStyle.copyWith(
                               fontWeight: FontWeight.bold,
-                              fontSize:
-                                  20, // Increased font size for the main heading
+                              fontSize: 18,
                             ),
                           ),
                           const SizedBox(height: 5),
@@ -124,8 +120,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             'Pesan tiketmu dalam genggaman \nkapan saja dan di mana saja',
                             style: whiteTextStyle.copyWith(
                               fontWeight: FontWeight.normal,
-                              fontSize:
-                                  15, // Slightly larger font size for the subheading
+                              fontSize: 14,
                             ),
                           ),
                         ],
@@ -146,8 +141,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -290,7 +285,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   selectedCity,
                   style: blackTextStyle.copyWith(
                     fontWeight: bold,
-                    fontSize: 15,
+                    fontSize: 14,
                   ),
                 ),
               ],
@@ -465,7 +460,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     DateFormat('EEE, dd MMMM yyyy', 'id_ID')
                         .format(selectedDate),
                     style: blackTextStyle.copyWith(
-                      fontSize: 15,
+                      fontSize: 14,
                       fontWeight: bold,
                     ),
                   ),
@@ -518,7 +513,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Text(
               title,
               style: blackTextStyle.copyWith(
-                fontSize: 15,
+                fontSize: 14,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -555,7 +550,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Text(
                 "Beragam kemudahan dengan aplikasi membuat \npengalaman jadi lebih menyenangkan",
                 style: subTitleTextStyle.copyWith(
-                  fontSize: 15,
+                  fontSize: 14,
                 ),
               ),
               SizedBox(height: defaultMargin),
@@ -661,7 +656,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Text(
                     'Daftarkan mobilmu ke aplikasi kami \nraih lebih banyak pelanggan',
                     style: whiteTextStyle.copyWith(
-                      fontSize: 15,
+                      fontSize: 14,
                       fontWeight: FontWeight.bold,
                     ),
                   ),

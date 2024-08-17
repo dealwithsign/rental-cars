@@ -13,6 +13,7 @@ import 'presentation/pages/navigation_page.dart';
 import 'presentation/pages/sign_in_page.dart';
 import 'presentation/pages/sign_up_page.dart';
 import 'presentation/pages/splash_page.dart';
+import 'presentation/pages/terms_conditions.dart';
 import 'presentation/pages/ticket_page.dart';
 import 'presentation/pages/wrapper_auth_page.dart';
 
@@ -70,5 +71,6 @@ Map<String, WidgetBuilder> getRoutes() {
 
     '/ticket-page': (context) => const TicketScreen(),
     '/partner-page': (context) => const HowToBePartner(),
+    '/term-conditions': (context) => const TermsAndConditions()
   };
 }

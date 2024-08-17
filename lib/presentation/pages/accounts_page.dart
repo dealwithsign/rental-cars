@@ -10,6 +10,7 @@ import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../data/models/users_model.dart';
 import '../../data/services/authentication_services.dart';
+import '../../data/services/whatsapp_services.dart';
 import '../../utils/fonts.dart';
 
 class AccountsScreen extends StatefulWidget {
@@ -49,6 +50,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
     return initials.toUpperCase();
   }
 
+  final WhatsappServices whatsappService = WhatsappServices();
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -191,17 +193,23 @@ class _AccountsScreenState extends State<AccountsScreen> {
           SizedBox(height: defaultMargin),
           _buildSettingItem(
             icon: FontAwesomeIcons.circleQuestion,
-            title: 'Pusat Bantuan',
+            title: 'Bantuan',
             subTitle: 'Temukan jawaban terbaik dari pertanyaan kamu',
             onTap: () {
-              // Navigator.pushNamed(context, '/editAccounts');
+              whatsappService.sendWhatsAppMessage(
+                contact: '082134400200', // Replace with actual contact number
+                message:
+                    'Halo, saya butuh bantuan.', // Replace with actual message
+              );
             },
           ),
           _buildSettingItem(
             icon: FontAwesomeIcons.shieldHalved,
             title: 'Syarat & Ketentuan',
             subTitle: 'Baca syarat & ketentuan kami disini',
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(context, '/term-conditions');
+            },
           ),
           _buildSettingItem(
             icon: FontAwesomeIcons.star,
@@ -248,7 +256,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
                 Text(
                   title,
                   style: blackTextStyle.copyWith(
-                    fontSize: 15,
+                    fontSize: 16,
                     fontWeight: bold,
                   ),
                 ),
@@ -285,7 +293,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
           ),
           const SizedBox(height: 5),
           Text(
-            '© 2021 Rents Cars',
+            '© 2024 Rents Cars',
             style: subTitleTextStyle.copyWith(
               fontSize: 13,
             ),
