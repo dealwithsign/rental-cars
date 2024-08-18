@@ -1,5 +1,6 @@
 // presentation/pages/sign_in_page.dart
 import 'package:another_flushbar/flushbar.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -33,6 +34,10 @@ class _SignInPageState extends State<SignInPage> {
     _emailFocusNode.dispose();
     _passwordFocusNode.dispose();
     super.dispose();
+  }
+
+  void _navigateTo(String routeName) {
+    Navigator.pushNamed(context, routeName);
   }
 
   void _showLoadingDialog() {
@@ -137,68 +142,25 @@ class _SignInPageState extends State<SignInPage> {
     }
   }
 
-  Future<void> _handleGoogleSignIn() async {
-    setState(() {
-      _isLoading = true; // Set loading to true
-    });
-    _showLoadingDialog(); // Show loading dialog
-    final supabase = SupabaseAuth.Supabase.instance.client;
-    const webClientId =
-        "519541244574-823pseok23v1d3nvigtr16js3a3v5a9o.apps.googleusercontent.com";
-    final GoogleSignIn googleSignIn = GoogleSignIn(serverClientId: webClientId);
-
-    final googleUser = await googleSignIn.signIn();
-    if (googleUser == null) {
-      _hideLoadingDialog();
-      setState(() {
-        _isLoading = false; // Set loading to false if sign-in fails
-      });
-      throw Exception('Login dengan Google gagal');
-    }
-    final googleAuth = await googleUser.authentication;
-    final accessToken = googleAuth.accessToken;
-    final idToken = googleAuth.idToken;
-
-    if (accessToken == null || idToken == null) {
-      _hideLoadingDialog();
-      setState(() {
-        _isLoading = false; // Set loading to false if tokens are null
-      });
-      throw Exception('Tidak ditemukan access token atau ID token');
-    }
-
-    try {
-      final SupabaseAuth.AuthResponse res =
-          await supabase.auth.signInWithIdToken(
-        provider: SupabaseAuth.OAuthProvider.google,
-        idToken: idToken,
-        accessToken: accessToken,
-      );
-      final user = res.user;
-      if (user == null) {
-        _hideLoadingDialog();
-        setState(() {
-          _isLoading = false; // Set loading to false if sign-in fails
-        });
-        throw Exception('Login Supabase gagal');
-      }
-
-      _hideLoadingDialog();
-      Navigator.pushReplacementNamed(context, '/wrapper');
-    } catch (e) {
-      _hideLoadingDialog();
-      setState(() {
-        _isLoading = false; // Set loading to false if sign-in fails
-      });
-      rethrow;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+        appBar: AppBar(
+          backgroundColor: kWhiteColor,
+          surfaceTintColor: kWhiteColor,
+          elevation: 0,
+          leading: IconButton(
+            icon: Icon(
+              LineIcons.angleLeft,
+              color: kPrimaryColor,
+            ),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ),
         backgroundColor: kWhiteColor,
         body: BlocListener<AuthBloc, AuthState>(
           listener: (context, state) {
@@ -215,7 +177,7 @@ class _SignInPageState extends State<SignInPage> {
               });
               print(state.error);
               Flushbar(
-                flushbarPosition: FlushbarPosition.BOTTOM,
+                flushbarPosition: FlushbarPosition.TOP,
                 flushbarStyle: FlushbarStyle.FLOATING,
                 duration: const Duration(seconds: 5),
                 backgroundColor: const Color(0xff171616),
@@ -247,9 +209,6 @@ class _SignInPageState extends State<SignInPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
-                    height: defaultMargin * 4,
-                  ),
                   Container(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -325,59 +284,93 @@ class _SignInPageState extends State<SignInPage> {
                             onPressed: _onSignInButtonPressed,
                           ),
                         ),
-                        SizedBox(
-                          height: defaultMargin,
-                        ),
-                        Center(
-                          child: Text(
-                            "atau",
-                            style: subTitleTextStyle.copyWith(
-                              fontSize: 14, // Body Medium
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: defaultMargin,
-                        ),
-                        Center(
-                          child: Container(
-                            child: ElevatedButton(
-                              onPressed: _isLoading
-                                  ? null
-                                  : _handleGoogleSignIn, // Disable button when loading
-                              style: ElevatedButton.styleFrom(
-                                foregroundColor: kPrimaryColor,
-                                backgroundColor: Colors.white, // Text color
-                                side: BorderSide(
-                                  color: kPrimaryColor,
-                                ), // Border color
-                                shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.circular(defaultRadius),
-                                ),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Image.asset('assets/images/google.png',
-                                      width: 25),
-                                  const SizedBox(width: 8),
-                                  Text(
-                                    "Google",
-                                    style: blackTextStyle.copyWith(
-                                        fontSize: 14), // Body Medium
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
                       ],
                     ),
+                  ),
+                  Center(
+                    child: _buildForgotPassword(),
+                  ),
+                  SizedBox(
+                    height: defaultMargin * 2,
+                  ),
+                  Center(
+                    child: _buildTermsText(),
                   ),
                 ],
               ),
             ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTermsText() {
+    return Text.rich(
+      TextSpan(
+        text: "Dengan membuat akun, Anda menyetujui ",
+        style: subTitleTextStyle.copyWith(
+          fontSize: 13, // Adjust the font size to match the design
+        ),
+        children: [
+          TextSpan(
+            text: "\nSyarat dan Ketentuan",
+            style: subTitleTextStyle.copyWith(
+              fontSize: 13,
+              color: const Color(0xff087443), // Link color
+              decoration: TextDecoration.underline,
+            ),
+            recognizer: TapGestureRecognizer()
+              ..onTap = () {
+                _navigateTo('/terms');
+              },
+          ),
+          TextSpan(
+            text: " serta ",
+            style: subTitleTextStyle.copyWith(
+              fontSize: 13,
+            ),
+          ),
+          TextSpan(
+            text: "Kebijakan Privasi",
+            style: subTitleTextStyle.copyWith(
+              fontSize: 13,
+              color: const Color(0xff087443), // Link color
+              decoration: TextDecoration.underline,
+            ),
+            recognizer: TapGestureRecognizer()
+              ..onTap = () {
+                _navigateTo('/privacy');
+              },
+          ),
+          TextSpan(
+            text: ".",
+            style: subTitleTextStyle.copyWith(
+              fontSize: 13,
+            ),
+          ),
+        ],
+      ),
+      textAlign: TextAlign.center,
+    );
+  }
+
+  // Widget forgotPassword() {
+  Widget _buildForgotPassword() {
+    return Container(
+      margin: EdgeInsets.only(
+        top: defaultMargin,
+      ),
+      child: TextButton(
+        onPressed: () {
+          Navigator.pushNamed(context, '/forgotPassword');
+        },
+        child: Text(
+          "Lupa Password?",
+          style: subTitleTextStyle.copyWith(
+            fontSize: 14, // Body Medium
+            color: kPrimaryColor,
+            fontWeight: FontWeight.bold,
           ),
         ),
       ),

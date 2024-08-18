@@ -56,9 +56,9 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: kWhiteColor,
         elevation: 0.0,
         title: Text(
-          'Logo',
+          'Cadeira',
           style: whiteTextStyle.copyWith(
-            fontSize: 20,
+            fontSize: 24,
             fontWeight: FontWeight.bold,
           ),
         ),
