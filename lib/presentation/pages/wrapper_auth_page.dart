@@ -1,9 +1,6 @@
 // presentation/pages/wrapper_auth_page.dart
-import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-
 import 'package:rents_cars_app/utils/fonts.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -43,14 +40,15 @@ class _WrapperAuthState extends State<WrapperAuth> {
     final user = supabase.auth.currentUser;
     print(user?.id);
 
-    final authSubscription = supabase.auth.onAuthStateChange.listen((data) {
+    supabase.auth.onAuthStateChange.listen((data) {
       final AuthChangeEvent event = data.event;
       final Session? session = data.session;
 
       print('event: $event, session: $session');
     });
+
     if (user == null) {
-      _navigateTo('/signIn');
+      _navigateTo('/splashPage');
     } else {
       _navigateTo('/main');
     }

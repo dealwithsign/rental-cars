@@ -1,6 +1,7 @@
 // presentation/pages/sign_up_page.dart
 import 'package:another_flushbar/flushbar.dart';
 import 'package:another_flushbar/flushbar.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -40,6 +41,10 @@ class _SignUpPageState extends State<SignUpPage> {
     _nameFocusNode.dispose();
     _phoneNumberFocusNode.dispose();
     super.dispose();
+  }
+
+  void _navigateTo(String routeName) {
+    Navigator.pushNamedAndRemoveUntil(context, routeName, (route) => false);
   }
 
   void _showLoadingDialog() {
@@ -141,283 +146,212 @@ class _SignUpPageState extends State<SignUpPage> {
     }
   }
 
-  Future<void> _handleGoogleSignUp() async {
-    _showLoadingDialog(); // Show loading dialog
-    final supabase = SupabaseAuth.Supabase.instance.client;
-    const webClientId =
-        "519541244574-823pseok23v1d3nvigtr16js3a3v5a9o.apps.googleusercontent.com";
-    final GoogleSignIn googleSignIn = GoogleSignIn(serverClientId: webClientId);
-
-    final googleUser = await googleSignIn.signIn();
-    if (googleUser == null) {
-      _hideLoadingDialog(); // Hide loading dialog if sign-in fails
-      throw Exception('Login dengan Google gagal');
-    }
-    final googleAuth = await googleUser.authentication;
-    final accessToken = googleAuth.accessToken;
-    final idToken = googleAuth.idToken;
-
-    if (accessToken == null || idToken == null) {
-      _hideLoadingDialog(); // Hide loading dialog if tokens are null
-      throw Exception('Tidak ditemukan access token atau ID token');
-    }
-
-    try {
-      final SupabaseAuth.AuthResponse res =
-          await supabase.auth.signInWithIdToken(
-        provider: SupabaseAuth.OAuthProvider.google,
-        idToken: idToken,
-        accessToken: accessToken,
-      );
-      final user = res.user;
-      if (user == null) {
-        _hideLoadingDialog(); // Hide loading dialog if sign-in fails
-        throw Exception('Login Supabase gagal');
-      }
-
-      final String googleUserUID = user.id;
-      print('Google User UID from auth: $googleUserUID');
-
-      final response = await supabase
-          .from('users')
-          .select()
-          .eq('id', googleUserUID)
-          .single();
-
-      if (response.isEmpty) {
-        await supabase.from('users').insert({
-          'id': googleUserUID,
-          'email': googleUser.email,
-          'username': googleUser.displayName,
-          'url_profile': googleUser.photoUrl,
-          'created_at': DateTime.now().toIso8601String(),
-          'last_sign_in': DateTime.now().toIso8601String(),
-          'provider': 'Sign Up by Google',
-        });
-      } else {
-        await supabase
-            .from('users')
-            .update({'last_sign_in': DateTime.now().toIso8601String()}).eq(
-          'id',
-          googleUserUID,
-        );
-      }
-      _hideLoadingDialog(); // Hide loading dialog on success
-      Navigator.pushReplacementNamed(context, '/wrapper');
-    } on SupabaseAuth.PostgrestException catch (e) {
-      final SupabaseAuth.AuthResponse res =
-          await supabase.auth.signInWithIdToken(
-        provider: SupabaseAuth.OAuthProvider.google,
-        idToken: idToken,
-        accessToken: accessToken,
-      );
-      final user = res.user;
-      if (e.code == 'PGRST116') {
-        final String googleUserUID = user!.id;
-        print('Google User UID from auth: $googleUserUID');
-        await supabase.from('users').insert(
-          {
-            'id': googleUserUID,
-            'email': googleUser.email,
-            'username': googleUser.displayName,
-            'url_profile': googleUser.photoUrl,
-            'created_at': DateTime.now().toIso8601String(),
-            'last_sign_in': DateTime.now().toIso8601String(),
-            'provider': 'google',
-          },
-        );
-
-        _hideLoadingDialog(); // Hide loading dialog on success
-        Navigator.pushReplacementNamed(context, '/wrapper');
-      } else {
-        _hideLoadingDialog(); // Hide loading dialog on failure
-        rethrow;
-      }
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: kWhiteColor,
-      body: BlocListener<AuthBloc, AuthState>(
-        listener: (context, state) {
-          if (state is AuthSuccess) {
-            _hideLoadingDialog(); // Hide loading dialog on success
-            Navigator.pushReplacementNamed(context, '/wrapper');
-          } else if (state is AuthFailure) {
-            _hideLoadingDialog(); // Hide loading dialog on failure
-            if (state.error.contains('422')) {
-              Flushbar(
-                flushbarPosition: FlushbarPosition.BOTTOM,
-                flushbarStyle: FlushbarStyle.FLOATING,
-                duration: const Duration(seconds: 5),
-                backgroundColor: const Color(0xff171616),
-                titleText: Text(
-                  "Daftar Gagal",
-                  style: whiteTextStyle.copyWith(
-                    fontSize: 14,
-                    fontWeight: bold,
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      color: kWhiteColor,
+      home: Scaffold(
+        appBar: AppBar(
+          backgroundColor: kWhiteColor,
+          surfaceTintColor: kWhiteColor,
+          elevation: 0,
+          leading: IconButton(
+            icon: Icon(
+              LineIcons.angleLeft,
+              color: kPrimaryColor,
+            ),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ),
+        backgroundColor: kWhiteColor,
+        body: BlocListener<AuthBloc, AuthState>(
+          listener: (context, state) {
+            if (state is AuthSuccess) {
+              _hideLoadingDialog(); // Hide loading dialog on success
+              Navigator.pushReplacementNamed(context, '/wrapper');
+            } else if (state is AuthFailure) {
+              _hideLoadingDialog(); // Hide loading dialog on failure
+              if (state.error.contains('422')) {
+                Flushbar(
+                  flushbarPosition: FlushbarPosition.TOP,
+                  flushbarStyle: FlushbarStyle.FLOATING,
+                  duration: const Duration(seconds: 5),
+                  backgroundColor: const Color(0xff171616),
+                  titleText: Text(
+                    "Daftar Gagal",
+                    style: whiteTextStyle.copyWith(
+                      fontSize: 14,
+                      fontWeight: bold,
+                    ),
                   ),
-                ),
-                messageText: Text(
-                  "Email sudah terdaftar atau lanjutkan dengan akun Google.",
-                  style: whiteTextStyle.copyWith(
-                    fontSize: 14,
+                  messageText: Text(
+                    "Email sudah terdaftar atau lanjutkan dengan akun Google.",
+                    style: whiteTextStyle.copyWith(
+                      fontSize: 14,
+                    ),
                   ),
-                ),
-                margin: EdgeInsets.only(
-                  left: defaultMargin,
-                  right: defaultMargin,
-                  bottom: defaultMargin,
-                ),
-                borderRadius: BorderRadius.circular(defaultRadius),
-              ).show(context);
+                  margin: EdgeInsets.only(
+                    left: defaultMargin,
+                    right: defaultMargin,
+                    bottom: defaultMargin,
+                  ),
+                  borderRadius: BorderRadius.circular(defaultRadius),
+                ).show(context);
+              }
             }
-          }
-        },
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: defaultMargin * 4,
-                ),
-                Container(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Daftar",
-                        style: blackTextStyle.copyWith(
-                          fontSize: 24, // Body Large
-                          fontWeight: bold,
+          },
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: defaultMargin),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Daftar",
+                          style: blackTextStyle.copyWith(
+                            fontSize: 24, // Body Large
+                            fontWeight: bold,
+                          ),
                         ),
-                      ),
-                      SizedBox(
-                        height: defaultMargin / 2,
-                      ),
-                      Text(
-                        "Daftar dengan email dan password \natau menggunakan akun Google",
-                        style: subTitleTextStyle.copyWith(
-                          fontSize: 15, // Body Large
+                        SizedBox(
+                          height: defaultMargin / 2,
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: defaultMargin * 2,
-                ),
-                Form(
-                  key: _formKey,
-                  child: Column(
-                    children: <Widget>[
-                      OutlineBorderTextFormField(
-                        labelText: 'Email',
-                        autofocus: false,
-                        tempTextEditingController: _emailController,
-                        myFocusNode: _emailFocusNode,
-                        inputFormatters: const [],
-                        keyboardType: TextInputType.emailAddress,
-                        textInputAction: TextInputAction.next,
-                        validation: (value) {
-                          return null;
-                        },
-                        checkOfErrorOnFocusChange: true,
-                        validator: (value) {
-                          return null;
-                        },
-                      ),
-                      SizedBox(height: defaultMargin),
-                      OutlineBorderTextFormField(
-                        labelText: 'Password',
-                        autofocus: false,
-                        tempTextEditingController: _passwordController,
-                        myFocusNode: _passwordFocusNode,
-                        inputFormatters: const [],
-                        keyboardType: TextInputType.text,
-                        textInputAction: TextInputAction.next,
-                        validation: (value) {
-                          return null;
-                        },
-                        checkOfErrorOnFocusChange: true,
-                        obscureText: true,
-                        validator: (value) {
-                          return null;
-                        },
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(
-                          top: defaultMargin * 2,
-                        ),
-                        child: _isLoading
-                            ? SpinKitThreeBounce(
-                                color: kPrimaryColor,
-                                size: 25.0,
-                              )
-                            : CustomButton(
-                                title: "Daftar",
-                                onPressed: _onSignUpButtonPressed,
-                              ),
-                      ),
-                      SizedBox(
-                        height: defaultMargin,
-                      ),
-                      Center(
-                        child: Text(
-                          "atau",
+                        Text(
+                          "Daftar dengan email dan password \natau menggunakan akun Google",
                           style: subTitleTextStyle.copyWith(
-                            fontSize: 14,
+                            fontSize: 15, // Body Large
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        height: defaultMargin,
-                      ),
-                      Center(
-                        child: Container(
-                          child: ElevatedButton(
-                            onPressed: _isLoading
-                                ? null // Disable button when loading
-                                : _handleGoogleSignUp,
-                            style: ElevatedButton.styleFrom(
-                              foregroundColor: kButtonColor,
-                              backgroundColor: Colors.white, // Text color
-                              side: BorderSide(
-                                  color: kButtonColor), // Border color
-                              shape: RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.circular(defaultRadius),
-                              ),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Image.asset(
-                                  'assets/images/google.png',
-                                  width: 20,
-                                ),
-                                const SizedBox(width: 8),
-                                Text(
-                                  "Google",
-                                  style: blackTextStyle.copyWith(fontSize: 14),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                  SizedBox(
+                    height: defaultMargin * 2,
+                  ),
+                  Form(
+                    key: _formKey,
+                    child: Column(
+                      children: <Widget>[
+                        OutlineBorderTextFormField(
+                          labelText: 'Email',
+                          autofocus: false,
+                          tempTextEditingController: _emailController,
+                          myFocusNode: _emailFocusNode,
+                          inputFormatters: const [],
+                          keyboardType: TextInputType.emailAddress,
+                          textInputAction: TextInputAction.next,
+                          validation: (value) {
+                            return null;
+                          },
+                          checkOfErrorOnFocusChange: true,
+                          validator: (value) {
+                            return null;
+                          },
+                        ),
+                        SizedBox(height: defaultMargin),
+                        OutlineBorderTextFormField(
+                          labelText: 'Password',
+                          autofocus: false,
+                          tempTextEditingController: _passwordController,
+                          myFocusNode: _passwordFocusNode,
+                          inputFormatters: const [],
+                          keyboardType: TextInputType.text,
+                          textInputAction: TextInputAction.next,
+                          validation: (value) {
+                            return null;
+                          },
+                          checkOfErrorOnFocusChange: true,
+                          obscureText: true,
+                          validator: (value) {
+                            return null;
+                          },
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(
+                            top: defaultMargin * 2,
+                          ),
+                          child: _isLoading
+                              ? SpinKitThreeBounce(
+                                  color: kPrimaryColor,
+                                  size: 25.0,
+                                )
+                              : CustomButton(
+                                  title: "Daftar",
+                                  onPressed: _onSignUpButtonPressed,
+                                ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: defaultMargin * 2,
+                  ),
+                  Center(
+                    child: _buildTermsText(),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildTermsText() {
+    return Text.rich(
+      TextSpan(
+        text: "Dengan membuat akun, Anda menyetujui ",
+        style: subTitleTextStyle.copyWith(
+          fontSize: 13, // Adjust the font size to match the design
+        ),
+        children: [
+          TextSpan(
+            text: "\nSyarat dan Ketentuan",
+            style: subTitleTextStyle.copyWith(
+              fontSize: 13,
+              color: const Color(0xff087443), // Link color
+              decoration: TextDecoration.underline,
+            ),
+            recognizer: TapGestureRecognizer()
+              ..onTap = () {
+                _navigateTo('/terms');
+              },
+          ),
+          TextSpan(
+            text: " serta ",
+            style: subTitleTextStyle.copyWith(
+              fontSize: 13,
+            ),
+          ),
+          TextSpan(
+            text: "Kebijakan Privasi",
+            style: subTitleTextStyle.copyWith(
+              fontSize: 13,
+              color: const Color(0xff087443), // Link color
+              decoration: TextDecoration.underline,
+            ),
+            recognizer: TapGestureRecognizer()
+              ..onTap = () {
+                _navigateTo('/privacy');
+              },
+          ),
+          TextSpan(
+            text: ".",
+            style: subTitleTextStyle.copyWith(
+              fontSize: 13,
+            ),
+          ),
+        ],
+      ),
+      textAlign: TextAlign.center,
     );
   }
 }

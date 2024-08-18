@@ -19,12 +19,13 @@ import 'presentation/pages/wrapper_auth_page.dart';
 
 Map<String, WidgetBuilder> getRoutes() {
   return {
-    '/': (context) => const SplashScreen(),
+    '/': (context) => const WrapperAuth(),
     '/main': (context) => const NavigationScreen(),
     '/wrapper': (context) => const WrapperAuth(),
     '/home': (context) => const HomeScreen(),
     '/signIn': (context) => const SignInPage(),
     '/signUp': (context) => const SignUpPage(),
+    '/splashPage': (context) => const SplashScreen(),
     // cars
     '/carListPage': (context) {
       final args = ModalRoute.of(context)!.settings.arguments as Map;
