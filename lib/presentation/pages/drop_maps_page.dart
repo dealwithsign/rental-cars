@@ -256,7 +256,7 @@ class _PickDropState extends State<PickDrop> {
                         ),
                         child: Text(
                           "Pilih Lokasi Drop",
-                          style: blackTextStyle.copyWith(
+                          style: titleTextStyle.copyWith(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                           ),

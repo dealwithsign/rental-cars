@@ -57,7 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
         elevation: 0.0,
         title: Text(
           'Cadeira',
-          style: whiteTextStyle.copyWith(
+          style: titleWhiteTextStyle.copyWith(
             fontSize: 24,
             fontWeight: FontWeight.bold,
           ),
@@ -110,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           SizedBox(height: defaultMargin),
                           Text(
                             'Rental Mobil Antar Kota',
-                            style: whiteTextStyle.copyWith(
+                            style: buttonColor.copyWith(
                               fontWeight: FontWeight.bold,
                               fontSize: 18,
                             ),
@@ -118,9 +118,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           const SizedBox(height: 5),
                           Text(
                             'Pesan tiketmu dalam genggaman \nkapan saja dan di mana saja',
-                            style: whiteTextStyle.copyWith(
-                              fontWeight: FontWeight.normal,
-                              fontSize: 14,
+                            style: buttonColor.copyWith(
+                              fontSize: 15,
                             ),
                           ),
                         ],
@@ -541,7 +540,7 @@ class _HomeScreenState extends State<HomeScreen> {
               SizedBox(height: defaultMargin),
               Text(
                 "Pesan tiket di Aplikasi",
-                style: blackTextStyle.copyWith(
+                style: titleTextStyle.copyWith(
                   fontWeight: bold,
                   fontSize: 18,
                 ),
@@ -549,7 +548,7 @@ class _HomeScreenState extends State<HomeScreen> {
               SizedBox(height: defaultMargin / 2),
               Text(
                 "Beragam kemudahan dengan aplikasi membuat \npengalaman jadi lebih menyenangkan",
-                style: subTitleTextStyle.copyWith(
+                style: blackTextStyle.copyWith(
                   fontSize: 14,
                 ),
               ),
@@ -655,15 +654,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   Text(
                     'Daftarkan mobilmu ke aplikasi kami \nraih lebih banyak pelanggan',
-                    style: whiteTextStyle.copyWith(
-                      fontSize: 14,
+                    style: buttonColor.copyWith(
+                      fontSize: 15,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   SizedBox(height: defaultMargin),
                   Text(
                     'Cek disini →',
-                    style: whiteTextStyle.copyWith(
+                    style: buttonColor.copyWith(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
                     ),

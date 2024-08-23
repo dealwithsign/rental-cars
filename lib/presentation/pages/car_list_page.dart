@@ -81,7 +81,7 @@ class _ListCarPageState extends State<ListCarPage> {
         children: [
           Text(
             '${widget.carFrom} - ${widget.carTo}',
-            style: blackTextStyle.copyWith(
+            style: titleTextStyle.copyWith(
               fontSize: 16,
               fontWeight: bold,
             ),
@@ -223,7 +223,7 @@ class _ListCarPageState extends State<ListCarPage> {
                                     const SizedBox(height: 5),
                                     Text(
                                       car.carName,
-                                      style: blackTextStyle.copyWith(
+                                      style: titleTextStyle.copyWith(
                                         fontSize: 18,
                                         fontWeight: bold,
                                       ),

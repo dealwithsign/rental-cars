@@ -49,7 +49,7 @@ class _TermsAndConditionsState extends State<TermsAndConditions> {
       surfaceTintColor: kWhiteColor,
       title: Text(
         'Syarat dan Ketentuan',
-        style: blackTextStyle.copyWith(
+        style: titleTextStyle.copyWith(
           fontSize: 20,
           fontWeight: FontWeight.bold,
         ),
@@ -185,7 +185,7 @@ class _TermsAndConditionsState extends State<TermsAndConditions> {
                 children: [
                   Text(
                     'Apps Name',
-                    style: blackTextStyle.copyWith(
+                    style: titleTextStyle.copyWith(
                       fontSize: 18,
                       fontWeight: bold,
                     ),
@@ -260,7 +260,7 @@ class _TermsAndConditionsState extends State<TermsAndConditions> {
   Widget _buildSectionTitle(String title) {
     return Text(
       title,
-      style: blackTextStyle.copyWith(
+      style: titleTextStyle.copyWith(
         fontSize: 18,
         fontWeight: FontWeight.bold,
       ),

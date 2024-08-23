@@ -1,7 +1,7 @@
 // blocs/auth/auth_bloc.dart
 import 'package:bloc/bloc.dart';
-
 import 'package:rents_cars_app/blocs/auth/auth_event.dart'; // Import event otentikasi
+
 import '../../data/models/users_model.dart';
 import '../../data/services/authentication_services.dart'; // Import kelas layanan otentikasi
 
@@ -77,6 +77,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       try {
         final user = await authServices.getCurrentUser();
         print('Current user: $user'); // Debug print
+        print('Current user id: ${user.id}'); // Debug print
+        print('Current user email: ${user.email}'); // Debug print
         print(user.username);
         emit(
           AuthSuccess(user),
@@ -95,6 +97,42 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           phone_number: event.phoneNumber,
         );
         emit(AuthSuccess(user));
+      } catch (e) {
+        emit(AuthFailure(e.toString()));
+      }
+    });
+    on<VerifyOTPRequested>((event, emit) async {
+      emit(AuthLoading());
+      try {
+        await authServices.verifyOTP(
+          token: event.token,
+          type: event.type,
+          email: event.email,
+        );
+        emit(AuthInitial()); // Emit initial state if verification is successful
+      } catch (e) {
+        emit(AuthFailure(
+            e.toString())); // Emit failure state if verification fails
+      }
+    });
+    on<ResetPasswordRequested>((event, emit) async {
+      emit(AuthLoading());
+      try {
+        await authServices.resetPassword(
+          email: event.email,
+        );
+        emit(AuthInitial());
+      } catch (e) {
+        emit(AuthFailure(e.toString()));
+      }
+    });
+    on<UpdatePasswordRequested>((event, emit) async {
+      emit(AuthLoading());
+      try {
+        await authServices.updatePassword(
+          newPassword: event.newPassword,
+        );
+        emit(AuthInitial());
       } catch (e) {
         emit(AuthFailure(e.toString()));
       }

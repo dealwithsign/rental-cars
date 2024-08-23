@@ -294,7 +294,7 @@ class _PickLocationsState extends State<PickLocations> {
                         ),
                         child: Text(
                           "Pilih Titik Jemput",
-                          style: blackTextStyle.copyWith(
+                          style: titleTextStyle.copyWith(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                           ),

@@ -73,7 +73,7 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
         children: [
           Text(
             '${widget.ticket.carFrom} - ${widget.ticket.carTo}',
-            style: blackTextStyle.copyWith(
+            style: titleTextStyle.copyWith(
               fontSize: 16,
               fontWeight: bold,
             ),
@@ -81,7 +81,7 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
           const SizedBox(height: 5),
           Text(
             'Order ID: ${widget.ticket.bookingId.toUpperCase()}',
-            style: subTitleTextStyle.copyWith(
+            style: blackTextStyle.copyWith(
               fontSize: 14,
             ),
           ),
@@ -123,8 +123,8 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                       children: [
                         Text(
                           'Detail Perjalanan',
-                          style: blackTextStyle.copyWith(
-                            fontSize: 16,
+                          style: titleTextStyle.copyWith(
+                            fontSize: 18,
                             fontWeight: bold,
                           ),
                         ),
@@ -149,8 +149,8 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                       children: [
                         Text(
                           'Detail Pembayaran',
-                          style: blackTextStyle.copyWith(
-                            fontSize: 16,
+                          style: titleTextStyle.copyWith(
+                            fontSize: 18,
                             fontWeight: bold,
                           ),
                         ),

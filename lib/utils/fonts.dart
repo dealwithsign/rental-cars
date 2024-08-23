@@ -1,8 +1,6 @@
 // utils/fonts.dart
 import 'package:flutter/material.dart';
 
-import 'package:google_fonts/google_fonts.dart';
-
 double defaultMargin = 14.0;
 double defaultRadius = 8.0;
 
@@ -48,45 +46,78 @@ Color kIconContextMenu = const Color(0xffB0B0B0);
 
 Color kSpinkitColor = const Color(0xff063c79);
 
-TextStyle blackTextStyle = GoogleFonts.interTight(
+TextStyle titleTextStyle = TextStyle(
+  fontFamily: 'MaisonNeueTitle',
   color: kPrimaryColor,
 );
 
-TextStyle subTitleTextStyle = GoogleFonts.interTight(
-  color: descGrey,
-);
-
-TextStyle underTextStyle = GoogleFonts.interTight(
-  color: kButtonColor,
-);
-
-TextStyle kPriceTextStyle = GoogleFonts.interTight(
-  color: kPriceColor,
-);
-TextStyle blueTextStyle = GoogleFonts.interTight(
-  color: kPickedColor,
-);
-TextStyle whiteTextStyle = GoogleFonts.interTight(
+TextStyle titleWhiteTextStyle = TextStyle(
+  fontFamily: 'MaisonNeueTitle',
   color: kWhiteColor,
 );
-TextStyle iconTextStyle = GoogleFonts.interTight(
-  color: kFilled,
-);
-TextStyle greyTextStyle = GoogleFonts.interTight(
+TextStyle blackTextStyle = TextStyle(
+  fontFamily: 'MaisonNeuePrimary',
   color: kPrimaryColor,
 );
-TextStyle greenTextStyle = GoogleFonts.interTight(
+TextStyle buttonColor = TextStyle(
+  fontFamily: 'MaisonNeuePrimary',
+  color: kWhiteColor,
+);
+TextStyle whiteTextStyle = TextStyle(
+  fontFamily: 'MaisonNeuePrimary',
+  color: kPrimaryColor,
+);
+
+TextStyle subTitleTextStyle = TextStyle(
+  fontFamily: 'MaisonNeuePrimary',
+  color: kSubTitle,
+);
+
+TextStyle underTextStyle = TextStyle(
+  fontFamily: 'MaisonNeuePrimary',
   color: kButtonColor,
 );
-TextStyle redTextStyle = GoogleFonts.interTight(
-  color: kRedColor,
+
+TextStyle kPriceTextStyle = TextStyle(
+  fontFamily: 'MaisonNeuePrimary',
+  color: kPriceColor,
 );
-TextStyle purpleTextStyle = GoogleFonts.interTight(
+
+TextStyle blueTextStyle = TextStyle(
+  fontFamily: 'MaisonNeuePrimary',
+  color: kPickedColor,
+);
+
+TextStyle iconTextStyle = TextStyle(
+  fontFamily: 'MaisonNeuePrimary',
+  color: kFilled,
+);
+
+TextStyle greyTextStyle = TextStyle(
+  fontFamily: 'MaisonNeuePrimary',
   color: kPrimaryColor,
 );
-TextStyle linkTextStyle = GoogleFonts.interTight(
+
+TextStyle greenTextStyle = TextStyle(
+  fontFamily: 'MaisonNeuePrimary',
+  color: kButtonColor,
+);
+
+TextStyle redTextStyle = TextStyle(
+  fontFamily: 'MaisonNeuePrimary',
+  color: kRedColor,
+);
+
+TextStyle purpleTextStyle = TextStyle(
+  fontFamily: 'MaisonNeuePrimary',
+  color: kPrimaryColor,
+);
+
+TextStyle linkTextStyle = TextStyle(
+  fontFamily: 'MaisonNeuePrimary',
   color: kappBar,
 );
+
 FontWeight light = FontWeight.w100;
 FontWeight regular = FontWeight.w400;
 FontWeight medium = FontWeight.w500;
@@ -117,36 +148,7 @@ Color kUnavailableColor = const Color(0xffED2739);
 Color kPickedColor = const Color(0xff0163c79);
 
 // airbnb design systems text color
-TextStyle kPlaceHolderText = GoogleFonts.interTight(
+TextStyle kPlaceHolderText = TextStyle(
+  fontFamily: 'MaisonNeuePrimary',
   color: kPlaceHolderColor,
 );
-
-// kappBar,
-//                   const Color(0xff2D745D),
-
-
-// #1c35ec - blue
-
-// #101010 - black
- //const #e0dfe3
-// #ffffff - white
-
-// clean design color ?
-
-
-// Header 1 (H1): 34px, Bold
-// Header 2 (H2): 28px, Bold
-// Header 3 (H3): 22px, Bold
-// Header 4 (H4): 20px, Medium
-// Header 5 (H5): 18px, Medium
-// Body Large: 16px, Regular
-// Body Medium: 14px, Regular
-// Body Small: 12px, Regular
-// Caption: 10px, Regular
-
-// Uber Move (Uber)
-// Header / Title: 24-32pt
-// Sub-header / Subtitle: 18-22pt
-// Body Text: 14-16pt
-// Caption / Small Text: 12-14pt
-// Button Text: 14-16pt

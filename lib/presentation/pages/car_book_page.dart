@@ -193,14 +193,14 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
           children: [
             Text(
               'Detail Pesanan',
-              style: blackTextStyle.copyWith(
+              style: titleTextStyle.copyWith(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
             ),
             Text(
               "Order ID: ${widget.id.toUpperCase()}",
-              style: subTitleTextStyle.copyWith(
+              style: blackTextStyle.copyWith(
                 fontSize: 14,
               ),
             ),
@@ -546,7 +546,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
               children: [
                 Text(
                   'Detail Pemesan',
-                  style: blackTextStyle.copyWith(
+                  style: titleTextStyle.copyWith(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
@@ -638,7 +638,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
         children: [
           Text(
             'Rincian Pembayaran',
-            style: blackTextStyle.copyWith(
+            style: titleTextStyle.copyWith(
               fontSize: 18,
               fontWeight: FontWeight.bold,
             ),
@@ -800,7 +800,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
             children: [
               Text(
                 'Detail Perjalanan',
-                style: blackTextStyle.copyWith(
+                style: titleTextStyle.copyWith(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),

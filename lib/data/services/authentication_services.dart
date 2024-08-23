@@ -221,4 +221,51 @@ class AuthServices {
       throw Exception('Database update error: ${e.toString()}');
     }
   }
+
+  // reset password
+  Future<void> resetPassword({
+    required String email,
+  }) async {
+    try {
+      await supabase.auth.resetPasswordForEmail(email);
+      print('Password reset email sent successfully.');
+    } catch (e) {
+      print('Failed to send password reset email: $e');
+      throw Exception('Failed to send password reset email: $e');
+    }
+  }
+
+  // verify OTP // verify OTP
+  Future<void> verifyOTP({
+    required String token,
+    required OtpType type,
+    required String email,
+  }) async {
+    try {
+      await supabase.auth.verifyOTP(
+        token: token,
+        type: type,
+        email: email,
+      );
+      print('OTP verified successfully.');
+    } catch (e) {
+      print('Failed to verify OTP: $e');
+      throw Exception('Failed to verify OTP: $e');
+    }
+  }
+
+  //  update password
+  Future<void> updatePassword({
+    required String newPassword,
+  }) async {
+    try {
+      await supabase.auth.updateUser(
+        UserAttributes(password: newPassword),
+      );
+      print('Password reset email sent successfully.');
+    } catch (e) {
+      print('Failed to send password reset email: $e');
+      throw Exception('Failed to send password reset email: $e');
+    }
+  }
 }

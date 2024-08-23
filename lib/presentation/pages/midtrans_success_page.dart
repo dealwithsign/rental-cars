@@ -26,14 +26,14 @@ class _MidtransSuccessState extends State<MidtransSuccess> {
           children: [
             Text(
               'Pembayaran Berhasil',
-              style: blackTextStyle.copyWith(
-                fontSize: 18,
+              style: titleTextStyle.copyWith(
+                fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
             ),
             Text(
               'Order ID: ${widget.orderId.toUpperCase()}',
-              style: subTitleTextStyle.copyWith(
+              style: blackTextStyle.copyWith(
                 fontSize: 14,
               ),
             ),
@@ -53,17 +53,17 @@ class _MidtransSuccessState extends State<MidtransSuccess> {
                 color: kSuccessColor,
                 size: MediaQuery.of(context).size.width * 0.20,
               ),
-              SizedBox(height: defaultMargin),
-              Text(
-                'Pembayaran Berhasil',
-                style: blackTextStyle.copyWith(
-                  fontSize: 18,
-                  fontWeight: bold,
-                ),
-              ),
+              // SizedBox(height: defaultMargin),
+              // Text(
+              //   'Pembayaran Berhasil',
+              //   style: blackTextStyle.copyWith(
+              //     fontSize: 18,
+              //     fontWeight: bold,
+              //   ),
+              // ),
               SizedBox(height: defaultMargin * 2),
               Text(
-                'Terima kasih! Pembayaran kamu sudah diterima',
+                'Terima kasih! \nPembayaran kamu sudah diterima',
                 style: blackTextStyle.copyWith(
                   fontSize: 15,
                 ),

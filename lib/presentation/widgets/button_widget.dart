@@ -1,4 +1,4 @@
-// presentation/widgets/button.dart
+// presentation/widgets/button_widget.dart
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'package:rents_cars_app/utils/fonts.dart';
@@ -41,7 +41,7 @@ class CustomButton extends StatelessWidget {
         ),
         child: Text(
           title,
-          style: whiteTextStyle.copyWith(
+          style: buttonColor.copyWith(
             fontSize: 14,
             fontWeight: bold,
           ),

@@ -136,23 +136,23 @@ class _MidtransPaymentState extends State<MidtransPayment> {
         leading: IconButton(
           icon: Icon(
             LineIcons.angleLeft,
-            color: kWhiteColor,
+            color: kPrimaryColor,
           ),
           onPressed: () => _showConfirmationBottomSheet(context),
         ),
         title: Text(
           'Lanjutkan Pembayaran',
-          style: whiteTextStyle.copyWith(
+          style: titleTextStyle.copyWith(
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
         ),
         flexibleSpace: Container(
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: <Color>[
-                Color(0xff087443),
-                Color(0xff087443),
+                kWhiteColor,
+                kWhiteColor,
               ],
             ),
           ),
