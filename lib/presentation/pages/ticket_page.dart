@@ -68,7 +68,7 @@ class _TicketScreenState extends State<TicketScreen> {
       surfaceTintColor: kWhiteColor,
       title: Text(
         'Tiket',
-        style: blackTextStyle.copyWith(
+        style: titleTextStyle.copyWith(
           fontSize: 24,
           fontWeight: FontWeight.bold,
         ),
@@ -354,7 +354,7 @@ class _TicketScreenState extends State<TicketScreen> {
                         Expanded(
                           child: Text(
                             '${ticket.carFrom} - ${ticket.carTo}',
-                            style: blackTextStyle.copyWith(
+                            style: titleTextStyle.copyWith(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
                             ),

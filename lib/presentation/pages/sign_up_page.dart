@@ -115,14 +115,14 @@ class _SignUpPageState extends State<SignUpPage> {
         backgroundColor: kPrimaryColor,
         titleText: Text(
           "Daftar Gagal",
-          style: whiteTextStyle.copyWith(
+          style: buttonColor.copyWith(
             fontSize: 14,
             fontWeight: bold,
           ),
         ),
         messageText: Text(
           "Email atau password tidak boleh kosong",
-          style: whiteTextStyle.copyWith(
+          style: buttonColor.copyWith(
             fontSize: 14,
           ),
         ),
@@ -182,14 +182,14 @@ class _SignUpPageState extends State<SignUpPage> {
                   backgroundColor: const Color(0xff171616),
                   titleText: Text(
                     "Daftar Gagal",
-                    style: whiteTextStyle.copyWith(
+                    style: buttonColor.copyWith(
                       fontSize: 14,
                       fontWeight: bold,
                     ),
                   ),
                   messageText: Text(
-                    "Email sudah terdaftar atau lanjutkan dengan akun Google.",
-                    style: whiteTextStyle.copyWith(
+                    "Email sudah terdaftar",
+                    style: buttonColor.copyWith(
                       fontSize: 14,
                     ),
                   ),
@@ -215,7 +215,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       children: [
                         Text(
                           "Daftar",
-                          style: blackTextStyle.copyWith(
+                          style: titleTextStyle.copyWith(
                             fontSize: 24, // Body Large
                             fontWeight: bold,
                           ),
@@ -224,8 +224,8 @@ class _SignUpPageState extends State<SignUpPage> {
                           height: defaultMargin / 2,
                         ),
                         Text(
-                          "Daftar dengan email dan password \natau menggunakan akun Google",
-                          style: subTitleTextStyle.copyWith(
+                          "Silakan masukan email dan password \nuntuk melanjutkan",
+                          style: blackTextStyle.copyWith(
                             fontSize: 15, // Body Large
                           ),
                         ),
@@ -322,25 +322,7 @@ class _SignUpPageState extends State<SignUpPage> {
             ),
             recognizer: TapGestureRecognizer()
               ..onTap = () {
-                _navigateTo('/terms');
-              },
-          ),
-          TextSpan(
-            text: " serta ",
-            style: subTitleTextStyle.copyWith(
-              fontSize: 13,
-            ),
-          ),
-          TextSpan(
-            text: "Kebijakan Privasi",
-            style: subTitleTextStyle.copyWith(
-              fontSize: 13,
-              color: const Color(0xff087443), // Link color
-              decoration: TextDecoration.underline,
-            ),
-            recognizer: TapGestureRecognizer()
-              ..onTap = () {
-                _navigateTo('/privacy');
+                _navigateTo('/term-conditions');
               },
           ),
           TextSpan(

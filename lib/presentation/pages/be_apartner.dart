@@ -52,7 +52,7 @@ class _HowToBePartnerState extends State<HowToBePartner> {
       surfaceTintColor: kWhiteColor,
       title: Text(
         'Mulai Menjadi Mitra',
-        style: blackTextStyle.copyWith(
+        style: titleTextStyle.copyWith(
           fontSize: 20,
           fontWeight: FontWeight.bold,
         ),
@@ -90,7 +90,7 @@ class _HowToBePartnerState extends State<HowToBePartner> {
                       children: [
                         Text(
                           'Ayo Mulai',
-                          style: blackTextStyle.copyWith(
+                          style: titleTextStyle.copyWith(
                             fontSize: 18,
                             fontWeight: bold,
                           ),
@@ -137,7 +137,7 @@ class _HowToBePartnerState extends State<HowToBePartner> {
                       children: [
                         Text(
                           'Pasang Iklan',
-                          style: blackTextStyle.copyWith(
+                          style: titleTextStyle.copyWith(
                             fontSize: 18,
                             fontWeight: bold,
                           ),
@@ -166,7 +166,7 @@ class _HowToBePartnerState extends State<HowToBePartner> {
                       children: [
                         Text(
                           'Punya pertanyaan?',
-                          style: blackTextStyle.copyWith(
+                          style: titleTextStyle.copyWith(
                             fontSize: 18,
                             fontWeight: bold,
                           ),

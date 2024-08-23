@@ -4,7 +4,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+
 import 'package:line_icons/line_icons.dart';
 import 'package:rents_cars_app/blocs/auth/auth_bloc.dart';
 import 'package:rents_cars_app/blocs/auth/auth_event.dart';
@@ -110,14 +110,14 @@ class _SignInPageState extends State<SignInPage> {
         backgroundColor: kPrimaryColor,
         titleText: Text(
           "Login Gagal",
-          style: whiteTextStyle.copyWith(
+          style: buttonColor.copyWith(
             fontSize: 14, // Body Medium
             fontWeight: FontWeight.bold,
           ),
         ),
         messageText: Text(
           "Email atau password tidak boleh kosong",
-          style: whiteTextStyle.copyWith(
+          style: buttonColor.copyWith(
             fontSize: 14, // Body Medium
           ),
         ),
@@ -183,14 +183,14 @@ class _SignInPageState extends State<SignInPage> {
                 backgroundColor: const Color(0xff171616),
                 titleText: Text(
                   "Login Gagal",
-                  style: whiteTextStyle.copyWith(
+                  style: buttonColor.copyWith(
                     fontSize: 14, // Body Medium
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 messageText: Text(
-                  "Email dan password salah atau lanjutkan dengan akun Google.",
-                  style: whiteTextStyle.copyWith(
+                  "Email dan password salah",
+                  style: buttonColor.copyWith(
                     fontSize: 14, // Body Medium
                   ),
                 ),
@@ -215,7 +215,7 @@ class _SignInPageState extends State<SignInPage> {
                       children: [
                         Text(
                           "Login",
-                          style: blackTextStyle.copyWith(
+                          style: titleTextStyle.copyWith(
                             fontSize: 24, // Body Large
                             fontWeight: bold,
                           ),
@@ -224,8 +224,8 @@ class _SignInPageState extends State<SignInPage> {
                           height: defaultMargin / 2,
                         ),
                         Text(
-                          "Masuk dengan email dan password \natau menggunakan akun Google",
-                          style: subTitleTextStyle.copyWith(
+                          "Silakan masukan email dan password \nuntuk melanjutkan",
+                          style: blackTextStyle.copyWith(
                             fontSize: 15, // Body Large
                           ),
                         ),
@@ -287,6 +287,9 @@ class _SignInPageState extends State<SignInPage> {
                       ],
                     ),
                   ),
+                  SizedBox(
+                    height: defaultMargin * 2,
+                  ),
                   Center(
                     child: _buildForgotPassword(),
                   ),
@@ -322,25 +325,7 @@ class _SignInPageState extends State<SignInPage> {
             ),
             recognizer: TapGestureRecognizer()
               ..onTap = () {
-                _navigateTo('/terms');
-              },
-          ),
-          TextSpan(
-            text: " serta ",
-            style: subTitleTextStyle.copyWith(
-              fontSize: 13,
-            ),
-          ),
-          TextSpan(
-            text: "Kebijakan Privasi",
-            style: subTitleTextStyle.copyWith(
-              fontSize: 13,
-              color: const Color(0xff087443), // Link color
-              decoration: TextDecoration.underline,
-            ),
-            recognizer: TapGestureRecognizer()
-              ..onTap = () {
-                _navigateTo('/privacy');
+                _navigateTo('/term-conditions');
               },
           ),
           TextSpan(
@@ -357,21 +342,17 @@ class _SignInPageState extends State<SignInPage> {
 
   // Widget forgotPassword() {
   Widget _buildForgotPassword() {
-    return Container(
-      margin: EdgeInsets.only(
-        top: defaultMargin,
-      ),
-      child: TextButton(
-        onPressed: () {
-          Navigator.pushNamed(context, '/forgotPassword');
-        },
-        child: Text(
-          "Lupa Password?",
-          style: subTitleTextStyle.copyWith(
-            fontSize: 14, // Body Medium
-            color: kPrimaryColor,
-            fontWeight: FontWeight.bold,
-          ),
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushNamed(context, '/forgotPassword');
+      },
+      child: Text(
+        "Lupa Password",
+        style: blackTextStyle.copyWith(
+          fontSize: 14,
+          fontWeight: bold,
+          // color: const Color(0xff087443),
+          // decoration: TextDecoration.underline,
         ),
       ),
     );

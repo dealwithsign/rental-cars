@@ -1,5 +1,6 @@
 // routes.dart
 import 'package:flutter/material.dart';
+import 'package:rents_cars_app/presentation/pages/forgot_password.dart';
 
 import 'data/models/ticket_model.dart';
 import 'presentation/pages/be_apartner.dart';
@@ -15,6 +16,8 @@ import 'presentation/pages/sign_up_page.dart';
 import 'presentation/pages/splash_page.dart';
 import 'presentation/pages/terms_conditions.dart';
 import 'presentation/pages/ticket_page.dart';
+import 'presentation/pages/update_password.dart';
+import 'presentation/pages/verify_otp.dart';
 import 'presentation/pages/wrapper_auth_page.dart';
 
 Map<String, WidgetBuilder> getRoutes() {
@@ -25,6 +28,9 @@ Map<String, WidgetBuilder> getRoutes() {
     '/home': (context) => const HomeScreen(),
     '/signIn': (context) => const SignInPage(),
     '/signUp': (context) => const SignUpPage(),
+    '/forgotPassword': (context) => const ForgotPassword(),
+    '/verifyOTP': (context) => const VerifyOTP(),
+    '/resetPassword': (context) => const UpdatePassword(),
     '/splashPage': (context) => const SplashScreen(),
     // cars
     '/carListPage': (context) {

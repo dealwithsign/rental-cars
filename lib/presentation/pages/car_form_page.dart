@@ -124,7 +124,7 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
             children: [
               Text(
                 'Selesaikan Pesananmu',
-                style: blackTextStyle.copyWith(
+                style: titleTextStyle.copyWith(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
@@ -221,14 +221,14 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
             children: [
               Text(
                 "Detail Pemesan",
-                style: blackTextStyle.copyWith(
+                style: titleTextStyle.copyWith(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               Text(
                 "Informasi kontak ini akan digunakan untuk pengiriman e-ticket.",
-                style: subTitleTextStyle.copyWith(
+                style: blackTextStyle.copyWith(
                   fontSize: 14,
                 ),
               ),
@@ -271,7 +271,7 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                             children: [
                               Text(
                                 "Detail Pemesan",
-                                style: blackTextStyle.copyWith(
+                                style: titleTextStyle.copyWith(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -538,14 +538,14 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
         children: [
           Text(
             "Detail Pesanan",
-            style: blackTextStyle.copyWith(
+            style: titleTextStyle.copyWith(
               fontSize: 18,
               fontWeight: FontWeight.bold,
             ),
           ),
           Text(
             "Lengkapi data dibawah ini untuk melanjutkan pemesanan",
-            style: subTitleTextStyle.copyWith(
+            style: blackTextStyle.copyWith(
               fontSize: 14,
             ),
           ),

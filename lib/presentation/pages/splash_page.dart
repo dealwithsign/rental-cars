@@ -1,3 +1,5 @@
+// presentation/pages/splash_page.dart
+import 'package:flutter/gestures.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -44,71 +46,11 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 
-  void _showLoadingDialog() {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return WillPopScope(
-          onWillPop: () async => false,
-          child: Center(
-            child: Container(
-              margin: EdgeInsets.symmetric(horizontal: defaultMargin * 6),
-              padding: EdgeInsets.all(defaultMargin),
-              decoration: BoxDecoration(
-                color: kWhiteColor,
-                borderRadius: BorderRadius.circular(defaultRadius),
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SpinKitThreeBounce(
-                    color: kPrimaryColor,
-                    size: 25.0,
-                  ),
-                  SizedBox(height: defaultMargin),
-                  Center(
-                    child: Text(
-                      "Mohon tunggu...",
-                      style: blackTextStyle.copyWith(
-                        fontSize: 14, // Body Medium
-                        fontWeight: FontWeight.bold,
-                        decoration: TextDecoration.none,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 5),
-                  Center(
-                    child: Text(
-                      "Sedang memuat data...",
-                      textAlign: TextAlign.center,
-                      style: subTitleTextStyle.copyWith(
-                        fontSize: 14, // Body Medium
-                        decoration: TextDecoration.none,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  void _hideLoadingDialog() {
-    if (Navigator.canPop(context)) {
-      Navigator.pop(context);
-    }
-  }
-
   Future<void> _handleGoogleSignIn() async {
     setState(() {
       _isLoading = true; // Set loading to true
     });
-    _showLoadingDialog(); // Show loading dialog
+
     final supabase = SupabaseAuth.Supabase.instance.client;
     const webClientId =
         "519541244574-823pseok23v1d3nvigtr16js3a3v5a9o.apps.googleusercontent.com";
@@ -116,7 +58,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
     final googleUser = await googleSignIn.signIn();
     if (googleUser == null) {
-      _hideLoadingDialog();
       setState(() {
         _isLoading = false; // Set loading to false if sign-in fails
       });
@@ -128,7 +69,6 @@ class _SplashScreenState extends State<SplashScreen> {
     final idToken = googleAuth.idToken;
 
     if (accessToken == null || idToken == null) {
-      _hideLoadingDialog();
       setState(() {
         _isLoading = false; // Set loading to false if tokens are null
       });
@@ -145,7 +85,6 @@ class _SplashScreenState extends State<SplashScreen> {
       );
       final user = res.user;
       if (user == null) {
-        _hideLoadingDialog();
         setState(() {
           _isLoading = false; // Set loading to false if sign-in fails
         });
@@ -153,10 +92,8 @@ class _SplashScreenState extends State<SplashScreen> {
         return;
       }
 
-      _hideLoadingDialog();
       Navigator.pushReplacementNamed(context, '/wrapper');
     } catch (e) {
-      _hideLoadingDialog();
       setState(() {
         _isLoading = false; // Set loading to false if sign-in fails
       });
@@ -166,65 +103,87 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
-    final double imageHeight = screenSize.height * 0.10;
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         backgroundColor: kWhiteColor,
-        body: SafeArea(
-          child: Center(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: defaultMargin * 2),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        _buildIcon(imageHeight),
-                        SizedBox(height: defaultMargin * 2),
-                        _buildTitle(),
-                        SizedBox(height: defaultMargin * 2),
-                        _buildTagline(),
-                        SizedBox(height: defaultMargin * 2),
-                        _buildSocialSignInButtons(),
-                        SizedBox(height: defaultMargin * 2),
-                        _buildSignInTextButton(),
-                      ],
+        body: Center(
+          child: Column(
+            children: [
+              Expanded(
+                child: Column(
+                  children: [
+                    _buildImage(MediaQuery.of(context).size.height * 0.5),
+                    SizedBox(height: defaultMargin * 2),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: defaultMargin),
+                      child: _buildTitle(),
                     ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(bottom: defaultMargin),
-                    child: _buildTermsText(),
-                  ),
-                ],
+                    SizedBox(height: defaultMargin),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: defaultMargin),
+                      child: _buildTagline(),
+                    ),
+                    SizedBox(height: defaultMargin * 2),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: defaultMargin),
+                      child: _buildSocialSignInButtons(),
+                    ),
+                    SizedBox(height: defaultMargin * 2),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: defaultMargin),
+                      child: _buildSignInTextButton(),
+                    ),
+                  ],
+                ),
               ),
-            ),
+              Padding(
+                padding: EdgeInsets.only(bottom: defaultMargin),
+                child: _buildTermsText(),
+              ),
+            ],
           ),
         ),
       ),
     );
   }
 
-  Widget _buildIcon(double imageHeight) {
-    return Icon(
-      FontAwesomeIcons.a, // Your custom icon
-      size: imageHeight,
-      color: const Color(0xff087443),
-      semanticLabel: 'App Icon',
+  Widget _buildImage(double imageHeight) {
+    return Container(
+      width: double.infinity,
+      height: MediaQuery.of(context).size.height *
+          0.5, // Covers 50% of the screen height
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: NetworkImage(
+            'https://images.unsplash.com/photo-1676134690893-c6264a00e883?q=80&w=2115&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+          ),
+          fit: BoxFit.cover, // Fills the entire container without distortion
+        ),
+      ),
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Colors.transparent, // Start with transparent
+              Colors.white.withOpacity(
+                0.0,
+              ), // Gradually change to white with some opacity
+              kWhiteColor // Fully white at the bottom
+            ],
+          ),
+        ),
+      ),
     );
   }
 
   Widget _buildTitle() {
     return Text(
-      'Cadeira',
-      style: blackTextStyle.copyWith(
-        fontSize: 24, // Adjust the font size to match the design
+      'Selamat datang di Gojek !',
+      style: titleTextStyle.copyWith(
+        fontSize: 20, // Adjust the font size to match the design
         fontWeight: bold,
       ),
     );
@@ -232,10 +191,10 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Widget _buildTagline() {
     return Text(
-      "Sewa Mobil Kini Lebih Mudah dan Praktis. Temukan Mobil Impian Anda untuk Perjalanan yang Nyaman dan Aman. \nDaftar Sekarang!",
+      "Aplikasi yang buat hidupmu lebih mudah. Siap bantu kebutuhan transportasi kamu!",
       textAlign: TextAlign.center,
-      style: subTitleTextStyle.copyWith(
-        fontSize: 14, // Adjust the font size to match the design
+      style: blackTextStyle.copyWith(
+        fontSize: 15, // Adjust the font size to match the design
       ),
     );
   }
@@ -243,12 +202,12 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget _buildSocialSignInButtons() {
     return Column(
       children: [
-        SubPrimaryButton(
-          title: "Lanjutkan dengan Google",
-          icon: FontAwesomeIcons.google,
-          onPressed: _handleGoogleSignIn,
-        ),
-        SizedBox(height: defaultMargin),
+        // SubPrimaryButton(
+        //   title: "Lanjutkan dengan Google",
+        //   icon: FontAwesomeIcons.google,
+        //   onPressed: _handleGoogleSignIn,
+        // ),
+        // SizedBox(height: defaultMargin),
         CustomButton(
           title: "Lanjutkan dengan Email",
           onPressed: _handleSignUpWithEmail,
@@ -269,8 +228,9 @@ class _SplashScreenState extends State<SplashScreen> {
             text: "Masuk",
             style: blackTextStyle.copyWith(
               fontSize: 14,
-              color: const Color(0xff087443),
-              decoration: TextDecoration.underline,
+              fontWeight: bold,
+              // color: const Color(0xff087443),
+              // decoration: TextDecoration.underline,
             ),
             recognizer: TapGestureRecognizer()
               ..onTap = () {
@@ -299,25 +259,7 @@ class _SplashScreenState extends State<SplashScreen> {
             ),
             recognizer: TapGestureRecognizer()
               ..onTap = () {
-                _navigateTo('/terms');
-              },
-          ),
-          TextSpan(
-            text: " serta ",
-            style: subTitleTextStyle.copyWith(
-              fontSize: 13,
-            ),
-          ),
-          TextSpan(
-            text: "Kebijakan Privasi",
-            style: subTitleTextStyle.copyWith(
-              fontSize: 13,
-              color: const Color(0xff087443), // Link color
-              decoration: TextDecoration.underline,
-            ),
-            recognizer: TapGestureRecognizer()
-              ..onTap = () {
-                _navigateTo('/privacy');
+                _navigateTo('/term-conditions');
               },
           ),
           TextSpan(

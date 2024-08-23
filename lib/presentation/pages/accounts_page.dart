@@ -68,7 +68,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
       backgroundColor: Colors.white,
       title: Text(
         'Profile',
-        style: blackTextStyle.copyWith(
+        style: titleTextStyle.copyWith(
           fontSize: 24,
           fontWeight: bold,
         ),
@@ -138,7 +138,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
               child: user.url_profile.isEmpty
                   ? Text(
                       getInitials(user.username),
-                      style: whiteTextStyle.copyWith(
+                      style: titleTextStyle.copyWith(
                         fontSize: 20,
                         fontWeight: bold,
                       ),
@@ -151,7 +151,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
               children: [
                 Text(
                   user.username.split('@').first,
-                  style: blackTextStyle.copyWith(
+                  style: titleTextStyle.copyWith(
                     fontSize: 18,
                     fontWeight: bold,
                   ),
@@ -185,7 +185,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
         children: [
           Text(
             'Akun',
-            style: blackTextStyle.copyWith(
+            style: titleTextStyle.copyWith(
               fontSize: 18,
               fontWeight: bold,
             ),

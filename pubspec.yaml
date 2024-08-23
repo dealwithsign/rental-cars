@@ -72,4 +72,15 @@ flutter:
   assets:
     - assets/images/
     - assets/icons/
+  
+  fonts:
+    - family: MaisonNeueTitle
+      fonts:
+        - asset: assets/fonts/NeoSansStdMedium.otf
+    - family: MaisonNeuePrimary
+      fonts:
+        - asset: assets/fonts/NeoSansStdRegular.otf
+    - family: MaisonNeueSecondary
+      fonts:
+        - asset: assets/fonts/NeoSansStdLight.otf
 

@@ -154,7 +154,7 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
           padding: EdgeInsets.symmetric(horizontal: defaultMargin),
           child: Text(
             fetchedCar.carName,
-            style: blackTextStyle.copyWith(
+            style: titleTextStyle.copyWith(
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
@@ -240,7 +240,7 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
           padding: EdgeInsets.symmetric(horizontal: defaultMargin),
           child: Text(
             "Layanan Rental",
-            style: blackTextStyle.copyWith(
+            style: titleTextStyle.copyWith(
               fontSize: 18,
               fontWeight: FontWeight.bold,
             ),
@@ -269,7 +269,7 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
           padding: EdgeInsets.symmetric(horizontal: defaultMargin),
           child: Text(
             "Lokasi Rental",
-            style: blackTextStyle.copyWith(
+            style: titleTextStyle.copyWith(
               fontSize: 18,
               fontWeight: FontWeight.bold,
             ),
