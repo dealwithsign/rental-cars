@@ -27,7 +27,7 @@ class _MidtransSuccessState extends State<MidtransSuccess> {
             Text(
               'Pembayaran Berhasil',
               style: titleTextStyle.copyWith(
-                fontSize: 20,
+                fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -50,7 +50,7 @@ class _MidtransSuccessState extends State<MidtransSuccess> {
             children: [
               Icon(
                 FontAwesomeIcons.circleCheck,
-                color: kSuccessColor,
+                color: const Color(0xff018053),
                 size: MediaQuery.of(context).size.width * 0.20,
               ),
               // SizedBox(height: defaultMargin),
@@ -70,7 +70,7 @@ class _MidtransSuccessState extends State<MidtransSuccess> {
                 textAlign: TextAlign.center,
               ),
               Text(
-                'Silakan cek email untuk detail pesanan',
+                'Silakan cek email dan  untuk detail pesanan',
                 style: blackTextStyle.copyWith(
                   fontSize: 15,
                 ),

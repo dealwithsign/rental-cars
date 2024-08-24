@@ -1,6 +1,5 @@
 // presentation/widgets/navigation_widget.dart
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../blocs/navigations/pages_bloc.dart';
@@ -34,12 +33,18 @@ class CustomBottomNavigationItem extends StatelessWidget {
               Column(
                 children: [
                   SizedBox(height: defaultMargin),
-                  icon, // Use the icon Widget directly
+                  ColorFiltered(
+                    colorFilter: ColorFilter.mode(
+                      isActive ? const Color(0xff018053) : kPrimaryColor,
+                      BlendMode.srcIn,
+                    ),
+                    child: icon, // Use the icon Widget directly
+                  ),
                   SizedBox(height: defaultMargin / 2),
                   Text(
                     label,
                     style: blackTextStyle.copyWith(
-                      color: isActive ? kPrimaryColor : descGrey,
+                      color: isActive ? const Color(0xff018053) : kPrimaryColor,
                       fontSize: 14,
                       fontWeight:
                           isActive ? FontWeight.bold : FontWeight.normal,

@@ -272,7 +272,7 @@ class _HowToBePartnerState extends State<HowToBePartner> {
                     EdgeInsets.all(defaultMargin), // Adjust padding as needed
                 child: Icon(
                   icon,
-                  color: kappBar,
+                  color: const Color(0xff018053),
                   size: 20,
                 ),
               ),

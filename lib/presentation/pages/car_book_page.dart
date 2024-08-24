@@ -594,7 +594,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
         bottom: defaultMargin,
       ),
       decoration: BoxDecoration(
-        color: kBackgroundColor,
+        color: Color(0xff018053),
         borderRadius: BorderRadius.circular(defaultRadius),
         border: Border.all(
           color: kTransparentColor,
@@ -606,14 +606,14 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
           children: [
             Icon(
               FontAwesomeIcons.triangleExclamation,
-              color: kappBar,
+              color: kWhiteColor,
               size: 20,
             ),
             SizedBox(width: defaultMargin),
             Expanded(
               child: Text(
                 'Pastikan data yang kamu masukkan sudah benar sebelum melanjutkan pembayaran.',
-                style: blackTextStyle.copyWith(
+                style: buttonColor.copyWith(
                   fontSize: 14,
                   fontWeight: bold,
                 ),
@@ -822,7 +822,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
                     backgroundColor: kBackgroundColor,
                     child: Icon(
                       FontAwesomeIcons.locationArrow,
-                      color: kappBar,
+                      color: Color(0xff018053),
                       size: 20,
                     ),
                   ),
@@ -833,10 +833,9 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
                   ),
                   CircleAvatar(
                     backgroundColor: kBackgroundColor,
-                    // backgroundColor: const Color(0xffCEEAD6),
                     child: Icon(
                       FontAwesomeIcons.locationDot,
-                      color: kappBar,
+                      color: Color(0xff018053),
                       size: 20,
                     ),
                   ),
