@@ -9,6 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
@@ -423,6 +424,8 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
     final int totalPriceWithoutAdmin = carPrice * widget.selectedPassengers;
     const int adminFee = 12000;
     final int totalPayment = totalPriceWithoutAdmin + adminFee;
+    await dotenv.load(fileName: ".env.dev");
+    final apiVercelUrl = dotenv.env['apiVercelUrl']!;
 
     BookingServices bookingServices = BookingServices();
     // data to be saved
@@ -494,8 +497,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
 
     print('Request ke API Midtrans...');
     var response = await http.post(
-      Uri.parse(
-          "https://midtrans-fumjwv6jv-dealwithsign.vercel.app/v1/payment-links"),
+      Uri.parse(apiVercelUrl),
       headers: {"Content-Type": "application/json"},
       body: jsonEncode(data),
     );

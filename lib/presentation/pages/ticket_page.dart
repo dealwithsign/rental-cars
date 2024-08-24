@@ -265,14 +265,14 @@ class _TicketScreenState extends State<TicketScreen> {
                   backgroundColor: kPrimaryColor,
                   titleText: Text(
                     "Pesanan Dibatalkan",
-                    style: whiteTextStyle.copyWith(
+                    style: buttonColor.copyWith(
                       fontSize: 14,
                       fontWeight: bold,
                     ),
                   ),
                   messageText: Text(
                     "Pesanan ini telah dibatalkan. Silakan pesan kembali.",
-                    style: whiteTextStyle.copyWith(
+                    style: buttonColor.copyWith(
                       fontSize: 14,
                     ),
                   ),
@@ -292,14 +292,14 @@ class _TicketScreenState extends State<TicketScreen> {
                   backgroundColor: kPrimaryColor,
                   titleText: Text(
                     "Waktu Pembayaran Habis",
-                    style: whiteTextStyle.copyWith(
+                    style: buttonColor.copyWith(
                       fontSize: 14,
                       fontWeight: bold,
                     ),
                   ),
                   messageText: Text(
                     "Batas waktu pembayaran kamu telah habis.",
-                    style: whiteTextStyle.copyWith(
+                    style: buttonColor.copyWith(
                       fontSize: 14,
                     ),
                   ),

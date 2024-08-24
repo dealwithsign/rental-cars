@@ -1,5 +1,6 @@
 // data/services/authentication_services.dart
 
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -22,7 +23,7 @@ class AuthServices {
       id: res.user!.id,
       email: email,
       username: '',
-      phone_number: 08,
+      phone_number: 081234567890,
       created_at: DateTime.now(),
       last_sign_in: DateTime.now(),
       provider: 'sign_in_with_email',
@@ -45,7 +46,7 @@ class AuthServices {
       id: res.user!.id,
       email: email,
       username: email,
-      phone_number: phone_number,
+      phone_number: 081234567890,
       created_at: DateTime.now(),
       last_sign_in: DateTime.now(),
       provider: "sign_up_with_email",
@@ -71,11 +72,10 @@ class AuthServices {
 
   // Metode sign-in dan sign-up menggunakan Google
   Future<UserModel> googleSignInSignUp() async {
-    const webClientId =
-        "519541244574-823pseok23v1d3nvigtr16js3a3v5a9o.apps.googleusercontent.com";
+    await dotenv.load(fileName: ".env.dev");
 
     final GoogleSignIn googleSignIn = GoogleSignIn(
-      serverClientId: webClientId,
+      serverClientId: dotenv.env['webClientId']!,
     );
 
     final googleUser = await googleSignIn.signIn();
@@ -100,45 +100,28 @@ class AuthServices {
       throw Exception('Supabase sign-in failed');
     }
 
-    UserModel user = await createOrUpdateUser(
+    final user = UserModel(
       id: res.user!.id,
-      email: googleUser.email,
-      username: googleUser.displayName ?? 'google_users',
-      phone_number: 08,
+      email: res.user!.email ?? '',
+      username: res.user!.email ?? '',
+      phone_number: 081234567890,
+      created_at: DateTime.now(),
+      last_sign_in: DateTime.now(),
+      provider: 'sign_up_with_google',
+      url_profile: res.user!.userMetadata!['avatar_url'] ?? '',
     );
 
-    return user;
-  }
+    try {
+      final response = await supabase.from('users').insert(user.toJson());
 
-  // Implementasi untuk membuat atau memperbarui pengguna di database Anda
-  Future<UserModel> createOrUpdateUser({
-    required String id,
-    required String email,
-    required String username,
-    required int phone_number,
-  }) async {
-    final response = await supabase.from('users').upsert({
-      'id': id,
-      'email': email,
-      'username': username,
-      'phone_number': phone_number,
-      'created_at': DateTime.now().toIso8601String(),
-    });
-
-    if (response.error != null) {
-      throw Exception(response.error!.message);
+      if (response.error != null) {
+        throw Exception('Database insert error: ${response.error!.message}');
+      }
+    } catch (e) {
+      print('Caught error: $e');
     }
 
-    return UserModel(
-      id: id,
-      email: email,
-      username: username,
-      phone_number: phone_number,
-      created_at: DateTime.now(),
-      url_profile: '',
-      last_sign_in: DateTime.now(),
-      provider: 'sign_in_with_email',
-    );
+    return user;
   }
 
   // get current users
