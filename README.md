@@ -34,7 +34,3 @@ Vercel
   flutter pub get
   flutter run or debug by vscode
 ```
-
-## Authors
-
-- [@braiyenmassora](https://www.github.com/braiyenmassora)
