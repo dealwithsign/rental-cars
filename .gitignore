@@ -24,7 +24,9 @@ ios/Pods/
 *.xcodeproj/
 
 # Environment files
-.env
+*.env
+*.env.prod
+*.env.dev
 
 # Logs
 *.log

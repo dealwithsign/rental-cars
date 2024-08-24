@@ -2,12 +2,15 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:rents_cars_app/presentation/widgets/button_sub_primary.dart';
 import 'package:rents_cars_app/presentation/widgets/button_widget.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import '../../blocs/auth/auth_bloc.dart';
+import '../../blocs/auth/auth_event.dart';
 import '../../utils/fonts.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as SupabaseAuth;
 
@@ -20,7 +23,7 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   late final SupabaseClient supabase;
-  bool _isLoading = false;
+  final bool _isLoading = false;
 
   @override
   void initState() {
@@ -32,6 +35,10 @@ class _SplashScreenState extends State<SplashScreen> {
     Navigator.pushNamed(context, routeName);
   }
 
+  void _navigateGoogleSignInSignUp(String routeName) {
+    Navigator.pushReplacementNamed(context, routeName);
+  }
+
   void _handleSignInWithEmail() {
     _navigateTo('/signIn');
   }
@@ -40,65 +47,9 @@ class _SplashScreenState extends State<SplashScreen> {
     _navigateTo('/signUp');
   }
 
-  void _showError(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
-    );
-  }
-
-  Future<void> _handleGoogleSignIn() async {
-    setState(() {
-      _isLoading = true; // Set loading to true
-    });
-
-    final supabase = SupabaseAuth.Supabase.instance.client;
-    const webClientId =
-        "519541244574-823pseok23v1d3nvigtr16js3a3v5a9o.apps.googleusercontent.com";
-    final GoogleSignIn googleSignIn = GoogleSignIn(serverClientId: webClientId);
-
-    final googleUser = await googleSignIn.signIn();
-    if (googleUser == null) {
-      setState(() {
-        _isLoading = false; // Set loading to false if sign-in fails
-      });
-      _showError('Login dengan Google gagal');
-      return;
-    }
-    final googleAuth = await googleUser.authentication;
-    final accessToken = googleAuth.accessToken;
-    final idToken = googleAuth.idToken;
-
-    if (accessToken == null || idToken == null) {
-      setState(() {
-        _isLoading = false; // Set loading to false if tokens are null
-      });
-      _showError('Tidak ditemukan access token atau ID token');
-      return;
-    }
-
-    try {
-      final SupabaseAuth.AuthResponse res =
-          await supabase.auth.signInWithIdToken(
-        provider: SupabaseAuth.OAuthProvider.google,
-        idToken: idToken,
-        accessToken: accessToken,
-      );
-      final user = res.user;
-      if (user == null) {
-        setState(() {
-          _isLoading = false; // Set loading to false if sign-in fails
-        });
-        _showError('Login Supabase gagal');
-        return;
-      }
-
-      Navigator.pushReplacementNamed(context, '/wrapper');
-    } catch (e) {
-      setState(() {
-        _isLoading = false; // Set loading to false if sign-in fails
-      });
-      _showError('Login gagal: ${e.toString()}');
-    }
+  void _handleGoogleSignIn() async {
+    context.read<AuthBloc>().add(SignInSignUpWithGoogleRequested());
+    _navigateGoogleSignInSignUp('/main');
   }
 
   @override
@@ -162,19 +113,19 @@ class _SplashScreenState extends State<SplashScreen> {
         ),
       ),
       child: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Colors.transparent, // Start with transparent
-              Colors.white.withOpacity(
-                0.0,
-              ), // Gradually change to white with some opacity
-              kWhiteColor // Fully white at the bottom
-            ],
-          ),
-        ),
+        decoration: const BoxDecoration(
+            // gradient: LinearGradient(
+            //   begin: Alignment.topCenter,
+            //   end: Alignment.bottomCenter,
+            //   colors: [
+            //     Colors.transparent, // Start with transparent
+            //     Colors.white.withOpacity(
+            //       0.0,
+            //     ), // Gradually change to white with some opacity
+            //     kWhiteColor // Fully white at the bottom
+            //   ],
+            // ),
+            ),
       ),
     );
   }
@@ -202,12 +153,12 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget _buildSocialSignInButtons() {
     return Column(
       children: [
-        // SubPrimaryButton(
-        //   title: "Lanjutkan dengan Google",
-        //   icon: FontAwesomeIcons.google,
-        //   onPressed: _handleGoogleSignIn,
-        // ),
-        // SizedBox(height: defaultMargin),
+        SubPrimaryButton(
+          title: "Lanjutkan dengan Google",
+          icon: FontAwesomeIcons.google,
+          onPressed: _handleGoogleSignIn,
+        ),
+        SizedBox(height: defaultMargin),
         CustomButton(
           title: "Lanjutkan dengan Email",
           onPressed: _handleSignUpWithEmail,

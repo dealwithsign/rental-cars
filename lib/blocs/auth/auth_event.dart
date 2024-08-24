@@ -19,7 +19,7 @@ class SignInRequested extends AuthEvent {
   SignInRequested(this.email, this.password);
 }
 
-class SignInWithGoogleRequested extends AuthEvent {}
+class SignInSignUpWithGoogleRequested extends AuthEvent {}
 
 class GetCurrentUserRequested extends AuthEvent {}
 

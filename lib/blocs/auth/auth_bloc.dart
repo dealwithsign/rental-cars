@@ -59,7 +59,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
     });
     // sign google
-    on<SignInWithGoogleRequested>((event, emit) async {
+    on<SignInSignUpWithGoogleRequested>((event, emit) async {
       emit(AuthLoading());
       try {
         final user = await authServices.googleSignInSignUp();

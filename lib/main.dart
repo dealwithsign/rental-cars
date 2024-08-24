@@ -17,17 +17,19 @@ import 'data/services/authentication_services.dart';
 import 'utils/fonts.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'routes.dart'; // import routes.dart
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  // Load environment variables
+  await dotenv.load(fileName: ".env.dev");
+
   // Inisialisasi Supabase
   await Supabase.initialize(
-    url: "https://bevwigjpkmsmfyixvwvb.supabase.co",
-    anonKey:
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJldndpZ2pwa21zbWZ5aXh2d3ZiIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTU3MDMxNzcsImV4cCI6MjAxMTI3OTE3N30.J_gdbB7xOjKmPeKj3702hMO_1uTkkpXUFUgXSz-y_n4",
+    url: dotenv.env['supabaseUrl']!,
+    anonKey: dotenv.env['supabaseAnonKey']!,
   );
-
   // Set locale messages untuk timeago
   timeago.setLocaleMessages('id', id_messages.IdMessages());
 
