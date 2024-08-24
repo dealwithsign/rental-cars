@@ -121,14 +121,14 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'Detail Perjalanan',
-                          style: titleTextStyle.copyWith(
-                            fontSize: 18,
-                            fontWeight: bold,
-                          ),
-                        ),
-                        SizedBox(height: defaultMargin),
+                        // Text(
+                        //   'Detail Perjalanan',
+                        //   style: titleTextStyle.copyWith(
+                        //     fontSize: 18,
+                        //     fontWeight: bold,
+                        //   ),
+                        // ),
+                        // SizedBox(height: defaultMargin),
                         _buildDetailsTravel(
                           lokasiJemput: widget.ticket.carFrom,
                           lokasiTujuan: widget.ticket.carTo,
@@ -183,8 +183,8 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
       children: [
         Text(
           widget.ticket.carName,
-          style: blackTextStyle.copyWith(
-            fontSize: 16,
+          style: titleTextStyle.copyWith(
+            fontSize: 18,
             fontWeight: bold,
           ),
         ),
@@ -192,19 +192,19 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
         Text(
           "Dioperasikan oleh ${widget.ticket.ownerCar}",
           style: blackTextStyle.copyWith(
-            fontSize: 14,
+            fontSize: 15,
           ),
         ),
         Text(
           formatIndonesianDate(widget.ticket.carDate),
           style: blackTextStyle.copyWith(
-            fontSize: 14,
+            fontSize: 15,
           ),
         ),
         Text(
           "${widget.ticket.selectedPassengers.toString()} penumpang",
           style: blackTextStyle.copyWith(
-            fontSize: 14,
+            fontSize: 15,
           ),
         ),
         SizedBox(height: defaultMargin * 2),
@@ -215,9 +215,9 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
               children: [
                 CircleAvatar(
                   backgroundColor: kBackgroundColor,
-                  child: Icon(
+                  child: const Icon(
                     FontAwesomeIcons.locationArrow,
-                    color: kPrimaryColor,
+                    color: Color(0xff018053),
                     size: 20,
                   ),
                 ),
@@ -228,9 +228,9 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                 ),
                 CircleAvatar(
                   backgroundColor: kBackgroundColor,
-                  child: Icon(
+                  child: const Icon(
                     FontAwesomeIcons.locationDot,
-                    color: kPrimaryColor,
+                    color: Color(0xff018053),
                     size: 20,
                   ),
                 ),
@@ -244,7 +244,7 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                   Text(
                     widget.ticket.carFrom,
                     style: blackTextStyle.copyWith(
-                      fontSize: 14,
+                      fontSize: 15,
                       fontWeight: bold,
                     ),
                   ),
@@ -259,7 +259,7 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                   Text(
                     widget.ticket.carTo,
                     style: blackTextStyle.copyWith(
-                      fontSize: 14,
+                      fontSize: 15,
                       fontWeight: bold,
                     ),
                   ),
@@ -333,7 +333,7 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
       displayValue = 'Virtual Account';
     } else if (label == 'Status Pembayaran' && value == 'settlement') {
       displayValue = 'Pembayaran Sukses';
-      textColor = kSuccessColor;
+      textColor = const Color(0xff018053);
     } else if (label == 'Metode Pembayaran' && value == 'qris') {
       displayValue = 'QRIS';
     }

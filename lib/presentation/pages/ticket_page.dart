@@ -148,10 +148,10 @@ class _TicketScreenState extends State<TicketScreen> {
         bottom: defaultMargin,
       ),
       decoration: BoxDecoration(
-        color: const Color(0xffCEEAD6),
+        color: const Color(0xff018053),
         borderRadius: BorderRadius.circular(defaultRadius),
         border: Border.all(
-          color: const Color(0xffCEEAD6),
+          color: kTransparentColor,
         ),
       ),
       child: Padding(
@@ -160,14 +160,14 @@ class _TicketScreenState extends State<TicketScreen> {
           children: [
             Icon(
               FontAwesomeIcons.circleInfo,
-              color: kappBar,
+              color: kWhiteColor,
               size: 20,
             ),
             SizedBox(width: defaultMargin),
             Expanded(
               child: Text(
                 'Semua transaksi yang sudah selesai tidak dapat diubah atau dibatalkan.',
-                style: blackTextStyle.copyWith(
+                style: buttonColor.copyWith(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
                 ),

@@ -1,11 +1,11 @@
 // presentation/pages/car_detail_page.dart
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:intl/intl.dart';
+
 import 'package:line_icons/line_icons.dart';
 
 import 'package:skeletonizer/skeletonizer.dart';
@@ -331,9 +331,9 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
             ),
             padding:
                 EdgeInsets.all(defaultMargin / 3), // Adjust padding as needed
-            child: Icon(
+            child: const Icon(
               FontAwesomeIcons.check,
-              color: kappBar,
+              color: Color(0xff018053),
               size: 20,
             ),
           ),

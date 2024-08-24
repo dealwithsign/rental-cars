@@ -918,7 +918,7 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
         top: defaultMargin,
       ),
       decoration: BoxDecoration(
-        color: kBackgroundColor,
+        color: const Color(0xff018053),
         borderRadius: BorderRadius.circular(defaultRadius),
         border: Border.all(
           color: kTransparentColor,
@@ -930,7 +930,7 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
           children: [
             Icon(
               FontAwesomeIcons.circleInfo,
-              color: kappBar,
+              color: kWhiteColor,
               size: 20,
             ),
             SizedBox(width: defaultMargin),
@@ -938,7 +938,7 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
               // Wrap the Text widget with Expanded
               child: Text(
                 "Pemesanan tiket dengan aplikasi tidak bisa refund atau reschedule.",
-                style: blackTextStyle.copyWith(
+                style: buttonColor.copyWith(
                   fontSize: 14,
                   fontWeight: bold,
                 ),

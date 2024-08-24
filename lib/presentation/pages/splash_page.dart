@@ -113,26 +113,25 @@ class _SplashScreenState extends State<SplashScreen> {
         ),
       ),
       child: Container(
-        decoration: const BoxDecoration(
-            // gradient: LinearGradient(
-            //   begin: Alignment.topCenter,
-            //   end: Alignment.bottomCenter,
-            //   colors: [
-            //     Colors.transparent, // Start with transparent
-            //     Colors.white.withOpacity(
-            //       0.0,
-            //     ), // Gradually change to white with some opacity
-            //     kWhiteColor // Fully white at the bottom
-            //   ],
-            // ),
-            ),
-      ),
+          // decoration: BoxDecoration(
+          //   gradient: LinearGradient(
+          //     begin: Alignment.topCenter,
+          //     end: Alignment.bottomCenter,
+          //     colors: [
+          //       Colors.transparent, // Start with transparent
+          //       // Fully green at the top
+          //       kWhiteColor, // Fully white at the bottom
+          //       const Color(0xff018053).withOpacity(0.5),
+          //     ],
+          //   ),
+          // ),
+          ),
     );
   }
 
   Widget _buildTitle() {
     return Text(
-      'Selamat datang di Gojek !',
+      'Selamat datang di Apps !',
       style: titleTextStyle.copyWith(
         fontSize: 20, // Adjust the font size to match the design
         fontWeight: bold,
@@ -205,7 +204,9 @@ class _SplashScreenState extends State<SplashScreen> {
             text: "\nSyarat dan Ketentuan",
             style: subTitleTextStyle.copyWith(
               fontSize: 13,
-              color: const Color(0xff087443), // Link color
+              color: const Color(
+                0xff018053,
+              ),
               decoration: TextDecoration.underline,
             ),
             recognizer: TapGestureRecognizer()

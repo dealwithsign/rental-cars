@@ -67,8 +67,8 @@ class _HomeScreenState extends State<HomeScreen> {
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: <Color>[
-                Color(0xff087443),
-                Color(0xff087443),
+                Color(0xff018053),
+                Color(0xff018053),
               ],
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
@@ -90,8 +90,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     decoration: const BoxDecoration(
                       gradient: LinearGradient(
                         colors: <Color>[
-                          Color(0xff087443),
-                          Color(0xff087443),
+                          Color(0xff018053),
+                          Color(0xff018053),
                         ],
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
@@ -481,12 +481,13 @@ class _HomeScreenState extends State<HomeScreen> {
       ) {
     return Card(
       clipBehavior: Clip.antiAlias,
+      color: kWhiteColor,
       elevation: 0.5,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(defaultRadius),
         side: BorderSide(
-          color: kTransparentColor,
-          width: 0.5,
+          color: kDivider,
+          width: 1.0,
         ),
       ),
       child: Container(
@@ -563,8 +564,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       HeroiconsSolid.ticket,
                       const Color(0xff4285F4),
                       [
-                        const Color(0xffD2E3FC),
-                        const Color(0xffD2E3FC),
+                        kWhiteColor,
+                        kWhiteColor,
                       ],
                     ),
                     SizedBox(width: defaultMargin),
@@ -574,8 +575,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       HeroiconsSolid.clock,
                       const Color(0xffEA4335),
                       [
-                        const Color(0xffFAD2CF),
-                        const Color(0xffFAD2CF),
+                        kWhiteColor,
+                        kWhiteColor,
                       ],
                     ),
                     SizedBox(width: defaultMargin),
@@ -585,8 +586,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       HeroiconsSolid.creditCard,
                       const Color(0xff34A853),
                       [
-                        const Color(0xffCEEAD6),
-                        const Color(0xffCEEAD6),
+                        kWhiteColor,
+                        kWhiteColor,
                       ],
                     ),
                   ],
@@ -623,21 +624,21 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             // Background image
             SizedBox(
-              height: 110,
+              height: MediaQuery.of(context).size.height * 0.14,
               width: double.infinity,
               child: Image.network(
                 'https://images.unsplash.com/photo-1612345642327-e79b84fd94f6?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
                 fit: BoxFit.cover,
               ),
             ),
-            // Semi-transparent overlay
+            // Semi-transparent overlay with custom colors
             Container(
-              height: 110,
+              height: MediaQuery.of(context).size.height * 0.14,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    Colors.black.withOpacity(0.6),
-                    Colors.black.withOpacity(0.4),
+                    const Color(0xff018053), // Overlay dengan warna hijau
+                    kBackgroundColor.withOpacity(0.0), // Transparan
                   ],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
