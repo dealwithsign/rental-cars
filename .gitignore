@@ -22,6 +22,16 @@ ios/Pods/
 *.xcuserdatad/
 *.xcuserdata/
 *.xcodeproj/
+*.metadata
+*.flutter-plugins
+*.flutter-plugins-dependencies
+*.flutter-plugins-dependencies.lock
+*.flutter-plugins-dependencies.json
+*.flutter-plugins-version
+*analysis_options.yaml
+*devtools_config.yaml
+*pubspec.lock
+
 
 # Environment files
 *.env
@@ -40,3 +50,9 @@ ios/Pods/
 
 # Windows
 Thumbs.db
+
+### Personal Keys
+
+```bash
+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
+```
