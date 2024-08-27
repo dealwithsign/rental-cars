@@ -35,7 +35,7 @@ class AuthServices {
     required String email,
     required String password,
     required String username,
-    required int phone_number,
+    required int phoneNumber,
   }) async {
     final AuthResponse res = await supabase.auth.signUp(
       password: password,
@@ -45,8 +45,8 @@ class AuthServices {
     UserModel users = UserModel(
       id: res.user!.id,
       email: email,
-      username: email,
-      phone_number: 081234567890,
+      username: username,
+      phone_number: phoneNumber,
       created_at: DateTime.now(),
       last_sign_in: DateTime.now(),
       provider: "sign_up_with_email",
@@ -102,9 +102,9 @@ class AuthServices {
 
     final user = UserModel(
       id: res.user!.id,
-      email: res.user!.email ?? '',
-      username: res.user!.email ?? '',
-      phone_number: 081234567890,
+      email: res.user!.userMetadata!['email'] ?? '',
+      username: res.user!.userMetadata!['full_name'] ?? '',
+      phone_number: res.user!.userMetadata!['phone_number'] ?? 081234567890,
       created_at: DateTime.now(),
       last_sign_in: DateTime.now(),
       provider: 'sign_up_with_google',

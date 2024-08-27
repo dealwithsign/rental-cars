@@ -24,7 +24,7 @@ class UserModel {
       id: json['id'].toString(),
       email: json['email'] as String,
       username: json['username'] as String,
-      phone_number: int.tryParse(json['phoneNumber'].toString()) ?? 0,
+      phone_number: int.tryParse(json['phoneNumber'].toString()) ?? 08,
       created_at: DateTime.parse(json['created_at'] as String),
       url_profile: json['url_profile'] as String,
       last_sign_in: DateTime.parse(json['last_sign_in'] as String),

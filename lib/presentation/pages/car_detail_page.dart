@@ -332,7 +332,7 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
             padding:
                 EdgeInsets.all(defaultMargin / 3), // Adjust padding as needed
             child: const Icon(
-              FontAwesomeIcons.check,
+              FontAwesomeIcons.circleCheck,
               color: Color(0xff018053),
               size: 20,
             ),
