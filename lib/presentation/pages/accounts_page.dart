@@ -138,7 +138,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
               child: user.url_profile.isEmpty
                   ? Text(
                       getInitials(user.username),
-                      style: titleTextStyle.copyWith(
+                      style: buttonColor.copyWith(
                         fontSize: 20,
                         fontWeight: bold,
                       ),
@@ -164,7 +164,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
                   ),
                 ),
                 Text(
-                  user.phone_number.toString(),
+                  "0${user.phone_number}",
                   style: subTitleTextStyle.copyWith(
                     fontSize: 15,
                   ),

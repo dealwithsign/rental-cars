@@ -26,8 +26,8 @@ class _SignUpPageState extends State<SignUpPage> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _nameController = TextEditingController(text: "Users");
-  final _phoneNumberController = TextEditingController(text: "081234567890");
+  final _nameController = TextEditingController();
+  final _phoneNumberController = TextEditingController();
   final _emailFocusNode = FocusNode();
   final _passwordFocusNode = FocusNode();
   final _nameFocusNode = FocusNode();
@@ -106,7 +106,10 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   void _onSignUpButtonPressed() {
-    if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
+    if (_emailController.text.isEmpty ||
+        _passwordController.text.isEmpty ||
+        _nameController.text.isEmpty ||
+        _phoneNumberController.text.isEmpty) {
       // Show Flushbar if email or password is not entered
       Flushbar(
         flushbarPosition: FlushbarPosition.TOP,
@@ -121,7 +124,7 @@ class _SignUpPageState extends State<SignUpPage> {
           ),
         ),
         messageText: Text(
-          "Email atau password tidak boleh kosong",
+          "Lengkapi data yang diperlukan",
           style: buttonColor.copyWith(
             fontSize: 14,
           ),
@@ -239,6 +242,40 @@ class _SignUpPageState extends State<SignUpPage> {
                     key: _formKey,
                     child: Column(
                       children: <Widget>[
+                        OutlineBorderTextFormField(
+                          labelText: 'Nama',
+                          autofocus: false,
+                          tempTextEditingController: _nameController,
+                          myFocusNode: _nameFocusNode,
+                          inputFormatters: const [],
+                          keyboardType: TextInputType.text,
+                          textInputAction: TextInputAction.next,
+                          validation: (value) {
+                            return null;
+                          },
+                          checkOfErrorOnFocusChange: true,
+                          validator: (value) {
+                            return null;
+                          },
+                        ),
+                        SizedBox(height: defaultMargin),
+                        OutlineBorderTextFormField(
+                          labelText: 'Nomor Telepon',
+                          autofocus: false,
+                          tempTextEditingController: _phoneNumberController,
+                          myFocusNode: _phoneNumberFocusNode,
+                          inputFormatters: const [],
+                          keyboardType: TextInputType.phone,
+                          textInputAction: TextInputAction.next,
+                          validation: (value) {
+                            return null;
+                          },
+                          checkOfErrorOnFocusChange: true,
+                          validator: (value) {
+                            return null;
+                          },
+                        ),
+                        SizedBox(height: defaultMargin),
                         OutlineBorderTextFormField(
                           labelText: 'Email',
                           autofocus: false,

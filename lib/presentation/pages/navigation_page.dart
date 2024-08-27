@@ -57,24 +57,24 @@ class NavigationScreen extends StatelessWidget {
             CustomBottomNavigationItem(
               index: 0,
               icon: Icon(
-                HeroiconsSolid.home,
-                size: 20,
+                FontAwesomeIcons.house,
+                size: 17,
               ),
               label: 'Home',
             ),
             CustomBottomNavigationItem(
               index: 1,
               icon: Icon(
-                HeroiconsSolid.documentText,
-                size: 20,
+                FontAwesomeIcons.ticketAlt,
+                size: 17,
               ),
               label: 'Tiket',
             ),
             CustomBottomNavigationItem(
               index: 2,
               icon: Icon(
-                HeroiconsSolid.user,
-                size: 20,
+                FontAwesomeIcons.userAlt,
+                size: 17,
               ),
               label: 'Profile',
             ),

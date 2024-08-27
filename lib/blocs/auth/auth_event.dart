@@ -6,10 +6,10 @@ abstract class AuthEvent {}
 class SignUpRequested extends AuthEvent {
   final String email;
   final String password;
-  final String name;
+  final String username;
   final String phoneNumber;
 
-  SignUpRequested(this.email, this.password, this.name, this.phoneNumber);
+  SignUpRequested(this.email, this.password, this.username, this.phoneNumber);
 }
 
 class SignInRequested extends AuthEvent {
