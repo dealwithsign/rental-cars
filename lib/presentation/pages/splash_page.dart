@@ -120,8 +120,9 @@ class _SplashScreenState extends State<SplashScreen> {
           //     colors: [
           //       Colors.transparent, // Start with transparent
           //       // Fully green at the top
-          //       kWhiteColor, // Fully white at the bottom
+
           //       const Color(0xff018053).withOpacity(0.5),
+          //       kPrimaryColor,
           //     ],
           //   ),
           // ),
@@ -131,7 +132,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Widget _buildTitle() {
     return Text(
-      'Selamat datang di Apps !',
+      'Selamat datang di Cadera',
       style: titleTextStyle.copyWith(
         fontSize: 20, // Adjust the font size to match the design
         fontWeight: bold,

@@ -8,6 +8,8 @@ import 'package:heroicons_flutter/heroicons_flutter.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:intl/intl.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:rents_cars_app/blocs/tourist_destination/tourist_destination_bloc.dart';
+import 'package:rents_cars_app/blocs/tourist_destination/tourist_destination_state.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../blocs/auth/auth_bloc.dart';
@@ -15,6 +17,7 @@ import '../../blocs/auth/auth_event.dart';
 import '../../blocs/cars/cars_bloc.dart';
 import '../../blocs/cars/cars_event.dart';
 import '../../blocs/cars/cars_state.dart';
+import '../../blocs/tourist_destination/tourist_destination_event.dart';
 import '../../data/services/cars_services.dart';
 import '../../utils/fonts.dart';
 import '../widgets/button_widget.dart';
@@ -38,6 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     context.read<AuthBloc>().add(GetCurrentUserRequested());
     context.read<CarBloc>().add(FetchCarsEvent());
+    context.read<TouristDestinationBloc>().add(FetchTouristDestinationEvent());
 
     Future.delayed(const Duration(seconds: 2), () {
       setState(() {
@@ -47,6 +51,9 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   final CarsServices getSchedule = CarsServices();
+  void _navigateTo(BuildContext context, String routeName) {
+    Navigator.pushNamed(context, routeName);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: kWhiteColor,
         elevation: 0.0,
         title: Text(
-          'Cadeira',
+          'Cadera',
           style: titleWhiteTextStyle.copyWith(
             fontSize: 24,
             fontWeight: FontWeight.bold,
@@ -107,7 +114,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SizedBox(height: defaultMargin),
                           Text(
                             'Rental Mobil Antar Kota',
                             style: buttonColor.copyWith(
@@ -147,45 +153,44 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget buildBody() {
-    return BlocBuilder<CarBloc, CarState>(
-      builder: (context, state) {
-        if (state is CarsLoading) {
-          return Center(
-            child: SpinKitThreeBounce(
-              color: kPrimaryColor,
-              size: 25.0,
-            ),
-          );
-        } else if (state is CarsSuccess) {
-          return Skeletonizer(
-            enabled: isLoading,
-            child: Column(
-              children: [
-                SizedBox(height: defaultMargin / 2),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-                  child: _buildHowToBePartners(),
+    return Column(
+      children: [
+        SizedBox(height: defaultMargin / 2),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: defaultMargin),
+          child: _buildHowToBePartners(),
+        ),
+        SizedBox(height: defaultMargin),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: defaultMargin),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: defaultMargin),
+              Text(
+                "Destinasi Liburan Pilihan",
+                style: titleTextStyle.copyWith(
+                  fontWeight: bold,
+                  fontSize: 18,
                 ),
-                SizedBox(height: defaultMargin),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-                  child: _buildOtherInformations(),
+              ),
+              Text(
+                "Temukan Inpirasi liburanmu dengan destinasi \nmenarik di Tana Toraja",
+                style: blackTextStyle.copyWith(
+                  fontSize: 14,
                 ),
-                Padding(
-                  padding: EdgeInsets.only(
-                    bottom: defaultMargin * 4,
-                  ),
-                ),
-              ],
-            ),
-          );
-        } else if (state is CarsError) {
-          return const Center(
-            child: Text('Failed to fetch data'),
-          );
-        }
-        return Container();
-      },
+              ),
+              SizedBox(height: defaultMargin),
+              _buildOtherInformations(),
+            ],
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(
+            bottom: defaultMargin * 4,
+          ),
+        ),
+      ],
     );
   }
 
@@ -531,76 +536,163 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildOtherInformations() {
-    return Column(
-      children: [
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: defaultMargin / 2),
-          child: Column(
+    return BlocBuilder<TouristDestinationBloc, TouristDestinationState>(
+      builder: (context, state) {
+        if (state is TouristDestinationLoading) {
+          return Skeletonizer(
+            enabled: true,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: List.generate(
+                  3,
+                  (index) => Padding(
+                    padding: EdgeInsets.only(right: defaultMargin / 2),
+                    child: Card(
+                      clipBehavior: Clip.antiAlias,
+                      color: kWhiteColor,
+                      elevation: 0.5,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(defaultRadius),
+                        side: BorderSide(
+                          color: kDivider,
+                          width: 1.0,
+                        ),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            height: 150,
+                            width: MediaQuery.of(context).size.width * 0.6,
+                            color: kBackgroundColor,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.all(defaultMargin),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  height: 10,
+                                  width: 100,
+                                  color: kBackgroundColor,
+                                ),
+                                SizedBox(height: defaultMargin / 2),
+                                Container(
+                                  height: 10,
+                                  width: 200,
+                                  color: kBackgroundColor,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          );
+        } else if (state is TouristDestinationSuccess) {
+          final touristDestination = state.touristDestination;
+          return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: defaultMargin),
-              Text(
-                "Pesan tiket di Aplikasi",
-                style: titleTextStyle.copyWith(
-                  fontWeight: bold,
-                  fontSize: 18,
-                ),
-              ),
-              SizedBox(height: defaultMargin / 2),
-              Text(
-                "Beragam kemudahan dengan aplikasi membuat \npengalaman jadi lebih menyenangkan",
-                style: blackTextStyle.copyWith(
-                  fontSize: 14,
-                ),
-              ),
-              SizedBox(height: defaultMargin),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
-                  children: [
-                    _buildInfoItem(
-                      "Pilihan Tiket Lengkap",
-                      "Temukan tiket untuk berbagai jenis \nsewa mobil dan destinasi lewat aplikasi",
-                      HeroiconsSolid.ticket,
-                      const Color(0xff4285F4),
-                      [
-                        kWhiteColor,
-                        kWhiteColor,
-                      ],
-                    ),
-                    SizedBox(width: defaultMargin),
-                    _buildInfoItem(
-                      "Beli Tiket Lebih Awal",
-                      "Dengan Aplikasi, kamu bisa pesan tiket \nlebih awal dan tidak kehabisan tiket",
-                      HeroiconsSolid.clock,
-                      const Color(0xffEA4335),
-                      [
-                        kWhiteColor,
-                        kWhiteColor,
-                      ],
-                    ),
-                    SizedBox(width: defaultMargin),
-                    _buildInfoItem(
-                      "Beragam Metode Pembayaran",
-                      "Pilih metode pembayaran yang kamu inginkan \nmulai dari transfer bank dan QRIS",
-                      HeroiconsSolid.creditCard,
-                      const Color(0xff34A853),
-                      [
-                        kWhiteColor,
-                        kWhiteColor,
-                      ],
-                    ),
-                  ],
+                  children: touristDestination.map((destination) {
+                    return Padding(
+                      padding: EdgeInsets.only(right: defaultMargin / 2),
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            '/touristDestinationDetailPage',
+                            arguments: destination,
+                          );
+                        },
+                        child: _buildInfoTravel(
+                          destination.name,
+                          destination.location,
+                          // Assuming you need an icon color here
+                          destination.imageUrl,
+                        ),
+                      ),
+                    );
+                  }).toList(),
                 ),
               ),
               Padding(
-                  padding: EdgeInsets.only(
-                bottom: defaultMargin * 2,
-              ))
+                padding: EdgeInsets.only(
+                  bottom: defaultMargin * 2,
+                ),
+              ),
             ],
+          );
+        } else if (state is TouristDestinationError) {
+          return Center(child: Text('Error: ${state.message}'));
+        } else {
+          return Container();
+        }
+      },
+    );
+  }
+
+  Widget _buildInfoTravel(
+    String title,
+    String location,
+    String imageUrl, // New parameter for image URL
+  ) {
+    return SizedBox(
+      height: 230,
+      width: MediaQuery.of(context).size.width * 0.6,
+      child: Card(
+        clipBehavior: Clip.antiAlias,
+        color: kWhiteColor,
+        elevation: 0.5,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(defaultRadius),
+          side: BorderSide(
+            color: kDivider,
+            width: 1.0,
           ),
         ),
-      ],
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Expanded(
+              child: Image.network(
+                imageUrl,
+                fit: BoxFit.cover,
+                width: double.infinity,
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.all(defaultMargin),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: titleTextStyle.copyWith(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    location,
+                    style: subTitleTextStyle.copyWith(
+                      fontSize: 14,
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -637,7 +729,8 @@ class _HomeScreenState extends State<HomeScreen> {
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    const Color(0xff018053), // Overlay dengan warna hijau
+                    // const Color(0xff018053), // Overlay dengan warna hijau
+                    kPrimaryColor,
                     kBackgroundColor.withOpacity(0.0), // Transparan
                   ],
                   begin: Alignment.topLeft,

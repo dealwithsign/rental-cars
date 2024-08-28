@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:rents_cars_app/presentation/pages/forgot_password.dart';
 
 import 'data/models/ticket_model.dart';
+import 'data/models/touristdestination_model.dart';
 import 'presentation/pages/be_apartner.dart';
 import 'presentation/pages/car_detail_page.dart';
 import 'presentation/pages/car_detail_ticket.dart';
@@ -16,6 +17,7 @@ import 'presentation/pages/sign_up_page.dart';
 import 'presentation/pages/splash_page.dart';
 import 'presentation/pages/terms_conditions.dart';
 import 'presentation/pages/ticket_page.dart';
+import 'presentation/pages/touristdestination_detail_page.dart';
 import 'presentation/pages/update_password.dart';
 import 'presentation/pages/verify_otp.dart';
 import 'presentation/pages/wrapper_auth_page.dart';
@@ -78,6 +80,13 @@ Map<String, WidgetBuilder> getRoutes() {
 
     '/ticket-page': (context) => const TicketScreen(),
     '/partner-page': (context) => const HowToBePartner(),
-    '/term-conditions': (context) => const TermsAndConditions()
+    '/term-conditions': (context) => const TermsAndConditions(),
+
+    // destinations
+    '/touristDestinationDetailPage': (context) {
+      final destination =
+          ModalRoute.of(context)!.settings.arguments as TouristdestinationModel;
+      return TouristdestinationDetailPage(destination: destination);
+    },
   };
 }

@@ -6,6 +6,7 @@ import 'package:rents_cars_app/blocs/auth/auth_bloc.dart';
 import 'package:rents_cars_app/blocs/bookings/booking_bloc.dart';
 import 'package:rents_cars_app/blocs/cars/cars_bloc.dart';
 import 'package:rents_cars_app/blocs/tickets/tickets_bloc.dart';
+import 'package:rents_cars_app/blocs/tourist_destination/tourist_destination_bloc.dart';
 import 'package:rents_cars_app/data/services/booking_services.dart';
 import 'package:rents_cars_app/data/services/ticket_services.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -14,6 +15,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'blocs/navigations/pages_bloc.dart';
 import 'data/services/cars_services.dart';
 import 'data/services/authentication_services.dart';
+import 'data/services/tourist_destination.dart';
 import 'utils/fonts.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'routes.dart'; // import routes.dart
@@ -70,6 +72,11 @@ class MyApp extends StatelessWidget {
         BlocProvider<TicketsBloc>(
           create: (context) => TicketsBloc(
             TicketServices(),
+          ),
+        ),
+        BlocProvider<TouristDestinationBloc>(
+          create: (context) => TouristDestinationBloc(
+            TouristDestinationServices(),
           ),
         ),
       ],

@@ -1,6 +1,5 @@
 // data/models/ticket_model.dart
 import 'package:equatable/equatable.dart';
-import 'package:equatable/equatable.dart';
 
 class VirtualAccountNumber extends Equatable {
   final String bank;

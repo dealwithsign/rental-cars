@@ -2,10 +2,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:rents_cars_app/blocs/cars/cars_state.dart';
+import 'cars_event.dart';
 
 import '../../data/services/cars_services.dart';
-
-import 'cars_event.dart';
 
 class CarBloc extends Bloc<CarEvent, CarState> {
   final CarsServices carsServices;
