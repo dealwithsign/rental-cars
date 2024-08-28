@@ -35,7 +35,7 @@ class CustomBottomNavigationItem extends StatelessWidget {
                   SizedBox(height: defaultMargin),
                   ColorFiltered(
                     colorFilter: ColorFilter.mode(
-                      isActive ? const Color(0xff018053) : descGrey,
+                      isActive ? kPrimaryColor : descGrey,
                       BlendMode.srcIn,
                     ),
                     child: icon, // Use the icon Widget directly
@@ -44,7 +44,7 @@ class CustomBottomNavigationItem extends StatelessWidget {
                   Text(
                     label,
                     style: blackTextStyle.copyWith(
-                      color: isActive ? const Color(0xff018053) : descGrey,
+                      color: isActive ? kPrimaryColor : descGrey,
                       fontSize: 14,
                       fontWeight:
                           isActive ? FontWeight.bold : FontWeight.normal,
