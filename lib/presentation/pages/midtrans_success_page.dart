@@ -6,6 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../utils/fonts.dart';
 import '../widgets/button_widget.dart';
+import '../widgets/context_menu.dart';
 
 class MidtransSuccess extends StatefulWidget {
   final String orderId;
@@ -48,49 +49,18 @@ class _MidtransSuccessState extends State<MidtransSuccess> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Icon(
-                FontAwesomeIcons.circleCheck,
-                color: const Color(0xff018053),
-                size: MediaQuery.of(context).size.width * 0.20,
-              ),
-              // SizedBox(height: defaultMargin),
-              // Text(
-              //   'Pembayaran Berhasil',
-              //   style: blackTextStyle.copyWith(
-              //     fontSize: 18,
-              //     fontWeight: bold,
-              //   ),
-              // ),
-              SizedBox(height: defaultMargin * 2),
-              Text(
-                'Terima kasih! \nPembayaran kamu sudah diterima',
-                style: blackTextStyle.copyWith(
-                  fontSize: 15,
+              ContextMenu(
+                title: 'Pembayaran Berhasil',
+                message:
+                    'Terimakasih atas pesanan anda, \nsilahkan cek email untuk detail pemesanan.',
+                imagePath:
+                    'assets/images/success_payments.png', // Pass the image path as a string
+                kPrimaryColor: blackTextStyle.copyWith(
+                  fontSize: 16,
+                  fontWeight: bold,
                 ),
-                textAlign: TextAlign.center,
-              ),
-              Text(
-                'Silakan cek email dan  untuk detail pesanan',
-                style: blackTextStyle.copyWith(
-                  fontSize: 15,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(height: defaultMargin * 2),
-              Padding(
-                padding: EdgeInsets.only(
-                  left: defaultMargin,
-                  right: defaultMargin,
-                ),
-                child: CustomButton(
-                  title: 'Kembali ke Beranda',
-                  onPressed: () {
-                    Navigator.pushNamedAndRemoveUntil(
-                      context,
-                      '/main',
-                      (route) => false,
-                    );
-                  },
+                subTitleTextStyle: subTitleTextStyle.copyWith(
+                  fontSize: 14,
                 ),
               ),
             ],

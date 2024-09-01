@@ -1,30 +1,33 @@
-// presentation/pages/car_detail_ticket.dart
+// presentation/pages/ticket_pending_page.dart
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:rents_cars_app/presentation/widgets/button_widget.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:http/http.dart' as http;
 
 import '../../blocs/tickets/tickets_bloc.dart';
 import '../../data/models/ticket_model.dart';
 import '../../utils/fonts.dart';
+import '../widgets/flushbar_widget.dart';
 
-class TicketDetailScreen extends StatefulWidget {
+class TicketPendingPage extends StatefulWidget {
   final TicketModels ticket;
 
-  const TicketDetailScreen({super.key, required this.ticket});
+  const TicketPendingPage({super.key, required this.ticket});
 
   @override
-  State<TicketDetailScreen> createState() => _TicketDetailScreenState();
+  State<TicketPendingPage> createState() => _TicketPendingPageState();
 }
 
-class _TicketDetailScreenState extends State<TicketDetailScreen> {
+class _TicketPendingPageState extends State<TicketPendingPage> {
   bool isLoading = true;
 
   @override
@@ -121,14 +124,6 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Text(
-                        //   'Detail Perjalanan',
-                        //   style: titleTextStyle.copyWith(
-                        //     fontSize: 18,
-                        //     fontWeight: bold,
-                        //   ),
-                        // ),
-                        // SizedBox(height: defaultMargin),
                         _buildDetailsTravel(
                           lokasiJemput: widget.ticket.carFrom,
                           lokasiTujuan: widget.ticket.carTo,
@@ -147,18 +142,13 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'Detail Pembayaran',
-                          style: titleTextStyle.copyWith(
-                            fontSize: 18,
-                            fontWeight: bold,
-                          ),
-                        ),
+                        _otherInformations(),
                         SizedBox(height: defaultMargin),
                         _buildDetailsPrice(),
                       ],
                     ),
                   ),
+                  Padding(padding: EdgeInsets.only(bottom: defaultMargin * 2)),
                 ],
               ),
             ),
@@ -171,6 +161,57 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
           return Container();
         }
       },
+    );
+  }
+
+  Widget _otherInformations() {
+    return Container(
+      decoration: BoxDecoration(
+        color: const Color(0xffFEEFC3),
+        borderRadius: BorderRadius.circular(defaultRadius),
+        border: Border.all(
+          color: kTransparentColor,
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          children: [
+            Icon(
+              FontAwesomeIcons.circleInfo,
+              color: kPrimaryColor,
+              size: 20,
+            ),
+            SizedBox(width: defaultMargin),
+            Expanded(
+              child: Text(
+                'Mohon dibayarkan sebelum waktu pembayaran kedaluwarsa untuk menghindari pembatalan pesanan',
+                style: blackTextStyle.copyWith(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _infoPayment() {
+    return Container(
+      child: Row(
+        children: [
+          Expanded(
+            child: Text(
+              'Setelah pembayaran diverifikasi, detail pemesanan tiket akan \ndikirimkan ke email yang terdaftar.',
+              style: subTitleTextStyle.copyWith(
+                fontSize: 12,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -299,18 +340,25 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildDetailItem('Referensi Number',
-                  ticket.transactionId.substring(0, 18).toUpperCase()),
-              _buildDetailItem('Metode Pembayaran', ticket.paymentType),
-              _buildDetailItem('Tanggal Pembayaran',
-                  formatIndonesianDate(ticket.settlement_time)),
+              _buildDetailItem(
+                'Metode Pembayaran',
+                ticket.vaNumbers.first.bank.toUpperCase(),
+              ),
+              _buildDetailItemWithClipboard(
+                'No. Virtual Account',
+                ticket.vaNumbers.first.vaNumber,
+              ),
+              _buildDetailItem(
+                'Bayar Sebelum',
+                formatIndonesianDate(ticket.expiry_time),
+              ),
               _buildDetailItem(
                 'Total Pembayaran',
                 NumberFormat.currency(locale: 'id', symbol: 'Rp ').format(
                   double.parse(ticket.grossAmount),
                 ),
               ),
-              _buildDetailItem('Status Pembayaran', ticket.transaction_status),
+              // _buildDetailItem('Status Pembayaran', ticket.transaction_status),
             ],
           );
         } else if (snapshot.hasError) {
@@ -342,7 +390,7 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
       padding: EdgeInsets.only(
         bottom: defaultMargin,
       ), // Add padding to the bottom
-      child: Row(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -352,6 +400,7 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
               fontSize: 14,
             ),
           ),
+          SizedBox(height: defaultMargin),
           Text(
             displayValue,
             style: blackTextStyle.copyWith(
@@ -378,5 +427,45 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
       decimalDigits: 0,
     );
     return currencyFormatter.format(amount);
+  }
+
+  Widget _buildDetailItemWithClipboard(String label, String value) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          '$label:',
+          style: subTitleTextStyle.copyWith(
+            fontSize: 14,
+          ),
+        ),
+        Row(
+          children: [
+            Text(
+              value,
+              style: blackTextStyle.copyWith(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            IconButton(
+              icon: Icon(
+                FontAwesomeIcons.copy,
+                size: 18,
+                color: kPrimaryColor,
+              ),
+              onPressed: () {
+                Clipboard.setData(ClipboardData(text: value));
+                showErrorFlushbar(
+                  context,
+                  "Virtual Disalin",
+                  "No. Virtual Account berhasil disalin",
+                );
+              },
+            ),
+          ],
+        ),
+      ],
+    );
   }
 }

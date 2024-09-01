@@ -2,7 +2,7 @@
 import 'package:another_flushbar/flushbar.dart';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -24,6 +24,7 @@ import '../../data/models/users_model.dart';
 import '../../data/services/authentication_services.dart';
 import '../../utils/fonts.dart';
 import '../widgets/button_widget.dart';
+import '../widgets/flushbar_widget.dart';
 import 'car_book_page.dart';
 import 'drop_maps_page.dart';
 import 'pick_maps_page.dart';
@@ -160,10 +161,10 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                     padding: EdgeInsets.symmetric(horizontal: defaultMargin),
                     child: _buildDetailCarBooking(),
                   ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-                    child: _otherInformations(),
-                  ),
+                  // Padding(
+                  //   padding: EdgeInsets.symmetric(horizontal: defaultMargin),
+                  //   child: _otherInformations(),
+                  // ),
                   SizedBox(height: defaultMargin),
                   Divider(
                     color: kBackgroundColor,
@@ -334,15 +335,15 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                                           int.parse(phoneController.text),
                                     );
                                     // Assuming `user` is a part of your state, update it with the new phone number
-                                    setState(() {
-                                      user.phone_number =
-                                          int.parse(phoneController.text);
-                                      displayedPhoneNumber = phoneController
-                                          .text; // Update the displayed phone number
-                                      context
-                                          .read<AuthBloc>()
-                                          .add(GetCurrentUserRequested());
-                                    });
+                                    // setState(() {
+                                    //   user.phone_number =
+                                    //       int.parse(phoneController.text);
+                                    //   displayedPhoneNumber = phoneController
+                                    //       .text; // Update the displayed phone number
+                                    //   context
+                                    //       .read<AuthBloc>()
+                                    //       .add(GetCurrentUserRequested());
+                                    // });
 
                                     Navigator.pop(context); // Close modal
                                   },
@@ -856,31 +857,11 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
           onPressed: () {
             if (_selectedLocationPick.isEmpty ||
                 _selectedLocationDrop.isEmpty) {
-              Flushbar(
-                flushbarPosition: FlushbarPosition.TOP,
-                flushbarStyle: FlushbarStyle.FLOATING,
-                duration: const Duration(seconds: 5),
-                backgroundColor: const Color(0xffFAD2CF),
-                titleText: Text(
-                  "Data Belum Lengkap",
-                  style: blackTextStyle.copyWith(
-                    fontSize: 14,
-                    fontWeight: bold,
-                  ),
-                ),
-                messageText: Text(
-                  "Silahkan lengkapi data terlebih dahulu",
-                  style: subTitleTextStyle.copyWith(
-                    fontSize: 14,
-                  ),
-                ),
-                margin: EdgeInsets.only(
-                  left: defaultMargin,
-                  right: defaultMargin,
-                  bottom: defaultMargin,
-                ),
-                borderRadius: BorderRadius.circular(defaultRadius),
-              ).show(context);
+              showErrorFlushbar(
+                context,
+                "Data Belum Lengkap",
+                "Silakan lengkapi detail pesanan sebelum melanjutkan",
+              );
             } else {
               saveData();
               var uuid = const Uuid();

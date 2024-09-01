@@ -10,7 +10,9 @@ import 'package:rents_cars_app/utils/fonts.dart';
 import 'package:rents_cars_app/presentation/widgets/button_widget.dart';
 import 'package:rents_cars_app/presentation/widgets/input_widget.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:flutter/services.dart'; // Import for input formatters
+import 'package:flutter/services.dart';
+
+import '../widgets/flushbar_widget.dart'; // Import for input formatters
 
 class VerifyOTP extends StatefulWidget {
   const VerifyOTP({super.key});
@@ -54,31 +56,11 @@ class _VerifyOTPState extends State<VerifyOTP> {
       if (e.toString().contains('Token has expired or is invalid') ||
           e.toString().contains('statusCode:403') ||
           e.toString().contains('is invalid')) {
-        Flushbar(
-          flushbarPosition: FlushbarPosition.TOP,
-          flushbarStyle: FlushbarStyle.FLOATING,
-          duration: const Duration(seconds: 5),
-          backgroundColor: kPrimaryColor,
-          titleText: Text(
-            "Verifikasi OTP Gagal",
-            style: buttonColor.copyWith(
-              fontSize: 14, // Body Medium
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          messageText: Text(
-            "OTP tidak valid. Silakan coba lagi.",
-            style: buttonColor.copyWith(
-              fontSize: 14, // Body Medium
-            ),
-          ),
-          margin: EdgeInsets.only(
-            left: defaultMargin,
-            right: defaultMargin,
-            bottom: defaultMargin,
-          ),
-          borderRadius: BorderRadius.circular(defaultRadius),
-        ).show(context);
+        showErrorFlushbar(
+          context,
+          "Verifikasi OTP Gagal",
+          "Kode OTP yang Anda masukkan tidak sesuai",
+        );
       } else {
         SpinKitThreeBounce(
           color: kPrimaryColor,

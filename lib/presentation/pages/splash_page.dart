@@ -3,9 +3,11 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_social_button/flutter_social_button.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:icons_plus/icons_plus.dart';
 import 'package:rents_cars_app/presentation/widgets/button_sub_primary.dart';
 import 'package:rents_cars_app/presentation/widgets/button_widget.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -49,7 +51,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   void _handleGoogleSignIn() async {
     context.read<AuthBloc>().add(SignInSignUpWithGoogleRequested());
-    _navigateGoogleSignInSignUp('/main');
+    _navigateGoogleSignInSignUp('/wrapper');
   }
 
   @override
@@ -62,30 +64,36 @@ class _SplashScreenState extends State<SplashScreen> {
           child: Column(
             children: [
               Expanded(
-                child: Column(
-                  children: [
-                    _buildImage(MediaQuery.of(context).size.height * 0.5),
-                    SizedBox(height: defaultMargin * 2),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-                      child: _buildTitle(),
-                    ),
-                    SizedBox(height: defaultMargin),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-                      child: _buildTagline(),
-                    ),
-                    SizedBox(height: defaultMargin * 2),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-                      child: _buildSocialSignInButtons(),
-                    ),
-                    SizedBox(height: defaultMargin * 2),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-                      child: _buildSignInTextButton(),
-                    ),
-                  ],
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      _buildImage(MediaQuery.of(context).size.height * 0.5),
+                      SizedBox(height: defaultMargin * 2),
+                      Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: defaultMargin),
+                        child: _buildTitle(),
+                      ),
+                      SizedBox(height: defaultMargin),
+                      Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: defaultMargin),
+                        child: _buildTagline(),
+                      ),
+                      SizedBox(height: defaultMargin * 2),
+                      Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: defaultMargin),
+                        child: _buildSocialSignInButtons(),
+                      ),
+                      SizedBox(height: defaultMargin * 2),
+                      Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: defaultMargin),
+                        child: _buildSignInTextButton(),
+                      ),
+                    ],
+                  ),
                 ),
               ),
               Padding(
@@ -112,21 +120,7 @@ class _SplashScreenState extends State<SplashScreen> {
           fit: BoxFit.cover, // Fills the entire container without distortion
         ),
       ),
-      child: Container(
-          // decoration: BoxDecoration(
-          //   gradient: LinearGradient(
-          //     begin: Alignment.topCenter,
-          //     end: Alignment.bottomCenter,
-          //     colors: [
-          //       Colors.transparent, // Start with transparent
-          //       // Fully green at the top
-
-          //       const Color(0xff018053).withOpacity(0.5),
-          //       kPrimaryColor,
-          //     ],
-          //   ),
-          // ),
-          ),
+      child: Container(),
     );
   }
 
@@ -155,8 +149,8 @@ class _SplashScreenState extends State<SplashScreen> {
       children: [
         SubPrimaryButton(
           title: "Lanjutkan dengan Google",
-          icon: FontAwesomeIcons.google,
           onPressed: _handleGoogleSignIn,
+          icon: FontAwesomeIcons.google,
         ),
         SizedBox(height: defaultMargin),
         CustomButton(

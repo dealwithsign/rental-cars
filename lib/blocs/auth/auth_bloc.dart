@@ -36,7 +36,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           email: event.email,
           password: event.password,
           username: event.username,
-          phoneNumber: int.parse(event.phoneNumber),
+          phone_number: int.parse(event.phoneNumber),
         );
         print(user);
         emit(AuthSuccess(user)); // Emit status sukses dengan model pengguna

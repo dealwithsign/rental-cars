@@ -130,27 +130,22 @@ class _AccountsScreenState extends State<AccountsScreen> {
         child: Row(
           children: [
             CircleAvatar(
-              radius: 25,
-              backgroundColor: kappBar,
-              backgroundImage: user.url_profile.isNotEmpty
-                  ? NetworkImage(user.url_profile)
-                  : null,
-              child: user.url_profile.isEmpty
-                  ? Text(
-                      getInitials(user.username),
-                      style: buttonColor.copyWith(
-                        fontSize: 20,
-                        fontWeight: bold,
-                      ),
-                    )
-                  : null,
+              radius: 30,
+              backgroundColor: kPrimaryColor,
+              child: Text(
+                getInitials(user.username),
+                style: buttonColor.copyWith(
+                  fontSize: 20,
+                  fontWeight: bold,
+                ),
+              ),
             ),
             SizedBox(width: defaultMargin),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  user.username.split('@').first,
+                  user.username,
                   style: titleTextStyle.copyWith(
                     fontSize: 18,
                     fontWeight: bold,

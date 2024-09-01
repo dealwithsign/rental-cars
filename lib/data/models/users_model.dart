@@ -1,22 +1,18 @@
-class UserModel {
+import 'package:equatable/equatable.dart';
+
+class UserModel extends Equatable {
   final String id;
   final String email;
   final String username;
-  late int phone_number;
+  final int phone_number;
   final DateTime created_at;
-  final String url_profile;
-  final DateTime last_sign_in;
-  final String provider;
 
-  UserModel({
+  const UserModel({
     required this.id,
     required this.email,
     required this.username,
     required this.phone_number,
     required this.created_at,
-    required this.last_sign_in,
-    this.url_profile = '',
-    required this.provider,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
@@ -24,11 +20,8 @@ class UserModel {
       id: json['id'].toString(),
       email: json['email'] as String,
       username: json['username'] as String,
-      phone_number: int.tryParse(json['phoneNumber'].toString()) ?? 08,
+      phone_number: int.tryParse(json['phone_number'].toString()) ?? 0,
       created_at: DateTime.parse(json['created_at'] as String),
-      url_profile: json['url_profile'] as String,
-      last_sign_in: DateTime.parse(json['last_sign_in'] as String),
-      provider: json['provider'] as String,
     );
   }
 
@@ -39,22 +32,15 @@ class UserModel {
       'username': username,
       'phone_number': phone_number,
       'created_at': created_at.toIso8601String(),
-      'url_profile': url_profile,
-      'last_sign_in': last_sign_in.toIso8601String(),
-      'provider': provider,
     };
   }
 
-  // Add a copyWith method
   UserModel copyWith({
     String? id,
     String? email,
     String? username,
     int? phone_number,
     DateTime? created_at,
-    String? url_profile,
-    DateTime? last_sign_in,
-    String? provider,
   }) {
     return UserModel(
       id: id ?? this.id,
@@ -62,9 +48,15 @@ class UserModel {
       username: username ?? this.username,
       phone_number: phone_number ?? this.phone_number,
       created_at: created_at ?? this.created_at,
-      url_profile: url_profile ?? this.url_profile,
-      last_sign_in: last_sign_in ?? this.last_sign_in,
-      provider: provider ?? this.provider,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        id,
+        email,
+        username,
+        phone_number,
+        created_at,
+      ];
 }

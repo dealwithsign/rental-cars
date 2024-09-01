@@ -31,6 +31,7 @@ import '../../data/services/booking_services.dart';
 import '../../utils/fonts.dart';
 import '../widgets/button_widget.dart';
 import '../widgets/button_cancle_widget.dart';
+import '../widgets/flushbar_widget.dart';
 import 'midtrans_page.dart';
 
 class DetailBookingPage extends StatefulWidget {
@@ -357,32 +358,11 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
                                     ),
                                   );
                                 } else {
-                                  Flushbar(
-                                    flushbarPosition: FlushbarPosition.TOP,
-                                    flushbarStyle: FlushbarStyle.FLOATING,
-                                    duration: const Duration(seconds: 5),
-                                    backgroundColor: kPrimaryColor,
-                                    titleText: Text(
-                                      "Transaksi gagal",
-                                      style: whiteTextStyle.copyWith(
-                                        fontSize: 14,
-                                        fontWeight: bold,
-                                      ),
-                                    ),
-                                    messageText: Text(
-                                      "Mobil yang kamu pesan tidak tersedia. Silakan coba lagi.",
-                                      style: whiteTextStyle.copyWith(
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                    margin: EdgeInsets.only(
-                                      left: defaultMargin,
-                                      right: defaultMargin,
-                                      bottom: defaultMargin,
-                                    ),
-                                    borderRadius:
-                                        BorderRadius.circular(defaultRadius),
-                                  ).show(context);
+                                  showErrorFlushbar(
+                                    context,
+                                    "Pembayaran Gagal",
+                                    "Terjadi kesalahan saat melakukan pembayaran.",
+                                  );
                                 }
                               },
                             );
@@ -420,14 +400,12 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
     UserModel user,
     void Function(bool, String, String) onResult,
   ) async {
-    final int carPrice = int.parse(widget.carModel.carPrice);
+    final int carPrice = int.parse(widget.carModel.carPrice) + 12000;
     final int totalPriceWithoutAdmin = carPrice * widget.selectedPassengers;
     const int adminFee = 12000;
     final int totalPayment = totalPriceWithoutAdmin + adminFee;
     await dotenv.load(fileName: ".env.dev");
     final apiVercelUrl = dotenv.env['apiVercelUrl']!;
-
-    BookingServices bookingServices = BookingServices();
     // data to be saved
     final String orderId = widget.id;
     final String userId = user.id;
@@ -442,32 +420,6 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
     final String selectedLocationPick = widget.selectedLocationPick;
     final String selectedLocationDrop = widget.selectedLocationDrop;
     final String carId = widget.carModel.id;
-    // services
-    // print('Membuat tiket rental...');
-    // await bookingServices.saveBookingData(
-    //   id: orderId,
-    //   carModel: widget.carModel,
-    //   selectedDate: widget.selectedDate,
-    //   selectedTime: widget.selectedTime,
-    //   selectedPassengers: widget.selectedPassengers,
-    //   selectedLocationPick: widget.selectedLocationPick,
-    //   selectedLocationDrop: widget.selectedLocationDrop,
-    //   carFrom: widget.carFrom,
-    //   carTo: widget.carTo,
-    //   carDate: widget.carDate,
-    //   userId: userId,
-    //   userName: userName,
-    //   userPhone: userPhone,
-    //   userEmail: userEmail,
-    //   totalPayment: totalPayment,
-    //   isPayment: false,
-    // );
-    // data to be saved
-    // print('Tiket bus berhasil dibuat.');
-    // await bookingServices.updateCarSeat(
-    //   carId: carId,
-    //   carSeats: widget.selectedPassengers,
-    // );
     print('Mengirim request ke API Midtrans...');
     Map<String, dynamic> data = {
       "transaction_details": {
@@ -481,9 +433,9 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
         "last_name": "",
         "email": userEmail,
         "phone": userPhone,
-        "notes": "Pemesanan sewa mobil",
+        "notes": "Pemesanan Tiket Sewa Mobil",
       },
-      "expiry": {"duration": 15, "unit": "minutes"},
+      "expiry": {"duration": 60, "unit": "minutes"},
       "usage_limit": 1,
       "item_details": [
         {
@@ -630,7 +582,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
     final int carPrice = int.parse(widget.carModel.carPrice);
     final int totalPriceWithoutAdmin = carPrice * widget.selectedPassengers;
     // Assuming adminFee is a constant 50000
-    const int adminFee = 100;
+    const int adminFee = 12000;
     // Calculate total price including admin fee
     final int totalPrice = totalPriceWithoutAdmin + adminFee;
 
