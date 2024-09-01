@@ -19,6 +19,7 @@ import 'package:http/http.dart' as http;
 
 import '../../utils/fonts.dart';
 import '../widgets/context_menu.dart';
+import '../widgets/flushbar_widget.dart';
 
 class TicketScreen extends StatefulWidget {
   const TicketScreen({super.key});
@@ -39,6 +40,10 @@ class _TicketScreenState extends State<TicketScreen> {
         isLoading = false;
       });
     });
+  }
+
+  void _navigateTo(String routeName) {
+    Navigator.pushNamed(context, routeName);
   }
 
   @override
@@ -95,8 +100,8 @@ class _TicketScreenState extends State<TicketScreen> {
                 title: 'Belum Ada Pesanan',
                 message:
                     'Kamu belum memiliki pesanan tiket \nYuk pesan sekarang!',
-                icon: FontAwesomeIcons.bell,
-                kIconColor: kappBar,
+                imagePath:
+                    'assets/images/not_found_ticket.png', // Pass the image path as a string
                 kPrimaryColor: blackTextStyle.copyWith(
                   fontSize: 16,
                   fontWeight: bold,
@@ -250,66 +255,23 @@ class _TicketScreenState extends State<TicketScreen> {
                 // Jika status 'Menunggu Pembayaran', navigasi ke halaman pembayaran
                 Navigator.pushNamed(
                   context,
-                  '/payment-page',
-                  arguments: {
-                    'redirectUrl': ticket.paymentLinks,
-                    'token': ticket.bookingId,
-                  },
+                  '/tiketPending',
+                  arguments: ticket,
                 );
               } else if (status == 'Dibatalkan') {
                 // Jika status 'Dibatalkan' atau 'Waktu Pembayaran Habis', tampilkan pesan batas waktu habis
-                Flushbar(
-                  flushbarPosition: FlushbarPosition.TOP,
-                  flushbarStyle: FlushbarStyle.FLOATING,
-                  duration: const Duration(seconds: 5),
-                  backgroundColor: kPrimaryColor,
-                  titleText: Text(
-                    "Pesanan Dibatalkan",
-                    style: buttonColor.copyWith(
-                      fontSize: 14,
-                      fontWeight: bold,
-                    ),
-                  ),
-                  messageText: Text(
-                    "Pesanan ini telah dibatalkan. Silakan pesan kembali.",
-                    style: buttonColor.copyWith(
-                      fontSize: 14,
-                    ),
-                  ),
-                  margin: EdgeInsets.only(
-                    left: defaultMargin,
-                    right: defaultMargin,
-                    bottom: defaultMargin,
-                  ),
-                  borderRadius: BorderRadius.circular(defaultRadius),
-                ).show(context);
+                showErrorFlushbar(
+                  context,
+                  'Pesanan Dibatalkan',
+                  "Pesanan kamu telah dibatalkan",
+                );
               } else if (status == 'Waktu Pembayaran Habis') {
                 // Jika status 'Dibatalkan' atau 'Waktu Pembayaran Habis', tampilkan pesan batas waktu habis
-                Flushbar(
-                  flushbarPosition: FlushbarPosition.TOP,
-                  flushbarStyle: FlushbarStyle.FLOATING,
-                  duration: const Duration(seconds: 5),
-                  backgroundColor: kPrimaryColor,
-                  titleText: Text(
-                    "Waktu Pembayaran Habis",
-                    style: buttonColor.copyWith(
-                      fontSize: 14,
-                      fontWeight: bold,
-                    ),
-                  ),
-                  messageText: Text(
-                    "Batas waktu pembayaran kamu telah habis.",
-                    style: buttonColor.copyWith(
-                      fontSize: 14,
-                    ),
-                  ),
-                  margin: EdgeInsets.only(
-                    left: defaultMargin,
-                    right: defaultMargin,
-                    bottom: defaultMargin,
-                  ),
-                  borderRadius: BorderRadius.circular(defaultRadius),
-                ).show(context);
+                showErrorFlushbar(
+                  context,
+                  "Waktu Pembayaran Habis",
+                  "Waktu pembayaran kamu telah habis",
+                );
               } else {
                 // Jika status lainnya, navigasi ke halaman pembayaran
                 Navigator.pushNamed(

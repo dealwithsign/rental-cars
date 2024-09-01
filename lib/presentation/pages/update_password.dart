@@ -11,6 +11,8 @@ import 'package:rents_cars_app/utils/fonts.dart';
 import 'package:rents_cars_app/presentation/widgets/button_widget.dart';
 import 'package:rents_cars_app/presentation/widgets/input_widget.dart';
 
+import '../widgets/flushbar_widget.dart';
+
 class UpdatePassword extends StatefulWidget {
   const UpdatePassword({super.key});
 
@@ -35,62 +37,26 @@ class _UpdatePasswordState extends State<UpdatePassword> {
     super.dispose();
   }
 
+  void _navigateTo(String routeName) {
+    Navigator.pushNamed(context, routeName);
+  }
+
   void _onUpdatePasswordButtonPressed() async {
     if (_newPasswordController.text.isEmpty ||
         _confirmPasswordController.text.isEmpty) {
       // Show Flushbar if password fields are not filled
-      Flushbar(
-        flushbarPosition: FlushbarPosition.TOP,
-        flushbarStyle: FlushbarStyle.FLOATING,
-        duration: const Duration(seconds: 5),
-        backgroundColor: kPrimaryColor,
-        titleText: Text(
-          "Update Password Gagal",
-          style: buttonColor.copyWith(
-            fontSize: 14, // Body Medium
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        messageText: Text(
-          "Password tidak boleh kosong",
-          style: buttonColor.copyWith(
-            fontSize: 14, // Body Medium
-          ),
-        ),
-        margin: EdgeInsets.only(
-          left: defaultMargin,
-          right: defaultMargin,
-          bottom: defaultMargin,
-        ),
-        borderRadius: BorderRadius.circular(defaultRadius),
-      ).show(context);
+      showErrorFlushbar(
+        context,
+        "Update Password Gagal",
+        "Password tidak boleh kosong",
+      );
     } else if (_newPasswordController.text != _confirmPasswordController.text) {
       // Show Flushbar if passwords do not match
-      Flushbar(
-        flushbarPosition: FlushbarPosition.TOP,
-        flushbarStyle: FlushbarStyle.FLOATING,
-        duration: const Duration(seconds: 5),
-        backgroundColor: kPrimaryColor,
-        titleText: Text(
-          "Update Password Gagal",
-          style: buttonColor.copyWith(
-            fontSize: 14, // Body Medium
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        messageText: Text(
-          "Password tidak cocok",
-          style: buttonColor.copyWith(
-            fontSize: 14, // Body Medium
-          ),
-        ),
-        margin: EdgeInsets.only(
-          left: defaultMargin,
-          right: defaultMargin,
-          bottom: defaultMargin,
-        ),
-        borderRadius: BorderRadius.circular(defaultRadius),
-      ).show(context);
+      showErrorFlushbar(
+        context,
+        "Update Password Gagal",
+        "Password tidak cocok",
+      );
     } else {
       try {
         // password update event
@@ -98,60 +64,19 @@ class _UpdatePasswordState extends State<UpdatePassword> {
         await authServices.updatePassword(
           newPassword: _newPasswordController.text,
         );
-        // Show success Flushbar
-        Flushbar(
-          flushbarPosition: FlushbarPosition.TOP,
-          flushbarStyle: FlushbarStyle.FLOATING,
-          duration: const Duration(seconds: 5),
-          backgroundColor: kPrimaryColor,
-          titleText: Text(
-            "Update Password Berhasil",
-            style: buttonColor.copyWith(
-              fontSize: 14, // Body Medium
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          messageText: Text(
-            "Password berhasil diperbarui",
-            style: buttonColor.copyWith(
-              fontSize: 14, // Body Medium
-            ),
-          ),
-          margin: EdgeInsets.only(
-            left: defaultMargin,
-            right: defaultMargin,
-            bottom: defaultMargin,
-          ),
-          borderRadius: BorderRadius.circular(defaultRadius),
-        ).show(context).then((_) {
-          Navigator.pushReplacementNamed(context, '/signIn');
-        });
+        showErrorFlushbar(
+          context,
+          "Update Password Berhasil",
+          "Password berhasil diperbarui",
+        );
+        _navigateTo('/wrapper');
       } catch (e) {
-        Flushbar(
-          flushbarPosition: FlushbarPosition.TOP,
-          flushbarStyle: FlushbarStyle.FLOATING,
-          duration: const Duration(seconds: 5),
-          backgroundColor: kPrimaryColor,
-          titleText: Text(
-            "Update Password Gagal",
-            style: buttonColor.copyWith(
-              fontSize: 14, // Body Medium
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          messageText: Text(
-            "Gagal memperbarui password: $e",
-            style: buttonColor.copyWith(
-              fontSize: 14, // Body Medium
-            ),
-          ),
-          margin: EdgeInsets.only(
-            left: defaultMargin,
-            right: defaultMargin,
-            bottom: defaultMargin,
-          ),
-          borderRadius: BorderRadius.circular(defaultRadius),
-        ).show(context);
+        // Show Flushbar if password update fails
+        showErrorFlushbar(
+          context,
+          "Update Password Gagal",
+          "Password gagal diperbarui",
+        );
       }
     }
   }
@@ -190,7 +115,7 @@ class _UpdatePasswordState extends State<UpdatePassword> {
                         "Buat Password Baru",
                         style: titleTextStyle.copyWith(
                           fontSize: 24, // Body Large
-                          fontWeight: bold,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                       SizedBox(

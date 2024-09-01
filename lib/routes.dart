@@ -6,7 +6,7 @@ import 'data/models/ticket_model.dart';
 import 'data/models/touristdestination_model.dart';
 import 'presentation/pages/be_apartner.dart';
 import 'presentation/pages/car_detail_page.dart';
-import 'presentation/pages/car_detail_ticket.dart';
+import 'presentation/pages/ticket_success_page.dart';
 import 'presentation/pages/car_form_page.dart';
 import 'presentation/pages/car_list_page.dart';
 import 'presentation/pages/home_page.dart';
@@ -17,6 +17,7 @@ import 'presentation/pages/sign_up_page.dart';
 import 'presentation/pages/splash_page.dart';
 import 'presentation/pages/terms_conditions.dart';
 import 'presentation/pages/ticket_page.dart';
+import 'presentation/pages/ticket_pending_page.dart';
 import 'presentation/pages/touristdestination_detail_page.dart';
 import 'presentation/pages/update_password.dart';
 import 'presentation/pages/verify_otp.dart';
@@ -77,10 +78,12 @@ Map<String, WidgetBuilder> getRoutes() {
     '/ticket-detail': (context) => TicketDetailScreen(
           ticket: ModalRoute.of(context)!.settings.arguments as TicketModels,
         ),
-
     '/ticket-page': (context) => const TicketScreen(),
     '/partner-page': (context) => const HowToBePartner(),
     '/term-conditions': (context) => const TermsAndConditions(),
+    '/tiketPending': (context) => TicketPendingPage(
+          ticket: ModalRoute.of(context)!.settings.arguments as TicketModels,
+        ),
 
     // destinations
     '/touristDestinationDetailPage': (context) {

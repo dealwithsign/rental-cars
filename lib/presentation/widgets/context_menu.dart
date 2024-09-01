@@ -7,8 +7,7 @@ import '../../utils/fonts.dart';
 class ContextMenu extends StatelessWidget {
   final String title;
   final String message;
-  final IconData icon;
-  final Color kIconColor;
+  final String imagePath; // New property for image asset path
   final TextStyle kPrimaryColor;
   final TextStyle subTitleTextStyle;
 
@@ -16,8 +15,7 @@ class ContextMenu extends StatelessWidget {
     super.key,
     required this.title,
     required this.message,
-    required this.icon,
-    required this.kIconColor,
+    required this.imagePath, // Updated constructor
     required this.kPrimaryColor,
     required this.subTitleTextStyle,
   });
@@ -29,21 +27,25 @@ class ContextMenu extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Icon(
-            icon,
-            size: MediaQuery.of(context).size.width * 0.20,
-            color: kappBar,
+          Image.asset(
+            imagePath,
+            width: MediaQuery.of(context).size.width * 0.50,
           ),
           SizedBox(height: defaultMargin * 2),
           Text(
             title,
-            style: kPrimaryColor,
+            style: titleTextStyle.copyWith(
+              fontSize: 16,
+              fontWeight: bold,
+            ),
           ),
-          const SizedBox(height: 5),
+          SizedBox(height: defaultMargin / 2),
           Center(
             child: Text(
               message,
-              style: subTitleTextStyle,
+              style: subTitleTextStyle.copyWith(
+                fontSize: 14,
+              ),
               textAlign: TextAlign.center,
             ),
           ),

@@ -14,6 +14,7 @@ import '../../blocs/cars/cars_state.dart';
 import '../../data/models/cars_model.dart';
 import '../../utils/fonts.dart';
 import '../widgets/button_widget.dart';
+import '../widgets/context_menu.dart';
 
 class ListCarPage extends StatefulWidget {
   final List<CarsModels> fetchedDataCar;
@@ -114,42 +115,19 @@ class _ListCarPageState extends State<ListCarPage> {
         } else if (state is CarsSuccess) {
           if (state.cars.isEmpty) {
             return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Icon(
-                    FontAwesomeIcons.signsPost,
-                    size: MediaQuery.of(context).size.width * 0.20,
-                    color: kappBar,
-                  ),
-                  SizedBox(height: defaultMargin * 2),
-                  Text(
-                    'Tidak Ada Rute Tersedia',
-                    style: blackTextStyle.copyWith(
-                      fontSize: 16,
-                      fontWeight: bold,
-                    ),
-                  ),
-                  const SizedBox(height: 5),
-                  Text(
-                    'Rute dan jadwal belum tersedia \nCoba cari rute atau tanggal lainnya',
-                    style: subTitleTextStyle.copyWith(
-                      fontSize: 14,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  SizedBox(height: defaultMargin * 2),
-                  Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: defaultMargin * 4),
-                    child: CustomButton(
-                      title: "Cari Rute Lainnya",
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                  )
-                ],
+              child: ContextMenu(
+                title: 'Tidak ada rute tersedia',
+                message:
+                    'Sila coba lagi dengan rute lain \natau waktu yang berbeda.',
+                imagePath:
+                    'assets/images/not_found_route.png', // Pass the image path as a string
+                kPrimaryColor: blackTextStyle.copyWith(
+                  fontSize: 16,
+                  fontWeight: bold,
+                ),
+                subTitleTextStyle: subTitleTextStyle.copyWith(
+                  fontSize: 14,
+                ),
               ),
             );
           }

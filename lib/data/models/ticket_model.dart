@@ -154,6 +154,7 @@ class TicketModels extends Equatable {
       'expiry_time': expiry_time.toIso8601String(),
       'va_numbers':
           vaNumbers.map((va) => va.toJson()).toList(), // Add this field
+      'bank': vaNumbers.map((va) => va.bank).toList(), // Add this field
     };
   }
 

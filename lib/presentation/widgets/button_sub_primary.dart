@@ -1,6 +1,8 @@
 // presentation/widgets/button_sub_primary.dart
+
 import 'package:flutter/material.dart';
-import 'package:rents_cars_app/utils/fonts.dart';
+
+import '../../utils/fonts.dart';
 
 class SubPrimaryButton extends StatelessWidget {
   final String title;

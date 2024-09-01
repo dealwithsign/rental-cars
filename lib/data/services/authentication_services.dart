@@ -25,8 +25,6 @@ class AuthServices {
       username: '',
       phone_number: 081234567890,
       created_at: DateTime.now(),
-      last_sign_in: DateTime.now(),
-      provider: 'sign_in_with_email',
     );
   }
 
@@ -35,34 +33,37 @@ class AuthServices {
     required String email,
     required String password,
     required String username,
-    required int phoneNumber,
+    required int phone_number,
   }) async {
     final AuthResponse res = await supabase.auth.signUp(
-      password: password,
       email: email,
+      password: password,
     );
 
-    UserModel users = UserModel(
+    UserModel user = UserModel(
       id: res.user!.id,
       email: email,
       username: username,
-      phone_number: phoneNumber,
+      phone_number: phone_number,
       created_at: DateTime.now(),
-      last_sign_in: DateTime.now(),
-      provider: "sign_up_with_email",
     );
 
     try {
-      final response = await supabase.from('users').insert(users.toJson());
-
-      if (response.error != null) {
-        throw Exception('Database insert error: ${response.error!.message}');
+      final res = await supabase.from('users').insert(user.toJson());
+      print('Insert response: $res');
+      if (res != null && res.error != null) {
+        throw Exception(res.error!.message);
       }
     } catch (e) {
       print('Caught error: $e');
+      final userRes =
+          await supabase.from("users").select().eq("id", user.id).single();
+      if (userRes.isNotEmpty) {
+        user = UserModel.fromJson(userRes);
+      }
     }
 
-    return users;
+    return user;
   }
 
   // Metode sign-out menggunakan Supabase
@@ -106,9 +107,9 @@ class AuthServices {
       username: res.user!.userMetadata!['full_name'] ?? '',
       phone_number: res.user!.userMetadata!['phone_number'] ?? 081234567890,
       created_at: DateTime.now(),
-      last_sign_in: DateTime.now(),
-      provider: 'sign_up_with_google',
-      url_profile: res.user!.userMetadata!['avatar_url'] ?? '',
+
+      // provider: 'sign_up_with_google',
+      // url_profile: res.user!.userMetadata!['avatar_url'] ?? '',
     );
 
     try {
@@ -136,8 +137,6 @@ class AuthServices {
         final phoneNumber =
             int.tryParse(userProfileResponse['phone_number'] ?? '08') ?? 08;
         final urlProfile = userProfileResponse['url_profile'] ?? '';
-        final lastSignIn = DateTime.parse(userProfileResponse['last_sign_in'] ??
-            DateTime.now().toIso8601String());
 
         return UserModel(
           id: user.id,
@@ -145,9 +144,9 @@ class AuthServices {
           email: email,
           phone_number: phoneNumber,
           created_at: DateTime.now(), // Consider using server timestamp
-          url_profile: urlProfile,
-          last_sign_in: lastSignIn,
-          provider: 'sign_in_with_email',
+          // url_profile: urlProfile,
+
+          // provider: 'sign_in_with_email',
         );
       } catch (e) {
         print('Error fetching user: $e');
@@ -159,9 +158,9 @@ class AuthServices {
       username: '',
       phone_number: 08,
       created_at: DateTime.now(),
-      url_profile: '',
-      last_sign_in: DateTime.now(),
-      provider: 'Sign in with Email',
+      // url_profile: '',
+
+      // provider: 'Sign in with Email',
     );
   }
 
@@ -194,9 +193,9 @@ class AuthServices {
         username: updatedUser['username'],
         phone_number: phone_number,
         created_at: DateTime.parse(updatedUser['created_at']),
-        url_profile: updatedUser['url_profile'],
-        last_sign_in: DateTime.parse(updatedUser['last_sign_in']),
-        provider: 'Sign in with Email',
+        // url_profile: updatedUser['url_profile'],
+
+        // provider: 'Sign in with Email',
       );
     } catch (e) {
       // Detailed error logging

@@ -2,14 +2,15 @@
 import 'dart:convert';
 
 import 'package:supabase_flutter/supabase_flutter.dart';
-
 import 'package:http/http.dart' as http;
 
 import '../models/ticket_model.dart';
+import '../models/invoices_model.dart';
 
 class TicketServices {
   final supabase = Supabase.instance.client;
-// get user tickets
+
+  // get user tickets
   Future<List<TicketModels>> getUserTickets(String userId) async {
     List<TicketModels> tickets = [];
     try {
@@ -44,6 +45,18 @@ class TicketServices {
       return TicketModels.fromJson(jsonDecode(response.body));
     } else {
       throw Exception('Failed to load payment details');
+    }
+  }
+
+  Future<void> saveInvoiceToSupabase(InvoicesModel invoice) async {
+    final invoiceData = invoice.toJson();
+    final response = await supabase.from('invoices').insert(invoiceData);
+
+    if (response.error != null) {
+      print('Error saving invoice: ${response.error!.message}');
+    } else {
+      print('Invoice saved successfully');
+      print('Response data: ${response.data}');
     }
   }
 }
