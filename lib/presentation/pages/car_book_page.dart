@@ -161,7 +161,9 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
                         SizedBox(height: defaultMargin),
                         CustomButton(
                           title: "Lanjut Bayar",
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.pop(context); // Close the bottom sheet
+                          },
                         ),
                       ],
                     ),
@@ -435,7 +437,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
         "phone": userPhone,
         "notes": "Pemesanan Tiket Sewa Mobil",
       },
-      "expiry": {"duration": 60, "unit": "minutes"},
+      "expiry": {"duration": 20, "unit": "minutes"},
       "usage_limit": 1,
       "item_details": [
         {
@@ -546,7 +548,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
         bottom: defaultMargin,
       ),
       decoration: BoxDecoration(
-        color: Color(0xff018053),
+        color: const Color(0xff018053),
         borderRadius: BorderRadius.circular(defaultRadius),
         border: Border.all(
           color: kTransparentColor,

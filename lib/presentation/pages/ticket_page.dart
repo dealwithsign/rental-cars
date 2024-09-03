@@ -9,6 +9,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:rents_cars_app/blocs/tickets/tickets_bloc.dart';
+import 'package:rents_cars_app/presentation/pages/ticket_pending_page.dart';
+import 'package:rents_cars_app/presentation/pages/ticket_success_page.dart';
 
 import 'package:skeletonizer/skeletonizer.dart';
 import '../../blocs/auth/auth_bloc.dart';
@@ -246,31 +248,34 @@ class _TicketScreenState extends State<TicketScreen> {
             onTap: () {
               if (status == 'E-Tiket telah terbit') {
                 // Jika status 'E-Tiket telah terbit', navigasi ke detail tiket
-                Navigator.pushNamed(
+                Navigator.push(
                   context,
-                  '/ticket-detail',
-                  arguments: ticket,
+                  MaterialPageRoute(
+                    builder: (context) => TicketDetailScreen(ticket: ticket),
+                  ),
                 );
               } else if (status == 'Menunggu Pembayaran') {
                 // Jika status 'Menunggu Pembayaran', navigasi ke halaman pembayaran
-                Navigator.pushNamed(
+                Navigator.push(
                   context,
-                  '/tiketPending',
-                  arguments: ticket,
+                  MaterialPageRoute(
+                    builder: (context) => TicketPendingPage(ticket: ticket),
+                  ),
                 );
               } else if (status == 'Dibatalkan') {
                 // Jika status 'Dibatalkan' atau 'Waktu Pembayaran Habis', tampilkan pesan batas waktu habis
                 showErrorFlushbar(
                   context,
                   'Pesanan Dibatalkan',
-                  "Pesanan kamu telah dibatalkan",
+                  "Pesanan ini telah dibatalkan dan tidak dapat digunakan",
                 );
               } else if (status == 'Waktu Pembayaran Habis') {
                 // Jika status 'Dibatalkan' atau 'Waktu Pembayaran Habis', tampilkan pesan batas waktu habis
-                showErrorFlushbar(
+                Navigator.push(
                   context,
-                  "Waktu Pembayaran Habis",
-                  "Waktu pembayaran kamu telah habis",
+                  MaterialPageRoute(builder: (context) {
+                    return TicketDetailScreen(ticket: ticket);
+                  }),
                 );
               } else {
                 // Jika status lainnya, navigasi ke halaman pembayaran

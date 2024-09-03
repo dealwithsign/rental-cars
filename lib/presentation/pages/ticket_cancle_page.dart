@@ -1,16 +1,15 @@
-// presentation/pages/ticket_pending_page.dart
+// presentation/pages/ticket_cancle_page.dart
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
+
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:rents_cars_app/presentation/pages/midtrans_page.dart';
-import 'package:rents_cars_app/presentation/widgets/button_widget.dart';
+
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:http/http.dart' as http;
 
@@ -19,16 +18,16 @@ import '../../data/models/ticket_model.dart';
 import '../../utils/fonts.dart';
 import '../widgets/flushbar_widget.dart';
 
-class TicketPendingPage extends StatefulWidget {
+class TicketCancelPage extends StatefulWidget {
   final TicketModels ticket;
 
-  const TicketPendingPage({super.key, required this.ticket});
+  const TicketCancelPage({super.key, required this.ticket});
 
   @override
-  State<TicketPendingPage> createState() => _TicketPendingPageState();
+  State<TicketCancelPage> createState() => _TicketCancelPageState();
 }
 
-class _TicketPendingPageState extends State<TicketPendingPage> {
+class _TicketCancelPageState extends State<TicketCancelPage> {
   bool isLoading = true;
 
   @override
@@ -168,7 +167,7 @@ class _TicketPendingPageState extends State<TicketPendingPage> {
   Widget _otherInformations() {
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xffFEEFC3),
+        color: const Color(0xffFAD2CF),
         borderRadius: BorderRadius.circular(defaultRadius),
         border: Border.all(
           color: kTransparentColor,
@@ -186,7 +185,7 @@ class _TicketPendingPageState extends State<TicketPendingPage> {
             SizedBox(width: defaultMargin),
             Expanded(
               child: Text(
-                'Mohon dibayarkan sebelum waktu pembayaran kedaluwarsa untuk menghindari pembatalan pesanan',
+                'Batas waktu pembayaran kamu telah berakhir. \nPesanan ini tidak dapat lagi digunakan.',
                 style: blackTextStyle.copyWith(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
@@ -342,19 +341,17 @@ class _TicketPendingPageState extends State<TicketPendingPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildDetailItem(
-                  'Nomor Transaksi', ticket.transactionId.substring(0, 8)),
-              _buildDetailItem(
                 'Status Pembayaran',
                 ticket.transaction_status,
               ),
-              _buildDetailItem(
-                'Metode Pembayaran',
-                ticket.paymentType,
-              ),
-              _buildDetailItem(
-                'Bayar Sebelum',
-                formatIndonesianDate(ticket.expiry_time),
-              ),
+              // _buildDetailItem(
+              //   'Metode Pembayaran',
+              //   ticket.vaNumbers.first.bank.toUpperCase(),
+              // ),
+              // _buildDetailItem(
+              //   'No. Virtual Account',
+              //   ticket.vaNumbers.first.vaNumber,
+              // ),
               _buildDetailItem(
                 'Total Pembayaran',
                 NumberFormat.currency(
@@ -362,21 +359,6 @@ class _TicketPendingPageState extends State<TicketPendingPage> {
                     .format(
                   double.parse(ticket.grossAmount),
                 ),
-              ),
-              SizedBox(height: defaultMargin),
-              CustomButton(
-                title: "Bayar sekarang",
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => MidtransPayment(
-                        redirectUrl: widget.ticket.paymentLinks,
-                        token: ticket.transactionId,
-                      ),
-                    ),
-                  );
-                },
               ),
             ],
           );
@@ -397,9 +379,9 @@ class _TicketPendingPageState extends State<TicketPendingPage> {
 
     if (label == 'Metode Pembayaran' && value == 'bank_transfer' ||
         value == 'echannel') {
-      displayValue = 'Transfer Bank';
-    } else if (label == 'Status Pembayaran' && value == 'pending') {
-      displayValue = 'Menunggu Pembayaran';
+      displayValue = 'Virtual Account';
+    } else if (label == 'Status Pembayaran' && value == 'expire') {
+      displayValue = 'Kedaluwarsa';
     } else if (label == 'Metode Pembayaran' && value == 'qris') {
       displayValue = 'QRIS';
     }
