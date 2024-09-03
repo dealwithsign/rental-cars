@@ -1,13 +1,16 @@
 // presentation/pages/midtrans_page.dart
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:pdf/pdf.dart';
 import 'package:rents_cars_app/presentation/widgets/button_cancle_widget.dart';
 import 'package:rents_cars_app/presentation/widgets/button_widget.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import '../../data/services/booking_services.dart';
+import '../../data/services/invoice_services.dart';
 import '../../utils/fonts.dart';
 import 'midtrans_success_page.dart';
 import 'navigation_page.dart';
+import 'package:pdf/widgets.dart' as pw;
 
 class MidtransPayment extends StatefulWidget {
   final String redirectUrl;
@@ -70,6 +73,13 @@ class _MidtransPaymentState extends State<MidtransPayment> {
                     true,
                   ); // Menggunakan token yang diteruskan
                   print('Order ID: $orderId');
+                  // Generate the invoice
+                  // const pdfColor = PdfColors.blue;
+                  // final fontFamily = pw.Font.helvetica();
+                  // PdfInvoiceApi.generate(pdfColor, fontFamily).then((file) {
+                  //   PdfInvoiceApi.openFile(file);
+                  // });
+
                   Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute(
@@ -128,6 +138,82 @@ class _MidtransPaymentState extends State<MidtransPayment> {
       ); // Memuat URL untuk pembayaran
   }
 
+  void _showConfirmationBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      backgroundColor: kWhiteColor,
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          width: double.infinity,
+          height: MediaQuery.of(context).size.height * 0.28,
+          decoration: BoxDecoration(
+            color: kWhiteColor,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(defaultRadius),
+              topRight: Radius.circular(defaultRadius),
+            ),
+          ),
+          child: Center(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: defaultMargin),
+              child: Column(
+                mainAxisAlignment:
+                    MainAxisAlignment.center, // Center children vertically
+                children: [
+                  SizedBox(height: defaultMargin),
+                  Text(
+                    'Batalkan pesanan ini ?',
+                    textAlign: TextAlign.center, // Center text horizontally
+                    style: blackTextStyle.copyWith(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: defaultMargin / 2),
+                  Text(
+                    'Pesanan ini akan dibatalkan dan tidak dapat digunakan.',
+                    textAlign: TextAlign.center, // Center text horizontally
+                    style: subTitleTextStyle.copyWith(
+                      fontSize: 14,
+                    ),
+                  ),
+                  SizedBox(height: defaultMargin / 2),
+                  Expanded(
+                    // Make the buttons fill the available space
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CustomButtonCancel(
+                          title: "Lihat Halaman Sebelumnya",
+                          onPressed: () async {
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const NavigationScreen(),
+                              ),
+                              (Route<dynamic> route) => false,
+                            ); // Go back to the previous page
+                          },
+                        ),
+                        SizedBox(height: defaultMargin),
+                        CustomButton(
+                          title: "Lanjutkan Pembayaran",
+                          onPressed: () {
+                            Navigator.pop(context); // Close the bottom sheet
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -138,7 +224,9 @@ class _MidtransPaymentState extends State<MidtransPayment> {
             LineIcons.angleLeft,
             color: kPrimaryColor,
           ),
-          onPressed: () => _showConfirmationBottomSheet(context),
+          onPressed: () {
+            _showConfirmationBottomSheet(context);
+          },
         ),
         title: Text(
           'Lanjutkan Pembayaran',
@@ -175,73 +263,4 @@ class _MidtransPaymentState extends State<MidtransPayment> {
   }
 
   // cancle ticket if users back
-  void _showConfirmationBottomSheet(BuildContext context) {
-    showModalBottomSheet(
-      backgroundColor: kWhiteColor,
-      context: context,
-      builder: (BuildContext context) {
-        return Container(
-          width: double.infinity,
-          height: MediaQuery.of(context).size.height * 0.28,
-          decoration: BoxDecoration(
-            color: kWhiteColor,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(defaultRadius),
-              topRight: Radius.circular(defaultRadius),
-            ),
-          ),
-          child: Center(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(height: defaultMargin),
-                  Text(
-                    'Keluar dari halaman pembayaran?',
-                    textAlign: TextAlign.center, // Center text horizontally
-                    style: blackTextStyle.copyWith(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(
-                    height: defaultMargin / 2,
-                  ),
-                  Text(
-                    'Pesanan akan dibatalkan dan tidak dapat dilanjutkan.',
-                    textAlign: TextAlign.center,
-                    style: subTitleTextStyle.copyWith(
-                      fontSize: 14,
-                    ),
-                  ),
-                  SizedBox(height: defaultMargin),
-                  Expanded(
-                      child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      CustomButtonCancel(
-                        title: "Ya, Batalkan",
-                        onPressed: () {
-                          Navigator.pop(context);
-                          Navigator.pop(context);
-                        },
-                      ),
-                      SizedBox(height: defaultMargin),
-                      CustomButton(
-                        title: "Lanjutkan Pembayaran",
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                      ),
-                    ],
-                  ))
-                ],
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
 }

@@ -3,17 +3,22 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:pdf/pdf.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:http/http.dart' as http;
 
 import '../../blocs/tickets/tickets_bloc.dart';
 import '../../data/models/ticket_model.dart';
+import '../../data/services/invoice_services.dart';
 import '../../utils/fonts.dart';
+import '../widgets/button_widget.dart';
+import 'package:pdf/widgets.dart' as pw;
 
 class TicketDetailScreen extends StatefulWidget {
   final TicketModels ticket;
@@ -296,16 +301,36 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildDetailItem('Referensi Number', ticket.transactionId),
+              _buildDetailItem(
+                  'Nomor Transaksi', ticket.transactionId.substring(0, 8)),
               _buildDetailItem('Metode Pembayaran', ticket.paymentType),
-              _buildDetailItem('Tanggal Pembayaran',
-                  formatIndonesianDate(ticket.settlement_time)),
+              _buildDetailItem(
+                'Tanggal Pembayaran',
+                formatIndonesianDate(ticket.settlement_time),
+              ),
               _buildDetailItem(
                 'Total Pembayaran',
-                NumberFormat.currency(locale: 'id', symbol: 'Rp ').format(
+                NumberFormat.currency(
+                        locale: 'id', symbol: 'Rp ', decimalDigits: 0)
+                    .format(
                   double.parse(ticket.grossAmount),
                 ),
               ),
+              // SizedBox(height: defaultMargin),
+              // CustomButton(
+              //   title: "Bukti Pembayaran",
+              //   onPressed: () async {
+              //     final file = await PdfInvoiceApi.generate(
+              //       PdfColors.blue, // Warna untuk teks dan elemen lainnya
+              //       pw.Font.helvetica(), // Font yang akan digunakan
+              //       // Font yang akan digunakan
+              //       ticket, // Data yang akan ditampilkan
+              //     );
+
+              //     // Setelah invoice dihasilkan, buka file tersebut
+              //     PdfInvoiceApi.openFile(file);
+              //   },
+              // ),
             ],
           );
         } else if (snapshot.hasError) {
@@ -325,10 +350,7 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
 
     if (label == 'Metode Pembayaran' && value == 'bank_transfer' ||
         value == 'echannel') {
-      displayValue = 'Virtual Account';
-    } else if (label == 'Status Pembayaran' && value == 'settlement') {
-      displayValue = 'Pembayaran Sukses';
-      textColor = const Color(0xff018053);
+      displayValue = 'Transfer Bank';
     } else if (label == 'Metode Pembayaran' && value == 'qris') {
       displayValue = 'QRIS';
     }
@@ -342,7 +364,7 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            '$label:',
+            label,
             style: subTitleTextStyle.copyWith(
               fontSize: 14,
             ),

@@ -6,6 +6,7 @@ import 'data/models/ticket_model.dart';
 import 'data/models/touristdestination_model.dart';
 import 'presentation/pages/be_apartner.dart';
 import 'presentation/pages/car_detail_page.dart';
+import 'presentation/pages/ticket_cancle_page.dart';
 import 'presentation/pages/ticket_success_page.dart';
 import 'presentation/pages/car_form_page.dart';
 import 'presentation/pages/car_list_page.dart';
@@ -85,11 +86,17 @@ Map<String, WidgetBuilder> getRoutes() {
           ticket: ModalRoute.of(context)!.settings.arguments as TicketModels,
         ),
 
+    '/ticketCancle': (context) => TicketCancelPage(
+          ticket: ModalRoute.of(context)!.settings.arguments as TicketModels,
+        ),
+
     // destinations
     '/touristDestinationDetailPage': (context) {
       final destination =
           ModalRoute.of(context)!.settings.arguments as TouristdestinationModel;
       return TouristdestinationDetailPage(destination: destination);
     },
+
+    // midtrans payment
   };
 }
