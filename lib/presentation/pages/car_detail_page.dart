@@ -15,6 +15,7 @@ import '../../blocs/cars/cars_state.dart';
 import '../../data/models/cars_model.dart';
 import '../../utils/fonts.dart';
 import '../widgets/button_widget.dart';
+import '../widgets/confirmationbottomsheet_widget.dart';
 
 class CarDetailsScreen extends StatefulWidget {
   final CarsModels car;
@@ -169,36 +170,6 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
             ),
           ),
         ),
-        // SizedBox(height: defaultMargin),
-        // Padding(
-        //   padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-        //   child: Container(
-        //     decoration: BoxDecoration(
-        //       color: kBackgroundColor,
-        //       borderRadius: BorderRadius.circular(
-        //         defaultRadius,
-        //       ),
-        //       border: Border.all(
-        //         color: kTransparentColor,
-        //       ),
-        //     ),
-        //     child: Padding(
-        //       padding: EdgeInsets.only(
-        //         left: defaultMargin,
-        //         right: defaultMargin,
-        //         top: defaultMargin / 2,
-        //         bottom: defaultMargin / 2,
-        //       ),
-        //       child: Text(
-        //         ' Sisa ${fetchedCar.availableSeats - fetchedCar.selectedSeats} kursi',
-        //         style: linkTextStyle.copyWith(
-        //           fontSize: 14,
-        //           fontWeight: bold,
-        //         ),
-        //       ),
-        //     ),
-        //   ),
-        // ),
         SizedBox(height: defaultMargin),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: defaultMargin),
@@ -214,27 +185,6 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
           color: kBackgroundColor,
           thickness: 5,
         ),
-        // SizedBox(height: defaultMargin),
-        // Padding(
-        //   padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-        //   child: Text(
-        //     "Reviews",
-        //     style: blackTextStyle.copyWith(
-        //       fontSize: 18,
-        //       fontWeight: FontWeight.bold,
-        //     ),
-        //   ),
-        // ),
-        // const SizedBox(height: 8),
-        // Padding(
-        //   padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-        //   child: _buildUsersReview(),
-        // ),
-        // SizedBox(height: defaultMargin),
-        // Divider(
-        //   color: kBackgroundColor,
-        //   thickness: 5,
-        // ),
         SizedBox(height: defaultMargin),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: defaultMargin),
@@ -281,7 +231,9 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
           child: _buildLocations(fetchedCar),
         ),
         SizedBox(height: defaultMargin * 2),
-        _buildBottomBar(),
+        _buildBottomBar(
+         
+        ),
       ],
     );
   }
@@ -379,6 +331,46 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
       ),
     );
   }
+  // Widget _buildBottomBar(BuildContext context) {
+  //   void onContinueWithDriver() {
+  //     Navigator.of(context).pushNamed(
+  //       '/bookWithDriver',
+  //       arguments: {
+  //         'car': widget.car,
+  //         'carFrom': widget.carFrom,
+  //         'carTo': widget.carTo,
+  //         'carDate': widget.carDate,
+  //         'availableSeats':
+  //             widget.car.availableSeats - widget.car.selectedSeats,
+  //       },
+  //     );
+  //   }
+
+  //   void onContinueWithoutDriver() {
+  //     Navigator.pop(context); // Close the bottom sheet
+  //   }
+
+  //   return Container(
+  //     padding: EdgeInsets.symmetric(vertical: defaultMargin),
+  //     decoration: BoxDecoration(
+  //       color: kWhiteColor,
+  //       border: Border(top: BorderSide(color: kBackgroundColor, width: 2.5)),
+  //     ),
+  //     child: Padding(
+  //       padding: EdgeInsets.symmetric(horizontal: defaultMargin),
+  //       child: CustomButton(
+  //         title: 'Lanjut ke Form Pemesanan',
+  //         onPressed: () {
+  //           showPickRentalTypeBottomSheet(
+  //             context,
+  //             onContinueWithDriver,
+  //             onContinueWithoutDriver,
+  //           );
+  //         },
+  //       ),
+  //     ),
+  //   );
+  // }
 
   Widget _buildLocations(CarsModels car) {
     Set<Marker> markers = {

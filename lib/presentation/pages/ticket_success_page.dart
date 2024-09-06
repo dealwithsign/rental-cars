@@ -277,6 +277,26 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
             ),
           ],
         ),
+        SizedBox(height: defaultMargin * 2),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Permintaan Khusus",
+              style: titleTextStyle.copyWith(
+                fontSize: 14,
+                fontWeight: bold,
+              ),
+            ),
+            const SizedBox(height: 5),
+            Text(
+              widget.ticket.specialRequest,
+              style: subTitleTextStyle.copyWith(
+                fontSize: 14,
+              ),
+            ),
+          ],
+        ),
       ],
     );
   }
@@ -302,7 +322,9 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildDetailItem(
-                  'Nomor Transaksi', ticket.transactionId.substring(0, 8)),
+                'Nomor Transaksi',
+                ticket.transactionId,
+              ),
               _buildDetailItem('Metode Pembayaran', ticket.paymentType),
               _buildDetailItem(
                 'Tanggal Pembayaran',

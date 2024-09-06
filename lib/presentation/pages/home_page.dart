@@ -22,6 +22,7 @@ import '../../data/services/cars_services.dart';
 import '../../utils/fonts.dart';
 import '../widgets/button_widget.dart';
 import '../widgets/clip_path_widget.dart';
+import 'be_apartner.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -115,7 +116,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Rental Mobil Antar Kota',
+                            'Beli Tiket Mobil Antar Kota',
                             style: buttonColor.copyWith(
                               fontWeight: FontWeight.bold,
                               fontSize: 18,
@@ -285,6 +286,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     fontSize: 14,
                   ),
                 ),
+                SizedBox(height: defaultMargin / 2),
                 Text(
                   selectedCity,
                   style: blackTextStyle.copyWith(
@@ -327,7 +329,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   padding: EdgeInsets.all(defaultMargin),
                   child: Text(
                     "Pilih Kota",
-                    style: blackTextStyle.copyWith(
+                    style: titleTextStyle.copyWith(
                       fontSize: 18,
                       fontWeight: bold,
                     ),
@@ -349,7 +351,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                             ),
                             Text(
-                              'Semua terminal / titik keberangkatan di lokasi ini',
+                              'Semua titik di lokasi ini',
                               style: subTitleTextStyle.copyWith(
                                 fontSize: 14,
                                 fontWeight: bold,
@@ -412,7 +414,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         padding: EdgeInsets.all(defaultMargin),
                         child: Text(
                           label,
-                          style: blackTextStyle.copyWith(
+                          style: titleTextStyle.copyWith(
                             fontSize: 18,
                             fontWeight: bold,
                           ),
@@ -460,6 +462,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       fontSize: 14,
                     ),
                   ),
+                  SizedBox(height: defaultMargin / 2),
                   Text(
                     DateFormat('EEE, dd MMMM yyyy', 'id_ID')
                         .format(selectedDate),
@@ -699,7 +702,10 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildHowToBePartners() {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, '/partner-page');
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const HowToBePartner()),
+        );
       },
       child: Card(
         clipBehavior: Clip.antiAlias,
@@ -715,11 +721,12 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Stack(
           children: [
             // Background image
+            // https://images.unsplash.com/photo-1612345642327-e79b84fd94f6?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.14,
               width: double.infinity,
               child: Image.network(
-                'https://images.unsplash.com/photo-1612345642327-e79b84fd94f6?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                'https://images.unsplash.com/photo-1600320254374-ce2d293c324e?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
                 fit: BoxFit.cover,
               ),
             ),

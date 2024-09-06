@@ -317,6 +317,26 @@ class _TicketPendingPageState extends State<TicketPendingPage> {
             ),
           ],
         ),
+        SizedBox(height: defaultMargin * 2),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Permintaan Khusus",
+              style: titleTextStyle.copyWith(
+                fontSize: 14,
+                fontWeight: bold,
+              ),
+            ),
+            const SizedBox(height: 5),
+            Text(
+              widget.ticket.specialRequest,
+              style: subTitleTextStyle.copyWith(
+                fontSize: 14,
+              ),
+            ),
+          ],
+        ),
       ],
     );
   }
@@ -342,7 +362,9 @@ class _TicketPendingPageState extends State<TicketPendingPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildDetailItem(
-                  'Nomor Transaksi', ticket.transactionId.substring(0, 8)),
+                'Nomor Transaksi',
+                ticket.transactionId,
+              ),
               _buildDetailItem(
                 'Status Pembayaran',
                 ticket.transaction_status,

@@ -1,4 +1,5 @@
-// ignore_for_file: must_be_immutable
+// data/models/bookings_model.dart
+// ignore_for_file: must_be_immutable// ignore_for_file: must_be_immutable
 
 import 'package:equatable/equatable.dart';
 
@@ -20,6 +21,7 @@ class BookingModels extends Equatable {
   final String userEmail;
   final bool isPayment;
   final int totalPayment;
+  final String specialRequest;
 
   BookingModels({
     required this.id,
@@ -39,6 +41,7 @@ class BookingModels extends Equatable {
     required this.userEmail,
     required this.isPayment,
     required this.totalPayment,
+    required this.specialRequest,
   });
 
   factory BookingModels.fromJson(Map<String, dynamic> json) {
@@ -60,6 +63,7 @@ class BookingModels extends Equatable {
       userEmail: json['user_email'],
       isPayment: json['isPayment'],
       totalPayment: json['total_payment'],
+      specialRequest: json['special_request'],
     );
   }
   Map<String, dynamic> toJson() {
@@ -81,6 +85,7 @@ class BookingModels extends Equatable {
       'user_email': userEmail,
       'isPayment': isPayment,
       'total_payment': totalPayment,
+      'special_request': specialRequest,
     };
   }
 
@@ -103,5 +108,6 @@ class BookingModels extends Equatable {
         userEmail,
         isPayment,
         totalPayment,
+        specialRequest,
       ];
 }

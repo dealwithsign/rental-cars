@@ -54,6 +54,7 @@ class TicketModels extends Equatable {
   final String transaction_status;
   final DateTime settlement_time;
   final DateTime expiry_time;
+  final String specialRequest;
   // final List<VirtualAccountNumber> vaNumbers; // Add this property
 
   const TicketModels({
@@ -82,6 +83,7 @@ class TicketModels extends Equatable {
     required this.transaction_status,
     required this.settlement_time,
     required this.expiry_time,
+    required this.specialRequest,
     // required this.vaNumbers, // Add this initialization
   });
 
@@ -116,6 +118,7 @@ class TicketModels extends Equatable {
       currency: json['currency'] ?? '',
       orderId: json['order_id'] ?? '',
       paymentType: json['payment_type'] ?? '',
+      specialRequest: json['special_request'] ?? '',
       transaction_status: json['transaction_status'] ?? '',
       settlement_time: DateTime.parse(
           json['settlement_time'] ?? DateTime.now().toIso8601String()),
@@ -148,6 +151,7 @@ class TicketModels extends Equatable {
       'gross_amount': grossAmount,
       'currency': currency,
       'order_id': orderId,
+      'special_request': specialRequest,
       'payment_type': paymentType,
       'transaction_status': transaction_status,
       'settlement_time': settlement_time.toIso8601String(),
@@ -185,6 +189,7 @@ class TicketModels extends Equatable {
         transaction_status,
         settlement_time,
         expiry_time,
+        specialRequest,
         // vaNumbers, // Add this property
       ];
 }

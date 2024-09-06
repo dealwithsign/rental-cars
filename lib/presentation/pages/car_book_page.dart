@@ -42,6 +42,7 @@ class DetailBookingPage extends StatefulWidget {
   final String selectedLocationPick;
   final String selectedLocationDrop; // Add this line
   final String id;
+  final String specialRequest;
 
   final String carFrom;
   final String carTo;
@@ -60,6 +61,7 @@ class DetailBookingPage extends StatefulWidget {
     required this.carTo,
     required this.carDate,
     required this.id,
+    required this.specialRequest,
   });
 
   @override
@@ -73,7 +75,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
   late String selectedLocationPick;
   late String selectedLocationDrop;
   late String orderId;
-
+  late String specialRequest;
   late String phone_number;
   bool isLoading = true;
 
@@ -87,7 +89,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
     selectedPassengers = '${widget.selectedPassengers} Orang';
     selectedLocationPick = widget.selectedLocationPick;
     selectedLocationDrop = widget.selectedLocationDrop;
-
+    specialRequest = widget.specialRequest;
     context.read<AuthBloc>().add(GetCurrentUserRequested());
     Future.delayed(const Duration(seconds: 2), () {
       setState(() {
@@ -152,6 +154,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
                             prefs.remove('selectedTime');
                             prefs.remove('selectedDate');
                             prefs.remove('orderId');
+                            prefs.remove('specialRequest');
                             Navigator.of(context)
                                 .pop(); // Close the bottom sheet
                             Navigator.of(context)
@@ -316,7 +319,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
                                         SizedBox(height: defaultMargin),
                                         Center(
                                           child: Text(
-                                            "Mohon tunggu...",
+                                            "Mohon tunggu",
                                             style: blackTextStyle.copyWith(
                                               fontSize: 15,
                                               fontWeight: FontWeight.bold,
@@ -326,7 +329,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
                                         SizedBox(height: defaultMargin / 2),
                                         Center(
                                           child: Text(
-                                            "Sedang mengarahkan ke halaman pembayaran.",
+                                            "Sedang memproses pembayaran...",
                                             textAlign: TextAlign.center,
                                             style: subTitleTextStyle.copyWith(
                                               fontSize: 14,
@@ -481,6 +484,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
               selectedLocationDrop: selectedLocationDrop,
               carId: carId,
               totalPayment: totalPayment,
+              specialRequest: specialRequest,
             ),
           );
 
@@ -566,7 +570,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
             SizedBox(width: defaultMargin),
             Expanded(
               child: Text(
-                'Pastikan data yang kamu masukkan sudah benar sebelum melanjutkan pembayaran.',
+                'Sebelum lanjut ke pembayaran, pastikan semua data yang kamu masukkan sudah benar dan lengkap.',
                 style: buttonColor.copyWith(
                   fontSize: 14,
                   fontWeight: bold,
@@ -806,7 +810,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
                         fontSize: 14,
                       ),
                     ),
-                    SizedBox(height: 5),
+                    SizedBox(height: defaultMargin / 2),
                     Text(
                       lokasiJemput,
                       style: blackTextStyle.copyWith(
@@ -821,7 +825,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
                         fontSize: 14,
                       ),
                     ),
-                    SizedBox(height: 5),
+                    SizedBox(height: defaultMargin / 2),
                     Row(
                       children: [
                         Expanded(
@@ -839,6 +843,13 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
                 ),
               ),
             ],
+          ),
+          SizedBox(height: defaultMargin),
+          _buildDetailItem(
+            'Permintaan Khusus',
+            specialRequest.isEmpty
+                ? 'Tidak ada permintaan khusus'
+                : specialRequest,
           ),
         ],
       ),

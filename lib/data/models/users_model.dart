@@ -1,13 +1,15 @@
+// data/models/users_model.dart
+import 'package:equatable/equatable.dart';
 import 'package:equatable/equatable.dart';
 
 class UserModel extends Equatable {
   final String id;
   final String email;
   final String username;
-  final int phone_number;
+  late int phone_number;
   final DateTime created_at;
 
-  const UserModel({
+  UserModel({
     required this.id,
     required this.email,
     required this.username,

@@ -1,7 +1,10 @@
+// data/services/whatsapp_services.dart
+import 'dart:io';
 import 'dart:io';
 import 'package:url_launcher/url_launcher.dart';
 
 class WhatsappServices {
+  // manually added
   Future<void> sendWhatsAppMessage({
     required String contact,
     String message = '',
@@ -30,4 +33,6 @@ class WhatsappServices {
       // Handle the error, maybe show a dialog to the user
     }
   }
+  // send invoice to whatsapp customer and owner cars
+  
 }

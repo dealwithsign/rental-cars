@@ -25,6 +25,7 @@ import '../../data/services/authentication_services.dart';
 import '../../utils/fonts.dart';
 import '../widgets/button_widget.dart';
 import '../widgets/flushbar_widget.dart';
+import '../widgets/input_widget.dart';
 import 'car_book_page.dart';
 import 'drop_maps_page.dart';
 import 'pick_maps_page.dart';
@@ -52,9 +53,12 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
   String selectedPassengers = '1 Orang';
   String _selectedLocationPick = '';
   String _selectedLocationDrop = '';
+  String specialRequest = '';
   BookingModels? bookingModels;
 
   final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _specialRequestController =
+      TextEditingController();
 
   @override
   void initState() {
@@ -82,7 +86,7 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
             prefs.getString('selectedPassengers') ?? selectedPassengers;
         _selectedLocationPick = prefs.getString('selectedLocationPick') ?? '';
         _selectedLocationDrop = prefs.getString('selectedLocationDrop') ?? '';
-
+        specialRequest = prefs.getString('specialRequest') ?? '';
         _phoneController.text = prefs.getString('phone') ?? '';
       },
     );
@@ -96,6 +100,7 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
     prefs.setString('selectedLocationPick', _selectedLocationPick);
     prefs.setString('selectedLocationDrop', _selectedLocationDrop);
     prefs.setString('phone', _phoneController.text);
+    prefs.setString('specialRequest', _specialRequestController.text);
   }
 
   bool isLoading = true;
@@ -161,10 +166,6 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                     padding: EdgeInsets.symmetric(horizontal: defaultMargin),
                     child: _buildDetailCarBooking(),
                   ),
-                  // Padding(
-                  //   padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-                  //   child: _otherInformations(),
-                  // ),
                   SizedBox(height: defaultMargin),
                   Divider(
                     color: kBackgroundColor,
@@ -228,7 +229,7 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                 ),
               ),
               Text(
-                "Informasi kontak ini akan digunakan untuk pengiriman e-ticket.",
+                "Pastikan Nomor Telepon atau Nomor WhatsApp \nyang kamu masukkan benar.",
                 style: blackTextStyle.copyWith(
                   fontSize: 14,
                 ),
@@ -245,117 +246,128 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
               isScrollControlled: true,
               builder: (BuildContext context) {
                 return SingleChildScrollView(
-                    child: Container(
-                  decoration: BoxDecoration(
-                    color: kWhiteColor,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(defaultRadius),
-                      topRight: Radius.circular(defaultRadius),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: kWhiteColor,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(defaultRadius),
+                        topRight: Radius.circular(defaultRadius),
+                      ),
                     ),
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.only(
-                      bottom: MediaQuery.of(context)
-                          .viewInsets
-                          .bottom, // Add padding equal to the keyboard height
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(
-                            left: defaultMargin,
-                            top: defaultMargin * 2,
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Detail Pemesan",
-                                style: titleTextStyle.copyWith(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              SizedBox(height: defaultMargin),
-                              Text(
-                                "Detail kontak ini akan di gunakan untuk pengirman e-ticket dan keperluan transaksi lainnya.",
-                                style: subTitleTextStyle.copyWith(
-                                  fontSize: 14,
-                                ),
-                              ),
-                              SizedBox(height: defaultMargin),
-                              Container(
-                                margin: EdgeInsets.only(
-                                  right: defaultMargin,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: kWhiteColor,
-                                  borderRadius:
-                                      BorderRadius.circular(defaultRadius),
-                                  border: Border.all(
-                                    color: kDivider,
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        bottom: MediaQuery.of(context)
+                            .viewInsets
+                            .bottom, // Add padding equal to the keyboard height
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(
+                              left: defaultMargin,
+                              top: defaultMargin * 2,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Ubah Nomor Telepon",
+                                  style: titleTextStyle.copyWith(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                child: Padding(
-                                  padding: EdgeInsets.only(
-                                    left: defaultMargin,
+                                Text(
+                                  "Nomor ini akan digunakan untuk pengiriman \ninformasi tiket pesanan.",
+                                  style: blackTextStyle.copyWith(
+                                    fontSize: 14,
                                   ),
-                                  child: TextFormField(
-                                    cursorColor: kPrimaryColor,
-                                    controller: phoneController,
-                                    keyboardType: TextInputType.phone,
-                                    decoration: InputDecoration(
-                                      labelText: "Nomor Telepon",
-                                      labelStyle: blackTextStyle.copyWith(
-                                        fontSize: 14,
-                                      ),
-                                      border: InputBorder.none,
-                                      hintStyle: blackTextStyle.copyWith(
-                                        fontSize: 14,
+                                ),
+                                SizedBox(height: defaultMargin),
+                                Container(
+                                  margin: EdgeInsets.only(
+                                    right: defaultMargin,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: kWhiteColor,
+                                    borderRadius:
+                                        BorderRadius.circular(defaultRadius),
+                                    border: Border.all(
+                                      color: kDivider,
+                                    ),
+                                  ),
+                                  child: Padding(
+                                    padding: EdgeInsets.only(
+                                      left: defaultMargin,
+                                      // bottom: defaultMargin,
+                                      right: defaultMargin,
+                                    ),
+                                    child: TextFormField(
+                                      cursorColor: kPrimaryColor,
+                                      controller: phoneController,
+                                      keyboardType: TextInputType.phone,
+                                      // maxLength: 13,
+                                      decoration: InputDecoration(
+                                        labelText: "Nomor Telepon",
+                                        labelStyle: blackTextStyle.copyWith(
+                                          fontSize: 14,
+                                        ),
+                                        border: InputBorder.none,
+                                        hintStyle: blackTextStyle.copyWith(
+                                          fontSize: 14,
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
-                              ),
-                              SizedBox(height: defaultMargin * 2),
-                              Container(
-                                margin: EdgeInsets.only(
-                                  right: defaultMargin,
-                                  bottom: defaultMargin,
-                                ),
-                                child: CustomButton(
-                                  title: "Simpan",
-                                  onPressed: () async {
-                                    final AuthServices authServices =
-                                        AuthServices();
-                                    await authServices.updateUser(
-                                      id: user.id,
-                                      phone_number:
-                                          int.parse(phoneController.text),
-                                    );
-                                    // Assuming `user` is a part of your state, update it with the new phone number
-                                    // setState(() {
-                                    //   user.phone_number =
-                                    //       int.parse(phoneController.text);
-                                    //   displayedPhoneNumber = phoneController
-                                    //       .text; // Update the displayed phone number
-                                    //   context
-                                    //       .read<AuthBloc>()
-                                    //       .add(GetCurrentUserRequested());
-                                    // });
+                                SizedBox(height: defaultMargin * 2),
+                                Container(
+                                  margin: EdgeInsets.only(
+                                    right: defaultMargin,
+                                    bottom: defaultMargin,
+                                  ),
+                                  child: CustomButton(
+                                    title: "Simpan",
+                                    onPressed: () async {
+                                      final AuthServices authServices =
+                                          AuthServices();
+                                      await authServices.updateUser(
+                                        id: user.id,
+                                        phone_number:
+                                            int.parse(phoneController.text),
+                                      );
+                                      setState(() {
+                                        user.phone_number =
+                                            int.parse(phoneController.text);
+                                        displayedPhoneNumber = phoneController
+                                            .text; // Update the displayed phone number
+                                        context
+                                            .read<AuthBloc>()
+                                            .add(GetCurrentUserRequested());
+                                      });
 
-                                    Navigator.pop(context); // Close modal
-                                  },
+                                      showErrorFlushbar(
+                                        context,
+                                        "Ubah Nomor Telepon",
+                                        "Nomor Telepon berhasil diperbarui",
+                                      );
+                                      // Delay the pop to ensure the flushbar is shown first
+                                      Future.delayed(const Duration(seconds: 5),
+                                          () {
+                                        Navigator.pop(context); // Close modal
+                                      });
+                                    },
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
-                ));
+                );
               },
             );
           },
@@ -401,13 +413,13 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                         : (displayedPhoneNumber.startsWith('0')
                             ? displayedPhoneNumber
                             : '0$displayedPhoneNumber'),
-                    style: subTitleTextStyle.copyWith(
+                    style: blackTextStyle.copyWith(
                       fontSize: 14,
                     ),
                   ),
                   Text(
                     user.email,
-                    style: subTitleTextStyle.copyWith(
+                    style: blackTextStyle.copyWith(
                       fontSize: 14,
                     ),
                   ),
@@ -545,7 +557,7 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
             ),
           ),
           Text(
-            "Lengkapi data dibawah ini untuk melanjutkan pemesanan",
+            "Untuk melanjutkan pemesanan, pastikan kamu telah mengisi semua data yang diperlukan di bawah ini.",
             style: blackTextStyle.copyWith(
               fontSize: 14,
             ),
@@ -633,6 +645,7 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                           "Pilih Waktu",
                           style: subTitleTextStyle.copyWith(fontSize: 14),
                         ),
+                        SizedBox(height: defaultMargin / 2),
                         Text(
                           selectedTime,
                           style: blackTextStyle.copyWith(
@@ -722,6 +735,7 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                           "Pilih Jumlah Penumpang",
                           style: subTitleTextStyle.copyWith(fontSize: 14),
                         ),
+                        SizedBox(height: defaultMargin / 2),
                         Text(
                           selectedPassengers,
                           style: blackTextStyle.copyWith(
@@ -772,6 +786,7 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                             "Pilih Titik Jemput",
                             style: subTitleTextStyle.copyWith(fontSize: 14),
                           ),
+                          SizedBox(height: defaultMargin / 2),
                           Text(
                             _selectedLocationPick,
                             style: blackTextStyle.copyWith(
@@ -823,6 +838,7 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                             "Pilih Titik Drop-off",
                             style: subTitleTextStyle.copyWith(fontSize: 14),
                           ),
+                          SizedBox(height: defaultMargin / 2),
                           Text(
                             _selectedLocationDrop,
                             style: blackTextStyle.copyWith(
@@ -836,6 +852,60 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                   ],
                 ),
               ),
+            ),
+          ),
+          SizedBox(height: defaultMargin),
+          Container(
+            decoration: BoxDecoration(
+              color: kWhiteColor,
+              borderRadius: BorderRadius.circular(defaultRadius),
+              border: Border.all(
+                color: kDivider,
+              ),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(
+                    left: 20,
+                    top: defaultMargin,
+                  ),
+                  child: Text(
+                    "Permintaan Khusus",
+                    style: subTitleTextStyle.copyWith(
+                      fontSize: 14,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(
+                    left: 20,
+                    right: defaultMargin,
+                    bottom: defaultMargin,
+                  ),
+                  child: TextField(
+                    cursorColor: kPrimaryColor,
+                    controller: _specialRequestController,
+                    keyboardType: TextInputType.multiline,
+                    maxLines: 2,
+                    maxLength: 200,
+                    style: blackTextStyle.copyWith(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ), // Make user input bold
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      hintText:
+                          "Permintaan Khusus tergantung ketersediaan dan mungkin dikenakan biaya tambahan \n\nContoh: Tolong sediakan tissue, dll.",
+                      hintStyle: subTitleTextStyle.copyWith(
+                        fontSize: 14,
+                        fontWeight: regular,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],
@@ -867,6 +937,7 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
               var uuid = const Uuid();
               String orderId = uuid.v1().replaceAll('-', '').substring(0, 8);
               bookingModels?.id = orderId;
+
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) => DetailBookingPage(
@@ -883,6 +954,8 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                         '1'), // Extracts digits and falls back to '1' if none found
                     selectedLocationPick: _selectedLocationPick,
                     selectedLocationDrop: _selectedLocationDrop,
+                    specialRequest: _specialRequestController
+                        .text, // Use the controller's text value
                   ),
                 ),
               );

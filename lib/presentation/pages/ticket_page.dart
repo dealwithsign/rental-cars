@@ -9,6 +9,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:rents_cars_app/blocs/tickets/tickets_bloc.dart';
+import 'package:rents_cars_app/presentation/pages/ticket_cancle_page.dart';
 import 'package:rents_cars_app/presentation/pages/ticket_pending_page.dart';
 import 'package:rents_cars_app/presentation/pages/ticket_success_page.dart';
 
@@ -173,7 +174,7 @@ class _TicketScreenState extends State<TicketScreen> {
             SizedBox(width: defaultMargin),
             Expanded(
               child: Text(
-                'Semua transaksi yang sudah selesai tidak dapat diubah atau dibatalkan.',
+                'Semua transaksi pemesanan tiket kamu \nakan ditampilkan di sini dan bisa diakses kapan saja.',
                 style: buttonColor.copyWith(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
@@ -273,19 +274,16 @@ class _TicketScreenState extends State<TicketScreen> {
                 // Jika status 'Dibatalkan' atau 'Waktu Pembayaran Habis', tampilkan pesan batas waktu habis
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) {
-                    return TicketDetailScreen(ticket: ticket);
-                  }),
+                  MaterialPageRoute(
+                    builder: (context) => TicketCancelPage(ticket: ticket),
+                  ),
                 );
               } else {
                 // Jika status lainnya, navigasi ke halaman pembayaran
-                Navigator.pushNamed(
+                showErrorFlushbar(
                   context,
-                  '/payment-page',
-                  arguments: {
-                    'redirectUrl': ticket.paymentLinks,
-                    'token': ticket.bookingId,
-                  },
+                  'Pesanan Dibatalkan',
+                  "Pesanan ini telah dibatalkan dan tidak dapat digunakan",
                 );
               }
             },
