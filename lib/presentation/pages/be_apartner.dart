@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:rents_cars_app/presentation/widgets/button_widget.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../utils/fonts.dart';
 
@@ -51,7 +52,7 @@ class _HowToBePartnerState extends State<HowToBePartner> {
       backgroundColor: kWhiteColor,
       surfaceTintColor: kWhiteColor,
       title: Text(
-        'Mulai Menjadi Mitra',
+        'Bergabung Menjadi Mitra',
         style: titleTextStyle.copyWith(
           fontSize: 20,
           fontWeight: FontWeight.bold,
@@ -98,13 +99,13 @@ class _HowToBePartnerState extends State<HowToBePartner> {
                         SizedBox(height: defaultMargin),
                         _buildHowToRegisterAsPartner(
                           'Daftar sebagai Mitra',
-                          'Daftarkan diri Anda sebagai mitra dengan mengisi formulir yang telah disediakan.',
+                          'Daftarkan bisnis transportasimu sebagai mitra dengan mengisi formulir yang telah disediakan.',
                           FontAwesomeIcons.print,
                         ),
                         SizedBox(height: defaultMargin),
                         _buildHowToRegisterAsPartner(
                           'Mari Berdiskusi',
-                          'Eksplorasi segala kemungkinan & tentukan bentuk kemitraan yang paling sesuai dengan kebutuhan Anda.',
+                          'Tunggu email atau telepon dari kami, untuk berdiskusi lebih jauh mengenai detail bisnis.',
                           FontAwesomeIcons.comments,
                         ),
                         SizedBox(height: defaultMargin),
@@ -113,15 +114,19 @@ class _HowToBePartnerState extends State<HowToBePartner> {
                           'Finalisasi & tandatangani kesepakatan kemitraan, sehingga kami bisa mulai membuat programnya.',
                           FontAwesomeIcons.handshake,
                         ),
-                        SizedBox(height: defaultMargin),
-                        _buildHowToRegisterAsPartner(
-                          'Program kemitraan sudah tayang!',
-                          'Selamat! Anda telah resmi menjadi mitra kami. Kami akan membantu Anda dalam membangun bisnis Anda.',
-                          FontAwesomeIcons.circleCheck,
-                        ),
                       ],
                     ),
                   ),
+                ),
+                SizedBox(height: defaultMargin),
+                Divider(
+                  color: kBackgroundColor,
+                  thickness: 5,
+                ),
+                SizedBox(height: defaultMargin),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: defaultMargin),
+                  child: _buildFaq(),
                 ),
                 SizedBox(height: defaultMargin),
                 Divider(
@@ -144,8 +149,8 @@ class _HowToBePartnerState extends State<HowToBePartner> {
                         ),
                         SizedBox(height: defaultMargin),
                         _buildHowToRegisterAsPartner(
-                          'Beriklan di NgeRental Kanda',
-                          'Daftarkan diri Anda sebagai mitra dengan mengisi formulir yang telah disediakan.',
+                          'Beriklan di Aplikasi',
+                          'Punya bisnis lainnya? Pasang iklan di aplikasi kami \ndan dapatkan keuntungan lebih.',
                           FontAwesomeIcons.rectangleAd,
                         ),
                       ],
@@ -173,7 +178,7 @@ class _HowToBePartnerState extends State<HowToBePartner> {
                         ),
                         SizedBox(height: defaultMargin),
                         Text(
-                          'Bisnis Anda tidak ada dalam pilihan kategori di atas? Mau berdiskusi dengan tim kami? Atau Anda lebih memilih untuk langsung mengajukan proposal kemitraan? Segera kirim email ke:',
+                          'Untuk informasi lengkap, silakan hubungi kami \nmelalui Email atau Whatsapp.',
                           style: subTitleTextStyle.copyWith(
                             fontSize: 14,
                             fontWeight: regular,
@@ -225,22 +230,30 @@ class _HowToBePartnerState extends State<HowToBePartner> {
                     ),
                   ),
                 ),
-                // SizedBox(height: defaultMargin * 2),
-                // Container(
-                //   padding: EdgeInsets.symmetric(vertical: defaultMargin),
-                //   decoration: BoxDecoration(
-                //     color: kWhiteColor,
-                //     border: Border(
-                //         top: BorderSide(color: kBackgroundColor, width: 2.5)),
-                //   ),
-                //   child: Padding(
-                //     padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-                //     child: CustomButton(
-                //       title: "Daftar Jadi Mitra",
-                //       onPressed: () {},
-                //     ),
-                //   ),
-                // ),
+                SizedBox(height: defaultMargin * 2),
+                Container(
+                  padding: EdgeInsets.symmetric(vertical: defaultMargin),
+                  decoration: BoxDecoration(
+                    color: kWhiteColor,
+                    border: Border(
+                      top: BorderSide(color: kBackgroundColor, width: 2.5),
+                    ),
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: defaultMargin),
+                    child: CustomButton(
+                      title: "Daftar Jadi Mitra",
+                      onPressed: () async {
+                        const url = 'https://forms.gle/vbhUEs6pdgSs2ntK6';
+                        if (await canLaunch(url)) {
+                          await launch(url);
+                        } else {
+                          throw 'Could not launch $url';
+                        }
+                      },
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -305,6 +318,39 @@ class _HowToBePartnerState extends State<HowToBePartner> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildFaq() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Pertanyaan yang sering diajukan',
+          style: titleTextStyle.copyWith(
+            fontSize: 18,
+            fontWeight: bold,
+          ),
+        ),
+        SizedBox(height: defaultMargin),
+        _buildHowToRegisterAsPartner(
+          'Siapa saja yang dapat bergabung sebagai mitra?',
+          'Semua orang yang memiliki bisnis transportasi, baik perseorangan maupun perusahaan.',
+          FontAwesomeIcons.car,
+        ),
+        SizedBox(height: defaultMargin),
+        _buildHowToRegisterAsPartner(
+          'Apa keuntungan bergabung sebagai mitra?',
+          'Dapatkan keuntungan lebih dengan bergabung sebagai mitra, seperti peningkatan jumlah pelanggan dan transaksi cepat dan mudah.',
+          FontAwesomeIcons.compass,
+        ),
+        SizedBox(height: defaultMargin),
+        _buildHowToRegisterAsPartner(
+          'Bagaimana proses penarikan transaksi nantinya?',
+          'Kami akan mencairkan dana (payout) dan mengirimkan setidaknya tiga hari kerja ke rekeningmu setelah transaksi sukses terjadi.',
+          FontAwesomeIcons.dollarSign,
+        ),
+      ],
     );
   }
 }
