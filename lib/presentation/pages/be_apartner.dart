@@ -347,7 +347,7 @@ class _HowToBePartnerState extends State<HowToBePartner> {
         SizedBox(height: defaultMargin),
         _buildHowToRegisterAsPartner(
           'Bagaimana proses penarikan transaksi nantinya?',
-          'Kami akan mencairkan dana (payout) dan mengirimkan setidaknya tiga hari kerja ke rekeningmu setelah transaksi sukses terjadi.',
+          'Kami akan mencairkan dana (payout) dan mengirimkan setidaknya tiga hari kerja ke rekeningmu setelah transaksi berhasil.',
           FontAwesomeIcons.dollarSign,
         ),
       ],
