@@ -1,25 +1,53 @@
-# Flutter/Dart/Pub related
-.dart_tool/
-.flutter-plugins
-.flutter-plugins-dependencies
-.packages
-.pub-cache/
+# Flutter
+*.dart_tool/
+*.packages
 .pub/
 build/
 
-# IntelliJ related
+# Dart
+*.dart_tool/
+*.package/
+
+# Android
+.android/
 .idea/
-.settings/
 *.iml
 
-# VS Code related
-.vscode/
+# iOS
+ios/Pods/
+*.xcworkspace
+*.xcuserstate
+*.xcscheme
+*.xcodeproj/
+*.xcuserdatad/
+*.xcuserdata/
+*.xcodeproj/
+*.metadata
+*.flutter-plugins
+*.flutter-plugins-dependencies
+*.flutter-plugins-dependencies.lock
+*.flutter-plugins-dependencies.json
+*.flutter-plugins-version
+*analysis_options.yaml
+*devtools_config.yaml
+*pubspec.lock
 
-# macOS related
+
+# Environment files
+*.env
+*.env.prod
+*.env.dev
+
+# Logs
+*.log
+
+# Miscellaneous
+*.tmp
+*.swp
+
+# MacOS
 .DS_Store
 
-# Web related
-lib/generated_plugin_registrant.dart
+# Windows
+Thumbs.db
 
-# Symbolicated files
-*.symbols

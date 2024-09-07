@@ -1,16 +1,36 @@
-# Car Rental
 
-### Flutter Version
+# Sewa Mobil Antar Kota
 
-```bash
-Flutter 3.22.1 • channel stable • https://github.com/flutter/flutter.git
-Framework • revision a14f74ff3a (8 weeks ago) • 2024-05-22 11:08:21 -0500
-Engine • revision 55eae6864b
+Aplikasi untuk sewa mobil antar kota
+
+## Tech Stack
+
+### Framework
+
+```
+Flutter 3.22.1 • channel stable
 Tools • Dart 3.4.1 • DevTools 2.34.3
 ```
 
-### Personal Keys
+### Database
+
+```
+Supabase PostgreSQL
+```
+
+### Deploy API
+
+```
+Vercel
+```
+
+## Installation
 
 ```bash
-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
+  fork or clone projects
+  cd project
+  create branch develop
+  add .env.dev
+  flutter pub get
+  flutter run or debug by vscode
 ```
