@@ -1,5 +1,5 @@
 // presentation/pages/wrapper_auth_page.dart
-import 'package:flutter/material.dart';import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:rents_cars_app/utils/fonts.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -13,22 +13,19 @@ class WrapperAuth extends StatefulWidget {
 
 class _WrapperAuthState extends State<WrapperAuth> {
   late final SupabaseClient supabase;
+  static const Duration loginCheckDelay = Duration(seconds: 3);
 
   @override
   void initState() {
     super.initState();
     supabase = Supabase.instance.client;
-    _checkLoginStatus();
+    _initiateLoginCheck();
   }
 
-  Future<void> _checkLoginStatus() async {
-    await Future.delayed(
-      const Duration(
-        seconds: 3,
-      ),
-    );
+  Future<void> _initiateLoginCheck() async {
+    await Future.delayed(loginCheckDelay);
     if (mounted) {
-      checkUser();
+      _checkUserStatus();
     }
   }
 
@@ -36,7 +33,7 @@ class _WrapperAuthState extends State<WrapperAuth> {
     Navigator.pushNamedAndRemoveUntil(context, routeName, (route) => false);
   }
 
-  void checkUser() {
+  void _checkUserStatus() {
     final user = supabase.auth.currentUser;
     print(user?.id);
 
@@ -54,6 +51,15 @@ class _WrapperAuthState extends State<WrapperAuth> {
     }
   }
 
+  Widget _buildLoadingIndicator() {
+    return Center(
+      child: SpinKitThreeBounce(
+        color: kPrimaryColor,
+        size: 25.0,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     // Show loading indicator while checking login status
@@ -62,12 +68,7 @@ class _WrapperAuthState extends State<WrapperAuth> {
       color: kWhiteColor,
       home: Scaffold(
         backgroundColor: kWhiteColor,
-        body: Center(
-          child: SpinKitThreeBounce(
-            color: kPrimaryColor,
-            size: 25.0,
-          ),
-        ),
+        body: _buildLoadingIndicator(),
       ),
     );
   }
