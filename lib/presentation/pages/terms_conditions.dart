@@ -89,13 +89,13 @@ class _TermsAndConditionsState extends State<TermsAndConditions> {
           SizedBox(height: defaultMargin),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-            child: _buildSectionTitle('Tentang Aplikasi'),
+            child: _buildSectionTitle('Tentang Melotrip'),
           ),
           SizedBox(height: defaultMargin),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: defaultMargin),
             child: _buildSectionContent(
-              'Terima kasih telah menggunakan aplikasi. Kami berharap Anda merasa nyaman dan mendapatkan manfaat dari layanan yang kami sediakan. Kami terus berusaha meningkatkan kualitas layanan kami dan sangat menghargai masukan dari Anda.',
+              'Terima kasih telah menggunakan Melotrip. Kami berharap Anda merasa nyaman dan mendapatkan manfaat dari layanan yang kami sediakan. Kami terus berusaha meningkatkan kualitas layanan kami dan sangat menghargai masukan dari Anda.',
             ),
           ),
           SizedBox(height: defaultMargin),
@@ -103,7 +103,7 @@ class _TermsAndConditionsState extends State<TermsAndConditions> {
           SizedBox(height: defaultMargin),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-            child: _buildSectionTitle('Apa itu Kebijakan Privasi di Aplikasi'),
+            child: _buildSectionTitle('Apa itu Kebijakan Privasi di Melotrip'),
           ),
           SizedBox(height: defaultMargin),
           Padding(
@@ -124,7 +124,7 @@ class _TermsAndConditionsState extends State<TermsAndConditions> {
           _buildListItem(
             '1.',
             'Informasi Pribadi yang kami kumpulkan',
-            'Informasi pribadi yang kami kumpulkan meliputi nama lengkap, tanggal lahir, jenis kelamin, alamat email, nomor telepon, foto profil, dan alamat fisik. Kami juga mengumpulkan informasi akun seperti nama pengguna dan kata sandi, serta data pembayaran seperti informasi kartu kredit, transaksi perbankan, dan akun virtual yang tersimpan secara tidak langsung pada payment gateway yang kami gunakan. Selain itu, kami mengumpulkan data lokasi dari IP address atau GPS jika diperlukan, serta detail transaksi, riwayat aktivitas di aplikasi, dan konten yang dibagikan di media sosial.',
+            'Informasi pribadi yang kami kumpulkan meliputi nama lengkap, tanggal lahir, jenis kelamin, alamat email, nomor telepon, foto profil, dan alamat fisik. Kami juga mengumpulkan informasi akun seperti nama pengguna dan kata sandi, serta data pembayaran seperti informasi kartu kredit, transaksi perbankan, dan akun virtual yang tersimpan secara tidak langsung pada payment gateway yang kami gunakan. Selain itu, kami mengumpulkan data lokasi dari IP address atau GPS jika diperlukan, serta detail transaksi, riwayat aktivitas di Melotrip, dan konten yang dibagikan di media sosial.',
           ),
           _buildListItem(
             '2.',
@@ -149,12 +149,12 @@ class _TermsAndConditionsState extends State<TermsAndConditions> {
           _buildListItem(
             '6.',
             'Keamanan Data Pribadi',
-            'Anda setuju bahwa informasi yang Anda kirimkan melalui internet tidak sepenuhnya aman. Meskipun kami akan menggunakan upaya terbaik untuk melindungi dan menjaga data pribadi Anda dari akses yang tidak sah, kami tidak dapat bertanggung jawab atas integritas dan keakuratan data pribadi Anda jika terjadi penyalinan, akses, pengungkapan, perubahan, atau penghancuran oleh pihak ketiga yang tidak berwenang dan di luar kontrol kami. Kami juga tidak bertanggung jawab atas kerahasiaan data pribadi Anda, termasuk penggunaan kata sandi. Anda harus segera memberi tahu kami jika terjadi penggunaan kata sandi tanpa izin Anda atau jika Anda mencurigai adanya pelanggaran keamanan pada aplikasi',
+            'Anda setuju bahwa informasi yang Anda kirimkan melalui internet tidak sepenuhnya aman. Meskipun kami akan menggunakan upaya terbaik untuk melindungi dan menjaga data pribadi Anda dari akses yang tidak sah, kami tidak dapat bertanggung jawab atas integritas dan keakuratan data pribadi Anda jika terjadi penyalinan, akses, pengungkapan, perubahan, atau penghancuran oleh pihak ketiga yang tidak berwenang dan di luar kontrol kami. Kami juga tidak bertanggung jawab atas kerahasiaan data pribadi Anda, termasuk penggunaan kata sandi. Anda harus segera memberi tahu kami jika terjadi penggunaan kata sandi tanpa izin Anda atau jika Anda mencurigai adanya pelanggaran keamanan pada Melotrip',
           ),
           _buildListItem(
             '7.',
             'Perubahan Data Kebijakan Privasi ini',
-            'Kami dapat memperbarui kebijakan privasi ini dari waktu ke waktu untuk mencerminkan perubahan dalam praktik kami atau untuk mematuhi peraturan yang berlaku. Jika terjadi perubahan signifikan, kami akan memberitahukan Anda melalui email atau pemberitahuan dalam aplikasi. Harap periksa kebijakan privasi secara berkala untuk mengetahui perubahan terbaru.',
+            'Kami dapat memperbarui kebijakan privasi ini dari waktu ke waktu untuk mencerminkan perubahan dalam praktik kami atau untuk mematuhi peraturan yang berlaku. Jika terjadi perubahan signifikan, kami akan memberitahukan Anda melalui email atau pemberitahuan dalam Melotrip. Harap periksa kebijakan privasi secara berkala untuk mengetahui perubahan terbaru.',
           ),
           _buildListItem(
             '8.',
@@ -184,7 +184,7 @@ class _TermsAndConditionsState extends State<TermsAndConditions> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Apps Name',
+                    'Melotrip',
                     style: titleTextStyle.copyWith(
                       fontSize: 18,
                       fontWeight: bold,
@@ -213,7 +213,7 @@ class _TermsAndConditionsState extends State<TermsAndConditions> {
                     onTap: () {},
                     child: _aboutApps(
                       'Instagram',
-                      'dealwithsign',
+                      'Melotrip',
                       FontAwesomeIcons.instagram,
                     ),
                   ),
@@ -233,7 +233,7 @@ class _TermsAndConditionsState extends State<TermsAndConditions> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '© 2024 DealWithSign.com',
+                  '© 2024 Melotrip.com',
                   style: subTitleTextStyle.copyWith(
                     fontSize: 13,
                   ),

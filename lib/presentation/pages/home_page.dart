@@ -64,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: kWhiteColor,
         elevation: 0.0,
         title: Text(
-          'Cadera',
+          'Melotrip',
           style: titleWhiteTextStyle.copyWith(
             fontSize: 24,
             fontWeight: FontWeight.bold,
@@ -738,7 +738,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   colors: [
                     // const Color(0xff018053), // Overlay dengan warna hijau
                     kPrimaryColor,
-                    kBackgroundColor.withOpacity(0.0), // Transparan
+                    kPrimaryColor.withOpacity(0.5), // Transparan
                   ],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,

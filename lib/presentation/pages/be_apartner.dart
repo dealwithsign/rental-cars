@@ -149,8 +149,8 @@ class _HowToBePartnerState extends State<HowToBePartner> {
                         ),
                         SizedBox(height: defaultMargin),
                         _buildHowToRegisterAsPartner(
-                          'Beriklan di Aplikasi',
-                          'Punya bisnis lainnya? Pasang iklan di aplikasi kami \ndan dapatkan keuntungan lebih.',
+                          'Beriklan di Melotrip',
+                          'Punya bisnis lainnya? Pasang iklan di Melotrip \ndan dapatkan keuntungan lebih.',
                           FontAwesomeIcons.rectangleAd,
                         ),
                       ],

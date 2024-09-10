@@ -74,7 +74,7 @@ class _SplashScreenState extends State<SplashScreen> {
                             EdgeInsets.symmetric(horizontal: defaultMargin),
                         child: _buildTitle(),
                       ),
-                      SizedBox(height: defaultMargin),
+                      SizedBox(height: defaultMargin / 2),
                       Padding(
                         padding:
                             EdgeInsets.symmetric(horizontal: defaultMargin),
@@ -115,7 +115,7 @@ class _SplashScreenState extends State<SplashScreen> {
       decoration: const BoxDecoration(
         image: DecorationImage(
           image: NetworkImage(
-            'https://images.unsplash.com/photo-1516733968668-dbdce39c4651?q=80&w=2128&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+            'https://images.unsplash.com/photo-1475782944331-0ea8c9089a6a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
           ),
           fit: BoxFit.cover, // Fills the entire container without distortion
         ),
@@ -126,7 +126,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Widget _buildTitle() {
     return Text(
-      'Selamat datang di Cadera',
+      'Selamat datang di Melotrip',
       style: titleTextStyle.copyWith(
         fontSize: 20, // Adjust the font size to match the design
         fontWeight: bold,

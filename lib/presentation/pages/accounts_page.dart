@@ -288,7 +288,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
           ),
           const SizedBox(height: 5),
           Text(
-            '© 2024 Rents Cars',
+            '© 2024 Melotrip.id',
             style: subTitleTextStyle.copyWith(
               fontSize: 13,
             ),
