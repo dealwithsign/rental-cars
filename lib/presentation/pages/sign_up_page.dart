@@ -1,5 +1,5 @@
 // presentation/pages/sign_up_page.dart
-
+import 'package:flutter/gestures.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,6 +7,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:rents_cars_app/blocs/auth/auth_bloc.dart';
 import 'package:rents_cars_app/blocs/auth/auth_event.dart';
+import 'package:rents_cars_app/presentation/pages/terms_conditions.dart';
+import 'package:rents_cars_app/presentation/pages/wrapper_auth_page.dart';
 import 'package:rents_cars_app/utils/fonts.dart';
 import 'package:rents_cars_app/presentation/widgets/button_widget.dart';
 import 'package:rents_cars_app/presentation/widgets/input_widget.dart';
@@ -40,8 +42,11 @@ class _SignUpPageState extends State<SignUpPage> {
     super.dispose();
   }
 
-  void _navigateTo(String routeName) {
-    Navigator.pushNamed(context, routeName);
+  void _navigateTo(Widget page) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => page),
+    );
   }
 
   @override
@@ -67,7 +72,7 @@ class _SignUpPageState extends State<SignUpPage> {
         body: BlocConsumer<AuthBloc, AuthState>(
           listener: (context, state) {
             if (state is AuthSuccess) {
-              _navigateTo('/wrapper');
+              _navigateTo(const WrapperAuth());
             } else if (state is AuthFailure) {
               showErrorFlushbar(
                 context,
@@ -103,7 +108,7 @@ class _SignUpPageState extends State<SignUpPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Sign Up",
+          "Buat Akun",
           style: titleTextStyle.copyWith(
             fontSize: 24,
             fontWeight: bold,
@@ -111,7 +116,7 @@ class _SignUpPageState extends State<SignUpPage> {
         ),
         SizedBox(height: defaultMargin / 2),
         Text(
-          "Silakan masukan data diri Anda untuk melanjutkan",
+          "Buat akun sekarang dan pesan tiket \nperjalanan dengan mudah!",
           style: blackTextStyle.copyWith(
             fontSize: 15,
           ),
@@ -188,7 +193,7 @@ class _SignUpPageState extends State<SignUpPage> {
           Container(
             margin: EdgeInsets.only(top: defaultMargin * 2),
             child: CustomButton(
-              title: "Daftar",
+              title: "Buat Akun",
               onPressed: _handleSignUp,
             ),
           ),
@@ -237,7 +242,7 @@ class _SignUpPageState extends State<SignUpPage> {
               ),
               recognizer: TapGestureRecognizer()
                 ..onTap = () {
-                  _navigateTo('/term-conditions');
+                  _navigateTo(const TermsAndConditions());
                 },
             ),
             TextSpan(

@@ -81,7 +81,7 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
-        title: 'Rents Cars App',
+        title: 'Lalan',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           useMaterial3: true,

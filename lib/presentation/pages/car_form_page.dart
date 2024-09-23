@@ -35,12 +35,14 @@ class BookWithDriverPage extends StatefulWidget {
   final String carFrom;
   final String carTo;
   final DateTime carDate;
+  final int availableSeats;
   const BookWithDriverPage({
     super.key,
     required this.car,
     required this.carFrom,
     required this.carTo,
     required this.carDate,
+    required this.availableSeats,
   });
 
   @override
@@ -228,8 +230,9 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
+              SizedBox(height: defaultMargin / 2),
               Text(
-                "Pastikan Nomor Telepon atau Nomor WhatsApp \nyang kamu masukkan benar.",
+                "Nomor WhatsApp ini akan digunakan untuk pengiriman \ninformasi tiket pesanan.",
                 style: blackTextStyle.copyWith(
                   fontSize: 14,
                 ),
@@ -238,139 +241,139 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
           ),
         ),
         GestureDetector(
-          onTap: () {
-            showModalBottomSheet(
-              backgroundColor: kWhiteColor,
-              context:
-                  context, // Ensure you have a BuildContext context variable available
-              isScrollControlled: true,
-              builder: (BuildContext context) {
-                return SingleChildScrollView(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: kWhiteColor,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(defaultRadius),
-                        topRight: Radius.circular(defaultRadius),
-                      ),
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                        bottom: MediaQuery.of(context)
-                            .viewInsets
-                            .bottom, // Add padding equal to the keyboard height
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            margin: EdgeInsets.only(
-                              left: defaultMargin,
-                              top: defaultMargin * 2,
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Ubah Nomor Telepon",
-                                  style: titleTextStyle.copyWith(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                Text(
-                                  "Nomor ini akan digunakan untuk pengiriman \ninformasi tiket pesanan.",
-                                  style: blackTextStyle.copyWith(
-                                    fontSize: 14,
-                                  ),
-                                ),
-                                SizedBox(height: defaultMargin),
-                                Container(
-                                  margin: EdgeInsets.only(
-                                    right: defaultMargin,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: kWhiteColor,
-                                    borderRadius:
-                                        BorderRadius.circular(defaultRadius),
-                                    border: Border.all(
-                                      color: kDivider,
-                                    ),
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsets.only(
-                                      left: defaultMargin,
-                                      // bottom: defaultMargin,
-                                      right: defaultMargin,
-                                    ),
-                                    child: TextFormField(
-                                      cursorColor: kPrimaryColor,
-                                      controller: phoneController,
-                                      keyboardType: TextInputType.phone,
-                                      // maxLength: 13,
-                                      decoration: InputDecoration(
-                                        labelText: "Nomor Telepon",
-                                        labelStyle: blackTextStyle.copyWith(
-                                          fontSize: 14,
-                                        ),
-                                        border: InputBorder.none,
-                                        hintStyle: blackTextStyle.copyWith(
-                                          fontSize: 14,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(height: defaultMargin * 2),
-                                Container(
-                                  margin: EdgeInsets.only(
-                                    right: defaultMargin,
-                                    bottom: defaultMargin,
-                                  ),
-                                  child: CustomButton(
-                                    title: "Simpan",
-                                    onPressed: () async {
-                                      final AuthServices authServices =
-                                          AuthServices();
-                                      await authServices.updateUser(
-                                        id: user.id,
-                                        phone_number:
-                                            int.parse(phoneController.text),
-                                      );
-                                      setState(() {
-                                        user.phone_number =
-                                            int.parse(phoneController.text);
-                                        displayedPhoneNumber = phoneController
-                                            .text; // Update the displayed phone number
-                                        context
-                                            .read<AuthBloc>()
-                                            .add(GetCurrentUserRequested());
-                                      });
+          // onTap: () {
+          //   showModalBottomSheet(
+          //     backgroundColor: kWhiteColor,
+          //     context:
+          //         context, // Ensure you have a BuildContext context variable available
+          //     isScrollControlled: true,
+          //     builder: (BuildContext context) {
+          //       return SingleChildScrollView(
+          //         child: Container(
+          //           decoration: BoxDecoration(
+          //             color: kWhiteColor,
+          //             borderRadius: BorderRadius.only(
+          //               topLeft: Radius.circular(defaultRadius),
+          //               topRight: Radius.circular(defaultRadius),
+          //             ),
+          //           ),
+          //           child: Padding(
+          //             padding: EdgeInsets.only(
+          //               bottom: MediaQuery.of(context)
+          //                   .viewInsets
+          //                   .bottom, // Add padding equal to the keyboard height
+          //             ),
+          //             child: Column(
+          //               crossAxisAlignment: CrossAxisAlignment.start,
+          //               children: [
+          //                 Container(
+          //                   margin: EdgeInsets.only(
+          //                     left: defaultMargin,
+          //                     top: defaultMargin * 2,
+          //                   ),
+          //                   child: Column(
+          //                     crossAxisAlignment: CrossAxisAlignment.start,
+          //                     children: [
+          //                       Text(
+          //                         "Ubah Nomor Telepon",
+          //                         style: titleTextStyle.copyWith(
+          //                           fontSize: 18,
+          //                           fontWeight: FontWeight.bold,
+          //                         ),
+          //                       ),
+          //                       Text(
+          //                         "Nomor ini akan digunakan untuk pengiriman \ninformasi tiket pesanan.",
+          //                         style: blackTextStyle.copyWith(
+          //                           fontSize: 14,
+          //                         ),
+          //                       ),
+          //                       SizedBox(height: defaultMargin),
+          //                       Container(
+          //                         margin: EdgeInsets.only(
+          //                           right: defaultMargin,
+          //                         ),
+          //                         decoration: BoxDecoration(
+          //                           color: kWhiteColor,
+          //                           borderRadius:
+          //                               BorderRadius.circular(defaultRadius),
+          //                           border: Border.all(
+          //                             color: kDivider,
+          //                           ),
+          //                         ),
+          //                         child: Padding(
+          //                           padding: EdgeInsets.only(
+          //                             left: defaultMargin,
+          //                             // bottom: defaultMargin,
+          //                             right: defaultMargin,
+          //                           ),
+          //                           child: TextFormField(
+          //                             cursorColor: kPrimaryColor,
+          //                             controller: phoneController,
+          //                             keyboardType: TextInputType.phone,
+          //                             // maxLength: 13,
+          //                             decoration: InputDecoration(
+          //                               labelText: "Nomor Telepon",
+          //                               labelStyle: blackTextStyle.copyWith(
+          //                                 fontSize: 14,
+          //                               ),
+          //                               border: InputBorder.none,
+          //                               hintStyle: blackTextStyle.copyWith(
+          //                                 fontSize: 14,
+          //                               ),
+          //                             ),
+          //                           ),
+          //                         ),
+          //                       ),
+          //                       SizedBox(height: defaultMargin * 2),
+          //                       Container(
+          //                         margin: EdgeInsets.only(
+          //                           right: defaultMargin,
+          //                           bottom: defaultMargin,
+          //                         ),
+          //                         child: CustomButton(
+          //                           title: "Simpan",
+          //                           onPressed: () async {
+          //                             final AuthServices authServices =
+          //                                 AuthServices();
+          //                             await authServices.updateUser(
+          //                               id: user.id,
+          //                               phone_number:
+          //                                   int.parse(phoneController.text),
+          //                             );
+          //                             setState(() {
+          //                               user.phone_number =
+          //                                   int.parse(phoneController.text);
+          //                               displayedPhoneNumber = phoneController
+          //                                   .text; // Update the displayed phone number
+          //                               context
+          //                                   .read<AuthBloc>()
+          //                                   .add(GetCurrentUserRequested());
+          //                             });
 
-                                      showErrorFlushbar(
-                                        context,
-                                        "Ubah Nomor Telepon",
-                                        "Nomor Telepon berhasil diperbarui",
-                                      );
-                                      // Delay the pop to ensure the flushbar is shown first
-                                      Future.delayed(const Duration(seconds: 5),
-                                          () {
-                                        Navigator.pop(context); // Close modal
-                                      });
-                                    },
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                );
-              },
-            );
-          },
+          //                             showErrorFlushbar(
+          //                               context,
+          //                               "Ubah Nomor Telepon",
+          //                               "Nomor Telepon berhasil diperbarui",
+          //                             );
+          //                             // Delay the pop to ensure the flushbar is shown first
+          //                             Future.delayed(const Duration(seconds: 5),
+          //                                 () {
+          //                               Navigator.pop(context); // Close modal
+          //                             });
+          //                           },
+          //                         ),
+          //                       ),
+          //                     ],
+          //                   ),
+          //                 ),
+          //               ],
+          //             ),
+          //           ),
+          //         ),
+          //       );
+          //     },
+          //   );
+          // },
           child: Container(
             margin: EdgeInsets.only(
               top: defaultMargin,
@@ -397,11 +400,11 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Icon(
-                        FontAwesomeIcons.penToSquare,
-                        color: kPrimaryColor,
-                        size: 20,
-                      ),
+                      // Icon(
+                      //   FontAwesomeIcons.penToSquare,
+                      //   color: kPrimaryColor,
+                      //   size: 20,
+                      // ),
                     ],
                   ),
                   SizedBox(
@@ -517,7 +520,7 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Kota Asal",
+                          "Kota Tujuan",
                           style: subTitleTextStyle.copyWith(
                             fontSize: 14,
                           ),
@@ -550,14 +553,15 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Detail Pesanan",
+            "Informasi Perjalanan",
             style: titleTextStyle.copyWith(
               fontSize: 18,
               fontWeight: FontWeight.bold,
             ),
           ),
+          SizedBox(height: defaultMargin / 2),
           Text(
-            "Untuk melanjutkan pemesanan, pastikan kamu telah mengisi semua data yang diperlukan di bawah ini.",
+            "Pastikan semua data di bawah ini sudah lengkap \nuntuk melanjutkan pemesanan.",
             style: blackTextStyle.copyWith(
               fontSize: 14,
             ),
@@ -896,8 +900,7 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                     ), // Make user input bold
                     decoration: InputDecoration(
                       border: InputBorder.none,
-                      hintText:
-                          "Permintaan Khusus tergantung ketersediaan dan mungkin dikenakan biaya tambahan \n\nContoh: Tolong sediakan tissue, dll.",
+                      hintText: "Tolong sediakan kursi di depan.",
                       hintStyle: subTitleTextStyle.copyWith(
                         fontSize: 14,
                         fontWeight: regular,
@@ -930,7 +933,7 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
               showErrorFlushbar(
                 context,
                 "Data Belum Lengkap",
-                "Silakan lengkapi detail pesanan sebelum melanjutkan",
+                "Silakan lengkapi informasi perjalanan sebelum melanjutkan",
               );
             } else {
               saveData();

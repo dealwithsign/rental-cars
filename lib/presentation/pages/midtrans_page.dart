@@ -1,5 +1,5 @@
 // presentation/pages/midtrans_page.dart
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:pdf/pdf.dart';
 import 'package:rents_cars_app/presentation/widgets/button_cancle_widget.dart';
@@ -261,6 +261,4 @@ class _MidtransPaymentState extends State<MidtransPayment> {
       ),
     );
   }
-
-  // cancle ticket if users back
 }

@@ -1,17 +1,21 @@
 // presentation/pages/accounts_page.dart
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:rents_cars_app/blocs/auth/auth_bloc.dart';
 import 'package:rents_cars_app/blocs/auth/auth_event.dart';
+import 'package:rents_cars_app/presentation/pages/terms_conditions.dart';
+import 'package:rents_cars_app/presentation/pages/wrapper_auth_page.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../data/models/users_model.dart';
 import '../../data/services/authentication_services.dart';
 import '../../data/services/whatsapp_services.dart';
 import '../../utils/fonts.dart';
+import 'accounts_edit.dart';
 
 class AccountsScreen extends StatefulWidget {
   const AccountsScreen({super.key});
@@ -164,6 +168,24 @@ class _AccountsScreenState extends State<AccountsScreen> {
                     fontSize: 15,
                   ),
                 ),
+                SizedBox(height: defaultMargin),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const AccountsEdit(),
+                      ),
+                    );
+                  },
+                  child: Text(
+                    'Edit Profile',
+                    style: blackTextStyle.copyWith(
+                      fontSize: 14,
+                      fontWeight: bold,
+                    ),
+                  ),
+                )
               ],
             ),
           ],
@@ -203,7 +225,12 @@ class _AccountsScreenState extends State<AccountsScreen> {
             title: 'Syarat & Ketentuan',
             subTitle: 'Baca syarat & ketentuan kami disini',
             onTap: () {
-              Navigator.pushNamed(context, '/term-conditions');
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const TermsAndConditions(),
+                ),
+              );
             },
           ),
           _buildSettingItem(
@@ -218,7 +245,12 @@ class _AccountsScreenState extends State<AccountsScreen> {
             subTitle: 'Kamu harus masuk lagi untuk melanjutkan',
             onTap: () async {
               await AuthServices().signOut();
-              Navigator.pushReplacementNamed(context, '/');
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const WrapperAuth(),
+                ),
+              );
             },
           ),
         ],
@@ -288,7 +320,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
           ),
           const SizedBox(height: 5),
           Text(
-            '© 2024 Melotrip.id',
+            '© 2024 Lalan.id',
             style: subTitleTextStyle.copyWith(
               fontSize: 13,
             ),

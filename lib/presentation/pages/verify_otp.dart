@@ -1,6 +1,5 @@
 // presentation/pages/verify_otp.dart
-import 'dart:math';
-import 'dart:math';
+import 'dart:math';import 'dart:math';
 
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +11,8 @@ import 'package:rents_cars_app/presentation/widgets/input_widget.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter/services.dart';
 
-import '../widgets/flushbar_widget.dart'; // Import for input formatters
+import '../widgets/flushbar_widget.dart';
+import 'update_password.dart'; // Import for input formatters
 
 class VerifyOTP extends StatefulWidget {
   const VerifyOTP({super.key});
@@ -40,8 +40,13 @@ class _VerifyOTPState extends State<VerifyOTP> {
     super.dispose();
   }
 
-  void _navigateTo(String routeName) {
-    Navigator.pushNamed(context, routeName);
+  void _navigateTo(Widget page) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => page,
+      ),
+    );
   }
 
   Future<void> _verifyOTP(BuildContext context) async {
@@ -51,7 +56,7 @@ class _VerifyOTPState extends State<VerifyOTP> {
         type: OtpType.recovery,
         email: _email,
       );
-      _navigateTo('/resetPassword');
+      _navigateTo(const UpdatePassword());
     } catch (e) {
       if (e.toString().contains('Token has expired or is invalid') ||
           e.toString().contains('statusCode:403') ||

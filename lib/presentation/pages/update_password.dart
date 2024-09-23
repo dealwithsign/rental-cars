@@ -1,11 +1,12 @@
 // presentation/pages/update_password.dart
-import 'package:another_flushbar/flushbar.dart';
+import 'package:another_flushbar/flushbar.dart';import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:rents_cars_app/blocs/auth/auth_bloc.dart';
 import 'package:rents_cars_app/blocs/auth/auth_event.dart';
 import 'package:rents_cars_app/data/services/authentication_services.dart';
+import 'package:rents_cars_app/presentation/pages/wrapper_auth_page.dart';
 
 import 'package:rents_cars_app/utils/fonts.dart';
 import 'package:rents_cars_app/presentation/widgets/button_widget.dart';
@@ -37,8 +38,11 @@ class _UpdatePasswordState extends State<UpdatePassword> {
     super.dispose();
   }
 
-  void _navigateTo(String routeName) {
-    Navigator.pushNamed(context, routeName);
+  void _navigateTo(Widget page) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => page),
+    );
   }
 
   void _onUpdatePasswordButtonPressed() async {
@@ -69,7 +73,7 @@ class _UpdatePasswordState extends State<UpdatePassword> {
           "Update Password Berhasil",
           "Password berhasil diperbarui",
         );
-        _navigateTo('/wrapper');
+        _navigateTo(const WrapperAuth());
       } catch (e) {
         // Show Flushbar if password update fails
         showErrorFlushbar(

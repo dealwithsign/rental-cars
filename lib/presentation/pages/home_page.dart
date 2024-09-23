@@ -23,6 +23,8 @@ import '../../utils/fonts.dart';
 import '../widgets/button_widget.dart';
 import '../widgets/clip_path_widget.dart';
 import 'be_apartner.dart';
+import 'car_list_page.dart';
+import 'touristdestination_detail_page.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -64,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: kWhiteColor,
         elevation: 0.0,
         title: Text(
-          'Melotrip',
+          'Lalan',
           style: titleWhiteTextStyle.copyWith(
             fontSize: 24,
             fontWeight: FontWeight.bold,
@@ -124,7 +126,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           const SizedBox(height: 5),
                           Text(
-                            'Pesan tiketmu dalam genggaman \nkapan saja dan di mana saja',
+                            'Pesan tiketmu kapan saja dan di mana saja',
                             style: buttonColor.copyWith(
                               fontSize: 15,
                             ),
@@ -175,8 +177,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   fontSize: 18,
                 ),
               ),
+              SizedBox(height: defaultMargin / 2),
               Text(
-                "Temukan Inpirasi liburanmu dengan destinasi \nmenarik di Tana Toraja",
+                "Temukan inpirasi liburan dengan destinasi \nmenarik di Tana Toraja",
                 style: blackTextStyle.copyWith(
                   fontSize: 14,
                 ),
@@ -241,15 +244,16 @@ class _HomeScreenState extends State<HomeScreen> {
                           carDate: selectedDate.toString(),
                         ),
                       );
-                  Navigator.pushNamed(
+                  Navigator.push(
                     context,
-                    '/carListPage',
-                    arguments: {
-                      'carFrom': selectedFrom,
-                      'carTo': selectedTo,
-                      'carDate': selectedDate,
-                      'fetchedDataCar': const [],
-                    },
+                    MaterialPageRoute(
+                      builder: (context) => ListCarPage(
+                        carFrom: selectedFrom,
+                        carTo: selectedTo,
+                        carDate: selectedDate,
+                        fetchedDataCar: const [],
+                      ),
+                    ),
                   );
                 },
               ),
@@ -386,7 +390,7 @@ class _HomeScreenState extends State<HomeScreen> {
           builder: (BuildContext context) {
             return Container(
               decoration: BoxDecoration(
-                color: Theme.of(context).cardColor,
+                color: kWhiteColor,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(defaultRadius),
                   topRight: Radius.circular(defaultRadius),
@@ -610,16 +614,19 @@ class _HomeScreenState extends State<HomeScreen> {
                       padding: EdgeInsets.only(right: defaultMargin / 2),
                       child: InkWell(
                         onTap: () {
-                          Navigator.pushNamed(
+                          Navigator.push(
                             context,
-                            '/touristDestinationDetailPage',
-                            arguments: destination,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  TouristdestinationDetailPage(
+                                destination: destination,
+                              ),
+                            ),
                           );
                         },
                         child: _buildInfoTravel(
                           destination.name,
                           destination.location,
-                          // Assuming you need an icon color here
                           destination.imageUrl,
                         ),
                       ),
@@ -700,7 +707,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildHowToBePartners() {
-    return GestureDetector(
+    return InkWell(
       onTap: () {
         Navigator.push(
           context,
@@ -754,7 +761,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Daftarkan mobilmu ke aplikasi kami \nraih lebih banyak pelanggan',
+                    'Daftarkan mobilmu ke aplikasi kami dan raih \nlebih banyak pelanggan',
                     style: buttonColor.copyWith(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,

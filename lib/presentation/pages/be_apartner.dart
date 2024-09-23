@@ -149,8 +149,8 @@ class _HowToBePartnerState extends State<HowToBePartner> {
                         ),
                         SizedBox(height: defaultMargin),
                         _buildHowToRegisterAsPartner(
-                          'Beriklan di Melotrip',
-                          'Punya bisnis lainnya? Pasang iklan di Melotrip \ndan dapatkan keuntungan lebih.',
+                          'Beriklan di Lalan',
+                          'Punya bisnis lainnya? Pasang iklan di Lalan \ndan dapatkan keuntungan lebih.',
                           FontAwesomeIcons.rectangleAd,
                         ),
                       ],
@@ -196,7 +196,7 @@ class _HowToBePartnerState extends State<HowToBePartner> {
                                 ),
                                 SizedBox(width: defaultMargin),
                                 Text(
-                                  'dealwithsign@gmail.com',
+                                  'helpmelalan@gmail.com',
                                   style: subTitleTextStyle.copyWith(
                                     fontSize: 14,
                                     fontWeight: bold,
@@ -215,7 +215,7 @@ class _HowToBePartnerState extends State<HowToBePartner> {
                                 ),
                                 SizedBox(width: defaultMargin),
                                 Text(
-                                  '+62 812 3456 7890',
+                                  '+6282134400200',
                                   style: subTitleTextStyle.copyWith(
                                     fontSize: 14,
                                     fontWeight: bold,
@@ -285,7 +285,7 @@ class _HowToBePartnerState extends State<HowToBePartner> {
                     EdgeInsets.all(defaultMargin), // Adjust padding as needed
                 child: Icon(
                   icon,
-                  color: const Color(0xff018053),
+                  color: kPrimaryColor,
                   size: 20,
                 ),
               ),
