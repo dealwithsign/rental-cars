@@ -46,26 +46,26 @@ Map<String, WidgetBuilder> getRoutes() {
         fetchedDataCar: const [],
       );
     },
-    '/carDetailPage': (context) {
-      final args =
-          ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-      return CarDetailsScreen(
-        car: args['car'],
-        carFrom: args['carFrom'],
-        carTo: args['carTo'],
-        carDate: args['carDate'],
-      );
-    },
-    '/bookWithDriver': (context) {
-      final args =
-          ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-      return BookWithDriverPage(
-        car: args['car'],
-        carFrom: args['carFrom'],
-        carTo: args['carTo'],
-        carDate: args['carDate'],
-      );
-    },
+    // '/carDetailPage': (context) {
+    //   final args =
+    //       ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    //   return CarDetailsScreen(
+    //     car: args['car'],
+    //     carFrom: args['carFrom'],
+    //     carTo: args['carTo'],
+    //     carDate: args['carDate'],
+    //   );
+    // },
+    // '/bookWithDriver': (context) {
+    //   final args =
+    //       ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    //   return BookWithDriverPage(
+    //     car: args['car'],
+    //     carFrom: args['carFrom'],
+    //     carTo: args['carTo'],
+    //     carDate: args['carDate'],
+    //   );
+    // },
 
     '/payment-page': (context) {
       final args =

@@ -1,5 +1,5 @@
 // presentation/pages/sign_in_page.dart
-
+import 'package:flutter/gestures.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,6 +7,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:rents_cars_app/blocs/auth/auth_bloc.dart';
 import 'package:rents_cars_app/blocs/auth/auth_event.dart';
+import 'package:rents_cars_app/presentation/pages/forgot_password.dart';
+import 'package:rents_cars_app/presentation/pages/terms_conditions.dart';
+import 'package:rents_cars_app/presentation/pages/wrapper_auth_page.dart';
 import 'package:rents_cars_app/utils/fonts.dart';
 import 'package:rents_cars_app/presentation/widgets/button_widget.dart';
 import 'package:rents_cars_app/presentation/widgets/input_widget.dart';
@@ -34,8 +37,11 @@ class _SignInPageState extends State<SignInPage> {
     super.dispose();
   }
 
-  void _navigateTo(String routeName) {
-    Navigator.pushNamed(context, routeName);
+  void _navigateTo(Widget page) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => page),
+    );
   }
 
   @override
@@ -61,11 +67,11 @@ class _SignInPageState extends State<SignInPage> {
         body: BlocConsumer<AuthBloc, AuthState>(
           listener: (context, state) {
             if (state is AuthSuccess) {
-              _navigateTo('/wrapper');
+              _navigateTo(const WrapperAuth());
             } else if (state is AuthFailure) {
               showErrorFlushbar(
                 context,
-                "Login Gagal",
+                "Gagal Masuk",
                 "Email atau password tidak valid",
               );
             }
@@ -99,7 +105,7 @@ class _SignInPageState extends State<SignInPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Login",
+          "Masuk",
           style: titleTextStyle.copyWith(
             fontSize: 24,
             fontWeight: bold,
@@ -167,7 +173,7 @@ class _SignInPageState extends State<SignInPage> {
     if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
       showErrorFlushbar(
         context,
-        "Login Gagal",
+        "Gagal Masuk",
         "Silakan isi email dan password",
       );
     } else {
@@ -198,7 +204,7 @@ class _SignInPageState extends State<SignInPage> {
               ),
               recognizer: TapGestureRecognizer()
                 ..onTap = () {
-                  _navigateTo('/term-conditions');
+                  _navigateTo(const TermsAndConditions());
                 },
             ),
             TextSpan(
@@ -216,9 +222,9 @@ class _SignInPageState extends State<SignInPage> {
 
   Widget _buildForgotPassword() {
     return Center(
-      child: InkWell(
+      child: GestureDetector(
         onTap: () {
-          Navigator.pushNamed(context, '/forgotPassword');
+          _navigateTo(const ForgotPassword());
         },
         child: Text(
           "Lupa Password",

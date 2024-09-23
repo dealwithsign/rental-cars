@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:rents_cars_app/blocs/auth/auth_bloc.dart';
 import 'package:rents_cars_app/blocs/auth/auth_event.dart';
+import 'package:rents_cars_app/presentation/pages/verify_otp.dart';
 
 import 'package:rents_cars_app/utils/fonts.dart';
 import 'package:rents_cars_app/presentation/widgets/button_widget.dart';
@@ -32,8 +33,14 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     super.dispose();
   }
 
-  void _navigateTo(String routeName, {required String email}) {
-    Navigator.pushNamed(context, routeName, arguments: email);
+  void _navigateTo(Widget page, {required String email}) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => page,
+        settings: RouteSettings(arguments: email),
+      ),
+    );
   }
 
   void _onSignInButtonPressed() async {
@@ -69,7 +76,10 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         BlocProvider.of<AuthBloc>(context).add(
           ResetPasswordRequested(_emailController.text),
         );
-        _navigateTo('/verifyOTP', email: _emailController.text);
+        _navigateTo(
+          const VerifyOTP(),
+          email: _emailController.text,
+        );
       } catch (e) {
         Flushbar(
           flushbarPosition: FlushbarPosition.TOP,

@@ -122,7 +122,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
                 children: [
                   SizedBox(height: defaultMargin),
                   Text(
-                    'Batalkan pesanan ini?',
+                    'Batalkan pesanan ini ?',
                     textAlign: TextAlign.center, // Center text horizontally
                     style: blackTextStyle.copyWith(
                       fontSize: 15,
@@ -329,7 +329,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
                                         SizedBox(height: defaultMargin / 2),
                                         Center(
                                           child: Text(
-                                            "Sedang memproses pembayaran...",
+                                            "Sedang mengarahkan ke halaman pembayaran...",
                                             textAlign: TextAlign.center,
                                             style: subTitleTextStyle.copyWith(
                                               fontSize: 14,
@@ -570,7 +570,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
             SizedBox(width: defaultMargin),
             Expanded(
               child: Text(
-                'Sebelum lanjut ke pembayaran, pastikan semua data yang kamu masukkan sudah benar dan lengkap.',
+                'Sebelum melanjutkan ke pembayaran, pastikan semua data yang kamu masukkan sudah benar dan lengkap.',
                 style: buttonColor.copyWith(
                   fontSize: 14,
                   fontWeight: bold,
@@ -780,7 +780,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
                     backgroundColor: kBackgroundColor,
                     child: Icon(
                       FontAwesomeIcons.locationArrow,
-                      color: Color(0xff018053),
+                      color: kPrimaryColor,
                       size: 20,
                     ),
                   ),
@@ -793,7 +793,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
                     backgroundColor: kBackgroundColor,
                     child: Icon(
                       FontAwesomeIcons.locationDot,
-                      color: Color(0xff018053),
+                      color: kPrimaryColor,
                       size: 20,
                     ),
                   ),

@@ -4,17 +4,18 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_social_button/flutter_social_button.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:icons_plus/icons_plus.dart';
+import 'package:rents_cars_app/presentation/pages/sign_in_page.dart';
+import 'package:rents_cars_app/presentation/pages/sign_up_page.dart';
+import 'package:rents_cars_app/presentation/pages/terms_conditions.dart';
+import 'package:rents_cars_app/presentation/pages/wrapper_auth_page.dart';
 import 'package:rents_cars_app/presentation/widgets/button_sub_primary.dart';
 import 'package:rents_cars_app/presentation/widgets/button_widget.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../blocs/auth/auth_bloc.dart';
 import '../../blocs/auth/auth_event.dart';
+// Make sure this is imported for AuthState
 import '../../utils/fonts.dart';
-import 'package:supabase_flutter/supabase_flutter.dart' as SupabaseAuth;
+import 'google_sign_phone_number.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -24,34 +25,32 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  late final SupabaseClient supabase;
-  final bool _isLoading = false;
-
-  @override
-  void initState() {
-    super.initState();
-    supabase = Supabase.instance.client;
+  // Helper method to navigate and replace the screen
+  void _navigateTo(Widget page) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => page),
+    );
   }
 
-  void _navigateTo(String routeName) {
-    Navigator.pushNamed(context, routeName);
-  }
-
-  void _navigateGoogleSignInSignUp(String routeName) {
-    Navigator.pushReplacementNamed(context, routeName);
+  // Use pushReplacement to replace the current screen with the wrapper
+  void _navigateGoogleSignInSignUp(Widget page) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => page),
+    );
   }
 
   void _handleSignInWithEmail() {
-    _navigateTo('/signIn');
+    _navigateTo(const SignInPage());
   }
 
   void _handleSignUpWithEmail() {
-    _navigateTo('/signUp');
+    _navigateTo(const SignUpPage());
   }
 
   void _handleGoogleSignIn() async {
     context.read<AuthBloc>().add(SignInSignUpWithGoogleRequested());
-    _navigateGoogleSignInSignUp('/wrapper');
   }
 
   @override
@@ -86,6 +85,12 @@ class _SplashScreenState extends State<SplashScreen> {
                             EdgeInsets.symmetric(horizontal: defaultMargin),
                         child: _buildSocialSignInButtons(),
                       ),
+                      SizedBox(height: defaultMargin),
+                      Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: defaultMargin),
+                        child: _buildEmailSignUp(),
+                      ),
                       SizedBox(height: defaultMargin * 2),
                       Padding(
                         padding:
@@ -114,9 +119,7 @@ class _SplashScreenState extends State<SplashScreen> {
           0.5, // Covers 50% of the screen height
       decoration: const BoxDecoration(
         image: DecorationImage(
-          image: NetworkImage(
-            'https://images.unsplash.com/photo-1475782944331-0ea8c9089a6a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-          ),
+          image: AssetImage('assets/images/splash.png'), // Use AssetImage
           fit: BoxFit.cover, // Fills the entire container without distortion
         ),
       ),
@@ -126,7 +129,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Widget _buildTitle() {
     return Text(
-      'Selamat datang di Melotrip',
+      'Selamat datang di Lalan',
       style: titleTextStyle.copyWith(
         fontSize: 20, // Adjust the font size to match the design
         fontWeight: bold,
@@ -136,7 +139,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Widget _buildTagline() {
     return Text(
-      "Aplikasi yang buat hidupmu lebih mudah. Siap bantu kebutuhan transportasi kamu!",
+      "Pesan Tiket Online, Mudah & Nyaman!",
       textAlign: TextAlign.center,
       style: blackTextStyle.copyWith(
         fontSize: 15, // Adjust the font size to match the design
@@ -144,20 +147,60 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 
-  Widget _buildSocialSignInButtons() {
+  Widget _buildEmailSignUp() {
     return Column(
       children: [
-        SubPrimaryButton(
-          title: "Lanjutkan dengan Google",
-          onPressed: _handleGoogleSignIn,
-          icon: FontAwesomeIcons.google,
-        ),
-        SizedBox(height: defaultMargin),
         CustomButton(
           title: "Lanjutkan dengan Email",
           onPressed: _handleSignUpWithEmail,
         ),
       ],
+    );
+  }
+
+  Widget _buildSocialSignInButtons() {
+    // BlocListener to listen for AuthState changes
+    return BlocListener<AuthBloc, AuthState>(
+      listener: (context, state) {
+        if (state is AuthSuccess) {
+          // Check if the user has a specific phone number or no phone number
+          final phoneNumber = state.user!.phone_number.toString();
+          print('phone number: $phoneNumber');
+          if (phoneNumber == "81234567890" || phoneNumber.isEmpty) {
+            // Navigate to GoogleSignPhoneNumber if the phone number is "081234567890" or empty
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const GoogleSignPhoneNumber(),
+              ),
+            );
+          } else {
+            // Navigate to WrapperAuth if the phone number is different
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const WrapperAuth(),
+              ),
+            );
+          }
+        } else if (state is AuthFailure) {
+          // Display SnackBar for failure
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.error),
+            ), // Ensure AuthFailure contains errorMessage
+          );
+        }
+      },
+      child: Column(
+        children: [
+          SubPrimaryButton(
+            title: "Lanjutkan dengan Google",
+            onPressed: _handleGoogleSignIn,
+            icon: FontAwesomeIcons.google,
+          ),
+        ],
+      ),
     );
   }
 
@@ -174,12 +217,10 @@ class _SplashScreenState extends State<SplashScreen> {
             style: blackTextStyle.copyWith(
               fontSize: 14,
               fontWeight: bold,
-              // color: const Color(0xff087443),
-              // decoration: TextDecoration.underline,
             ),
             recognizer: TapGestureRecognizer()
               ..onTap = () {
-                _navigateTo('/signIn');
+                _navigateTo(const SignInPage());
               },
           ),
         ],
@@ -206,7 +247,7 @@ class _SplashScreenState extends State<SplashScreen> {
             ),
             recognizer: TapGestureRecognizer()
               ..onTap = () {
-                _navigateTo('/term-conditions');
+                _navigateTo(const TermsAndConditions());
               },
           ),
           TextSpan(

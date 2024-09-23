@@ -15,6 +15,7 @@ import '../../data/models/cars_model.dart';
 import '../../utils/fonts.dart';
 import '../widgets/button_widget.dart';
 import '../widgets/context_menu.dart';
+import 'car_detail_page.dart';
 
 class ListCarPage extends StatefulWidget {
   final List<CarsModels> fetchedDataCar;
@@ -120,7 +121,7 @@ class _ListCarPageState extends State<ListCarPage> {
                 message:
                     'Sila coba lagi dengan rute lain \natau waktu yang berbeda.',
                 imagePath:
-                    'assets/images/not_found_route.png', // Pass the image path as a string
+                    'assets/images/ticket_no_available.png', // Pass the image path as a string
                 kPrimaryColor: blackTextStyle.copyWith(
                   fontSize: 16,
                   fontWeight: bold,
@@ -158,16 +159,18 @@ class _ListCarPageState extends State<ListCarPage> {
                   padding: EdgeInsets.symmetric(horizontal: defaultMargin),
                   child: GestureDetector(
                     onTap: () {
-                      Navigator.of(context).pushNamed(
-                        '/carDetailPage',
-                        arguments: {
-                          'car': car,
-                          'carFrom': widget.carFrom,
-                          'carTo': widget.carTo,
-                          'carDate': widget.carDate,
-                          'availableSeats': car.availableSeats -
-                              car.selectedSeats, // Pass the calculated value
-                        },
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CarDetailsScreen(
+                            car: car,
+                            carFrom: widget.carFrom,
+                            carTo: widget.carTo,
+                            carDate: widget.carDate,
+                            availableSeats:
+                                car.availableSeats - car.selectedSeats,
+                          ),
+                        ),
                       );
                     },
                     child: Column(

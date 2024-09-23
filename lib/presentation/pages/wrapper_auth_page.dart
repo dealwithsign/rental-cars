@@ -1,8 +1,11 @@
 // presentation/pages/wrapper_auth_page.dart
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:rents_cars_app/presentation/pages/splash_page.dart';
 import 'package:rents_cars_app/utils/fonts.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+
+import 'navigation_page.dart';
 
 class WrapperAuth extends StatefulWidget {
   const WrapperAuth({super.key});
@@ -29,8 +32,12 @@ class _WrapperAuthState extends State<WrapperAuth> {
     }
   }
 
-  void _navigateTo(String routeName) {
-    Navigator.pushNamedAndRemoveUntil(context, routeName, (route) => false);
+  void _navigateTo(Widget page) {
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => page),
+      (route) => false,
+    );
   }
 
   void _checkUserStatus() {
@@ -45,9 +52,9 @@ class _WrapperAuthState extends State<WrapperAuth> {
     });
 
     if (user == null) {
-      _navigateTo('/splashPage');
+      _navigateTo(const SplashScreen());
     } else {
-      _navigateTo('/main');
+      _navigateTo(const NavigationScreen());
     }
   }
 

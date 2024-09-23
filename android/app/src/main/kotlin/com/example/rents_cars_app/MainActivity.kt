@@ -1,4 +1,4 @@
-package com.braiyenmassora.rents_cars_apps
+package com.braiyenmassora.lalan
 
 import io.flutter.embedding.android.FlutterActivity
 

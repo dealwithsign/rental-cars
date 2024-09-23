@@ -256,9 +256,9 @@ class _TicketCancelPageState extends State<TicketCancelPage> {
               children: [
                 CircleAvatar(
                   backgroundColor: kBackgroundColor,
-                  child: const Icon(
+                  child: Icon(
                     FontAwesomeIcons.locationArrow,
-                    color: Color(0xff018053),
+                    color: kPrimaryColor,
                     size: 20,
                   ),
                 ),
@@ -269,9 +269,9 @@ class _TicketCancelPageState extends State<TicketCancelPage> {
                 ),
                 CircleAvatar(
                   backgroundColor: kBackgroundColor,
-                  child: const Icon(
+                  child: Icon(
                     FontAwesomeIcons.locationDot,
-                    color: Color(0xff018053),
+                    color: kPrimaryColor,
                     size: 20,
                   ),
                 ),

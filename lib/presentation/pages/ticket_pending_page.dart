@@ -257,9 +257,9 @@ class _TicketPendingPageState extends State<TicketPendingPage> {
               children: [
                 CircleAvatar(
                   backgroundColor: kBackgroundColor,
-                  child: const Icon(
+                  child: Icon(
                     FontAwesomeIcons.locationArrow,
-                    color: Color(0xff018053),
+                    color: kPrimaryColor,
                     size: 20,
                   ),
                 ),
@@ -270,9 +270,9 @@ class _TicketPendingPageState extends State<TicketPendingPage> {
                 ),
                 CircleAvatar(
                   backgroundColor: kBackgroundColor,
-                  child: const Icon(
+                  child: Icon(
                     FontAwesomeIcons.locationDot,
-                    color: Color(0xff018053),
+                    color: kPrimaryColor,
                     size: 20,
                   ),
                 ),

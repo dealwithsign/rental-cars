@@ -1,5 +1,6 @@
 // utils/fonts.dart
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 double defaultMargin = 14.0;
 double defaultRadius = 8.0;
@@ -46,75 +47,60 @@ Color kIconContextMenu = const Color(0xffB0B0B0);
 
 Color kSpinkitColor = const Color(0xff063c79);
 
-TextStyle titleTextStyle = TextStyle(
-  fontFamily: 'MaisonNeueTitle',
+TextStyle titleTextStyle = GoogleFonts.interTight(
   color: kPrimaryColor,
 );
 
-TextStyle titleWhiteTextStyle = TextStyle(
-  fontFamily: 'MaisonNeueTitle',
+TextStyle titleWhiteTextStyle = GoogleFonts.interTight(
   color: kWhiteColor,
 );
-TextStyle blackTextStyle = TextStyle(
-  fontFamily: 'MaisonNeuePrimary',
+TextStyle blackTextStyle = GoogleFonts.interTight(
   color: kPrimaryColor,
 );
-TextStyle buttonColor = TextStyle(
-  fontFamily: 'MaisonNeuePrimary',
+TextStyle buttonColor = GoogleFonts.interTight(
   color: kWhiteColor,
 );
-TextStyle whiteTextStyle = TextStyle(
-  fontFamily: 'MaisonNeuePrimary',
+TextStyle whiteTextStyle = GoogleFonts.interTight(
   color: kPrimaryColor,
 );
 
-TextStyle subTitleTextStyle = TextStyle(
-  fontFamily: 'MaisonNeuePrimary',
+TextStyle subTitleTextStyle = GoogleFonts.interTight(
   color: kSubTitle,
 );
 
-TextStyle underTextStyle = TextStyle(
-  fontFamily: 'MaisonNeuePrimary',
+TextStyle underTextStyle = GoogleFonts.interTight(
   color: kButtonColor,
 );
 
-TextStyle kPriceTextStyle = TextStyle(
-  fontFamily: 'MaisonNeuePrimary',
+TextStyle kPriceTextStyle = GoogleFonts.interTight(
   color: kPriceColor,
 );
 
-TextStyle blueTextStyle = TextStyle(
-  fontFamily: 'MaisonNeuePrimary',
+TextStyle blueTextStyle = GoogleFonts.interTight(
   color: kPickedColor,
 );
 
-TextStyle iconTextStyle = TextStyle(
-  fontFamily: 'MaisonNeuePrimary',
+TextStyle iconTextStyle = GoogleFonts.interTight(
   color: kFilled,
 );
 
-TextStyle greyTextStyle = TextStyle(
-  fontFamily: 'MaisonNeuePrimary',
+TextStyle greyTextStyle = GoogleFonts.interTight(
   color: kPrimaryColor,
 );
 
-TextStyle greenTextStyle = TextStyle(
-  fontFamily: 'MaisonNeuePrimary',
+TextStyle greenTextStyle = GoogleFonts.interTight(
   color: kButtonColor,
 );
 
-TextStyle redTextStyle = TextStyle(
-  fontFamily: 'MaisonNeuePrimary',
+TextStyle redTextStyle = GoogleFonts.interTight(
   color: kRedColor,
 );
 
-TextStyle purpleTextStyle = TextStyle(
-  fontFamily: 'MaisonNeuePrimary',
+TextStyle purpleTextStyle = GoogleFonts.interTight(
   color: kPrimaryColor,
 );
 
-TextStyle linkTextStyle = TextStyle(
-  fontFamily: 'MaisonNeuePrimary',
+TextStyle linkTextStyle = GoogleFonts.interTight(
   color: kappBar,
 );
 
@@ -148,7 +134,6 @@ Color kUnavailableColor = const Color(0xffED2739);
 Color kPickedColor = const Color(0xff0163c79);
 
 // airbnb design systems text color
-TextStyle kPlaceHolderText = TextStyle(
-  fontFamily: 'MaisonNeuePrimary',
+TextStyle kPlaceHolderText = GoogleFonts.interTight(
   color: kPlaceHolderColor,
 );

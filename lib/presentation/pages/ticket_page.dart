@@ -104,7 +104,7 @@ class _TicketScreenState extends State<TicketScreen> {
                 message:
                     'Kamu belum memiliki pesanan tiket \nYuk pesan sekarang!',
                 imagePath:
-                    'assets/images/not_found_ticket.png', // Pass the image path as a string
+                    'assets/images/ticket_no_route.png', // Pass the image path as a string
                 kPrimaryColor: blackTextStyle.copyWith(
                   fontSize: 16,
                   fontWeight: bold,
@@ -174,7 +174,7 @@ class _TicketScreenState extends State<TicketScreen> {
             SizedBox(width: defaultMargin),
             Expanded(
               child: Text(
-                'Semua transaksi pemesanan tiket kamu \nakan ditampilkan di sini dan bisa diakses kapan saja.',
+                'Semua transaksi pemesanan tiket akan ditampilkan \ndi sini dan bisa diakses kapan saja.',
                 style: buttonColor.copyWith(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
@@ -244,7 +244,8 @@ class _TicketScreenState extends State<TicketScreen> {
 
         // Membuat tampilan kartu dengan status dan warna yang ditentukan
         return Skeletonizer(
-          enabled: isLoading,
+          enabled:
+              isLoading || snapshot.connectionState == ConnectionState.waiting,
           child: GestureDetector(
             onTap: () {
               if (status == 'E-Tiket telah terbit') {

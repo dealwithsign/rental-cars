@@ -35,194 +35,202 @@ class _TouristdestinationDetailPageState
   Widget build(BuildContext context) {
     final destination = widget.destination;
 
-    return Scaffold(
-      body: Skeletonizer(
-        enabled: isLoading,
-        child: CustomScrollView(
-          physics: const BouncingScrollPhysics(),
-          slivers: [
-            SliverAppBar(
-              backgroundColor: kWhiteColor,
-              surfaceTintColor: kWhiteColor,
-              elevation: 0,
-              leading: IconButton(
-                icon: Icon(
-                  LineIcons.angleLeft,
-                  color: kWhiteColor,
+    return MaterialApp(
+      color: kWhiteColor,
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        backgroundColor: kWhiteColor,
+        body: Skeletonizer(
+          enabled: isLoading,
+          child: CustomScrollView(
+            physics: const BouncingScrollPhysics(),
+            slivers: [
+              SliverAppBar(
+                backgroundColor: kWhiteColor,
+                surfaceTintColor: kWhiteColor,
+                elevation: 0,
+                leading: IconButton(
+                  icon: Icon(
+                    LineIcons.angleLeft,
+                    color: kWhiteColor,
+                  ),
+                  onPressed: () => Navigator.of(context).pop(),
                 ),
-                onPressed: () => Navigator.of(context).pop(),
-              ),
-              expandedHeight: MediaQuery.of(context).size.height * 0.3,
-              pinned: true,
-              flexibleSpace: FlexibleSpaceBar(
-                background: Image.network(
-                  destination.imageUrl,
-                  fit: BoxFit.cover,
+                expandedHeight: MediaQuery.of(context).size.height * 0.3,
+                pinned: true,
+                flexibleSpace: FlexibleSpaceBar(
+                  background: Image.network(
+                    destination.imageUrl,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
-            ),
-            SliverList(
-              delegate: SliverChildListDelegate(
-                [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(height: defaultMargin),
-                      Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: defaultMargin),
-                        child: DestinationTitle(destination.name),
-                      ),
-                      SizedBox(height: defaultMargin),
-                      Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: defaultMargin),
-                        child: DestinationDescription(destination.description),
-                      ),
-                      SizedBox(height: defaultMargin),
-                      Divider(
-                        color: kBackgroundColor,
-                        thickness: 5,
-                      ),
-                      SizedBox(height: defaultMargin),
-                      Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: defaultMargin),
-                        child: DestinationLocationCard(
-                          title: "Lokasi",
-                          message: destination.location,
-                          icon: FontAwesomeIcons.locationDot,
+              SliverList(
+                delegate: SliverChildListDelegate(
+                  [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(height: defaultMargin),
+                        Padding(
+                          padding:
+                              EdgeInsets.symmetric(horizontal: defaultMargin),
+                          child: DestinationTitle(destination.name),
                         ),
-                      ),
-                      SizedBox(height: defaultMargin),
-                      Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: defaultMargin),
-                        child: DestinationLocationCard(
-                          title: "Katagori",
-                          message: destination.category,
-                          icon: FontAwesomeIcons.landmark,
+                        SizedBox(height: defaultMargin),
+                        Padding(
+                          padding:
+                              EdgeInsets.symmetric(horizontal: defaultMargin),
+                          child:
+                              DestinationDescription(destination.description),
                         ),
-                      ),
-                      SizedBox(height: defaultMargin),
-                      Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: defaultMargin),
-                        child: DestinationLocationCard(
-                          title: "Jam Operasional",
-                          message: destination.operatingHours,
-                          icon: FontAwesomeIcons.clock,
+                        SizedBox(height: defaultMargin),
+                        Divider(
+                          color: kBackgroundColor,
+                          thickness: 5,
                         ),
-                      ),
-                      SizedBox(height: defaultMargin),
-                      Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: defaultMargin),
-                        child: DestinationLocationCard(
-                          title: "Harga Tiket",
-                          message: destination.ticketPrice,
-                          icon: FontAwesomeIcons.ticketAlt,
-                        ),
-                      ),
-                      SizedBox(height: defaultMargin),
-                      Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: defaultMargin),
-                        child: DestinationLocationCard(
-                          title: "Rating",
-                          message: destination.rating,
-                          icon: FontAwesomeIcons.star,
-                        ),
-                      ),
-                      SizedBox(height: defaultMargin),
-                      Divider(
-                        color: kBackgroundColor,
-                        thickness: 5,
-                      ),
-                      SizedBox(height: defaultMargin),
-                      Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: defaultMargin),
-                        child: Container(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Punya pertanyaan?',
-                                style: titleTextStyle.copyWith(
-                                  fontSize: 18,
-                                  fontWeight: bold,
-                                ),
-                              ),
-                              SizedBox(height: defaultMargin),
-                              Text(
-                                'Untuk pemesanan tiket atau informasi lainnya, silakan hubungi melalui email atau nomor di bawah ini',
-                                style: subTitleTextStyle.copyWith(
-                                  fontSize: 14,
-                                  fontWeight: regular,
-                                ),
-                              ),
-                              SizedBox(height: defaultMargin),
-                              Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      Icon(
-                                        FontAwesomeIcons.envelopeOpen,
-                                        color: kPrimaryColor,
-                                        size: 20,
-                                      ),
-                                      SizedBox(width: defaultMargin),
-                                      Text(
-                                        destination.email?.isNotEmpty == true
-                                            ? destination.email!
-                                            : 'Belum ada email terdaftar',
-                                        style: subTitleTextStyle.copyWith(
-                                          fontSize: 14,
-                                          fontWeight: bold,
-                                          decoration: TextDecoration.underline,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(height: defaultMargin / 2),
-                                  Row(
-                                    children: [
-                                      Icon(
-                                        FontAwesomeIcons.whatsapp,
-                                        color: kPrimaryColor,
-                                        size: 20,
-                                      ),
-                                      SizedBox(width: defaultMargin),
-                                      Text(
-                                        destination.phoneNumber?.isNotEmpty ==
-                                                true
-                                            ? destination.phoneNumber!
-                                            : 'Belum ada nomor telepon terdaftar',
-                                        style: subTitleTextStyle.copyWith(
-                                          fontSize: 14,
-                                          fontWeight: bold,
-                                          decoration: TextDecoration.underline,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ],
+                        SizedBox(height: defaultMargin),
+                        Padding(
+                          padding:
+                              EdgeInsets.symmetric(horizontal: defaultMargin),
+                          child: DestinationLocationCard(
+                            title: "Lokasi",
+                            message: destination.location,
+                            icon: FontAwesomeIcons.locationDot,
                           ),
                         ),
-                      ),
-                      SizedBox(height: defaultMargin),
-                      Padding(
-                        padding: EdgeInsets.only(bottom: defaultMargin * 2),
-                      ),
-                    ],
-                  ),
-                ],
+                        SizedBox(height: defaultMargin),
+                        Padding(
+                          padding:
+                              EdgeInsets.symmetric(horizontal: defaultMargin),
+                          child: DestinationLocationCard(
+                            title: "Katagori",
+                            message: destination.category,
+                            icon: FontAwesomeIcons.landmark,
+                          ),
+                        ),
+                        SizedBox(height: defaultMargin),
+                        Padding(
+                          padding:
+                              EdgeInsets.symmetric(horizontal: defaultMargin),
+                          child: DestinationLocationCard(
+                            title: "Jam Operasional",
+                            message: destination.operatingHours,
+                            icon: FontAwesomeIcons.clock,
+                          ),
+                        ),
+                        SizedBox(height: defaultMargin),
+                        Padding(
+                          padding:
+                              EdgeInsets.symmetric(horizontal: defaultMargin),
+                          child: DestinationLocationCard(
+                            title: "Harga Tiket",
+                            message: destination.ticketPrice,
+                            icon: FontAwesomeIcons.ticketAlt,
+                          ),
+                        ),
+                        SizedBox(height: defaultMargin),
+                        Padding(
+                          padding:
+                              EdgeInsets.symmetric(horizontal: defaultMargin),
+                          child: DestinationLocationCard(
+                            title: "Rating",
+                            message: destination.rating,
+                            icon: FontAwesomeIcons.star,
+                          ),
+                        ),
+                        SizedBox(height: defaultMargin),
+                        Divider(
+                          color: kBackgroundColor,
+                          thickness: 5,
+                        ),
+                        SizedBox(height: defaultMargin),
+                        Padding(
+                          padding:
+                              EdgeInsets.symmetric(horizontal: defaultMargin),
+                          child: Container(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Punya pertanyaan?',
+                                  style: titleTextStyle.copyWith(
+                                    fontSize: 18,
+                                    fontWeight: bold,
+                                  ),
+                                ),
+                                SizedBox(height: defaultMargin),
+                                Text(
+                                  'Untuk pemesanan tiket atau informasi lainnya, silakan hubungi melalui email atau nomor di bawah ini',
+                                  style: subTitleTextStyle.copyWith(
+                                    fontSize: 14,
+                                    fontWeight: regular,
+                                  ),
+                                ),
+                                SizedBox(height: defaultMargin),
+                                Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          FontAwesomeIcons.envelopeOpen,
+                                          color: kPrimaryColor,
+                                          size: 20,
+                                        ),
+                                        SizedBox(width: defaultMargin),
+                                        Text(
+                                          destination.email?.isNotEmpty == true
+                                              ? destination.email!
+                                              : 'Belum ada email terdaftar',
+                                          style: subTitleTextStyle.copyWith(
+                                            fontSize: 14,
+                                            fontWeight: bold,
+                                            decoration:
+                                                TextDecoration.underline,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(height: defaultMargin / 2),
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          FontAwesomeIcons.whatsapp,
+                                          color: kPrimaryColor,
+                                          size: 20,
+                                        ),
+                                        SizedBox(width: defaultMargin),
+                                        Text(
+                                          destination.phoneNumber?.isNotEmpty ==
+                                                  true
+                                              ? destination.phoneNumber!
+                                              : 'Belum ada nomor telepon terdaftar',
+                                          style: subTitleTextStyle.copyWith(
+                                            fontSize: 14,
+                                            fontWeight: bold,
+                                            decoration:
+                                                TextDecoration.underline,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: defaultMargin),
+                        Padding(
+                          padding: EdgeInsets.only(bottom: defaultMargin * 2),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -318,7 +326,7 @@ class DestinationLocationCard extends StatelessWidget {
                     EdgeInsets.all(defaultMargin), // Adjust padding as needed
                 child: Icon(
                   icon,
-                  color: const Color(0xff018053),
+                  color: kPrimaryColor,
                   size: 20,
                 ),
               ),

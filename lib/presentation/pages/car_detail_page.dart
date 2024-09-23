@@ -1,5 +1,8 @@
 // presentation/pages/car_detail_page.dart
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -16,12 +19,14 @@ import '../../data/models/cars_model.dart';
 import '../../utils/fonts.dart';
 import '../widgets/button_widget.dart';
 import '../widgets/confirmationbottomsheet_widget.dart';
+import 'car_form_page.dart';
 
 class CarDetailsScreen extends StatefulWidget {
   final CarsModels car;
   final String carFrom;
   final String carTo;
   final DateTime carDate;
+  final int availableSeats;
 
   const CarDetailsScreen({
     super.key,
@@ -29,6 +34,7 @@ class CarDetailsScreen extends StatefulWidget {
     required this.carFrom,
     required this.carTo,
     required this.carDate,
+    required this.availableSeats,
   });
 
   @override
@@ -50,28 +56,32 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: BlocBuilder<CarBloc, CarState>(
-        builder: (context, state) {
-          if (state is CarsLoading) {
-            return Center(
-              child: SpinKitThreeBounce(
-                color: kPrimaryColor,
-                size: 25.0,
-              ),
-            );
-          } else if (state is CarsSuccess) {
-            final fetchedCar =
-                state.cars.firstWhere((c) => c.id == widget.car.id);
-            return _buildCarDetails(fetchedCar);
-          } else if (state is CarsError) {
-            return const Center(
-                child: Text('Terjadi kesalahan saat memuat data'));
-          } else {
-            return const Center(child: Text('Data tidak tersedia'));
-          }
-        },
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      color: kWhiteColor,
+      home: Scaffold(
+        backgroundColor: kWhiteColor,
+        body: BlocBuilder<CarBloc, CarState>(
+          builder: (context, state) {
+            if (state is CarsLoading) {
+              return Center(
+                child: SpinKitThreeBounce(
+                  color: kPrimaryColor,
+                  size: 25.0,
+                ),
+              );
+            } else if (state is CarsSuccess) {
+              final fetchedCar =
+                  state.cars.firstWhere((c) => c.id == widget.car.id);
+              return _buildCarDetails(fetchedCar);
+            } else if (state is CarsError) {
+              return const Center(
+                  child: Text('Terjadi kesalahan saat memuat data'));
+            } else {
+              return const Center(child: Text('Data tidak tersedia'));
+            }
+          },
+        ),
       ),
     );
   }
@@ -189,14 +199,14 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: defaultMargin),
           child: Text(
-            "Layanan Rental",
+            "Fasilitas",
             style: titleTextStyle.copyWith(
               fontSize: 18,
               fontWeight: FontWeight.bold,
             ),
           ),
         ),
-        const SizedBox(height: 8),
+        SizedBox(height: defaultMargin),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: defaultMargin),
           child: Column(
@@ -218,22 +228,41 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: defaultMargin),
           child: Text(
-            "Lokasi Rental",
+            "Lokasi ",
             style: titleTextStyle.copyWith(
               fontSize: 18,
               fontWeight: FontWeight.bold,
             ),
           ),
         ),
-        const SizedBox(height: 8),
+        SizedBox(height: defaultMargin),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: defaultMargin),
           child: _buildLocations(fetchedCar),
         ),
-        SizedBox(height: defaultMargin * 2),
-        _buildBottomBar(
-         
+        SizedBox(height: defaultMargin),
+        Divider(
+          color: kBackgroundColor,
+          thickness: 5,
         ),
+        SizedBox(height: defaultMargin),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: defaultMargin),
+          child: Text(
+            "Syarat & Ketentuan",
+            style: titleTextStyle.copyWith(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        SizedBox(height: defaultMargin),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: defaultMargin),
+          child: _buildTermsText(),
+        ),
+        SizedBox(height: defaultMargin * 2),
+        _buildBottomBar(),
       ],
     );
   }
@@ -283,9 +312,9 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
             ),
             padding:
                 EdgeInsets.all(defaultMargin / 3), // Adjust padding as needed
-            child: const Icon(
+            child: Icon(
               FontAwesomeIcons.circleCheck,
-              color: Color(0xff018053),
+              color: kPrimaryColor,
               size: 20,
             ),
           ),
@@ -315,62 +344,24 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
         child: CustomButton(
           title: 'Lanjut ke Form Pemesanan',
           onPressed: () {
-            Navigator.of(context).pushNamed(
-              '/bookWithDriver',
-              arguments: {
-                'car': widget.car,
-                'carFrom': widget.carFrom,
-                'carTo': widget.carTo,
-                'carDate': widget.carDate,
-                'availableSeats':
-                    widget.car.availableSeats - widget.car.selectedSeats,
-              },
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => BookWithDriverPage(
+                  car: widget.car,
+                  carFrom: widget.carFrom,
+                  carTo: widget.carTo,
+                  carDate: widget.carDate,
+                  availableSeats: widget.car.availableSeats -
+                      widget.car.selectedSeats, // Pass the calculated value
+                ),
+              ),
             );
           },
         ),
       ),
     );
   }
-  // Widget _buildBottomBar(BuildContext context) {
-  //   void onContinueWithDriver() {
-  //     Navigator.of(context).pushNamed(
-  //       '/bookWithDriver',
-  //       arguments: {
-  //         'car': widget.car,
-  //         'carFrom': widget.carFrom,
-  //         'carTo': widget.carTo,
-  //         'carDate': widget.carDate,
-  //         'availableSeats':
-  //             widget.car.availableSeats - widget.car.selectedSeats,
-  //       },
-  //     );
-  //   }
-
-  //   void onContinueWithoutDriver() {
-  //     Navigator.pop(context); // Close the bottom sheet
-  //   }
-
-  //   return Container(
-  //     padding: EdgeInsets.symmetric(vertical: defaultMargin),
-  //     decoration: BoxDecoration(
-  //       color: kWhiteColor,
-  //       border: Border(top: BorderSide(color: kBackgroundColor, width: 2.5)),
-  //     ),
-  //     child: Padding(
-  //       padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-  //       child: CustomButton(
-  //         title: 'Lanjut ke Form Pemesanan',
-  //         onPressed: () {
-  //           showPickRentalTypeBottomSheet(
-  //             context,
-  //             onContinueWithDriver,
-  //             onContinueWithoutDriver,
-  //           );
-  //         },
-  //       ),
-  //     ),
-  //   );
-  // }
 
   Widget _buildLocations(CarsModels car) {
     Set<Marker> markers = {
@@ -397,6 +388,120 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
           markers: markers,
         ),
       ),
+    );
+  }
+
+  // Widget termAndCondition()
+  Widget _buildTermsText() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Text(
+              "1. ",
+              style: blackTextStyle.copyWith(
+                fontSize: 14,
+              ),
+            ),
+            SizedBox(width: defaultMargin / 2),
+            Expanded(
+              child: Text(
+                "Penumpang setidaknya 60 menit sebelum keberangkatan sudah mempersiapkan diri. Keterlambatan penumpang dapat menyebabkan tiket dibatalkan secara sepihak dan tidak mendapatkan pengembalian dana.",
+                style: blackTextStyle.copyWith(
+                  fontSize: 14,
+                ),
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: defaultMargin / 2),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "2. ",
+              style: blackTextStyle.copyWith(
+                fontSize: 14,
+              ),
+            ),
+            SizedBox(width: defaultMargin / 2),
+            Expanded(
+              child: Text(
+                "Waktu keberangkatan yang tertera di aplikasi adalah waktu lokal di lokasi keberangkatan.",
+                style: blackTextStyle.copyWith(
+                  fontSize: 14,
+                ),
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: defaultMargin / 2),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "3. ",
+              style: blackTextStyle.copyWith(
+                fontSize: 14,
+              ),
+            ),
+            SizedBox(width: defaultMargin / 2),
+            Expanded(
+              child: Text(
+                "Ukuran dan berat barang bawaan penumpang tidak boleh melebihi aturan yang di tentukan oleh agen. Penumpang yang membawa barang bawaan melebihi aturan akan dikenakan biaya tambahan.",
+                style: blackTextStyle.copyWith(
+                  fontSize: 14,
+                ),
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: defaultMargin / 2),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "4. ",
+              style: blackTextStyle.copyWith(
+                fontSize: 14,
+              ),
+            ),
+            SizedBox(width: defaultMargin / 2),
+            Expanded(
+              child: Text(
+                "Perubahan jadwal keberangkatan tidak dapat di lakukan untuk pemesanan menggunakan aplikasi.",
+                style: blackTextStyle.copyWith(
+                  fontSize: 14,
+                ),
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: defaultMargin / 2),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "5. ",
+              style: blackTextStyle.copyWith(
+                fontSize: 14,
+              ),
+            ),
+            SizedBox(width: defaultMargin / 2),
+            Expanded(
+              child: Text(
+                "Penumpang yang membatalkan perjalanan setelah melakukan pembayaran tiket tidak dapat membatalkan atau mengajukan pengembalian dana.",
+                style: blackTextStyle.copyWith(
+                  fontSize: 14,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 

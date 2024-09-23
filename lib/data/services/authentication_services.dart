@@ -156,7 +156,7 @@ class AuthServices {
       email: '',
       id: '',
       username: '',
-      phone_number: 08,
+      phone_number: 62,
       created_at: DateTime.now(),
       // url_profile: '',
 
@@ -249,5 +249,52 @@ class AuthServices {
       print('Failed to send password reset email: $e');
       throw Exception('Failed to send password reset email: $e');
     }
+  }
+
+  // add phone number
+  Future<UserModel> updatePhoneNumber({
+    required int phone_number,
+  }) async {
+    final user = supabase.auth.currentUser;
+    if (user != null) {
+      try {
+        final response = await supabase
+            .from('users')
+            .update({'phone_number': phone_number})
+            .eq('id', user.id)
+            .select();
+
+        if (response.isEmpty) {
+          throw Exception(
+              'Database update error: No response or data received');
+        }
+
+        final updatedUser = response.first;
+
+        return UserModel(
+          id: user.id,
+          email: updatedUser['email'],
+          username: updatedUser['username'],
+          phone_number: phone_number,
+          created_at: DateTime.parse(updatedUser['created_at']),
+          // url_profile: updatedUser['url_profile'],
+
+          // provider: 'Sign in with Email',
+        );
+      } catch (e) {
+        print('Exception: $e');
+        throw Exception('Database update error: ${e.toString()}');
+      }
+    }
+    return UserModel(
+      email: '',
+      id: '',
+      username: '',
+      phone_number: 08,
+      created_at: DateTime.now(),
+      // url_profile: '',
+
+      // provider: 'Sign in with Email',
+    );
   }
 }
