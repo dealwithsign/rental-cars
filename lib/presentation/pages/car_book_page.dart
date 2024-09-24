@@ -329,7 +329,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
                                         SizedBox(height: defaultMargin / 2),
                                         Center(
                                           child: Text(
-                                            "Sedang mengarahkan ke halaman pembayaran...",
+                                            "Sedang mengarahkan \nke halaman pembayaran...",
                                             textAlign: TextAlign.center,
                                             style: subTitleTextStyle.copyWith(
                                               fontSize: 14,

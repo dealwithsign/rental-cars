@@ -3,6 +3,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:rents_cars_app/presentation/pages/wrapper_auth_page.dart';
 
 import '../../utils/fonts.dart';
 import '../widgets/button_widget.dart';
@@ -50,9 +51,9 @@ class _MidtransSuccessState extends State<MidtransSuccess> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               ContextMenu(
-                title: 'Pembayaran Berhasil',
+                title: 'Terima Kasih ',
                 message:
-                    'Terimakasih atas pesanan anda, \nsilahkan cek email untuk detail pemesanan.',
+                    'Pembayaran tiketmu berhasil. \nSilakan cek email untuk detail pemesanan.',
                 imagePath:
                     'assets/images/success_payments.png', // Pass the image path as a string
                 kPrimaryColor: blackTextStyle.copyWith(
@@ -61,6 +62,22 @@ class _MidtransSuccessState extends State<MidtransSuccess> {
                 ),
                 subTitleTextStyle: subTitleTextStyle.copyWith(
                   fontSize: 14,
+                ),
+              ),
+              SizedBox(height: defaultMargin * 2),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: defaultMargin),
+                child: CustomButton(
+                  title: 'Lihat Tiket',
+                  onPressed: () {
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const WrapperAuth(),
+                      ),
+                      (Route<dynamic> route) => false,
+                    );
+                  },
                 ),
               ),
             ],
