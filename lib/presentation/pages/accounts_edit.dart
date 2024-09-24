@@ -90,7 +90,7 @@ class _AccountsEditState extends State<AccountsEdit> {
         ),
         SizedBox(height: defaultMargin / 2),
         Text(
-          "Masukkan nomor WhatsApp untuk memperbarui",
+          "Masukkan nomor WhatsApp yang ingin kamu gunakan",
           style: blackTextStyle.copyWith(
             fontSize: 15,
           ),

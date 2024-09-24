@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
@@ -185,7 +186,7 @@ class _TicketCancelPageState extends State<TicketCancelPage> {
             SizedBox(width: defaultMargin),
             Expanded(
               child: Text(
-                'Batas waktu pembayaran kamu telah berakhir. \nPesanan ini tidak dapat lagi digunakan.',
+                'Batas waktu pembayaranmu telah berakhir. \nPesanan ini tidak dapat lagi digunakan.',
                 style: blackTextStyle.copyWith(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
@@ -321,13 +322,16 @@ class _TicketCancelPageState extends State<TicketCancelPage> {
   }
 
   Future<TicketModels> fetchPaymentDetails(String bookingId) async {
-    final response = await http.get(Uri.parse(
-        'https://midtrans-fumjwv6jv-dealwithsign.vercel.app/v1/$bookingId/status'));
+    await dotenv.load(fileName: ".env.dev");
+    final apiVercelUrl = dotenv.env['apiVercelGetTransactions']!;
+    final url = '$apiVercelUrl/v1/$bookingId/status';
+    final response = await http.get(Uri.parse(url));
 
     if (response.statusCode == 200) {
+      print('Response body: ${response.body}');
       return TicketModels.fromJson(jsonDecode(response.body));
     } else {
-      throw Exception('Failed to load payment details');
+      throw Exception('Gagal memuat data transaksi');
     }
   }
 

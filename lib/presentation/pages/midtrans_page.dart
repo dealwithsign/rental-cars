@@ -1,16 +1,15 @@
 // presentation/pages/midtrans_page.dart
-import 'package:flutter/material.dart';import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:pdf/pdf.dart';
+
 import 'package:rents_cars_app/presentation/widgets/button_cancle_widget.dart';
 import 'package:rents_cars_app/presentation/widgets/button_widget.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import '../../data/services/booking_services.dart';
-import '../../data/services/invoice_services.dart';
+
 import '../../utils/fonts.dart';
 import 'midtrans_success_page.dart';
 import 'navigation_page.dart';
-import 'package:pdf/widgets.dart' as pw;
 
 class MidtransPayment extends StatefulWidget {
   final String redirectUrl;
@@ -191,7 +190,7 @@ class _MidtransPaymentState extends State<MidtransPayment> {
                               MaterialPageRoute(
                                 builder: (context) => const NavigationScreen(),
                               ),
-                              (Route<dynamic> route) => false,
+                              (route) => false,
                             ); // Go back to the previous page
                           },
                         ),

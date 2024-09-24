@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 import 'package:intl/intl.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -13,7 +13,7 @@ import '../../blocs/cars/cars_event.dart';
 import '../../blocs/cars/cars_state.dart';
 import '../../data/models/cars_model.dart';
 import '../../utils/fonts.dart';
-import '../widgets/button_widget.dart';
+
 import '../widgets/context_menu.dart';
 import 'car_detail_page.dart';
 
@@ -117,7 +117,7 @@ class _ListCarPageState extends State<ListCarPage> {
           if (state.cars.isEmpty) {
             return Center(
               child: ContextMenu(
-                title: 'Tidak ada rute tersedia',
+                title: 'Tidak Ada Rute Tersedia',
                 message:
                     'Sila coba lagi dengan rute lain \natau waktu yang berbeda.',
                 imagePath:
