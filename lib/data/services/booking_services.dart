@@ -116,6 +116,7 @@ class BookingServices {
     required String selectedLocationDrop,
     required int totalPayment,
     required String specialRequest,
+    required String departureTime,
   }) async {
     try {
       final response = await supabase.from('tickets').insert({
@@ -137,6 +138,7 @@ class BookingServices {
         'selected_location_drop': selectedLocationDrop,
         'car_id': carId,
         'total_payment': totalPayment,
+        'departure_time': departureTime,
         'special_request': specialRequest.isEmpty
             ? 'Tidak ada permintaan khusus'
             : specialRequest,

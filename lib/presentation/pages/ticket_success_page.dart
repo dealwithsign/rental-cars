@@ -198,11 +198,41 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
             fontSize: 15,
           ),
         ),
-        Text(
-          formatIndonesianDate(widget.ticket.carDate),
-          style: blackTextStyle.copyWith(
-            fontSize: 15,
-          ),
+        Row(
+          children: [
+            Text(
+              formatIndonesianDate(widget.ticket.carDate),
+              style: blackTextStyle.copyWith(
+                fontSize: 15,
+              ),
+            ),
+            SizedBox(width: defaultMargin / 2),
+            Icon(
+              Icons.circle,
+              color: descGrey,
+              size: 5,
+            ),
+            SizedBox(width: defaultMargin / 2),
+            Text(
+              widget.ticket.selectedTime,
+              style: blackTextStyle.copyWith(
+                fontSize: 15,
+              ),
+            ),
+            SizedBox(width: defaultMargin / 2),
+            Icon(
+              Icons.circle,
+              color: descGrey,
+              size: 5,
+            ),
+            SizedBox(width: defaultMargin / 2),
+            Text(
+              widget.ticket.departureTime,
+              style: blackTextStyle.copyWith(
+                fontSize: 15,
+              ),
+            ),
+          ],
         ),
         Text(
           "${widget.ticket.selectedPassengers.toString()} penumpang",
@@ -332,7 +362,7 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
               _buildDetailItem('Metode Pembayaran', ticket.paymentType),
               _buildDetailItem(
                 'Tanggal Pembayaran',
-                formatIndonesianDate(ticket.settlement_time),
+                formatIndonesianDatePayments(ticket.settlement_time),
               ),
               _buildDetailItem(
                 'Total Pembayaran',
@@ -411,7 +441,7 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
 
   String formatIndonesianDate(DateTime date) {
     Intl.defaultLocale = 'id_ID'; // Ensure the locale is set to Indonesian
-    var formatter = DateFormat('EEEE, dd MMMM hh:mm a');
+    var formatter = DateFormat('EEEE, dd MMMM');
     return formatter.format(date);
   }
 
@@ -422,6 +452,12 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
       decimalDigits: 0,
     );
     return currencyFormatter.format(amount);
+  }
+
+  String formatIndonesianDatePayments(DateTime date) {
+    Intl.defaultLocale = 'id_ID'; // Ensure the locale is set to Indonesian
+    var formatter = DateFormat('EEEE, dd MMMM \'Jam\' HH:mm');
+    return formatter.format(date);
   }
 }
 

@@ -211,7 +211,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
           _buildSettingItem(
             icon: FontAwesomeIcons.circleQuestion,
             title: 'Bantuan',
-            subTitle: 'Temukan jawaban terbaik dari pertanyaan kamu',
+            subTitle: 'Temukan jawaban terbaik dari pertanyaanmu',
             onTap: () {
               whatsappService.sendWhatsAppMessage(
                 contact: '082134400200', // Replace with actual contact number

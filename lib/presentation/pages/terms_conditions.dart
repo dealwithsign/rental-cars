@@ -341,7 +341,7 @@ class _TermsAndConditionsState extends State<TermsAndConditions> {
                     EdgeInsets.all(defaultMargin), // Adjust padding as needed
                 child: Icon(
                   icon,
-                  color: const Color(0xff018053),
+                  color: kPrimaryColor,
                   size: 20,
                 ),
               ),

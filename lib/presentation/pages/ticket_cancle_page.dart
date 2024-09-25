@@ -237,11 +237,41 @@ class _TicketCancelPageState extends State<TicketCancelPage> {
             fontSize: 15,
           ),
         ),
-        Text(
-          formatIndonesianDate(widget.ticket.carDate),
-          style: blackTextStyle.copyWith(
-            fontSize: 15,
-          ),
+        Row(
+          children: [
+            Text(
+              formatIndonesianDate(widget.ticket.carDate),
+              style: blackTextStyle.copyWith(
+                fontSize: 15,
+              ),
+            ),
+            SizedBox(width: defaultMargin / 2),
+            Icon(
+              Icons.circle,
+              color: descGrey,
+              size: 5,
+            ),
+            SizedBox(width: defaultMargin / 2),
+            Text(
+              widget.ticket.selectedTime,
+              style: blackTextStyle.copyWith(
+                fontSize: 15,
+              ),
+            ),
+            SizedBox(width: defaultMargin / 2),
+            Icon(
+              Icons.circle,
+              color: descGrey,
+              size: 5,
+            ),
+            SizedBox(width: defaultMargin / 2),
+            Text(
+              widget.ticket.departureTime,
+              style: blackTextStyle.copyWith(
+                fontSize: 15,
+              ),
+            ),
+          ],
         ),
         Text(
           "${widget.ticket.selectedPassengers.toString()} penumpang",
@@ -420,7 +450,7 @@ class _TicketCancelPageState extends State<TicketCancelPage> {
 
   String formatIndonesianDate(DateTime date) {
     Intl.defaultLocale = 'id_ID'; // Ensure the locale is set to Indonesian
-    var formatter = DateFormat('EEEE, dd MMMM hh:mm a');
+    var formatter = DateFormat('EEEE, dd MMMM');
     return formatter.format(date);
   }
 

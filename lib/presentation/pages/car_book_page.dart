@@ -440,7 +440,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
         "phone": userPhone,
         "notes": "Pemesanan Tiket Sewa Mobil",
       },
-      "expiry": {"duration": 20, "unit": "minutes"},
+      "expiry": {"duration": 30, "unit": "minutes"},
       "usage_limit": 1,
       "item_details": [
         {
@@ -485,6 +485,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
               carId: carId,
               totalPayment: totalPayment,
               specialRequest: specialRequest,
+              departureTime: widget.carModel.carTimeDateFrom,
             ),
           );
 
@@ -704,6 +705,14 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
             children: [
               Text(
                 DateFormat('EEEE, d MMMM yyyy', 'id_ID').format(widget.carDate),
+                style: blackTextStyle.copyWith(
+                  fontSize: 14,
+                  fontWeight: bold,
+                ),
+              ),
+              SizedBox(width: defaultMargin / 2),
+              Text(
+                'Jam ${widget.carModel.carTimeDateFrom}',
                 style: blackTextStyle.copyWith(
                   fontSize: 14,
                   fontWeight: bold,

@@ -1,5 +1,3 @@
-// presentation/pages/forgot_password.dart
-import 'package:another_flushbar/flushbar.dart';
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,10 +5,10 @@ import 'package:line_icons/line_icons.dart';
 import 'package:rents_cars_app/blocs/auth/auth_bloc.dart';
 import 'package:rents_cars_app/blocs/auth/auth_event.dart';
 import 'package:rents_cars_app/presentation/pages/verify_otp.dart';
-
 import 'package:rents_cars_app/utils/fonts.dart';
 import 'package:rents_cars_app/presentation/widgets/button_widget.dart';
 import 'package:rents_cars_app/presentation/widgets/input_widget.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class ForgotPassword extends StatefulWidget {
   const ForgotPassword({super.key});
@@ -43,6 +41,61 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     );
   }
 
+  void _showLoadingDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return WillPopScope(
+          onWillPop: () async => false,
+          child: Center(
+            child: Container(
+              margin: EdgeInsets.symmetric(horizontal: defaultMargin * 5),
+              padding: EdgeInsets.all(defaultMargin),
+              decoration: BoxDecoration(
+                color: kWhiteColor,
+                borderRadius: BorderRadius.circular(defaultRadius),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SpinKitThreeBounce(
+                    color: kPrimaryColor,
+                    size: 25.0,
+                  ),
+                  SizedBox(height: defaultMargin),
+                  Center(
+                    child: Text(
+                      "Mohon tunggu",
+                      style: blackTextStyle.copyWith(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        decoration: TextDecoration.none,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: defaultMargin / 2),
+                  Center(
+                    child: Text(
+                      "Sedang mengirim kode OTP",
+                      textAlign: TextAlign.center,
+                      style: subTitleTextStyle.copyWith(
+                        fontSize: 14,
+                        fontWeight: FontWeight.normal,
+                        decoration: TextDecoration.none,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   void _onSignInButtonPressed() async {
     if (_emailController.text.isEmpty) {
       // Show Flushbar if email is not entered
@@ -52,7 +105,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         duration: const Duration(seconds: 5),
         backgroundColor: kPrimaryColor,
         titleText: Text(
-          "Reset Password Gagal",
+          "Ubah Password Gagal",
           style: buttonColor.copyWith(
             fontSize: 14, // Body Medium
             fontWeight: FontWeight.bold,
@@ -72,29 +125,35 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         borderRadius: BorderRadius.circular(defaultRadius),
       ).show(context);
     } else {
+      _showLoadingDialog();
+
       try {
         BlocProvider.of<AuthBloc>(context).add(
           ResetPasswordRequested(_emailController.text),
         );
+        await Future.delayed(
+            const Duration(seconds: 2)); // Simulate network delay
+        Navigator.of(context).pop(); // Dismiss the loading dialog
         _navigateTo(
           const VerifyOTP(),
           email: _emailController.text,
         );
       } catch (e) {
+        Navigator.of(context).pop(); // Dismiss the loading dialog
         Flushbar(
           flushbarPosition: FlushbarPosition.TOP,
           flushbarStyle: FlushbarStyle.FLOATING,
           duration: const Duration(seconds: 5),
           backgroundColor: kPrimaryColor,
           titleText: Text(
-            "Reset Password Gagal",
+            "Ubah Password Gagal",
             style: buttonColor.copyWith(
               fontSize: 14, // Body Medium
               fontWeight: FontWeight.bold,
             ),
           ),
           messageText: Text(
-            "Gagal mengirim email reset password: $e",
+            "Gagal mengirim email Ubah password: $e",
             style: buttonColor.copyWith(
               fontSize: 14, // Body Medium
             ),
@@ -113,6 +172,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      color: kWhiteColor,
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
@@ -151,7 +211,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         height: defaultMargin / 2,
                       ),
                       Text(
-                        "Masukkan email yang terdaftar \nuntuk mendapatkan link reset password.",
+                        "Masukkan email yang terdaftar \nuntuk mendapatkan kode OTP ubah password",
                         style: blackTextStyle.copyWith(
                           fontSize: 15, // Body Large
                         ),

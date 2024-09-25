@@ -436,6 +436,7 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
   }
 
   Widget _buildDetailCarBooking() {
+    print(widget.car.carDate);
     return Container(
       margin: EdgeInsets.only(
         top: defaultMargin,
@@ -461,13 +462,31 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          DateFormat('EEEE, d MMMM yyyy', 'id_ID')
-                              .format(widget.carDate),
-                          style: blackTextStyle.copyWith(
-                            fontSize: 14,
-                            fontWeight: bold,
-                          ),
+                        Row(
+                          children: [
+                            Text(
+                              DateFormat('EEEE, d MMMM yyyy', 'id_ID')
+                                  .format(widget.car.carDate),
+                              style: blackTextStyle.copyWith(
+                                fontSize: 14,
+                                fontWeight: bold,
+                              ),
+                            ),
+                            SizedBox(width: defaultMargin / 2),
+                            Icon(
+                              Icons.circle,
+                              color: descGrey,
+                              size: 5,
+                            ),
+                            SizedBox(width: defaultMargin / 2),
+                            Text(
+                              widget.car.carTimeDateFrom,
+                              style: blackTextStyle.copyWith(
+                                fontSize: 14,
+                                fontWeight: bold,
+                              ),
+                            ),
+                          ],
                         ),
                         SizedBox(height: defaultMargin),
                         Text(

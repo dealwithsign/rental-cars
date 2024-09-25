@@ -117,9 +117,9 @@ class _ListCarPageState extends State<ListCarPage> {
           if (state.cars.isEmpty) {
             return Center(
               child: ContextMenu(
-                title: 'Tidak Ada Rute Tersedia',
+                title: 'Jadwal Tidak Ditemukan',
                 message:
-                    'Sila coba lagi dengan rute lain \natau waktu yang berbeda.',
+                    'Tidak ada jadwal untuk pilihanmu \nSilakan cari rute atau waktu yang berbeda',
                 imagePath:
                     'assets/images/ticket_no_available.png', // Pass the image path as a string
                 kPrimaryColor: blackTextStyle.copyWith(

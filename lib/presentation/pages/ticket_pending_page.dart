@@ -238,11 +238,41 @@ class _TicketPendingPageState extends State<TicketPendingPage> {
             fontSize: 15,
           ),
         ),
-        Text(
-          formatIndonesianDate(widget.ticket.carDate),
-          style: blackTextStyle.copyWith(
-            fontSize: 15,
-          ),
+        Row(
+          children: [
+            Text(
+              formatIndonesianDate(widget.ticket.carDate),
+              style: blackTextStyle.copyWith(
+                fontSize: 15,
+              ),
+            ),
+            SizedBox(width: defaultMargin / 2),
+            Icon(
+              Icons.circle,
+              color: descGrey,
+              size: 5,
+            ),
+            SizedBox(width: defaultMargin / 2),
+            Text(
+              widget.ticket.selectedTime,
+              style: blackTextStyle.copyWith(
+                fontSize: 15,
+              ),
+            ),
+            SizedBox(width: defaultMargin / 2),
+            Icon(
+              Icons.circle,
+              color: descGrey,
+              size: 5,
+            ),
+            SizedBox(width: defaultMargin / 2),
+            Text(
+              widget.ticket.departureTime,
+              style: blackTextStyle.copyWith(
+                fontSize: 15,
+              ),
+            ),
+          ],
         ),
         Text(
           "${widget.ticket.selectedPassengers.toString()} penumpang",
@@ -379,7 +409,7 @@ class _TicketPendingPageState extends State<TicketPendingPage> {
               ),
               _buildDetailItem(
                 'Bayar Sebelum',
-                formatIndonesianDate(ticket.expiry_time),
+                formatIndonesianDatePayments(ticket.expiry_time),
               ),
               _buildDetailItem(
                 'Total Pembayaran',
@@ -391,7 +421,7 @@ class _TicketPendingPageState extends State<TicketPendingPage> {
               ),
               SizedBox(height: defaultMargin),
               CustomButton(
-                title: "Bayar sekarang",
+                title: "Bayar Sekarang",
                 onPressed: () {
                   Navigator.push(
                     context,
@@ -460,7 +490,13 @@ class _TicketPendingPageState extends State<TicketPendingPage> {
 
   String formatIndonesianDate(DateTime date) {
     Intl.defaultLocale = 'id_ID'; // Ensure the locale is set to Indonesian
-    var formatter = DateFormat('EEEE, dd MMMM hh:mm a');
+    var formatter = DateFormat('EEEE, dd MMMM ');
+    return formatter.format(date);
+  }
+
+  String formatIndonesianDatePayments(DateTime date) {
+    Intl.defaultLocale = 'id_ID'; // Ensure the locale is set to Indonesian
+    var formatter = DateFormat('EEEE, dd MMMM \'Jam\' HH:mm');
     return formatter.format(date);
   }
 

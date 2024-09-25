@@ -72,6 +72,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
             carId: event.carId,
             totalPayment: event.totalPayment,
             specialRequest: event.specialRequest,
+            departureTime: event.departureTime,
           );
           emit(BookingSuccess(paymentUrl as List<BookingModels>));
         } catch (e) {
