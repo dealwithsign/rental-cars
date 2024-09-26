@@ -1,7 +1,7 @@
 // presentation/pages/ticket_success_page.dart
 import 'dart:convert';
+import 'dart:convert';
 
-import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,6 +16,7 @@ import 'package:http/http.dart' as http;
 
 import '../../blocs/tickets/tickets_bloc.dart';
 import '../../data/models/ticket_model.dart';
+import '../../data/services/ePayments_services.dart';
 import '../../data/services/invoice_services.dart';
 import '../../utils/fonts.dart';
 import '../widgets/button_widget.dart';
@@ -127,14 +128,6 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Text(
-                        //   'Detail Perjalanan',
-                        //   style: titleTextStyle.copyWith(
-                        //     fontSize: 18,
-                        //     fontWeight: bold,
-                        //   ),
-                        // ),
-                        // SizedBox(height: defaultMargin),
                         _buildDetailsTravel(
                           lokasiJemput: widget.ticket.carFrom,
                           lokasiTujuan: widget.ticket.carTo,
@@ -350,7 +343,20 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
     return FutureBuilder<TicketModels>(
       future: fetchPaymentDetails(widget.ticket.bookingId),
       builder: (context, snapshot) {
-        if (snapshot.hasData) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Skeletonizer(
+            enabled: true,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildDetailItem('Nomor Transaksi', 'Loading...'),
+                _buildDetailItem('Metode Pembayaran', 'Loading...'),
+                _buildDetailItem('Tanggal Pembayaran', 'Loading...'),
+                _buildDetailItem('Total Pembayaran', 'Loading...'),
+              ],
+            ),
+          );
+        } else if (snapshot.hasData) {
           final ticket = snapshot.data!;
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -372,21 +378,31 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                   double.parse(ticket.grossAmount),
                 ),
               ),
-              // SizedBox(height: defaultMargin),
-              // CustomButton(
-              //   title: "Bukti Pembayaran",
-              //   onPressed: () async {
-              //     final file = await PdfInvoiceApi.generate(
-              //       PdfColors.blue, // Warna untuk teks dan elemen lainnya
-              //       pw.Font.helvetica(), // Font yang akan digunakan
-              //       // Font yang akan digunakan
-              //       ticket, // Data yang akan ditampilkan
-              //     );
-
-              //     // Setelah invoice dihasilkan, buka file tersebut
-              //     PdfInvoiceApi.openFile(file);
-              //   },
-              // ),
+              SizedBox(height: defaultMargin),
+              CustomButton(
+                title: "Bukti Pembayaran",
+                onPressed: () async {
+                  final pdfService = PdfService();
+                  // Replace these with actual user data
+                  String orderId = widget.ticket.bookingId.toUpperCase();
+                  String name = widget.ticket.userName;
+                  String email = "braiyenmassora@gmail.com";
+                  String phoneNumber = "082134400200";
+                  String ticketRute =
+                      '${widget.ticket.carFrom} - ${widget.ticket.carTo}';
+                  String amountTraveller =
+                      widget.ticket.selectedPassengers.toString();
+                  await pdfService.generatePdf(
+                    ticket,
+                    orderId,
+                    name,
+                    email,
+                    phoneNumber,
+                    ticketRute,
+                    amountTraveller,
+                  );
+                },
+              )
             ],
           );
         } else if (snapshot.hasError) {

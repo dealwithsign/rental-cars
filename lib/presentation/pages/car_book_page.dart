@@ -407,8 +407,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
   ) async {
     final int carPrice = int.parse(widget.carModel.carPrice) + 12000;
     final int totalPriceWithoutAdmin = carPrice * widget.selectedPassengers;
-    const int adminFee = 12000;
-    final int totalPayment = totalPriceWithoutAdmin + adminFee;
+    final int totalPayment = totalPriceWithoutAdmin;
     await dotenv.load(fileName: ".env.dev");
     final apiVercelUrl = dotenv.env['apiVercelUrl']!;
     // data to be saved
@@ -704,6 +703,13 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
+                '${widget.carFrom} - ${widget.carTo}',
+                style: blackTextStyle.copyWith(
+                  fontSize: 16,
+                  fontWeight: bold,
+                ),
+              ),
+              Text(
                 DateFormat('EEEE, d MMMM yyyy', 'id_ID').format(widget.carDate),
                 style: blackTextStyle.copyWith(
                   fontSize: 14,
@@ -722,22 +728,13 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
               Text(
                 widget.carModel.carName,
                 style: blackTextStyle.copyWith(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Text(
-                '${widget.carFrom} - ${widget.carTo}',
-                style: blackTextStyle.copyWith(
                   fontSize: 14,
-                  fontWeight: bold,
                 ),
               ),
               Text(
                 widget.carModel.carClass,
                 style: blackTextStyle.copyWith(
                   fontSize: 14,
-                  fontWeight: bold,
                 ),
               ),
               SizedBox(height: defaultMargin),

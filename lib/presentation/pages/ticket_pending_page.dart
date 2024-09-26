@@ -1,7 +1,6 @@
 // presentation/pages/ticket_pending_page.dart
-import 'dart:convert';
+import 'dart:convert';import 'dart:convert';
 
-import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -390,7 +389,21 @@ class _TicketPendingPageState extends State<TicketPendingPage> {
     return FutureBuilder<TicketModels>(
       future: fetchPaymentDetails(widget.ticket.bookingId),
       builder: (context, snapshot) {
-        if (snapshot.hasData) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Skeletonizer(
+            enabled: true,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildDetailItem('Nomor Transaksi', 'Loading...'),
+                _buildDetailItem('Status Pembayaran', 'Loading...'),
+                _buildDetailItem('Metode Pembayaran', 'Loading...'),
+                _buildDetailItem('Bayar Sebelum', 'Loading...'),
+                _buildDetailItem('Total Pembayaran', 'Loading...'),
+              ],
+            ),
+          );
+        } else if (snapshot.hasData) {
           final ticket = snapshot.data!;
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,

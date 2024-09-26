@@ -1,8 +1,7 @@
 // presentation/pages/ticket_cancle_page.dart
-import 'dart:convert';
+import 'dart:convert';import 'dart:convert';
 
 import 'package:flutter/material.dart';
-
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -10,7 +9,6 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:line_icons/line_icons.dart';
-
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:http/http.dart' as http;
 
@@ -369,7 +367,18 @@ class _TicketCancelPageState extends State<TicketCancelPage> {
     return FutureBuilder<TicketModels>(
       future: fetchPaymentDetails(widget.ticket.bookingId),
       builder: (context, snapshot) {
-        if (snapshot.hasData) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Skeletonizer(
+            enabled: true,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildDetailItem('Status Pembayaran', 'Loading...'),
+                _buildDetailItem('Total Pembayaran', 'Loading...'),
+              ],
+            ),
+          );
+        } else if (snapshot.hasData) {
           final ticket = snapshot.data!;
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -378,14 +387,6 @@ class _TicketCancelPageState extends State<TicketCancelPage> {
                 'Status Pembayaran',
                 ticket.transaction_status,
               ),
-              // _buildDetailItem(
-              //   'Metode Pembayaran',
-              //   ticket.vaNumbers.first.bank.toUpperCase(),
-              // ),
-              // _buildDetailItem(
-              //   'No. Virtual Account',
-              //   ticket.vaNumbers.first.vaNumber,
-              // ),
               _buildDetailItem(
                 'Total Pembayaran',
                 NumberFormat.currency(

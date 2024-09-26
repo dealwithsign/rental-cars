@@ -343,6 +343,30 @@ class _TicketScreenState extends State<TicketScreen> {
                         fontSize: 14,
                       ),
                     ),
+                    Row(
+                      children: [
+                        Text(
+                          ticket.selectedTime,
+                          style: blackTextStyle.copyWith(
+                            fontSize: 15,
+                          ),
+                        ),
+                        SizedBox(width: defaultMargin / 2),
+                        Icon(
+                          Icons.circle,
+                          color: descGrey,
+                          size: 5,
+                        ),
+                        SizedBox(width: defaultMargin / 2),
+                        Text(
+                          ticket.departureTime,
+                          style: blackTextStyle.copyWith(
+                            fontSize: 15,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: defaultMargin),
                     Text(
                       ticket.carName,
                       style: blackTextStyle.copyWith(
@@ -376,6 +400,12 @@ class _TicketScreenState extends State<TicketScreen> {
   String formatIndonesianDate(DateTime date) {
     Intl.defaultLocale = 'id_ID';
     var formatter = DateFormat('EEEE, dd MMMM yyyy');
+    return formatter.format(date);
+  }
+
+  String formatIndonesianDatePayments(DateTime date) {
+    Intl.defaultLocale = 'id_ID'; // Ensure the locale is set to Indonesian
+    var formatter = DateFormat('EEEE, dd MMMM \'Jam\' HH:mm');
     return formatter.format(date);
   }
 }
