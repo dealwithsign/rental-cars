@@ -55,6 +55,9 @@ class TicketModels extends Equatable {
   final DateTime settlement_time;
   final DateTime expiry_time;
   final String specialRequest;
+  final String departureTime;
+  final String userPhoneNumber;
+  final String userEmail;
   // final List<VirtualAccountNumber> vaNumbers; // Add this property
 
   const TicketModels({
@@ -84,7 +87,10 @@ class TicketModels extends Equatable {
     required this.settlement_time,
     required this.expiry_time,
     required this.specialRequest,
+    required this.departureTime, // Add this initialization
     // required this.vaNumbers, // Add this initialization
+    required this.userPhoneNumber,
+    required this.userEmail,
   });
 
   factory TicketModels.fromJson(Map<String, dynamic> json) {
@@ -124,6 +130,9 @@ class TicketModels extends Equatable {
           json['settlement_time'] ?? DateTime.now().toIso8601String()),
       expiry_time: DateTime.parse(
           json['expiry_time'] ?? DateTime.now().toIso8601String()),
+      departureTime: json['departure_time'] ?? '', // Add this parsing
+      userPhoneNumber: json['user_phone'] ?? '',
+      userEmail: json['user_email'] ?? '',
       // vaNumbers: vaNumbers, // Add this parsing
     );
   }
@@ -156,6 +165,9 @@ class TicketModels extends Equatable {
       'transaction_status': transaction_status,
       'settlement_time': settlement_time.toIso8601String(),
       'expiry_time': expiry_time.toIso8601String(),
+      'departure_time': departureTime, // Add this field
+      'user_phone': userPhoneNumber,
+      'user_email': userEmail,
       // 'va_numbers':
       //     vaNumbers.map((va) => va.toJson()).toList(), // Add this field
       // 'bank': vaNumbers.map((va) => va.bank).toList(), // Add this field
@@ -190,6 +202,9 @@ class TicketModels extends Equatable {
         settlement_time,
         expiry_time,
         specialRequest,
+        userPhoneNumber,
+        userEmail,
+        departureTime,
         // vaNumbers, // Add this property
       ];
 }

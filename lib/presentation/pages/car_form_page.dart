@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:iconsax/iconsax.dart';
 
 import 'package:intl/intl.dart';
 
@@ -120,7 +121,7 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
           backgroundColor: kWhiteColor,
           leading: IconButton(
             icon: Icon(
-              LineIcons.angleLeft,
+              Iconsax.arrow_left_2,
               color: kPrimaryColor,
             ),
             onPressed: () {
@@ -241,139 +242,6 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
           ),
         ),
         GestureDetector(
-          // onTap: () {
-          //   showModalBottomSheet(
-          //     backgroundColor: kWhiteColor,
-          //     context:
-          //         context, // Ensure you have a BuildContext context variable available
-          //     isScrollControlled: true,
-          //     builder: (BuildContext context) {
-          //       return SingleChildScrollView(
-          //         child: Container(
-          //           decoration: BoxDecoration(
-          //             color: kWhiteColor,
-          //             borderRadius: BorderRadius.only(
-          //               topLeft: Radius.circular(defaultRadius),
-          //               topRight: Radius.circular(defaultRadius),
-          //             ),
-          //           ),
-          //           child: Padding(
-          //             padding: EdgeInsets.only(
-          //               bottom: MediaQuery.of(context)
-          //                   .viewInsets
-          //                   .bottom, // Add padding equal to the keyboard height
-          //             ),
-          //             child: Column(
-          //               crossAxisAlignment: CrossAxisAlignment.start,
-          //               children: [
-          //                 Container(
-          //                   margin: EdgeInsets.only(
-          //                     left: defaultMargin,
-          //                     top: defaultMargin * 2,
-          //                   ),
-          //                   child: Column(
-          //                     crossAxisAlignment: CrossAxisAlignment.start,
-          //                     children: [
-          //                       Text(
-          //                         "Ubah Nomor Telepon",
-          //                         style: titleTextStyle.copyWith(
-          //                           fontSize: 18,
-          //                           fontWeight: FontWeight.bold,
-          //                         ),
-          //                       ),
-          //                       Text(
-          //                         "Nomor ini akan digunakan untuk pengiriman \ninformasi tiket pesanan.",
-          //                         style: blackTextStyle.copyWith(
-          //                           fontSize: 14,
-          //                         ),
-          //                       ),
-          //                       SizedBox(height: defaultMargin),
-          //                       Container(
-          //                         margin: EdgeInsets.only(
-          //                           right: defaultMargin,
-          //                         ),
-          //                         decoration: BoxDecoration(
-          //                           color: kWhiteColor,
-          //                           borderRadius:
-          //                               BorderRadius.circular(defaultRadius),
-          //                           border: Border.all(
-          //                             color: kDivider,
-          //                           ),
-          //                         ),
-          //                         child: Padding(
-          //                           padding: EdgeInsets.only(
-          //                             left: defaultMargin,
-          //                             // bottom: defaultMargin,
-          //                             right: defaultMargin,
-          //                           ),
-          //                           child: TextFormField(
-          //                             cursorColor: kPrimaryColor,
-          //                             controller: phoneController,
-          //                             keyboardType: TextInputType.phone,
-          //                             // maxLength: 13,
-          //                             decoration: InputDecoration(
-          //                               labelText: "Nomor Telepon",
-          //                               labelStyle: blackTextStyle.copyWith(
-          //                                 fontSize: 14,
-          //                               ),
-          //                               border: InputBorder.none,
-          //                               hintStyle: blackTextStyle.copyWith(
-          //                                 fontSize: 14,
-          //                               ),
-          //                             ),
-          //                           ),
-          //                         ),
-          //                       ),
-          //                       SizedBox(height: defaultMargin * 2),
-          //                       Container(
-          //                         margin: EdgeInsets.only(
-          //                           right: defaultMargin,
-          //                           bottom: defaultMargin,
-          //                         ),
-          //                         child: CustomButton(
-          //                           title: "Simpan",
-          //                           onPressed: () async {
-          //                             final AuthServices authServices =
-          //                                 AuthServices();
-          //                             await authServices.updateUser(
-          //                               id: user.id,
-          //                               phone_number:
-          //                                   int.parse(phoneController.text),
-          //                             );
-          //                             setState(() {
-          //                               user.phone_number =
-          //                                   int.parse(phoneController.text);
-          //                               displayedPhoneNumber = phoneController
-          //                                   .text; // Update the displayed phone number
-          //                               context
-          //                                   .read<AuthBloc>()
-          //                                   .add(GetCurrentUserRequested());
-          //                             });
-
-          //                             showErrorFlushbar(
-          //                               context,
-          //                               "Ubah Nomor Telepon",
-          //                               "Nomor Telepon berhasil diperbarui",
-          //                             );
-          //                             // Delay the pop to ensure the flushbar is shown first
-          //                             Future.delayed(const Duration(seconds: 5),
-          //                                 () {
-          //                               Navigator.pop(context); // Close modal
-          //                             });
-          //                           },
-          //                         ),
-          //                       ),
-          //                     ],
-          //                   ),
-          //                 ),
-          //               ],
-          //             ),
-          //           ),
-          //         ),
-          //       );
-          //     },
-          //   );
-          // },
           child: Container(
             margin: EdgeInsets.only(
               top: defaultMargin,
@@ -436,6 +304,7 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
   }
 
   Widget _buildDetailCarBooking() {
+    print(widget.car.carDate);
     return Container(
       margin: EdgeInsets.only(
         top: defaultMargin,
@@ -461,13 +330,31 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          DateFormat('EEEE, d MMMM yyyy', 'id_ID')
-                              .format(widget.carDate),
-                          style: blackTextStyle.copyWith(
-                            fontSize: 14,
-                            fontWeight: bold,
-                          ),
+                        Row(
+                          children: [
+                            Text(
+                              DateFormat('EEEE, d MMMM yyyy', 'id_ID')
+                                  .format(widget.car.carDate),
+                              style: blackTextStyle.copyWith(
+                                fontSize: 14,
+                                fontWeight: bold,
+                              ),
+                            ),
+                            SizedBox(width: defaultMargin / 2),
+                            Icon(
+                              Icons.circle,
+                              color: descGrey,
+                              size: 5,
+                            ),
+                            SizedBox(width: defaultMargin / 2),
+                            Text(
+                              widget.car.carTimeDateFrom,
+                              style: blackTextStyle.copyWith(
+                                fontSize: 14,
+                                fontWeight: bold,
+                              ),
+                            ),
+                          ],
                         ),
                         SizedBox(height: defaultMargin),
                         Text(
@@ -673,7 +560,10 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                 '1 Orang',
                 '2 Orang',
                 '3 Orang',
-                '4 Orang'
+                '4 Orang',
+                '5 Orang',
+                '6 Orang',
+                '7 Orang',
               ];
               List<String> filteredOptions = passengerOptions.where((option) {
                 int passengers = int.parse(option.split(' ')[0]);
@@ -686,14 +576,15 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                 builder: (BuildContext context) {
                   return Container(
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: kWhiteColor,
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(defaultRadius),
                         topRight: Radius.circular(defaultRadius),
                       ),
                     ),
                     child: SizedBox(
-                      height: 250, // Adjust the height as needed
+                      height: MediaQuery.of(context).size.height *
+                          0.6, // Adjust the height as needed
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: filteredOptions.map((option) {

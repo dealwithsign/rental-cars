@@ -27,6 +27,9 @@ class CreatePaymentUrl extends BookingEvent {
   final String carId;
   final int totalPayment;
   final String specialRequest;
+  final String departureTime;
+  final String userPhoneNumber;
+  final String userEmail;
 
   CreatePaymentUrl({
     required this.token,
@@ -46,6 +49,9 @@ class CreatePaymentUrl extends BookingEvent {
     required this.carId,
     required this.totalPayment,
     required this.specialRequest,
+    required this.departureTime,
+    required this.userPhoneNumber,
+    required this.userEmail,
   });
 }
 

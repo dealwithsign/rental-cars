@@ -1,16 +1,16 @@
 // presentation/pages/ticket_cancle_page.dart
 import 'dart:convert';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
-
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 import 'package:line_icons/line_icons.dart';
-
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:http/http.dart' as http;
 
@@ -65,7 +65,7 @@ class _TicketCancelPageState extends State<TicketCancelPage> {
       surfaceTintColor: kWhiteColor,
       leading: IconButton(
         icon: Icon(
-          LineIcons.angleLeft,
+          Iconsax.arrow_left_2,
           color: kPrimaryColor,
         ),
         onPressed: () {
@@ -179,14 +179,14 @@ class _TicketCancelPageState extends State<TicketCancelPage> {
         child: Row(
           children: [
             Icon(
-              FontAwesomeIcons.circleInfo,
+              Iconsax.info_circle,
               color: kPrimaryColor,
               size: 20,
             ),
             SizedBox(width: defaultMargin),
             Expanded(
               child: Text(
-                'Batas waktu pembayaranmu telah berakhir. \nPesanan ini tidak dapat lagi digunakan.',
+                'Batas waktu pembayaranmu telah berakhir \nPesanan ini tidak dapat lagi digunakan',
                 style: blackTextStyle.copyWith(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
@@ -237,11 +237,41 @@ class _TicketCancelPageState extends State<TicketCancelPage> {
             fontSize: 15,
           ),
         ),
-        Text(
-          formatIndonesianDate(widget.ticket.carDate),
-          style: blackTextStyle.copyWith(
-            fontSize: 15,
-          ),
+        Row(
+          children: [
+            Text(
+              formatIndonesianDate(widget.ticket.carDate),
+              style: blackTextStyle.copyWith(
+                fontSize: 15,
+              ),
+            ),
+            SizedBox(width: defaultMargin / 2),
+            Icon(
+              Icons.circle,
+              color: descGrey,
+              size: 5,
+            ),
+            SizedBox(width: defaultMargin / 2),
+            Text(
+              widget.ticket.selectedTime,
+              style: blackTextStyle.copyWith(
+                fontSize: 15,
+              ),
+            ),
+            SizedBox(width: defaultMargin / 2),
+            Icon(
+              Icons.circle,
+              color: descGrey,
+              size: 5,
+            ),
+            SizedBox(width: defaultMargin / 2),
+            Text(
+              widget.ticket.departureTime,
+              style: blackTextStyle.copyWith(
+                fontSize: 15,
+              ),
+            ),
+          ],
         ),
         Text(
           "${widget.ticket.selectedPassengers.toString()} penumpang",
@@ -258,7 +288,7 @@ class _TicketCancelPageState extends State<TicketCancelPage> {
                 CircleAvatar(
                   backgroundColor: kBackgroundColor,
                   child: Icon(
-                    FontAwesomeIcons.locationArrow,
+                    Iconsax.location_tick,
                     color: kPrimaryColor,
                     size: 20,
                   ),
@@ -271,7 +301,7 @@ class _TicketCancelPageState extends State<TicketCancelPage> {
                 CircleAvatar(
                   backgroundColor: kBackgroundColor,
                   child: Icon(
-                    FontAwesomeIcons.locationDot,
+                    Iconsax.location,
                     color: kPrimaryColor,
                     size: 20,
                   ),
@@ -293,11 +323,11 @@ class _TicketCancelPageState extends State<TicketCancelPage> {
                   const SizedBox(height: 5),
                   Text(
                     widget.ticket.selected_location_pick,
-                    style: subTitleTextStyle.copyWith(
+                    style: blackTextStyle.copyWith(
                       fontSize: 14,
                     ),
                   ),
-                  SizedBox(height: defaultMargin * 4),
+                  SizedBox(height: defaultMargin * 3),
                   Text(
                     widget.ticket.carTo,
                     style: blackTextStyle.copyWith(
@@ -308,7 +338,7 @@ class _TicketCancelPageState extends State<TicketCancelPage> {
                   const SizedBox(height: 5),
                   Text(
                     widget.ticket.selected_location_drop,
-                    style: subTitleTextStyle.copyWith(
+                    style: blackTextStyle.copyWith(
                       fontSize: 14,
                     ),
                   ),
@@ -339,7 +369,18 @@ class _TicketCancelPageState extends State<TicketCancelPage> {
     return FutureBuilder<TicketModels>(
       future: fetchPaymentDetails(widget.ticket.bookingId),
       builder: (context, snapshot) {
-        if (snapshot.hasData) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Skeletonizer(
+            enabled: true,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildDetailItem('Status Pembayaran', 'Loading...'),
+                _buildDetailItem('Total Pembayaran', 'Loading...'),
+              ],
+            ),
+          );
+        } else if (snapshot.hasData) {
           final ticket = snapshot.data!;
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -348,14 +389,6 @@ class _TicketCancelPageState extends State<TicketCancelPage> {
                 'Status Pembayaran',
                 ticket.transaction_status,
               ),
-              // _buildDetailItem(
-              //   'Metode Pembayaran',
-              //   ticket.vaNumbers.first.bank.toUpperCase(),
-              // ),
-              // _buildDetailItem(
-              //   'No. Virtual Account',
-              //   ticket.vaNumbers.first.vaNumber,
-              // ),
               _buildDetailItem(
                 'Total Pembayaran',
                 NumberFormat.currency(
@@ -420,7 +453,7 @@ class _TicketCancelPageState extends State<TicketCancelPage> {
 
   String formatIndonesianDate(DateTime date) {
     Intl.defaultLocale = 'id_ID'; // Ensure the locale is set to Indonesian
-    var formatter = DateFormat('EEEE, dd MMMM hh:mm a');
+    var formatter = DateFormat('EEEE, dd MMMM');
     return formatter.format(date);
   }
 

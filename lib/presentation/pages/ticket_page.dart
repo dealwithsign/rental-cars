@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:rents_cars_app/blocs/tickets/tickets_bloc.dart';
@@ -168,14 +169,14 @@ class _TicketScreenState extends State<TicketScreen> {
         child: Row(
           children: [
             Icon(
-              FontAwesomeIcons.circleInfo,
+              Iconsax.info_circle,
               color: kWhiteColor,
               size: 20,
             ),
             SizedBox(width: defaultMargin),
             Expanded(
               child: Text(
-                'Semua transaksi pemesanan tiket akan ditampilkan \ndi sini dan bisa diakses kapan saja.',
+                'Semua transaksi pemesanan tiket akan ditampilkan \ndi sini dan bisa diakses kapan saja',
                 style: buttonColor.copyWith(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
@@ -343,6 +344,30 @@ class _TicketScreenState extends State<TicketScreen> {
                         fontSize: 14,
                       ),
                     ),
+                    Row(
+                      children: [
+                        Text(
+                          ticket.selectedTime,
+                          style: blackTextStyle.copyWith(
+                            fontSize: 15,
+                          ),
+                        ),
+                        SizedBox(width: defaultMargin / 2),
+                        Icon(
+                          Icons.circle,
+                          color: descGrey,
+                          size: 5,
+                        ),
+                        SizedBox(width: defaultMargin / 2),
+                        Text(
+                          ticket.departureTime,
+                          style: blackTextStyle.copyWith(
+                            fontSize: 15,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: defaultMargin),
                     Text(
                       ticket.carName,
                       style: blackTextStyle.copyWith(
@@ -376,6 +401,12 @@ class _TicketScreenState extends State<TicketScreen> {
   String formatIndonesianDate(DateTime date) {
     Intl.defaultLocale = 'id_ID';
     var formatter = DateFormat('EEEE, dd MMMM yyyy');
+    return formatter.format(date);
+  }
+
+  String formatIndonesianDatePayments(DateTime date) {
+    Intl.defaultLocale = 'id_ID'; // Ensure the locale is set to Indonesian
+    var formatter = DateFormat('EEEE, dd MMMM \'Jam\' HH:mm');
     return formatter.format(date);
   }
 }

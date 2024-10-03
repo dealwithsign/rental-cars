@@ -1,13 +1,14 @@
 // presentation/pages/ticket_success_page.dart
 import 'dart:convert';
+import 'dart:convert';
 
-import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:pdf/pdf.dart';
@@ -16,6 +17,7 @@ import 'package:http/http.dart' as http;
 
 import '../../blocs/tickets/tickets_bloc.dart';
 import '../../data/models/ticket_model.dart';
+import '../../data/services/ePayments_services.dart';
 import '../../data/services/invoice_services.dart';
 import '../../utils/fonts.dart';
 import '../widgets/button_widget.dart';
@@ -67,7 +69,7 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
       surfaceTintColor: kWhiteColor,
       leading: IconButton(
         icon: Icon(
-          LineIcons.angleLeft,
+          Iconsax.arrow_left_2,
           color: kPrimaryColor,
         ),
         onPressed: () {
@@ -127,14 +129,6 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Text(
-                        //   'Detail Perjalanan',
-                        //   style: titleTextStyle.copyWith(
-                        //     fontSize: 18,
-                        //     fontWeight: bold,
-                        //   ),
-                        // ),
-                        // SizedBox(height: defaultMargin),
                         _buildDetailsTravel(
                           lokasiJemput: widget.ticket.carFrom,
                           lokasiTujuan: widget.ticket.carTo,
@@ -198,11 +192,41 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
             fontSize: 15,
           ),
         ),
-        Text(
-          formatIndonesianDate(widget.ticket.carDate),
-          style: blackTextStyle.copyWith(
-            fontSize: 15,
-          ),
+        Row(
+          children: [
+            Text(
+              formatIndonesianDate(widget.ticket.carDate),
+              style: blackTextStyle.copyWith(
+                fontSize: 15,
+              ),
+            ),
+            SizedBox(width: defaultMargin / 2),
+            Icon(
+              Icons.circle,
+              color: descGrey,
+              size: 5,
+            ),
+            SizedBox(width: defaultMargin / 2),
+            Text(
+              widget.ticket.selectedTime,
+              style: blackTextStyle.copyWith(
+                fontSize: 15,
+              ),
+            ),
+            SizedBox(width: defaultMargin / 2),
+            Icon(
+              Icons.circle,
+              color: descGrey,
+              size: 5,
+            ),
+            SizedBox(width: defaultMargin / 2),
+            Text(
+              widget.ticket.departureTime,
+              style: blackTextStyle.copyWith(
+                fontSize: 15,
+              ),
+            ),
+          ],
         ),
         Text(
           "${widget.ticket.selectedPassengers.toString()} penumpang",
@@ -219,7 +243,7 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                 CircleAvatar(
                   backgroundColor: kBackgroundColor,
                   child: Icon(
-                    FontAwesomeIcons.locationArrow,
+                    Iconsax.location_tick,
                     color: kPrimaryColor,
                     size: 20,
                   ),
@@ -232,7 +256,7 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                 CircleAvatar(
                   backgroundColor: kBackgroundColor,
                   child: Icon(
-                    FontAwesomeIcons.locationDot,
+                    Iconsax.location,
                     color: kPrimaryColor,
                     size: 20,
                   ),
@@ -254,11 +278,11 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                   const SizedBox(height: 5),
                   Text(
                     widget.ticket.selected_location_pick,
-                    style: subTitleTextStyle.copyWith(
+                    style: blackTextStyle.copyWith(
                       fontSize: 14,
                     ),
                   ),
-                  SizedBox(height: defaultMargin * 4),
+                  SizedBox(height: defaultMargin * 3),
                   Text(
                     widget.ticket.carTo,
                     style: blackTextStyle.copyWith(
@@ -269,7 +293,7 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                   const SizedBox(height: 5),
                   Text(
                     widget.ticket.selected_location_drop,
-                    style: subTitleTextStyle.copyWith(
+                    style: blackTextStyle.copyWith(
                       fontSize: 14,
                     ),
                   ),
@@ -292,7 +316,7 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
             const SizedBox(height: 5),
             Text(
               widget.ticket.specialRequest,
-              style: subTitleTextStyle.copyWith(
+              style: blackTextStyle.copyWith(
                 fontSize: 14,
               ),
             ),
@@ -320,7 +344,20 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
     return FutureBuilder<TicketModels>(
       future: fetchPaymentDetails(widget.ticket.bookingId),
       builder: (context, snapshot) {
-        if (snapshot.hasData) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Skeletonizer(
+            enabled: true,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildDetailItem('Nomor Transaksi', 'Loading...'),
+                _buildDetailItem('Metode Pembayaran', 'Loading...'),
+                _buildDetailItem('Tanggal Pembayaran', 'Loading...'),
+                _buildDetailItem('Total Pembayaran', 'Loading...'),
+              ],
+            ),
+          );
+        } else if (snapshot.hasData) {
           final ticket = snapshot.data!;
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -332,7 +369,7 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
               _buildDetailItem('Metode Pembayaran', ticket.paymentType),
               _buildDetailItem(
                 'Tanggal Pembayaran',
-                formatIndonesianDate(ticket.settlement_time),
+                formatIndonesianDatePayments(ticket.settlement_time),
               ),
               _buildDetailItem(
                 'Total Pembayaran',
@@ -342,21 +379,32 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                   double.parse(ticket.grossAmount),
                 ),
               ),
-              // SizedBox(height: defaultMargin),
-              // CustomButton(
-              //   title: "Bukti Pembayaran",
-              //   onPressed: () async {
-              //     final file = await PdfInvoiceApi.generate(
-              //       PdfColors.blue, // Warna untuk teks dan elemen lainnya
-              //       pw.Font.helvetica(), // Font yang akan digunakan
-              //       // Font yang akan digunakan
-              //       ticket, // Data yang akan ditampilkan
-              //     );
-
-              //     // Setelah invoice dihasilkan, buka file tersebut
-              //     PdfInvoiceApi.openFile(file);
-              //   },
-              // ),
+              SizedBox(height: defaultMargin),
+              CustomButton(
+                title: "Bukti Pembayaran",
+                onPressed: () async {
+                  final pdfService = PdfService();
+                  // Replace these with actual user data
+                  String orderId = widget.ticket.bookingId.toUpperCase();
+                  String name = widget.ticket.userName;
+                  String email = widget.ticket.userEmail;
+                  String phoneNumber = widget.ticket.userPhoneNumber;
+                  String ticketRute =
+                      '${widget.ticket.carFrom} - ${widget.ticket.carTo}';
+                  String amountTraveller =
+                      widget.ticket.selectedPassengers.toString();
+                  String productDescription = widget.ticket.carName;
+                  await pdfService.generatePdf(
+                      ticket,
+                      orderId,
+                      name,
+                      email,
+                      phoneNumber,
+                      ticketRute,
+                      amountTraveller,
+                      productDescription);
+                },
+              )
             ],
           );
         } else if (snapshot.hasError) {
@@ -411,7 +459,7 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
 
   String formatIndonesianDate(DateTime date) {
     Intl.defaultLocale = 'id_ID'; // Ensure the locale is set to Indonesian
-    var formatter = DateFormat('EEEE, dd MMMM hh:mm a');
+    var formatter = DateFormat('EEEE, dd MMMM');
     return formatter.format(date);
   }
 
@@ -422,6 +470,12 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
       decimalDigits: 0,
     );
     return currencyFormatter.format(amount);
+  }
+
+  String formatIndonesianDatePayments(DateTime date) {
+    Intl.defaultLocale = 'id_ID'; // Ensure the locale is set to Indonesian
+    var formatter = DateFormat('EEEE, dd MMMM \'Jam\' HH:mm');
+    return formatter.format(date);
   }
 }
 
@@ -439,7 +493,7 @@ Widget _otherInformations() {
       child: Row(
         children: [
           Icon(
-            FontAwesomeIcons.checkCircle,
+            Iconsax.info_circle,
             color: kPrimaryColor,
             size: 20,
           ),

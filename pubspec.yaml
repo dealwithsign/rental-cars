@@ -54,7 +54,11 @@ dependencies:
   flutter_native_splash: ^2.4.1
   flutter_osm_plugin: ^0.70.4
   flutter_map: ^7.0.2
+  printing: ^5.12.0
+  iconsax: ^0.0.8
+  image_picker: ^1.1.2
   
+
   flutter_localizations:
     sdk: flutter
 
@@ -100,12 +104,9 @@ flutter_native_splash:
   
     
   fonts:
-    - family: MaisonNeueTitle
+    - family: InterTightPrimary
       fonts:
-        - asset: assets/fonts/NeoSansStdMedium.otf
-    - family: MaisonNeuePrimary
+        - asset: assets/fonts/InterTightBlack.ttf
+    - family: InterTightBoldSecondary
       fonts:
-        - asset: assets/fonts/NeoSansStdRegular.otf
-    - family: MaisonNeueSecondary
-      fonts:
-        - asset: assets/fonts/NeoSansStdLight.otf
+        - asset: assets/fonts/InterTightBold.ttf

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:rents_cars_app/blocs/auth/auth_bloc.dart';
 import 'package:rents_cars_app/blocs/auth/auth_event.dart';
@@ -209,9 +210,9 @@ class _AccountsScreenState extends State<AccountsScreen> {
           ),
           SizedBox(height: defaultMargin),
           _buildSettingItem(
-            icon: FontAwesomeIcons.circleQuestion,
+            icon: Iconsax.message,
             title: 'Bantuan',
-            subTitle: 'Temukan jawaban terbaik dari pertanyaan kamu',
+            subTitle: 'Hubungi kami untuk kendala pemesanan',
             onTap: () {
               whatsappService.sendWhatsAppMessage(
                 contact: '082134400200', // Replace with actual contact number
@@ -221,7 +222,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
             },
           ),
           _buildSettingItem(
-            icon: FontAwesomeIcons.shieldHalved,
+            icon: Iconsax.shield,
             title: 'Syarat & Ketentuan',
             subTitle: 'Baca syarat & ketentuan kami disini',
             onTap: () {
@@ -234,13 +235,13 @@ class _AccountsScreenState extends State<AccountsScreen> {
             },
           ),
           _buildSettingItem(
-            icon: FontAwesomeIcons.star,
+            icon: Iconsax.star,
             title: 'Beri Kami Nilai',
             subTitle: 'Beri kami nilai dan ulasan',
             onTap: () {},
           ),
           _buildSettingItem(
-            icon: FontAwesomeIcons.rightFromBracket,
+            icon: Iconsax.logout_1,
             title: 'Keluar',
             subTitle: 'Kamu harus masuk lagi untuk melanjutkan',
             onTap: () async {

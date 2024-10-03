@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import '../../utils/fonts.dart';
@@ -59,7 +60,7 @@ class _TermsAndConditionsState extends State<TermsAndConditions> {
       leading: IconButton(
         onPressed: () => Navigator.pop(context),
         icon: Icon(
-          LineIcons.angleLeft,
+          Iconsax.arrow_left_2,
           size: 20,
           color: kPrimaryColor,
         ),
@@ -341,7 +342,7 @@ class _TermsAndConditionsState extends State<TermsAndConditions> {
                     EdgeInsets.all(defaultMargin), // Adjust padding as needed
                 child: Icon(
                   icon,
-                  color: const Color(0xff018053),
+                  color: kPrimaryColor,
                   size: 20,
                 ),
               ),

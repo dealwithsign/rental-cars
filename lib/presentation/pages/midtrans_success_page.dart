@@ -53,7 +53,7 @@ class _MidtransSuccessState extends State<MidtransSuccess> {
               ContextMenu(
                 title: 'Terima Kasih ',
                 message:
-                    'Pembayaran tiketmu berhasil. \nSilakan cek email untuk detail pemesanan.',
+                    'Pembayaran tiketmu berhasil \nSilakan cek email untuk detail pemesanan',
                 imagePath:
                     'assets/images/success_payments.png', // Pass the image path as a string
                 kPrimaryColor: blackTextStyle.copyWith(

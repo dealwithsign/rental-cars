@@ -1,13 +1,14 @@
 // presentation/pages/ticket_pending_page.dart
 import 'dart:convert';
+import 'dart:convert';
 
-import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:rents_cars_app/presentation/pages/midtrans_page.dart';
@@ -66,7 +67,7 @@ class _TicketPendingPageState extends State<TicketPendingPage> {
       surfaceTintColor: kWhiteColor,
       leading: IconButton(
         icon: Icon(
-          LineIcons.angleLeft,
+          Iconsax.arrow_left_2,
           color: kPrimaryColor,
         ),
         onPressed: () {
@@ -180,7 +181,7 @@ class _TicketPendingPageState extends State<TicketPendingPage> {
         child: Row(
           children: [
             Icon(
-              FontAwesomeIcons.circleInfo,
+              Iconsax.info_circle,
               color: kPrimaryColor,
               size: 20,
             ),
@@ -238,11 +239,41 @@ class _TicketPendingPageState extends State<TicketPendingPage> {
             fontSize: 15,
           ),
         ),
-        Text(
-          formatIndonesianDate(widget.ticket.carDate),
-          style: blackTextStyle.copyWith(
-            fontSize: 15,
-          ),
+        Row(
+          children: [
+            Text(
+              formatIndonesianDate(widget.ticket.carDate),
+              style: blackTextStyle.copyWith(
+                fontSize: 15,
+              ),
+            ),
+            SizedBox(width: defaultMargin / 2),
+            Icon(
+              Icons.circle,
+              color: descGrey,
+              size: 5,
+            ),
+            SizedBox(width: defaultMargin / 2),
+            Text(
+              widget.ticket.selectedTime,
+              style: blackTextStyle.copyWith(
+                fontSize: 15,
+              ),
+            ),
+            SizedBox(width: defaultMargin / 2),
+            Icon(
+              Icons.circle,
+              color: descGrey,
+              size: 5,
+            ),
+            SizedBox(width: defaultMargin / 2),
+            Text(
+              widget.ticket.departureTime,
+              style: blackTextStyle.copyWith(
+                fontSize: 15,
+              ),
+            ),
+          ],
         ),
         Text(
           "${widget.ticket.selectedPassengers.toString()} penumpang",
@@ -259,7 +290,7 @@ class _TicketPendingPageState extends State<TicketPendingPage> {
                 CircleAvatar(
                   backgroundColor: kBackgroundColor,
                   child: Icon(
-                    FontAwesomeIcons.locationArrow,
+                    Iconsax.location_tick,
                     color: kPrimaryColor,
                     size: 20,
                   ),
@@ -272,7 +303,7 @@ class _TicketPendingPageState extends State<TicketPendingPage> {
                 CircleAvatar(
                   backgroundColor: kBackgroundColor,
                   child: Icon(
-                    FontAwesomeIcons.locationDot,
+                    Iconsax.location,
                     color: kPrimaryColor,
                     size: 20,
                   ),
@@ -294,11 +325,11 @@ class _TicketPendingPageState extends State<TicketPendingPage> {
                   const SizedBox(height: 5),
                   Text(
                     widget.ticket.selected_location_pick,
-                    style: subTitleTextStyle.copyWith(
+                    style: blackTextStyle.copyWith(
                       fontSize: 14,
                     ),
                   ),
-                  SizedBox(height: defaultMargin * 4),
+                  SizedBox(height: defaultMargin * 3),
                   Text(
                     widget.ticket.carTo,
                     style: blackTextStyle.copyWith(
@@ -309,7 +340,7 @@ class _TicketPendingPageState extends State<TicketPendingPage> {
                   const SizedBox(height: 5),
                   Text(
                     widget.ticket.selected_location_drop,
-                    style: subTitleTextStyle.copyWith(
+                    style: blackTextStyle.copyWith(
                       fontSize: 14,
                     ),
                   ),
@@ -332,7 +363,7 @@ class _TicketPendingPageState extends State<TicketPendingPage> {
             const SizedBox(height: 5),
             Text(
               widget.ticket.specialRequest,
-              style: subTitleTextStyle.copyWith(
+              style: blackTextStyle.copyWith(
                 fontSize: 14,
               ),
             ),
@@ -360,7 +391,21 @@ class _TicketPendingPageState extends State<TicketPendingPage> {
     return FutureBuilder<TicketModels>(
       future: fetchPaymentDetails(widget.ticket.bookingId),
       builder: (context, snapshot) {
-        if (snapshot.hasData) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Skeletonizer(
+            enabled: true,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildDetailItem('Nomor Transaksi', 'Loading...'),
+                _buildDetailItem('Status Pembayaran', 'Loading...'),
+                _buildDetailItem('Metode Pembayaran', 'Loading...'),
+                _buildDetailItem('Bayar Sebelum', 'Loading...'),
+                _buildDetailItem('Total Pembayaran', 'Loading...'),
+              ],
+            ),
+          );
+        } else if (snapshot.hasData) {
           final ticket = snapshot.data!;
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -379,7 +424,7 @@ class _TicketPendingPageState extends State<TicketPendingPage> {
               ),
               _buildDetailItem(
                 'Bayar Sebelum',
-                formatIndonesianDate(ticket.expiry_time),
+                formatIndonesianDatePayments(ticket.expiry_time),
               ),
               _buildDetailItem(
                 'Total Pembayaran',
@@ -391,7 +436,7 @@ class _TicketPendingPageState extends State<TicketPendingPage> {
               ),
               SizedBox(height: defaultMargin),
               CustomButton(
-                title: "Bayar sekarang",
+                title: "Bayar Sekarang",
                 onPressed: () {
                   Navigator.push(
                     context,
@@ -460,7 +505,13 @@ class _TicketPendingPageState extends State<TicketPendingPage> {
 
   String formatIndonesianDate(DateTime date) {
     Intl.defaultLocale = 'id_ID'; // Ensure the locale is set to Indonesian
-    var formatter = DateFormat('EEEE, dd MMMM hh:mm a');
+    var formatter = DateFormat('EEEE, dd MMMM ');
+    return formatter.format(date);
+  }
+
+  String formatIndonesianDatePayments(DateTime date) {
+    Intl.defaultLocale = 'id_ID'; // Ensure the locale is set to Indonesian
+    var formatter = DateFormat('EEEE, dd MMMM \'Jam\' HH:mm');
     return formatter.format(date);
   }
 

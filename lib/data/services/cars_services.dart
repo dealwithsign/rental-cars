@@ -30,11 +30,11 @@ class CarsServices {
       final resCars = await supabase
           .from('cars')
           .select(
-              'id, car_logo,car_name,car_class,car_time_date_from,car_from,car_to,available_seats,car_desc,car_price,car_date,seats,owner_car,latitude,longitude,include_driver,facility1,facility2,facility3,facility4,facility5,include_key, tickets!left(selected_passengers, created_at)')
+              'id, car_logo,car_name,car_class,car_time_date_from,car_from,car_to,available_seats,car_desc,car_price,car_date,seats,owner_car,latitude,longitude,include_driver,facility1,facility2,facility3,facility4,facility5,include_key, tickets!left(selected_passengers, created_at,car_date)')
           .eq('car_from', carFrom)
           .eq('car_to', carTo)
-          .gte('car_time_date_from', startOfDayStr)
-          .lt('car_time_date_from', startOfNextDayStr);
+          .gte('car_date', startOfDayStr)
+          .lt('car_date', startOfNextDayStr);
 
       if (resCars.isEmpty) {
         print('No car schedule available');

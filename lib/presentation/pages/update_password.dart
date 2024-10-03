@@ -1,12 +1,15 @@
 // presentation/pages/update_password.dart
-import 'package:another_flushbar/flushbar.dart';import 'package:another_flushbar/flushbar.dart';
+import 'package:another_flushbar/flushbar.dart';
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:rents_cars_app/blocs/auth/auth_bloc.dart';
 import 'package:rents_cars_app/blocs/auth/auth_event.dart';
 import 'package:rents_cars_app/data/services/authentication_services.dart';
 import 'package:rents_cars_app/presentation/pages/wrapper_auth_page.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import 'package:rents_cars_app/utils/fonts.dart';
 import 'package:rents_cars_app/presentation/widgets/button_widget.dart';
@@ -45,6 +48,63 @@ class _UpdatePasswordState extends State<UpdatePassword> {
     );
   }
 
+  void _showLoadingDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return WillPopScope(
+          onWillPop: () async => false,
+          child: Center(
+            child: Container(
+              margin: EdgeInsets.symmetric(horizontal: defaultMargin * 5),
+              padding: EdgeInsets.all(defaultMargin),
+              decoration: BoxDecoration(
+                color: kWhiteColor,
+                borderRadius: BorderRadius.circular(defaultRadius),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SpinKitThreeBounce(
+                    color: kPrimaryColor,
+                    size: 25.0,
+                  ),
+                  SizedBox(height: defaultMargin),
+                  Center(
+                    child: Column(
+                      children: [
+                        Text(
+                          "Mohon tunggu",
+                          style: blackTextStyle.copyWith(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            decoration: TextDecoration.none,
+                          ),
+                        ),
+                        SizedBox(height: defaultMargin / 2),
+                        Text(
+                          "Sedang memperbarui password",
+                          textAlign: TextAlign.center,
+                          style: subTitleTextStyle.copyWith(
+                            fontSize: 14,
+                            fontWeight: FontWeight.normal,
+                            decoration: TextDecoration.none,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   void _onUpdatePasswordButtonPressed() async {
     if (_newPasswordController.text.isEmpty ||
         _confirmPasswordController.text.isEmpty) {
@@ -62,12 +122,14 @@ class _UpdatePasswordState extends State<UpdatePassword> {
         "Password tidak cocok",
       );
     } else {
+      _showLoadingDialog();
       try {
         // password update event
         AuthServices authServices = AuthServices();
         await authServices.updatePassword(
           newPassword: _newPasswordController.text,
         );
+        Navigator.of(context).pop(); // Dismiss the loading dialog
         showErrorFlushbar(
           context,
           "Update Password Berhasil",
@@ -75,6 +137,7 @@ class _UpdatePasswordState extends State<UpdatePassword> {
         );
         _navigateTo(const WrapperAuth());
       } catch (e) {
+        Navigator.of(context).pop(); // Dismiss the loading dialog
         // Show Flushbar if password update fails
         showErrorFlushbar(
           context,
@@ -96,7 +159,7 @@ class _UpdatePasswordState extends State<UpdatePassword> {
           elevation: 0,
           leading: IconButton(
             icon: Icon(
-              LineIcons.angleLeft,
+              Iconsax.arrow_left_2,
               color: kPrimaryColor,
             ),
             onPressed: () {
@@ -126,7 +189,7 @@ class _UpdatePasswordState extends State<UpdatePassword> {
                         height: defaultMargin / 2,
                       ),
                       Text(
-                        "Silakan masukkan kata sandi baru yang berbeda \ndari sebelumnya.",
+                        "Silakan masukkan password baru untuk melanjutkan",
                         style: blackTextStyle.copyWith(
                           fontSize: 15, // Body Large
                         ),
