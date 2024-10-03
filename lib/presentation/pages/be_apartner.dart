@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:rents_cars_app/presentation/widgets/button_widget.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -65,7 +66,7 @@ class _HowToBePartnerState extends State<HowToBePartner> {
           Navigator.pop(context);
         },
         icon: Icon(
-          LineIcons.angleLeft,
+          Iconsax.arrow_left_2,
           size: 20,
           color: kPrimaryColor,
         ),
@@ -100,19 +101,19 @@ class _HowToBePartnerState extends State<HowToBePartner> {
                         _buildHowToRegisterAsPartner(
                           'Daftar sebagai Mitra',
                           'Daftarkan bisnis transportasimu sebagai mitra dengan mengisi formulir yang telah disediakan.',
-                          FontAwesomeIcons.print,
+                          Iconsax.document,
                         ),
                         SizedBox(height: defaultMargin),
                         _buildHowToRegisterAsPartner(
                           'Mari Berdiskusi',
                           'Tunggu email atau telepon dari kami, untuk berdiskusi lebih jauh mengenai detail bisnis.',
-                          FontAwesomeIcons.comments,
+                          Iconsax.message,
                         ),
                         SizedBox(height: defaultMargin),
                         _buildHowToRegisterAsPartner(
                           'Buat program kemitraan',
-                          'Finalisasi & tandatangani kesepakatan kemitraan, sehingga kami bisa mulai membuat programnya.',
-                          FontAwesomeIcons.handshake,
+                          'Finalisasi kesepakatan kemitraan, sehingga kami bisa mulai membuat programnya.',
+                          Iconsax.clipboard,
                         ),
                       ],
                     ),
@@ -150,8 +151,8 @@ class _HowToBePartnerState extends State<HowToBePartner> {
                         SizedBox(height: defaultMargin),
                         _buildHowToRegisterAsPartner(
                           'Beriklan di Lalan',
-                          'Punya bisnis lainnya? Pasang iklan di Lalan \ndan dapatkan keuntungan lebih.',
-                          FontAwesomeIcons.rectangleAd,
+                          'Punya bisnis lainnya? Pasang iklan di Lalan untuk menjangkau lebih banyak pelanggan.',
+                          Iconsax.receipt,
                         ),
                       ],
                     ),
@@ -190,7 +191,7 @@ class _HowToBePartnerState extends State<HowToBePartner> {
                             Row(
                               children: [
                                 Icon(
-                                  FontAwesomeIcons.envelopeOpen,
+                                  Iconsax.message,
                                   color: kPrimaryColor,
                                   size: 20,
                                 ),
@@ -209,7 +210,7 @@ class _HowToBePartnerState extends State<HowToBePartner> {
                             Row(
                               children: [
                                 Icon(
-                                  FontAwesomeIcons.whatsapp,
+                                  Iconsax.call,
                                   color: kPrimaryColor,
                                   size: 20,
                                 ),
@@ -336,19 +337,19 @@ class _HowToBePartnerState extends State<HowToBePartner> {
         _buildHowToRegisterAsPartner(
           'Siapa saja yang dapat bergabung sebagai mitra?',
           'Semua orang yang memiliki bisnis transportasi, baik perseorangan maupun perusahaan.',
-          FontAwesomeIcons.car,
+          Iconsax.car,
         ),
         SizedBox(height: defaultMargin),
         _buildHowToRegisterAsPartner(
           'Apa keuntungan bergabung sebagai mitra?',
           'Dapatkan keuntungan lebih dengan bergabung sebagai mitra, seperti peningkatan jumlah pelanggan dan transaksi cepat dan mudah.',
-          FontAwesomeIcons.compass,
+          Iconsax.activity,
         ),
         SizedBox(height: defaultMargin),
         _buildHowToRegisterAsPartner(
           'Bagaimana proses penarikan transaksi nantinya?',
           'Kami akan mencairkan dana (payout) dan mengirimkan setidaknya tiga hari kerja ke rekeningmu setelah transaksi berhasil.',
-          FontAwesomeIcons.dollarSign,
+          Iconsax.wallet,
         ),
       ],
     );

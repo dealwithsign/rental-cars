@@ -119,7 +119,7 @@ class _SplashScreenState extends State<SplashScreen> {
           0.5, // Covers 50% of the screen height
       decoration: const BoxDecoration(
         image: DecorationImage(
-          image: AssetImage('assets/images/a.jpg'), // Use AssetImage
+          image: AssetImage('assets/images/x.jpg'), // Use AssetImage
           fit: BoxFit.cover, // Fills the entire container without distortion
         ),
       ),

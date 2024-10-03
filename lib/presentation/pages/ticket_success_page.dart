@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:pdf/pdf.dart';
@@ -68,7 +69,7 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
       surfaceTintColor: kWhiteColor,
       leading: IconButton(
         icon: Icon(
-          LineIcons.angleLeft,
+          Iconsax.arrow_left_2,
           color: kPrimaryColor,
         ),
         onPressed: () {
@@ -242,7 +243,7 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                 CircleAvatar(
                   backgroundColor: kBackgroundColor,
                   child: Icon(
-                    FontAwesomeIcons.locationArrow,
+                    Iconsax.location_tick,
                     color: kPrimaryColor,
                     size: 20,
                   ),
@@ -255,7 +256,7 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                 CircleAvatar(
                   backgroundColor: kBackgroundColor,
                   child: Icon(
-                    FontAwesomeIcons.locationDot,
+                    Iconsax.location,
                     color: kPrimaryColor,
                     size: 20,
                   ),
@@ -277,11 +278,11 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                   const SizedBox(height: 5),
                   Text(
                     widget.ticket.selected_location_pick,
-                    style: subTitleTextStyle.copyWith(
+                    style: blackTextStyle.copyWith(
                       fontSize: 14,
                     ),
                   ),
-                  SizedBox(height: defaultMargin * 4),
+                  SizedBox(height: defaultMargin * 3),
                   Text(
                     widget.ticket.carTo,
                     style: blackTextStyle.copyWith(
@@ -292,7 +293,7 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                   const SizedBox(height: 5),
                   Text(
                     widget.ticket.selected_location_drop,
-                    style: subTitleTextStyle.copyWith(
+                    style: blackTextStyle.copyWith(
                       fontSize: 14,
                     ),
                   ),
@@ -315,7 +316,7 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
             const SizedBox(height: 5),
             Text(
               widget.ticket.specialRequest,
-              style: subTitleTextStyle.copyWith(
+              style: blackTextStyle.copyWith(
                 fontSize: 14,
               ),
             ),
@@ -386,21 +387,22 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                   // Replace these with actual user data
                   String orderId = widget.ticket.bookingId.toUpperCase();
                   String name = widget.ticket.userName;
-                  String email = "braiyenmassora@gmail.com";
-                  String phoneNumber = "082134400200";
+                  String email = widget.ticket.userEmail;
+                  String phoneNumber = widget.ticket.userPhoneNumber;
                   String ticketRute =
                       '${widget.ticket.carFrom} - ${widget.ticket.carTo}';
                   String amountTraveller =
                       widget.ticket.selectedPassengers.toString();
+                  String productDescription = widget.ticket.carName;
                   await pdfService.generatePdf(
-                    ticket,
-                    orderId,
-                    name,
-                    email,
-                    phoneNumber,
-                    ticketRute,
-                    amountTraveller,
-                  );
+                      ticket,
+                      orderId,
+                      name,
+                      email,
+                      phoneNumber,
+                      ticketRute,
+                      amountTraveller,
+                      productDescription);
                 },
               )
             ],
@@ -491,7 +493,7 @@ Widget _otherInformations() {
       child: Row(
         children: [
           Icon(
-            FontAwesomeIcons.checkCircle,
+            Iconsax.info_circle,
             color: kPrimaryColor,
             size: 20,
           ),

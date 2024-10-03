@@ -1,5 +1,6 @@
 // presentation/pages/midtrans_page.dart
 import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:line_icons/line_icons.dart';
 
 import 'package:rents_cars_app/presentation/widgets/button_cancle_widget.dart';
@@ -40,7 +41,7 @@ class _MidtransPaymentState extends State<MidtransPayment> {
     super.initState();
     controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..setBackgroundColor(const Color(0x00000000))
+      ..setBackgroundColor(kWhiteColor)
       ..setNavigationDelegate(
         NavigationDelegate(
           onProgress: (int progress) {
@@ -71,13 +72,6 @@ class _MidtransPaymentState extends State<MidtransPayment> {
                     widget.token,
                     true,
                   ); // Menggunakan token yang diteruskan
-                  print('Order ID: $orderId');
-                  // Generate the invoice
-                  // const pdfColor = PdfColors.blue;
-                  // final fontFamily = pw.Font.helvetica();
-                  // PdfInvoiceApi.generate(pdfColor, fontFamily).then((file) {
-                  //   PdfInvoiceApi.openFile(file);
-                  // });
 
                   Navigator.pushAndRemoveUntil(
                     context,
@@ -220,7 +214,7 @@ class _MidtransPaymentState extends State<MidtransPayment> {
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(
-            LineIcons.angleLeft,
+            Iconsax.arrow_left_2,
             color: kPrimaryColor,
           ),
           onPressed: () {

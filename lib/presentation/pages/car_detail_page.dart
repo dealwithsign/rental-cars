@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:iconsax/iconsax.dart';
 
 import 'package:line_icons/line_icons.dart';
 
@@ -98,7 +99,7 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
             elevation: 0,
             leading: IconButton(
               icon: Icon(
-                LineIcons.angleLeft,
+                Iconsax.arrow_left_2,
                 color: kPrimaryColor,
               ),
               onPressed: () => Navigator.of(context).pop(),
@@ -313,7 +314,7 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
             padding:
                 EdgeInsets.all(defaultMargin / 3), // Adjust padding as needed
             child: Icon(
-              FontAwesomeIcons.circleCheck,
+              Iconsax.task_square,
               color: kPrimaryColor,
               size: 20,
             ),

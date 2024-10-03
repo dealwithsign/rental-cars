@@ -1,3 +1,4 @@
+// data/services/ePayments_services.dart
 import 'package:flutter/material.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
@@ -23,6 +24,7 @@ class PdfService {
     String phoneNumber,
     String ticketRute,
     String amountTraveller,
+    String productDescription, // New parameter for product description
   ) async {
     final pdf = pw.Document();
 
@@ -51,7 +53,7 @@ class PdfService {
                 pw.SizedBox(height: defaultMargin / 2),
                 // Order ID
                 pw.Text(
-                  'Order ID: $orderId',
+                  'Order ID #$orderId',
                   style: pw.TextStyle(
                     fontSize: 13,
                     color: greenColors,
@@ -67,8 +69,13 @@ class PdfService {
                 pw.SizedBox(height: defaultMargin * 2),
 
                 // Payment Details Section
-                _buildPaymentDetailsSection(ticket, primaryFont, primaryFont,
-                    ticketRute, amountTraveller),
+                _buildPaymentDetailsSection(
+                    ticket,
+                    primaryFont,
+                    primaryFont,
+                    ticketRute,
+                    amountTraveller,
+                    productDescription), // Pass the new parameter
 
                 // Footer
                 pw.Spacer(),
@@ -176,6 +183,7 @@ class PdfService {
     pw.Font secondaryFont,
     String ticketRute,
     String amountTraveller,
+    String productDescription, // New parameter for product description
   ) {
     return pw.Column(
       crossAxisAlignment: pw.CrossAxisAlignment.start,
@@ -254,21 +262,35 @@ class PdfService {
               pw.Padding(
                 padding: pw.EdgeInsets.all(defaultMargin),
                 child: pw.Row(
+                  crossAxisAlignment: pw.CrossAxisAlignment.start,
                   mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                   children: [
                     pw.Text(
-                      "Tiket Mobil Antar Kota",
+                      "Tiket Mobil",
                       style: pw.TextStyle(
                         fontSize: 13,
                         color: kPrimaryPdfColor,
                       ),
                     ),
-                    pw.Text(
-                      ticketRute,
-                      style: pw.TextStyle(
-                        fontSize: 13,
-                        color: kPrimaryPdfColor,
-                      ),
+                    pw.Column(
+                      crossAxisAlignment: pw.CrossAxisAlignment.start,
+                      children: [
+                        pw.Text(
+                          productDescription,
+                          style: pw.TextStyle(
+                            fontSize: 13,
+                            color: kPrimaryPdfColor,
+                          ),
+                        ),
+                        pw.SizedBox(height: 5),
+                        pw.Text(
+                          ticketRute,
+                          style: pw.TextStyle(
+                            fontSize: 13,
+                            color: kPrimaryPdfColor,
+                          ),
+                        ),
+                      ],
                     ),
                     pw.Text(
                       amountTraveller,
@@ -296,6 +318,28 @@ class PdfService {
                   mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                   children: [
                     pw.Text(
+                      'Biaya Pemesanan',
+                      style: pw.TextStyle(
+                        fontSize: 13,
+                        color: kPrimaryPdfColor,
+                      ),
+                    ),
+                    pw.Text(
+                      "Termasuk",
+                      style: pw.TextStyle(
+                        fontSize: 13,
+                        color: greenColors,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              pw.Padding(
+                padding: pw.EdgeInsets.all(defaultMargin),
+                child: pw.Row(
+                  mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                  children: [
+                    pw.Text(
                       'Biaya Jasa',
                       style: pw.TextStyle(
                         fontSize: 13,
@@ -312,12 +356,10 @@ class PdfService {
                   ],
                 ),
               ),
-
               pw.Divider(
                 color: kDivider,
                 thickness: 1,
               ),
-
               pw.Padding(
                 padding: pw.EdgeInsets.all(defaultMargin),
                 child: pw.Row(
@@ -408,21 +450,21 @@ class PdfService {
         pw.Text(
           'Jakarta, Indonesia',
           style: pw.TextStyle(
-            fontSize: 13,
+            fontSize: 12,
             color: kPrimaryPdfColor,
           ),
         ),
         pw.Text(
           'helpmelalan@gmail.com',
           style: pw.TextStyle(
-            fontSize: 13,
+            fontSize: 12,
             color: kPrimaryPdfColor,
           ),
         ),
         pw.Text(
           '+62 82134400200',
           style: pw.TextStyle(
-            fontSize: 13,
+            fontSize: 12,
             color: kPrimaryPdfColor,
           ),
         ),
@@ -434,7 +476,7 @@ class PdfService {
     switch (paymentType) {
       case 'bank_transfer':
       case 'echannel':
-        return 'Transfer Bank';
+        return 'Transfer Bank - Virtual Account';
       case 'qris':
         return 'QRIS';
       default:
@@ -451,7 +493,7 @@ class PdfService {
   String _formatCurrency(double amount) {
     final NumberFormat currencyFormatter = NumberFormat.currency(
       locale: 'id_ID',
-      symbol: 'Rp',
+      symbol: 'Rp ',
       decimalDigits: 0,
     );
     return currencyFormatter.format(amount);

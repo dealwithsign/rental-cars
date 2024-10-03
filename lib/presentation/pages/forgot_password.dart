@@ -1,6 +1,9 @@
+// presentation/pages/forgot_password.dart
+import 'package:another_flushbar/flushbar.dart';
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:rents_cars_app/blocs/auth/auth_bloc.dart';
 import 'package:rents_cars_app/blocs/auth/auth_event.dart';
@@ -181,7 +184,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
           elevation: 0,
           leading: IconButton(
             icon: Icon(
-              LineIcons.angleLeft,
+              Iconsax.arrow_left_2,
               color: kPrimaryColor,
             ),
             onPressed: () {

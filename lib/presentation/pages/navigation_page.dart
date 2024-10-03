@@ -6,6 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:heroicons_flutter/heroicons_flutter.dart';
 import 'package:hugeicons/hugeicons.dart';
+import 'package:iconsax/iconsax.dart';
 
 import '../../utils/fonts.dart';
 
@@ -57,24 +58,24 @@ class NavigationScreen extends StatelessWidget {
             CustomBottomNavigationItem(
               index: 0,
               icon: Icon(
-                FontAwesomeIcons.house,
-                size: 17,
+                Iconsax.home,
+                size: 20,
               ),
               label: 'Home',
             ),
             CustomBottomNavigationItem(
               index: 1,
               icon: Icon(
-                FontAwesomeIcons.ticketAlt,
-                size: 17,
+                Iconsax.ticket,
+                size: 20,
               ),
               label: 'Tiket',
             ),
             CustomBottomNavigationItem(
               index: 2,
               icon: Icon(
-                FontAwesomeIcons.userAlt,
-                size: 17,
+                Iconsax.user,
+                size: 20,
               ),
               label: 'Profile',
             ),

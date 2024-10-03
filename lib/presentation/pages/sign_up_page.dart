@@ -1,10 +1,10 @@
 // presentation/pages/sign_up_page.dart
 import 'package:flutter/gestures.dart';
-import 'package:flutter/gestures.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:iconsax/iconsax.dart';
 
-import 'package:line_icons/line_icons.dart';
 import 'package:rents_cars_app/blocs/auth/auth_bloc.dart';
 import 'package:rents_cars_app/blocs/auth/auth_event.dart';
 import 'package:rents_cars_app/presentation/pages/terms_conditions.dart';
@@ -60,7 +60,7 @@ class _SignUpPageState extends State<SignUpPage> {
           elevation: 0,
           leading: IconButton(
             icon: Icon(
-              LineIcons.angleLeft,
+              Iconsax.arrow_left_2,
               color: kPrimaryColor,
             ),
             onPressed: () {
@@ -116,7 +116,7 @@ class _SignUpPageState extends State<SignUpPage> {
         ),
         SizedBox(height: defaultMargin / 2),
         Text(
-          "Buat akun sekarang dan pesan tiket \nperjalanan dengan mudah!",
+          "Buat akun sekarang dan pesan tiket \nperjalanan dengan mudah",
           style: blackTextStyle.copyWith(
             fontSize: 15,
           ),

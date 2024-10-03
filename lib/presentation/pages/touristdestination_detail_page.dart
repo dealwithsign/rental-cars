@@ -1,6 +1,7 @@
 // presentation/pages/touristdestination_detail_page.dart
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -51,7 +52,7 @@ class _TouristdestinationDetailPageState
                 elevation: 0,
                 leading: IconButton(
                   icon: Icon(
-                    LineIcons.angleLeft,
+                    Iconsax.arrow_left_2,
                     color: kWhiteColor,
                   ),
                   onPressed: () => Navigator.of(context).pop(),
@@ -96,7 +97,7 @@ class _TouristdestinationDetailPageState
                           child: DestinationLocationCard(
                             title: "Lokasi",
                             message: destination.location,
-                            icon: FontAwesomeIcons.locationDot,
+                            icon: Iconsax.location,
                           ),
                         ),
                         SizedBox(height: defaultMargin),
@@ -106,7 +107,7 @@ class _TouristdestinationDetailPageState
                           child: DestinationLocationCard(
                             title: "Katagori",
                             message: destination.category,
-                            icon: FontAwesomeIcons.landmark,
+                            icon: Iconsax.category,
                           ),
                         ),
                         SizedBox(height: defaultMargin),
@@ -116,7 +117,7 @@ class _TouristdestinationDetailPageState
                           child: DestinationLocationCard(
                             title: "Jam Operasional",
                             message: destination.operatingHours,
-                            icon: FontAwesomeIcons.clock,
+                            icon: Iconsax.clock,
                           ),
                         ),
                         SizedBox(height: defaultMargin),
@@ -126,17 +127,7 @@ class _TouristdestinationDetailPageState
                           child: DestinationLocationCard(
                             title: "Harga Tiket",
                             message: destination.ticketPrice,
-                            icon: FontAwesomeIcons.ticketAlt,
-                          ),
-                        ),
-                        SizedBox(height: defaultMargin),
-                        Padding(
-                          padding:
-                              EdgeInsets.symmetric(horizontal: defaultMargin),
-                          child: DestinationLocationCard(
-                            title: "Rating",
-                            message: destination.rating,
-                            icon: FontAwesomeIcons.star,
+                            icon: Iconsax.ticket,
                           ),
                         ),
                         SizedBox(height: defaultMargin),
@@ -173,7 +164,7 @@ class _TouristdestinationDetailPageState
                                     Row(
                                       children: [
                                         Icon(
-                                          FontAwesomeIcons.envelopeOpen,
+                                          Iconsax.message,
                                           color: kPrimaryColor,
                                           size: 20,
                                         ),
@@ -195,7 +186,7 @@ class _TouristdestinationDetailPageState
                                     Row(
                                       children: [
                                         Icon(
-                                          FontAwesomeIcons.whatsapp,
+                                          Iconsax.call,
                                           color: kPrimaryColor,
                                           size: 20,
                                         ),

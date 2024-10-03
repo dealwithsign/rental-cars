@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:rents_cars_app/blocs/tickets/tickets_bloc.dart';
@@ -168,14 +169,14 @@ class _TicketScreenState extends State<TicketScreen> {
         child: Row(
           children: [
             Icon(
-              FontAwesomeIcons.circleInfo,
+              Iconsax.info_circle,
               color: kWhiteColor,
               size: 20,
             ),
             SizedBox(width: defaultMargin),
             Expanded(
               child: Text(
-                'Semua transaksi pemesanan tiket akan ditampilkan \ndi sini dan bisa diakses kapan saja.',
+                'Semua transaksi pemesanan tiket akan ditampilkan \ndi sini dan bisa diakses kapan saja',
                 style: buttonColor.copyWith(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,

@@ -1,8 +1,11 @@
+// presentation/pages/verify_otp.dart
+import 'dart:math';
 import 'dart:math';
 
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:rents_cars_app/utils/fonts.dart';
 import 'package:rents_cars_app/presentation/widgets/button_widget.dart';
@@ -148,7 +151,7 @@ class _VerifyOTPState extends State<VerifyOTP> {
             elevation: 0,
             leading: IconButton(
               icon: Icon(
-                LineIcons.angleLeft,
+                Iconsax.arrow_left_2,
                 color: kPrimaryColor,
               ),
               onPressed: () {
@@ -182,7 +185,7 @@ class _VerifyOTPState extends State<VerifyOTP> {
                             Text.rich(
                               TextSpan(
                                 text:
-                                    'Masukkan OTP yang telah dikirim ke ', // Default text
+                                    'Masukkan OTP yang telah dikirim ke \n', // Default text
                                 style: blackTextStyle.copyWith(
                                   fontSize: 15, // Body Large
                                 ),

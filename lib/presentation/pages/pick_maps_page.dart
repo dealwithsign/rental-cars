@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:line_icons/line_icons.dart';
 
 import '../../utils/fonts.dart';
@@ -219,7 +220,7 @@ class _PickLocationsState extends State<PickLocations> {
                   children: [
                     IconButton(
                       icon: Icon(
-                        LineIcons.angleLeft,
+                        Iconsax.arrow_left_2,
                         color: kPrimaryColor,
                       ),
                       onPressed: () {

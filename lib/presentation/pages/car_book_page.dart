@@ -12,6 +12,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:rents_cars_app/blocs/auth/auth_event.dart';
@@ -190,7 +191,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
         elevation: 0,
         leading: IconButton(
           icon: Icon(
-            LineIcons.angleLeft,
+            Iconsax.arrow_left_2,
             color: kPrimaryColor,
           ),
           onPressed: () => _showConfirmationBottomSheet(context),
@@ -405,9 +406,12 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
     UserModel user,
     void Function(bool, String, String) onResult,
   ) async {
-    final int carPrice = int.parse(widget.carModel.carPrice) + 12000;
-    final int totalPriceWithoutAdmin = carPrice * widget.selectedPassengers;
+    // for supabase table
+    final int carPrice = int.parse(widget.carModel.carPrice);
+    final int totalPriceWithoutAdmin =
+        carPrice * widget.selectedPassengers + 17500;
     final int totalPayment = totalPriceWithoutAdmin;
+
     await dotenv.load(fileName: ".env.dev");
     final apiVercelUrl = dotenv.env['apiVercelUrl']!;
     // data to be saved
@@ -428,7 +432,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
     Map<String, dynamic> data = {
       "transaction_details": {
         "order_id": orderId,
-        "gross_amount": widget.selectedPassengers * carPrice,
+        "gross_amount": totalPayment, // Updated to include 17500
         "payment_link_id": widget.carModel.carName,
       },
       "credit_card": {"secure": true},
@@ -447,6 +451,18 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
           "price": carPrice,
           "quantity": widget.selectedPassengers,
           "name": widget.carModel.carName,
+        },
+        {
+          "id": "cost_service",
+          "price": 7500,
+          "quantity": 1,
+          "name": "Biaya Pemesanan",
+        },
+        {
+          "id": "admin_fee",
+          "price": 10000,
+          "quantity": 1,
+          "name": "Biaya Jasa",
         }
       ]
     };
@@ -485,6 +501,8 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
               totalPayment: totalPayment,
               specialRequest: specialRequest,
               departureTime: widget.carModel.carTimeDateFrom,
+              userEmail: userEmail,
+              userPhoneNumber: userPhone,
             ),
           );
 
@@ -563,14 +581,14 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
         child: Row(
           children: [
             Icon(
-              FontAwesomeIcons.triangleExclamation,
+              Iconsax.info_circle,
               color: kWhiteColor,
               size: 20,
             ),
             SizedBox(width: defaultMargin),
             Expanded(
               child: Text(
-                'Sebelum melanjutkan ke pembayaran, pastikan semua data yang kamu masukkan sudah benar dan lengkap.',
+                'Sebelum melanjutkan ke pembayaran, pastikan semua data yang kamu masukkan sudah benar dan lengkap',
                 style: buttonColor.copyWith(
                   fontSize: 14,
                   fontWeight: bold,
@@ -588,9 +606,11 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
     final int carPrice = int.parse(widget.carModel.carPrice);
     final int totalPriceWithoutAdmin = carPrice * widget.selectedPassengers;
     // Assuming adminFee is a constant 50000
-    const int adminFee = 12000;
+    const int costService = 7500;
+    const int adminFee = 10000; // Make this a
+
     // Calculate total price including admin fee
-    final int totalPrice = totalPriceWithoutAdmin + adminFee;
+    final int totalPrice = totalPriceWithoutAdmin + adminFee + costService;
 
     return Container(
       child: Column(
@@ -630,7 +650,26 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Biaya Jasa Aplikasi',
+                'Biaya Pemesanan',
+                style: subTitleTextStyle.copyWith(
+                  fontSize: 14,
+                ),
+              ),
+              Text(
+                'Rp ${NumberFormat("#,##0", "id_ID").format(costService)}',
+                style: blackTextStyle.copyWith(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: defaultMargin / 2),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Biaya Jasa ',
                 style: subTitleTextStyle.copyWith(
                   fontSize: 14,
                 ),
@@ -654,7 +693,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Total Harga',
+                'Total Pembayaran',
                 style: blackTextStyle.copyWith(
                   fontSize: 15,
                   fontWeight: FontWeight.bold,
@@ -785,7 +824,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
                   CircleAvatar(
                     backgroundColor: kBackgroundColor,
                     child: Icon(
-                      FontAwesomeIcons.locationArrow,
+                      Iconsax.location_tick,
                       color: kPrimaryColor,
                       size: 20,
                     ),
@@ -798,7 +837,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
                   CircleAvatar(
                     backgroundColor: kBackgroundColor,
                     child: Icon(
-                      FontAwesomeIcons.locationDot,
+                      Iconsax.location,
                       color: kPrimaryColor,
                       size: 20,
                     ),
@@ -824,7 +863,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(height: defaultMargin),
+                    SizedBox(height: defaultMargin * 2),
                     Text(
                       'Lokasi tujuan',
                       style: subTitleTextStyle.copyWith(
@@ -850,7 +889,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
               ),
             ],
           ),
-          SizedBox(height: defaultMargin),
+          SizedBox(height: defaultMargin * 2),
           _buildDetailItem(
             'Permintaan Khusus',
             specialRequest.isEmpty
