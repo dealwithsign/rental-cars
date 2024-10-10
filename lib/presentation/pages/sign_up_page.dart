@@ -77,7 +77,7 @@ class _SignUpPageState extends State<SignUpPage> {
               showErrorFlushbar(
                 context,
                 "Pendaftaran Gagal",
-                "Maaf, email atau nomor telepon ini sudah terdaftar",
+                "Maaf, email ini sudah terdaftar. Silakan gunakan email lain",
               );
             }
           },

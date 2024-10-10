@@ -38,11 +38,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           username: event.username,
           phone_number: int.parse(event.phoneNumber),
         );
-        print(user);
+
         emit(AuthSuccess(user)); // Emit status sukses dengan model pengguna
       } catch (e) {
-        emit(AuthFailure(
-            e.toString())); // Tangani kesalahan dan emit status gagal
+        emit(
+          AuthFailure(
+            e.toString(),
+          ),
+        );
       }
     });
 
@@ -76,10 +79,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           AuthLoading()); // Emit status loading saat proses mendapatkan data pengguna dimulai
       try {
         final user = await authServices.getCurrentUser();
-        print('Current user: $user'); // Debug print
-        print('Current user id: ${user.id}'); // Debug print
-        print('Current user email: ${user.email}'); // Debug print
-        print(user.username);
+
         emit(
           AuthSuccess(user),
         ); // Emit status sukses dengan model pengguna

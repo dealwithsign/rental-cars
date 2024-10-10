@@ -125,7 +125,7 @@ class _GoogleSignPhoneNumberState extends State<GoogleSignPhoneNumber> {
       showErrorFlushbar(
         context,
         "Pendaftaran Gagal",
-        "Silakan lengkapi informasi yang diperlukan sebelum melanjutkan",
+        "Silakan lengkapi nomor WhatsApp terlebih dahulu",
       );
     } else {
       final phoneNumber = int.parse(_phoneNumberController.text);

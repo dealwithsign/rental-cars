@@ -1,6 +1,5 @@
 // presentation/widgets/button_widget.dart
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
 import 'package:rents_cars_app/utils/fonts.dart';
 
 class CustomButton extends StatelessWidget {
@@ -23,16 +22,10 @@ class CustomButton extends StatelessWidget {
       width: width,
       height: 45,
       margin: margin,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(
-          defaultRadius,
-        ),
-        color: kButtonColor,
-      ),
-      child: TextButton(
+      child: ElevatedButton(
         onPressed: onPressed,
-        style: TextButton.styleFrom(
-          backgroundColor: Colors.transparent,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: kButtonColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(
               defaultRadius,

@@ -1,11 +1,10 @@
 // presentation/pages/sign_in_page.dart
 import 'package:flutter/gestures.dart';
-import 'package:flutter/gestures.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsax/iconsax.dart';
 
-import 'package:line_icons/line_icons.dart';
 import 'package:rents_cars_app/blocs/auth/auth_bloc.dart';
 import 'package:rents_cars_app/blocs/auth/auth_event.dart';
 import 'package:rents_cars_app/presentation/pages/forgot_password.dart';
@@ -88,8 +87,8 @@ class _SignInPageState extends State<SignInPage> {
                     SizedBox(height: defaultMargin * 2),
                     _buildForm(),
                     SizedBox(height: defaultMargin * 2),
-                    _buildForgotPassword(),
-                    SizedBox(height: defaultMargin * 2),
+                    // _buildForgotPassword(),
+                    // SizedBox(height: defaultMargin * 2),
                     _buildTermsText(),
                   ],
                 ),
@@ -175,7 +174,7 @@ class _SignInPageState extends State<SignInPage> {
       showErrorFlushbar(
         context,
         "Gagal Masuk",
-        "Silakan isi email dan password",
+        "Silakan isi email dan password terlebih dahulu",
       );
     } else {
       context.read<AuthBloc>().add(

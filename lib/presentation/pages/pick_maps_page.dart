@@ -27,6 +27,7 @@ class _PickLocationsState extends State<PickLocations> {
 
   @override
   void dispose() {
+    _locationController.dispose();
     _searchController.dispose();
     super.dispose();
   }
@@ -59,9 +60,16 @@ class _PickLocationsState extends State<PickLocations> {
     Position position;
     try {
       position = await getCurrentLocation();
-      _updateCameraPosition(position);
+      if (mounted) {
+        _updateCameraPosition(position);
+      }
     } catch (e) {
       print('Error getting current location: $e');
+      if (mounted) {
+        setState(() {
+          selectedLocationAddress = "Failed to get current location. Error: $e";
+        });
+      }
     }
   }
 
@@ -74,16 +82,18 @@ class _PickLocationsState extends State<PickLocations> {
         ),
       ),
     );
-    setState(() {
-      _markers.add(
-        Marker(
-          markerId: const MarkerId('currentLocation'),
-          position: LatLng(position.latitude, position.longitude),
-          infoWindow: const InfoWindow(title: 'Your Location'),
-        ),
-      );
-      getAddressFromLatLng(LatLng(position.latitude, position.longitude));
-    });
+    if (mounted) {
+      setState(() {
+        _markers.add(
+          Marker(
+            markerId: const MarkerId('currentLocation'),
+            position: LatLng(position.latitude, position.longitude),
+            infoWindow: const InfoWindow(title: 'Your Location'),
+          ),
+        );
+        getAddressFromLatLng(LatLng(position.latitude, position.longitude));
+      });
+    }
   }
 
   Future<Position> getCurrentLocation() async {

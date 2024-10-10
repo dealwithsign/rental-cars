@@ -13,6 +13,9 @@ import 'package:rents_cars_app/presentation/widgets/button_widget.dart';
 import 'package:rents_cars_app/presentation/widgets/input_widget.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
+import 'google_sign_phone_number.dart';
+import 'wrapper_auth_page.dart';
+
 class ForgotPassword extends StatefulWidget {
   const ForgotPassword({super.key});
 

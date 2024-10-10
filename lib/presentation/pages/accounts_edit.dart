@@ -135,8 +135,8 @@ class _AccountsEditState extends State<AccountsEdit> {
     if (_phoneNumberController.text.isEmpty) {
       showErrorFlushbar(
         context,
-        "Pembaruan Gagal",
-        "Silakan lengkapi informasi yang diperlukan sebelum melanjutkan",
+        "Pendaftaran Gagal",
+        "Silakan lengkapi nomor WhatsApp terlebih dahulu",
       );
     } else {
       final phoneNumber = int.parse(_phoneNumberController.text);
