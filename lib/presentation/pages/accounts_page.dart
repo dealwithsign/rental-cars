@@ -169,24 +169,24 @@ class _AccountsScreenState extends State<AccountsScreen> {
                     fontSize: 15,
                   ),
                 ),
-                SizedBox(height: defaultMargin),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const AccountsEdit(),
-                      ),
-                    );
-                  },
-                  child: Text(
-                    'Edit Profile',
-                    style: blackTextStyle.copyWith(
-                      fontSize: 14,
-                      fontWeight: bold,
-                    ),
-                  ),
-                )
+                // SizedBox(height: defaultMargin),
+                // GestureDetector(
+                //   onTap: () {
+                //     Navigator.push(
+                //       context,
+                //       MaterialPageRoute(
+                //         builder: (context) => const AccountsEdit(),
+                //       ),
+                //     );
+                //   },
+                //   child: Text(
+                //     'Edit Profile',
+                //     style: blackTextStyle.copyWith(
+                //       fontSize: 14,
+                //       fontWeight: bold,
+                //     ),
+                //   ),
+                // )
               ],
             ),
           ],

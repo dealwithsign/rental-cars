@@ -1,6 +1,5 @@
 // presentation/pages/drop_maps_page.dart
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
@@ -50,9 +49,26 @@ class _PickDropState extends State<PickDrop> {
     _locateUser();
   }
 
+  @override
+  void dispose() {
+    _locationController.dispose();
+    _searchController.dispose();
+    super.dispose();
+  }
+
   Future<void> _locateUser() async {
-    Position position = await getCurrentLocation();
-    _updateCameraPosition(position);
+    try {
+      Position position = await getCurrentLocation();
+      if (mounted) {
+        _updateCameraPosition(position);
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          selectedLocationAddress = "Failed to get current location. Error: $e";
+        });
+      }
+    }
   }
 
   void _updateCameraPosition(Position position) {
@@ -64,16 +80,18 @@ class _PickDropState extends State<PickDrop> {
         ),
       ),
     );
-    setState(() {
-      _markers.add(
-        Marker(
-          markerId: const MarkerId('currentLocation'),
-          position: LatLng(position.latitude, position.longitude),
-          infoWindow: const InfoWindow(title: 'Your Location'),
-        ),
-      );
-      getAddressFromLatLng(LatLng(position.latitude, position.longitude));
-    });
+    if (mounted) {
+      setState(() {
+        _markers.add(
+          Marker(
+            markerId: const MarkerId('currentLocation'),
+            position: LatLng(position.latitude, position.longitude),
+            infoWindow: const InfoWindow(title: 'Your Location'),
+          ),
+        );
+        getAddressFromLatLng(LatLng(position.latitude, position.longitude));
+      });
+    }
   }
 
   Future<Position> getCurrentLocation() async {
@@ -109,16 +127,19 @@ class _PickDropState extends State<PickDrop> {
         String addressDesc =
             "${place.street}, ${place.subLocality}, ${place.locality}, ${place.subAdministrativeArea}, ${place.administrativeArea} ${place.postalCode}, ${place.country}";
         String addressName = "${place.street}";
-        setState(() {
-          selectedLocationAddress = addressDesc;
-          selectedLocationName = addressName;
-        });
+        if (mounted) {
+          setState(() {
+            selectedLocationAddress = addressDesc;
+            selectedLocationName = addressName;
+          });
+        }
       }
     } catch (e) {
-      print('Error getting address: $e');
-      setState(() {
-        selectedLocationAddress = "Failed to get address. Error: $e";
-      });
+      if (mounted) {
+        setState(() {
+          selectedLocationAddress = "Failed to get address. Error: $e";
+        });
+      }
     }
   }
 
@@ -127,34 +148,40 @@ class _PickDropState extends State<PickDrop> {
         .locationFromAddress(searchText)
         .then((locations) {
       if (locations.isEmpty) {
-        setState(() {
-          selectedLocationName = "Lokasi tidak ditemukan";
-          selectedLocationAddress = "";
-        });
+        if (mounted) {
+          setState(() {
+            selectedLocationName = "Lokasi tidak ditemukan";
+            selectedLocationAddress = "";
+          });
+        }
         return;
       }
       LatLng searchedLocation =
           LatLng(locations.first.latitude, locations.first.longitude);
       mapController
           ?.animateCamera(CameraUpdate.newLatLngZoom(searchedLocation, 14.0));
-      setState(() {
-        _markers.clear();
-        _markers.add(
-          Marker(
-            markerId: MarkerId(searchedLocation.toString()),
-            position: searchedLocation,
-            infoWindow: const InfoWindow(title: 'Searched Location'),
-          ),
-        );
-        getAddressFromLatLng(searchedLocation);
-      });
+      if (mounted) {
+        setState(() {
+          _markers.clear();
+          _markers.add(
+            Marker(
+              markerId: MarkerId(searchedLocation.toString()),
+              position: searchedLocation,
+              infoWindow: const InfoWindow(title: 'Searched Location'),
+            ),
+          );
+          getAddressFromLatLng(searchedLocation);
+        });
+      }
     }).catchError((error) {
       print('Error searching for location: $error');
-      setState(() {
-        selectedLocationName = "Lokasi tidak ditemukan";
-        selectedLocationAddress =
-            "Gunakan kata kunci seperti Toraja, Makassar, dll";
-      });
+      if (mounted) {
+        setState(() {
+          selectedLocationName = "Lokasi tidak ditemukan";
+          selectedLocationAddress =
+              "Gunakan kata kunci seperti Toraja, Makassar, dll";
+        });
+      }
     });
   }
 

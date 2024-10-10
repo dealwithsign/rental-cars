@@ -50,12 +50,11 @@ class AuthServices {
 
     try {
       final res = await supabase.from('users').insert(user.toJson());
-      print('Insert response: $res');
+
       if (res != null && res.error != null) {
         throw Exception(res.error!.message);
       }
     } catch (e) {
-      print('Caught error: $e');
       final userRes =
           await supabase.from("users").select().eq("id", user.id).single();
       if (userRes.isNotEmpty) {
@@ -118,9 +117,7 @@ class AuthServices {
       if (response.error != null) {
         throw Exception('Database insert error: ${response.error!.message}');
       }
-    } catch (e) {
-      print('Caught error: $e');
-    }
+    } catch (e) {}
 
     return user;
   }
