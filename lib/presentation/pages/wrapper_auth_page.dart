@@ -60,9 +60,8 @@ class _WrapperAuthState extends State<WrapperAuth> {
 
   Widget _buildLoadingIndicator() {
     return Center(
-      child: SpinKitThreeBounce(
-        color: kPrimaryColor,
-        size: 25.0,
+      child: CircularProgressIndicator(
+        valueColor: AlwaysStoppedAnimation<Color>(kPrimaryColor),
       ),
     );
   }

@@ -32,6 +32,7 @@ class _SignUpPageState extends State<SignUpPage> {
   final _passwordFocusNode = FocusNode();
   final _nameFocusNode = FocusNode();
   final _phoneNumberFocusNode = FocusNode();
+  bool _isLoading = false;
 
   @override
   void dispose() {
@@ -72,8 +73,14 @@ class _SignUpPageState extends State<SignUpPage> {
         body: BlocConsumer<AuthBloc, AuthState>(
           listener: (context, state) {
             if (state is AuthSuccess) {
+              setState(() {
+                _isLoading = false;
+              });
               _navigateTo(const WrapperAuth());
             } else if (state is AuthFailure) {
+              setState(() {
+                _isLoading = false;
+              });
               showErrorFlushbar(
                 context,
                 "Pendaftaran Gagal",
@@ -192,10 +199,14 @@ class _SignUpPageState extends State<SignUpPage> {
           ),
           Container(
             margin: EdgeInsets.only(top: defaultMargin * 2),
-            child: CustomButton(
-              title: "Buat Akun",
-              onPressed: _handleSignUp,
-            ),
+            child: _isLoading
+                ? CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(kPrimaryColor),
+                  )
+                : CustomButton(
+                    title: "Buat Akun",
+                    onPressed: _handleSignUp,
+                  ),
           ),
         ],
       ),
@@ -213,6 +224,9 @@ class _SignUpPageState extends State<SignUpPage> {
         "Silakan lengkapi informasi yang diperlukan sebelum melanjutkan",
       );
     } else {
+      setState(() {
+        _isLoading = true;
+      });
       context.read<AuthBloc>().add(
             SignUpRequested(
               _emailController.text,

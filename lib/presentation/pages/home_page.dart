@@ -1,13 +1,10 @@
 // presentation/pages/home_page.dart
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:heroicons_flutter/heroicons_flutter.dart';
-import 'package:icons_plus/icons_plus.dart';
+
 import 'package:intl/intl.dart';
-import 'package:line_icons/line_icons.dart';
+
 import 'package:rents_cars_app/blocs/tourist_destination/tourist_destination_bloc.dart';
 import 'package:rents_cars_app/blocs/tourist_destination/tourist_destination_state.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -16,7 +13,7 @@ import '../../blocs/auth/auth_bloc.dart';
 import '../../blocs/auth/auth_event.dart';
 import '../../blocs/cars/cars_bloc.dart';
 import '../../blocs/cars/cars_event.dart';
-import '../../blocs/cars/cars_state.dart';
+
 import '../../blocs/tourist_destination/tourist_destination_event.dart';
 import '../../data/services/cars_services.dart';
 import '../../utils/fonts.dart';

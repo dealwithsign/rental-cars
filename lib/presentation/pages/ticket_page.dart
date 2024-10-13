@@ -1,12 +1,10 @@
 // presentation/pages/ticket_page.dart
 import 'dart:convert';
-import 'dart:convert';
-import 'package:another_flushbar/flushbar.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 import 'package:line_icons/line_icons.dart';
@@ -93,9 +91,8 @@ class _TicketScreenState extends State<TicketScreen> {
       builder: (context, state) {
         if (state is TicketsLoading) {
           return Center(
-            child: SpinKitThreeBounce(
-              color: kPrimaryColor,
-              size: 25.0,
+            child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(kPrimaryColor),
             ),
           );
         } else if (state is TicketsSuccess) {

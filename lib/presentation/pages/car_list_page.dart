@@ -109,9 +109,8 @@ class _ListCarPageState extends State<ListCarPage> {
       builder: (context, state) {
         if (state is CarsLoading) {
           return Center(
-            child: SpinKitThreeBounce(
-              color: kPrimaryColor,
-              size: 25.0,
+            child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(kPrimaryColor),
             ),
           );
         } else if (state is CarsSuccess) {

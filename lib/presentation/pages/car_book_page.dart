@@ -391,9 +391,8 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
           );
         } else {
           return Center(
-            child: SpinKitThreeBounce(
-              color: kPrimaryColor,
-              size: 25.0,
+            child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(kPrimaryColor),
             ),
           );
         }
