@@ -1,9 +1,8 @@
 // presentation/pages/accounts_page.dart
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 import 'package:iconsax/iconsax.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:rents_cars_app/blocs/auth/auth_bloc.dart';
@@ -11,12 +10,12 @@ import 'package:rents_cars_app/blocs/auth/auth_event.dart';
 import 'package:rents_cars_app/presentation/pages/terms_conditions.dart';
 import 'package:rents_cars_app/presentation/pages/wrapper_auth_page.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../data/models/users_model.dart';
 import '../../data/services/authentication_services.dart';
 import '../../data/services/whatsapp_services.dart';
 import '../../utils/fonts.dart';
-import 'accounts_edit.dart';
 
 class AccountsScreen extends StatefulWidget {
   const AccountsScreen({super.key});
@@ -88,9 +87,8 @@ class _AccountsScreenState extends State<AccountsScreen> {
       builder: (context, state) {
         if (state is AuthLoading) {
           return Center(
-            child: SpinKitThreeBounce(
-              color: kPrimaryColor,
-              size: 25.0,
+            child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(kPrimaryColor),
             ),
           );
         } else if (state is AuthSuccess) {
@@ -236,9 +234,16 @@ class _AccountsScreenState extends State<AccountsScreen> {
           ),
           _buildSettingItem(
             icon: Iconsax.star,
-            title: 'Beri Kami Nilai',
-            subTitle: 'Beri kami nilai dan ulasan',
-            onTap: () {},
+            title: 'Beri Kami Feedback',
+            subTitle: 'Beri kami feedback untuk pengalaman terbaik',
+            onTap: () async {
+              const url = 'https://forms.gle/e4YyrXwtktKgtBd77';
+              if (await canLaunch(url)) {
+                await launch(url);
+              } else {
+                throw 'Could not launch $url';
+              }
+            },
           ),
           _buildSettingItem(
             icon: Iconsax.logout_1,
@@ -314,7 +319,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            'Versi 1.0.0',
+            'Versi 1.0.0+4',
             style: subTitleTextStyle.copyWith(
               fontSize: 12,
             ),

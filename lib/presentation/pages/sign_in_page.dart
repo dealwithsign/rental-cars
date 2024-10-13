@@ -29,6 +29,7 @@ class _SignInPageState extends State<SignInPage> {
   final _passwordController = TextEditingController();
   final _emailFocusNode = FocusNode();
   final _passwordFocusNode = FocusNode();
+  bool _isLoading = false;
 
   @override
   void dispose() {
@@ -67,8 +68,14 @@ class _SignInPageState extends State<SignInPage> {
         body: BlocConsumer<AuthBloc, AuthState>(
           listener: (context, state) {
             if (state is AuthSuccess) {
+              setState(() {
+                _isLoading = false;
+              });
               _navigateTo(const WrapperAuth());
             } else if (state is AuthFailure) {
+              setState(() {
+                _isLoading = false;
+              });
               showErrorFlushbar(
                 context,
                 "Gagal Masuk",
@@ -159,10 +166,14 @@ class _SignInPageState extends State<SignInPage> {
           ),
           Container(
             margin: EdgeInsets.only(top: defaultMargin * 2),
-            child: CustomButton(
-              title: "Masuk",
-              onPressed: _handleSignIn,
-            ),
+            child: _isLoading
+                ? CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(kPrimaryColor),
+                  )
+                : CustomButton(
+                    title: "Masuk",
+                    onPressed: _handleSignIn,
+                  ),
           ),
         ],
       ),
@@ -177,6 +188,9 @@ class _SignInPageState extends State<SignInPage> {
         "Silakan isi email dan password terlebih dahulu",
       );
     } else {
+      setState(() {
+        _isLoading = true;
+      });
       context.read<AuthBloc>().add(
             SignInRequested(
               _emailController.text,

@@ -152,9 +152,8 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
       builder: (context, state) {
         if (state is AuthLoading) {
           return Center(
-            child: SpinKitThreeBounce(
-              color: kPrimaryColor,
-              size: 25.0,
+            child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(kPrimaryColor),
             ),
           );
         } else if (state is AuthSuccess) {
