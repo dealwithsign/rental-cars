@@ -1,11 +1,7 @@
 // presentation/pages/navigation_page.dart
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:heroicons_flutter/heroicons_flutter.dart';
-import 'package:hugeicons/hugeicons.dart';
 import 'package:iconsax/iconsax.dart';
 
 import '../../utils/fonts.dart';

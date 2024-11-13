@@ -1,9 +1,6 @@
 // presentation/pages/be_apartner.dart
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:line_icons/line_icons.dart';
 import 'package:rents_cars_app/presentation/widgets/button_widget.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -53,7 +50,7 @@ class _HowToBePartnerState extends State<HowToBePartner> {
       backgroundColor: kWhiteColor,
       surfaceTintColor: kWhiteColor,
       title: Text(
-        'Bergabung Menjadi Mitra',
+        'Cara Pemesanan Tiket',
         style: titleTextStyle.copyWith(
           fontSize: 20,
           fontWeight: FontWeight.bold,
@@ -99,20 +96,20 @@ class _HowToBePartnerState extends State<HowToBePartner> {
                         ),
                         SizedBox(height: defaultMargin),
                         _buildHowToRegisterAsPartner(
-                          'Daftar sebagai Mitra',
-                          'Daftarkan bisnis transportasimu sebagai mitra dengan mengisi formulir yang telah disediakan.',
+                          'Pilih rincian perjalanan',
+                          'Masukkan tempat keberangkatan, tujuan, tanggal perjalanan dan kemudian klik Cari',
                           Iconsax.document,
                         ),
                         SizedBox(height: defaultMargin),
                         _buildHowToRegisterAsPartner(
-                          'Mari Berdiskusi',
-                          'Tunggu email atau telepon dari kami, untuk berdiskusi lebih jauh mengenai detail bisnis.',
+                          'Pilih mobil dan masukkan data diri',
+                          'Pilih mobil dan isi rincian penumpang dan klik Pembayaran',
                           Iconsax.message,
                         ),
                         SizedBox(height: defaultMargin),
                         _buildHowToRegisterAsPartner(
-                          'Buat program kemitraan',
-                          'Finalisasi kesepakatan kemitraan, sehingga kami bisa mulai membuat programnya.',
+                          'Cara Pembayaran yang Mudah',
+                          'Pembayaran dapat dilakukan melalui transfer ATM, Internet banking, Alfamart, kartu Kredit/Debit, Mandiri Clickpay, Bca Clickpay dll',
                           Iconsax.clipboard,
                         ),
                       ],
@@ -327,7 +324,7 @@ class _HowToBePartnerState extends State<HowToBePartner> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Pertanyaan yang sering diajukan',
+          'Kelebihan Layanan Kami',
           style: titleTextStyle.copyWith(
             fontSize: 18,
             fontWeight: bold,
@@ -335,20 +332,20 @@ class _HowToBePartnerState extends State<HowToBePartner> {
         ),
         SizedBox(height: defaultMargin),
         _buildHowToRegisterAsPartner(
-          'Siapa saja yang dapat bergabung sebagai mitra?',
-          'Semua orang yang memiliki bisnis transportasi, baik perseorangan maupun perusahaan.',
+          'Biaya final ',
+          'Pesan tiket bis anda dengan harga terbaik dan tanpa biaya tambahan.',
           Iconsax.car,
         ),
         SizedBox(height: defaultMargin),
         _buildHowToRegisterAsPartner(
-          'Apa keuntungan bergabung sebagai mitra?',
-          'Dapatkan keuntungan lebih dengan bergabung sebagai mitra, seperti peningkatan jumlah pelanggan dan transaksi cepat dan mudah.',
+          'Pembayaran mudah dan aman',
+          'Bayar tiket online anda dengan cara yang aman dan nyaman',
           Iconsax.activity,
         ),
         SizedBox(height: defaultMargin),
         _buildHowToRegisterAsPartner(
-          'Bagaimana proses penarikan transaksi nantinya?',
-          'Kami akan mencairkan dana (payout) dan mengirimkan setidaknya tiga hari kerja ke rekeningmu setelah transaksi berhasil.',
+          'Titik penjemputan lebih praktis',
+          'Pilih titik penjemputan yang lebih dekat dengan lokasi dan tujuan anda',
           Iconsax.wallet,
         ),
       ],

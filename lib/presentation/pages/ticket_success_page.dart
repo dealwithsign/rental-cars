@@ -1,27 +1,20 @@
 // presentation/pages/ticket_success_page.dart
 import 'dart:convert';
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
-import 'package:line_icons/line_icons.dart';
-import 'package:pdf/pdf.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:http/http.dart' as http;
 
 import '../../blocs/tickets/tickets_bloc.dart';
 import '../../data/models/ticket_model.dart';
 import '../../data/services/ePayments_services.dart';
-import '../../data/services/invoice_services.dart';
 import '../../utils/fonts.dart';
 import '../widgets/button_widget.dart';
-import 'package:pdf/widgets.dart' as pw;
 
 class TicketDetailScreen extends StatefulWidget {
   final TicketModels ticket;
@@ -249,8 +242,8 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                   ),
                 ),
                 Container(
-                  width: 2,
-                  height: 80,
+                  width: 1,
+                  height: 130,
                   color: kBackgroundColor,
                 ),
                 CircleAvatar(
@@ -269,6 +262,14 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
+                    "Lokasi Jemput",
+                    style: subTitleTextStyle.copyWith(
+                      fontSize: 14,
+                      fontWeight: bold,
+                    ),
+                  ),
+                  SizedBox(height: defaultMargin / 2),
+                  Text(
                     widget.ticket.carFrom,
                     style: blackTextStyle.copyWith(
                       fontSize: 15,
@@ -283,6 +284,14 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                     ),
                   ),
                   SizedBox(height: defaultMargin * 3),
+                  Text(
+                    "Lokasi Tujuan",
+                    style: subTitleTextStyle.copyWith(
+                      fontSize: 14,
+                      fontWeight: bold,
+                    ),
+                  ),
+                  SizedBox(height: defaultMargin / 2),
                   Text(
                     widget.ticket.carTo,
                     style: blackTextStyle.copyWith(

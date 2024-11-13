@@ -1,6 +1,5 @@
 // presentation/pages/wrapper_auth_page.dart
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:rents_cars_app/presentation/pages/splash_page.dart';
 import 'package:rents_cars_app/utils/fonts.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';

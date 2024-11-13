@@ -1,16 +1,12 @@
 // presentation/pages/car_detail_page.dart
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:iconsax/iconsax.dart';
-
-import 'package:line_icons/line_icons.dart';
 
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -19,7 +15,6 @@ import '../../blocs/cars/cars_state.dart';
 import '../../data/models/cars_model.dart';
 import '../../utils/fonts.dart';
 import '../widgets/button_widget.dart';
-import '../widgets/confirmationbottomsheet_widget.dart';
 import 'car_form_page.dart';
 
 class CarDetailsScreen extends StatefulWidget {

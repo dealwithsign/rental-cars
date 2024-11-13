@@ -4,17 +4,12 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:another_flushbar/flushbar.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
-import 'package:line_icons/line_icons.dart';
 import 'package:rents_cars_app/blocs/auth/auth_event.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
@@ -28,7 +23,6 @@ import '../../blocs/bookings/booking_bloc.dart';
 import '../../blocs/bookings/booking_event.dart';
 import '../../data/models/cars_model.dart';
 import '../../data/models/users_model.dart';
-import '../../data/services/booking_services.dart';
 import '../../utils/fonts.dart';
 import '../widgets/button_widget.dart';
 import '../widgets/button_cancle_widget.dart';
@@ -587,7 +581,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
             SizedBox(width: defaultMargin),
             Expanded(
               child: Text(
-                'Sebelum melanjutkan ke pembayaran, pastikan semua data yang kamu masukkan sudah benar dan lengkap',
+                'Sebelum melanjutkan ke pembayaran, pastikan data pemesanan sudah benar',
                 style: buttonColor.copyWith(
                   fontSize: 14,
                   fontWeight: bold,

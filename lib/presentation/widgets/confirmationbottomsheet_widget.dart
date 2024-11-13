@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 
 import '../../utils/fonts.dart';
-import 'button_cancle_widget.dart';
 import 'button_widget.dart';
 
 class PickRentalTypeBottomSheet extends StatelessWidget {

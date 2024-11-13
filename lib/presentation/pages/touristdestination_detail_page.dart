@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:line_icons/line_icons.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../data/models/touristdestination_model.dart';

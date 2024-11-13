@@ -1,12 +1,6 @@
 // presentation/pages/update_password.dart
-import 'package:another_flushbar/flushbar.dart';
-import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:line_icons/line_icons.dart';
-import 'package:rents_cars_app/blocs/auth/auth_bloc.dart';
-import 'package:rents_cars_app/blocs/auth/auth_event.dart';
 import 'package:rents_cars_app/data/services/authentication_services.dart';
 import 'package:rents_cars_app/presentation/pages/wrapper_auth_page.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';

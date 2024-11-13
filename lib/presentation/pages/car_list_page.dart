@@ -1,11 +1,9 @@
 // presentation/pages/car_list_page.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:iconsax/iconsax.dart';
 
 import 'package:intl/intl.dart';
-import 'package:line_icons/line_icons.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../blocs/cars/cars_bloc.dart';
