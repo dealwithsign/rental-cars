@@ -1,10 +1,8 @@
 // data/services/ePayments_services.dart
-import 'package:flutter/material.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 import 'package:pdf/pdf.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter/services.dart' show rootBundle;
 import 'package:rents_cars_app/utils/fonts.dart';
 
 import '../models/ticket_model.dart';

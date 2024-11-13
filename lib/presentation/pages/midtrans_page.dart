@@ -1,7 +1,6 @@
 // presentation/pages/midtrans_page.dart
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:line_icons/line_icons.dart';
 
 import 'package:rents_cars_app/presentation/widgets/button_cancle_widget.dart';
 import 'package:rents_cars_app/presentation/widgets/button_widget.dart';

@@ -1,6 +1,5 @@
 // data/models/users_model.dart
 import 'package:equatable/equatable.dart';
-import 'package:equatable/equatable.dart';
 
 class UserModel extends Equatable {
   final String id;

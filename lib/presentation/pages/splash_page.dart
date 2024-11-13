@@ -1,5 +1,5 @@
 // presentation/pages/splash_page.dart
-import 'package:flutter/gestures.dart';import 'package:flutter/gestures.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:rents_cars_app/presentation/pages/sign_up_page.dart';
 import 'package:rents_cars_app/presentation/widgets/button_widget.dart';
@@ -167,8 +167,11 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 
-  Widget _buildPaddedText(String text,
-      {TextStyle? style, TextAlign? textAlign,}) {
+  Widget _buildPaddedText(
+    String text, {
+    TextStyle? style,
+    TextAlign? textAlign,
+  }) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: defaultMargin),
       child: Text(

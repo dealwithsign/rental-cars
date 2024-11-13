@@ -1,16 +1,12 @@
 // presentation/pages/car_form_page.dart
-import 'package:another_flushbar/flushbar.dart';
 
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:iconsax/iconsax.dart';
 
 import 'package:intl/intl.dart';
-
-import 'package:line_icons/line_icons.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -22,11 +18,9 @@ import '../../blocs/auth/auth_event.dart';
 import '../../data/models/bookings_model.dart';
 import '../../data/models/cars_model.dart';
 import '../../data/models/users_model.dart';
-import '../../data/services/authentication_services.dart';
 import '../../utils/fonts.dart';
 import '../widgets/button_widget.dart';
 import '../widgets/flushbar_widget.dart';
-import '../widgets/input_widget.dart';
 import 'car_book_page.dart';
 import 'drop_maps_page.dart';
 import 'pick_maps_page.dart';

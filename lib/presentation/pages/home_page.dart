@@ -758,7 +758,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Daftarkan mobilmu ke aplikasi kami dan raih \nlebih banyak pelanggan',
+                    'Cara pemesanan tiket mobil antar kota',
                     style: buttonColor.copyWith(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,

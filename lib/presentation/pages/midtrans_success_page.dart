@@ -2,7 +2,6 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rents_cars_app/presentation/pages/wrapper_auth_page.dart';
 
 import '../../utils/fonts.dart';

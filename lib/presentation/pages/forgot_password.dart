@@ -1,10 +1,8 @@
 // presentation/pages/forgot_password.dart
 import 'package:another_flushbar/flushbar.dart';
-import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:line_icons/line_icons.dart';
 import 'package:rents_cars_app/blocs/auth/auth_bloc.dart';
 import 'package:rents_cars_app/blocs/auth/auth_event.dart';
 import 'package:rents_cars_app/presentation/pages/verify_otp.dart';
@@ -12,9 +10,6 @@ import 'package:rents_cars_app/utils/fonts.dart';
 import 'package:rents_cars_app/presentation/widgets/button_widget.dart';
 import 'package:rents_cars_app/presentation/widgets/input_widget.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-
-import 'google_sign_phone_number.dart';
-import 'wrapper_auth_page.dart';
 
 class ForgotPassword extends StatefulWidget {
   const ForgotPassword({super.key});
