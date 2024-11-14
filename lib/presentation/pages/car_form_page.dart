@@ -30,6 +30,7 @@ class BookWithDriverPage extends StatefulWidget {
   final String carFrom;
   final String carTo;
   final DateTime carDate;
+
   final int availableSeats;
   const BookWithDriverPage({
     super.key,
@@ -50,6 +51,7 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
   String selectedPassengers = '1 Orang';
   String _selectedLocationPick = '';
   String _selectedLocationDrop = '';
+  String _departureTime = '';
   String specialRequest = '';
   BookingModels? bookingModels;
 
@@ -85,6 +87,7 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
         _selectedLocationDrop = prefs.getString('selectedLocationDrop') ?? '';
         specialRequest = prefs.getString('specialRequest') ?? '';
         _phoneController.text = prefs.getString('phone') ?? '';
+        _departureTime = prefs.getString('departureTime') ?? '';
       },
     );
   }
@@ -98,6 +101,7 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
     prefs.setString('selectedLocationDrop', _selectedLocationDrop);
     prefs.setString('phone', _phoneController.text);
     prefs.setString('specialRequest', _specialRequestController.text);
+    prefs.setString('departureTime', _departureTime);
   }
 
   bool isLoading = true;
@@ -323,33 +327,6 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          children: [
-                            Text(
-                              DateFormat('EEEE, d MMMM yyyy', 'id_ID')
-                                  .format(widget.car.carDate),
-                              style: blackTextStyle.copyWith(
-                                fontSize: 14,
-                                fontWeight: bold,
-                              ),
-                            ),
-                            SizedBox(width: defaultMargin / 2),
-                            Icon(
-                              Icons.circle,
-                              color: descGrey,
-                              size: 5,
-                            ),
-                            SizedBox(width: defaultMargin / 2),
-                            Text(
-                              widget.car.carTimeDateFrom,
-                              style: blackTextStyle.copyWith(
-                                fontSize: 14,
-                                fontWeight: bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: defaultMargin),
                         Text(
                           widget.car.carName,
                           style: blackTextStyle.copyWith(
@@ -357,14 +334,9 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                             fontWeight: bold,
                           ),
                         ),
+                        SizedBox(height: defaultMargin / 2),
                         Text(
                           "Disediakan oleh ${widget.car.ownerCar}",
-                          style: subTitleTextStyle.copyWith(
-                            fontSize: 14,
-                          ),
-                        ),
-                        Text(
-                          widget.car.carClass,
                           style: subTitleTextStyle.copyWith(
                             fontSize: 14,
                           ),
@@ -375,40 +347,134 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                 ),
                 SizedBox(height: defaultMargin),
                 Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    Column(
+                      children: [
+                        // Start point icon
+                        Icon(
+                          Iconsax.location_tick,
+                          color: kGreyColor,
+                          size: 18,
+                        ),
+                        // Timeline line
+                        Container(
+                          width: 1,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            color: kDivider,
+                          ),
+                        ),
+                        // End point icon
+                        Icon(
+                          Iconsax.location,
+                          color: kGreyColor,
+                          size: 18,
+                        ),
+                      ],
+                    ),
+                    SizedBox(width: defaultMargin),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Kota Asal",
+                                style: subTitleTextStyle.copyWith(
+                                  fontSize: 14,
+                                ),
+                              ),
+                              SizedBox(height: defaultMargin / 2),
+                              Text(
+                                widget.carFrom,
+                                style: blackTextStyle.copyWith(
+                                  fontSize: 14,
+                                  fontWeight: bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 25),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Kota Tujuan",
+                                style: subTitleTextStyle.copyWith(
+                                  fontSize: 14,
+                                ),
+                              ),
+                              SizedBox(height: defaultMargin / 2),
+                              Text(
+                                widget.carTo,
+                                style: blackTextStyle.copyWith(
+                                  fontSize: 14,
+                                  fontWeight: bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: defaultMargin),
+                Row(
+                  children: [
+                    Icon(
+                      Iconsax.calendar,
+                      size: 18,
+                      color: kGreyColor,
+                    ),
+                    SizedBox(width: defaultMargin),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Kota Asal",
+                          "Tanggal Berangkat",
                           style: subTitleTextStyle.copyWith(
                             fontSize: 14,
                           ),
                         ),
+                        SizedBox(height: defaultMargin / 2),
                         Text(
-                          widget.carFrom,
+                          DateFormat('EEEE, d MMMM yyyy', 'id_ID')
+                              .format(widget.carDate),
                           style: blackTextStyle.copyWith(
-                            fontSize: 15,
+                            fontSize: 14,
                             fontWeight: bold,
                           ),
                         ),
                       ],
                     ),
+                  ],
+                ),
+                SizedBox(height: defaultMargin),
+                Row(
+                  children: [
+                    Icon(
+                      Iconsax.clock,
+                      size: 18,
+                      color: kGreyColor,
+                    ),
+                    SizedBox(width: defaultMargin),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Kota Tujuan",
+                          "Jam Berangkat",
                           style: subTitleTextStyle.copyWith(
                             fontSize: 14,
                           ),
                         ),
+                        SizedBox(height: defaultMargin / 2),
                         Text(
-                          widget.carTo,
+                          widget.car.departureTime,
                           style: blackTextStyle.copyWith(
-                            fontSize: 15,
+                            fontSize: 14,
                             fontWeight: bold,
                           ),
                         ),
@@ -447,104 +513,104 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
             ),
           ),
           SizedBox(height: defaultMargin),
-          GestureDetector(
-            onTap: () {
-              showModalBottomSheet(
-                backgroundColor: kWhiteColor,
-                context: context,
-                builder: (BuildContext context) {
-                  return Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(defaultRadius),
-                        topRight: Radius.circular(defaultRadius),
-                      ),
-                    ),
-                    child: SizedBox(
-                      height: 180, // Adjust the height as needed
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          ListTile(
-                            title: Text(
-                              'Pagi',
-                              style: blackTextStyle.copyWith(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            onTap: () {
-                              setState(() {
-                                selectedTime = 'Pagi';
-                              });
-                              Navigator.pop(context, 'Pagi');
-                            },
-                          ),
-                          ListTile(
-                            title: Text(
-                              'Sore',
-                              style: blackTextStyle.copyWith(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            onTap: () {
-                              setState(() {
-                                selectedTime = 'Sore';
-                              });
-                              Navigator.pop(context, 'Sore');
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              ).then((value) {
-                if (value != null) {
-                  setState(() {
-                    selectedTime = value;
-                  });
-                }
-              });
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                color: kWhiteColor,
-                borderRadius: BorderRadius.circular(defaultRadius),
-                border: Border.all(
-                  color: kDivider,
-                ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    SizedBox(width: defaultMargin),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Pilih Waktu",
-                          style: subTitleTextStyle.copyWith(fontSize: 14),
-                        ),
-                        SizedBox(height: defaultMargin / 2),
-                        Text(
-                          selectedTime,
-                          style: blackTextStyle.copyWith(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        )
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          SizedBox(height: defaultMargin),
+          // GestureDetector(
+          //   onTap: () {
+          //     showModalBottomSheet(
+          //       backgroundColor: kWhiteColor,
+          //       context: context,
+          //       builder: (BuildContext context) {
+          //         return Container(
+          //           decoration: BoxDecoration(
+          //             color: Colors.white,
+          //             borderRadius: BorderRadius.only(
+          //               topLeft: Radius.circular(defaultRadius),
+          //               topRight: Radius.circular(defaultRadius),
+          //             ),
+          //           ),
+          //           child: SizedBox(
+          //             height: 180, // Adjust the height as needed
+          //             child: Column(
+          //               mainAxisSize: MainAxisSize.min,
+          //               children: <Widget>[
+          //                 ListTile(
+          //                   title: Text(
+          //                     'Pagi',
+          //                     style: blackTextStyle.copyWith(
+          //                       fontSize: 14,
+          //                       fontWeight: FontWeight.bold,
+          //                     ),
+          //                   ),
+          //                   onTap: () {
+          //                     setState(() {
+          //                       selectedTime = 'Pagi';
+          //                     });
+          //                     Navigator.pop(context, 'Pagi');
+          //                   },
+          //                 ),
+          //                 ListTile(
+          //                   title: Text(
+          //                     'Sore',
+          //                     style: blackTextStyle.copyWith(
+          //                       fontSize: 14,
+          //                       fontWeight: FontWeight.bold,
+          //                     ),
+          //                   ),
+          //                   onTap: () {
+          //                     setState(() {
+          //                       selectedTime = 'Sore';
+          //                     });
+          //                     Navigator.pop(context, 'Sore');
+          //                   },
+          //                 ),
+          //               ],
+          //             ),
+          //           ),
+          //         );
+          //       },
+          //     ).then((value) {
+          //       if (value != null) {
+          //         setState(() {
+          //           selectedTime = value;
+          //         });
+          //       }
+          //     });
+          //   },
+          //   child: Container(
+          //     decoration: BoxDecoration(
+          //       color: kWhiteColor,
+          //       borderRadius: BorderRadius.circular(defaultRadius),
+          //       border: Border.all(
+          //         color: kDivider,
+          //       ),
+          //     ),
+          //     child: Padding(
+          //       padding: const EdgeInsets.all(8.0),
+          //       child: Row(
+          //         children: [
+          //           SizedBox(width: defaultMargin),
+          //           Column(
+          //             crossAxisAlignment: CrossAxisAlignment.start,
+          //             children: [
+          //               Text(
+          //                 "Pilih Waktu",
+          //                 style: subTitleTextStyle.copyWith(fontSize: 14),
+          //               ),
+          //               SizedBox(height: defaultMargin / 2),
+          //               Text(
+          //                 selectedTime,
+          //                 style: blackTextStyle.copyWith(
+          //                   fontSize: 14,
+          //                   fontWeight: FontWeight.bold,
+          //                 ),
+          //               )
+          //             ],
+          //           ),
+          //         ],
+          //       ),
+          //     ),
+          //   ),
+          // ),
+          // SizedBox(height: defaultMargin),
           GestureDetector(
             onTap: () {
               int availableSeats =
@@ -820,6 +886,18 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                 "Silakan lengkapi informasi perjalanan sebelum melanjutkan",
               );
             } else {
+              // Print saved data before saving
+              SharedPreferences.getInstance().then((prefs) {
+                print('Selected Date: ${selectedDate.toString()}');
+                print('Selected Time: $selectedTime');
+                print('Selected Passengers: $selectedPassengers');
+                print('Selected Location Pick: $_selectedLocationPick');
+                print('Selected Location Drop: $_selectedLocationDrop');
+
+                print('Special Request: ${_specialRequestController.text}');
+                print('Departure Time: $_departureTime');
+              });
+
               saveData();
               var uuid = const Uuid();
               String orderId = uuid.v1().replaceAll('-', '').substring(0, 8);
@@ -838,11 +916,11 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                     selectedPassengers: int.parse(RegExp(r'\d+')
                             .firstMatch(selectedPassengers)
                             ?.group(0) ??
-                        '1'), // Extracts digits and falls back to '1' if none found
+                        '1'),
                     selectedLocationPick: _selectedLocationPick,
                     selectedLocationDrop: _selectedLocationDrop,
-                    specialRequest: _specialRequestController
-                        .text, // Use the controller's text value
+                    specialRequest: _specialRequestController.text,
+                    departureTime: _departureTime,
                   ),
                 ),
               );

@@ -30,7 +30,7 @@ class CarsServices {
       final resCars = await supabase
           .from('cars')
           .select(
-              'id, car_logo,car_name,car_class,car_time_date_from,car_from,car_to,available_seats,car_desc,car_price,car_date,seats,owner_car,latitude,longitude,include_driver,facility1,facility2,facility3,facility4,facility5,include_key, tickets!left(selected_passengers, created_at,car_date)')
+              'id, car_image,car_name,car_class,day_part,departure_time,car_time_date_from,car_from,car_to,available_seats,car_desc,car_price,car_date,seats,owner_car,latitude,longitude,include_driver,facility1,facility2,facility3,facility4,facility5,include_key, tickets!left(selected_passengers, created_at,car_date)')
           .eq('car_from', carFrom)
           .eq('car_to', carTo)
           .gte('car_date', startOfDayStr)

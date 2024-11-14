@@ -28,6 +28,7 @@ class CarsModels extends Equatable {
   final int remainingSeats;
   final int selectedSeats; // added selectedSeats
   final String departureTime;
+  final String dayPart;
 
   const CarsModels({
     required this.id,
@@ -56,12 +57,13 @@ class CarsModels extends Equatable {
     required this.remainingSeats,
     this.selectedSeats = 0, // default value for selectedSeats
     this.departureTime = "",
+    this.dayPart = "",
   });
 
   factory CarsModels.fromJson(Map<String, dynamic> json) {
     return CarsModels(
       id: json['id'] ?? '', // Provide a default value if null
-      carLogo: json['car_logo'] ?? '', // Provide a default value if null
+      carLogo: json['car_image'] ?? '', // Provide a default value if null
       carName: json['car_name'] ?? '', // Provide a default value if null
       carClass: json['car_class'] ?? '', // Provide a default value if null
       carTimeDateFrom:
@@ -96,13 +98,14 @@ class CarsModels extends Equatable {
           json['selected_seats'] ?? 0, // Provide a default value if null
       departureTime:
           json['departure_time'] ?? '', // Provide a default value if null
+      dayPart: json['dayPart'] ?? '', // Provide a default value if null
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
       "id": id,
-      "car_logo": carLogo,
+      "car_image": carLogo,
       "car_name": carName,
       "car_class": carClass,
       "car_time_date_from": carTimeDateFrom,
@@ -127,6 +130,7 @@ class CarsModels extends Equatable {
       "remaining_seats": remainingSeats,
       "selected_seats": selectedSeats, // add selectedSeats to json
       "departure_time": departureTime,
+      "day_part": dayPart,
     };
   }
 
@@ -158,5 +162,6 @@ class CarsModels extends Equatable {
         remainingSeats,
         selectedSeats, // add selectedSeats to props
         departureTime,
+        dayPart,
       ];
 }

@@ -212,6 +212,7 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
               _buildFacilityRow(fetchedCar.facility2),
               _buildFacilityRow(fetchedCar.facility3),
               _buildFacilityRow(fetchedCar.facility4),
+              _buildFacilityRow(fetchedCar.facility5),
             ],
           ),
         ),
@@ -301,20 +302,6 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
       ),
       child: Row(
         children: [
-          Container(
-            decoration: BoxDecoration(
-              color: kBackgroundColor,
-              shape: BoxShape.circle,
-            ),
-            padding:
-                EdgeInsets.all(defaultMargin / 3), // Adjust padding as needed
-            child: Icon(
-              Iconsax.task_square,
-              color: kPrimaryColor,
-              size: 20,
-            ),
-          ),
-          SizedBox(width: defaultMargin),
           Expanded(
             child: Text(
               facility,
@@ -348,8 +335,8 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
                   carFrom: widget.carFrom,
                   carTo: widget.carTo,
                   carDate: widget.carDate,
-                  availableSeats: widget.car.availableSeats -
-                      widget.car.selectedSeats, // Pass the calculated value
+                  availableSeats:
+                      widget.car.availableSeats - widget.car.selectedSeats,
                 ),
               ),
             );

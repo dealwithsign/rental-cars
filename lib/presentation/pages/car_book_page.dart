@@ -33,12 +33,12 @@ class DetailBookingPage extends StatefulWidget {
   final CarsModels carModel;
   final DateTime selectedDate;
   final String selectedTime;
+  final String departureTime;
   final int selectedPassengers;
   final String selectedLocationPick;
   final String selectedLocationDrop; // Add this line
   final String id;
   final String specialRequest;
-
   final String carFrom;
   final String carTo;
   final DateTime carDate;
@@ -50,7 +50,7 @@ class DetailBookingPage extends StatefulWidget {
     required this.selectedPassengers,
     required this.selectedLocationPick,
     required this.selectedLocationDrop, // Add this line
-
+    required this.departureTime,
     required this.carModel,
     required this.carFrom,
     required this.carTo,
@@ -66,6 +66,7 @@ class DetailBookingPage extends StatefulWidget {
 class _DetailBookingPageState extends State<DetailBookingPage> {
   late String selectedDate;
   late String selectedTime;
+  late String departureTime;
   late String selectedPassengers;
   late String selectedLocationPick;
   late String selectedLocationDrop;
@@ -81,6 +82,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
     orderId = widget.id;
     selectedDate = DateFormat('dd MMMM yyyy').format(widget.selectedDate);
     selectedTime = widget.selectedTime;
+    departureTime = widget.departureTime;
     selectedPassengers = '${widget.selectedPassengers} Orang';
     selectedLocationPick = widget.selectedLocationPick;
     selectedLocationDrop = widget.selectedLocationDrop;
@@ -150,6 +152,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
                             prefs.remove('selectedDate');
                             prefs.remove('orderId');
                             prefs.remove('specialRequest');
+                            prefs.remove('departureTime');
                             Navigator.of(context)
                                 .pop(); // Close the bottom sheet
                             Navigator.of(context)
@@ -493,7 +496,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
               carId: carId,
               totalPayment: totalPayment,
               specialRequest: specialRequest,
-              departureTime: widget.carModel.carTimeDateFrom,
+              departureTime: widget.carModel.departureTime,
               userEmail: userEmail,
               userPhoneNumber: userPhone,
             ),
@@ -581,7 +584,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
             SizedBox(width: defaultMargin),
             Expanded(
               child: Text(
-                'Sebelum melanjutkan ke pembayaran, pastikan data pemesanan sudah benar',
+                'Sebelum melanjutkan ke pembayaran, pastikan data \npemesanan sudah benar',
                 style: buttonColor.copyWith(
                   fontSize: 14,
                   fontWeight: bold,
@@ -723,60 +726,9 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
                 .antiAlias, // This clips the child within the decoration's border
             child: Image.network(
               widget.carModel.carLogo,
-              height: MediaQuery.of(context).size.height * 0.13,
+              height: MediaQuery.of(context).size.height * 0.3,
               fit: BoxFit.cover,
             ),
-          ),
-        ),
-        SizedBox(width: defaultMargin),
-        Expanded(
-          // Optionally wrap the Column in an Expanded widget if necessary
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                '${widget.carFrom} - ${widget.carTo}',
-                style: blackTextStyle.copyWith(
-                  fontSize: 16,
-                  fontWeight: bold,
-                ),
-              ),
-              Text(
-                DateFormat('EEEE, d MMMM yyyy', 'id_ID').format(widget.carDate),
-                style: blackTextStyle.copyWith(
-                  fontSize: 14,
-                  fontWeight: bold,
-                ),
-              ),
-              SizedBox(width: defaultMargin / 2),
-              Text(
-                'Jam ${widget.carModel.carTimeDateFrom}',
-                style: blackTextStyle.copyWith(
-                  fontSize: 14,
-                  fontWeight: bold,
-                ),
-              ),
-              SizedBox(height: defaultMargin),
-              Text(
-                widget.carModel.carName,
-                style: blackTextStyle.copyWith(
-                  fontSize: 14,
-                ),
-              ),
-              Text(
-                widget.carModel.carClass,
-                style: blackTextStyle.copyWith(
-                  fontSize: 14,
-                ),
-              ),
-              SizedBox(height: defaultMargin),
-              Text(
-                "Disediakan oleh ${widget.carModel.ownerCar}",
-                style: subTitleTextStyle.copyWith(
-                  fontSize: 14,
-                ),
-              ),
-            ],
           ),
         ),
       ],
@@ -806,34 +758,137 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
             ],
           ),
           SizedBox(height: defaultMargin),
-          _buildDetailItem('Waktu', selectedTime),
-          _buildDetailItem('Jumlah Penumpang', selectedPassengers),
+          Row(
+            children: [
+              Text(
+                '${widget.carFrom} - ${widget.carTo}',
+                style: blackTextStyle.copyWith(
+                  fontSize: 16,
+                  fontWeight: bold,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: defaultMargin / 2),
+          Text(
+            "Dioperasikan oleh ${widget.carModel.ownerCar}",
+            style: subTitleTextStyle.copyWith(
+              fontSize: 14,
+            ),
+          ),
+          SizedBox(height: defaultMargin),
+          Row(
+            children: [
+              Icon(
+                Iconsax.calendar,
+                size: 18,
+                color: kGreyColor,
+              ),
+              SizedBox(width: defaultMargin),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Tanggal Berangkat",
+                    style: subTitleTextStyle.copyWith(
+                      fontSize: 14,
+                    ),
+                  ),
+                  SizedBox(height: defaultMargin / 2),
+                  Text(
+                    DateFormat('EEEE, d MMMM yyyy', 'id_ID')
+                        .format(widget.carModel.carDate),
+                    style: blackTextStyle.copyWith(
+                      fontSize: 14,
+                      fontWeight: bold,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          SizedBox(height: defaultMargin),
+          Row(
+            children: [
+              Icon(
+                Iconsax.clock,
+                size: 18,
+                color: kGreyColor,
+              ),
+              SizedBox(width: defaultMargin),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Jam Berangkat",
+                    style: subTitleTextStyle.copyWith(
+                      fontSize: 14,
+                    ),
+                  ),
+                  SizedBox(height: defaultMargin / 2),
+                  Text(
+                    widget.carModel.departureTime,
+                    style: blackTextStyle.copyWith(
+                      fontSize: 14,
+                      fontWeight: bold,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          SizedBox(height: defaultMargin),
+          Row(
+            children: [
+              Icon(
+                Iconsax.user,
+                size: 18,
+                color: kGreyColor,
+              ),
+              SizedBox(width: defaultMargin),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Jam Penumpang",
+                    style: subTitleTextStyle.copyWith(
+                      fontSize: 14,
+                    ),
+                  ),
+                  SizedBox(height: defaultMargin / 2),
+                  Text(
+                    ' ${widget.selectedPassengers} orang',
+                    style: blackTextStyle.copyWith(
+                      fontSize: 14,
+                      fontWeight: bold,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
           SizedBox(height: defaultMargin),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Column(
                 children: [
-                  CircleAvatar(
-                    backgroundColor: kBackgroundColor,
-                    child: Icon(
-                      Iconsax.location_tick,
-                      color: kPrimaryColor,
-                      size: 20,
-                    ),
+                  Icon(
+                    Iconsax.location_tick,
+                    color: kGreyColor,
+                    size: 18,
                   ),
                   Container(
-                    width: 2,
-                    height: 80,
-                    color: kBackgroundColor,
-                  ),
-                  CircleAvatar(
-                    backgroundColor: kBackgroundColor,
-                    child: Icon(
-                      Iconsax.location,
-                      color: kPrimaryColor,
-                      size: 20,
+                    width: 1,
+                    height: 100,
+                    decoration: BoxDecoration(
+                      color: kDivider,
                     ),
+                  ),
+                  Icon(
+                    Iconsax.location,
+                    color: kGreyColor,
+                    size: 18,
                   ),
                 ],
               ),

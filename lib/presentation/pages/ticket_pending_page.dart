@@ -230,81 +230,126 @@ class _TicketPendingPageState extends State<TicketPendingPage> {
             fontWeight: bold,
           ),
         ),
-        SizedBox(height: defaultMargin),
+        SizedBox(height: defaultMargin / 2),
         Text(
           "Dioperasikan oleh ${widget.ticket.ownerCar}",
           style: blackTextStyle.copyWith(
             fontSize: 15,
           ),
         ),
+        SizedBox(height: defaultMargin),
         Row(
           children: [
-            Text(
-              formatIndonesianDate(widget.ticket.carDate),
-              style: blackTextStyle.copyWith(
-                fontSize: 15,
-              ),
-            ),
-            SizedBox(width: defaultMargin / 2),
             Icon(
-              Icons.circle,
-              color: descGrey,
-              size: 5,
+              Iconsax.calendar,
+              size: 18,
+              color: kGreyColor,
             ),
-            SizedBox(width: defaultMargin / 2),
-            Text(
-              widget.ticket.selectedTime,
-              style: blackTextStyle.copyWith(
-                fontSize: 15,
-              ),
-            ),
-            SizedBox(width: defaultMargin / 2),
-            Icon(
-              Icons.circle,
-              color: descGrey,
-              size: 5,
-            ),
-            SizedBox(width: defaultMargin / 2),
-            Text(
-              widget.ticket.departureTime,
-              style: blackTextStyle.copyWith(
-                fontSize: 15,
-              ),
+            SizedBox(width: defaultMargin),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Tanggal Berangkat",
+                  style: subTitleTextStyle.copyWith(
+                    fontSize: 14,
+                  ),
+                ),
+                SizedBox(height: defaultMargin / 2),
+                Text(
+                  DateFormat('EEEE, d MMMM yyyy', 'id_ID')
+                      .format(widget.ticket.carDate),
+                  style: blackTextStyle.copyWith(
+                    fontSize: 14,
+                    fontWeight: bold,
+                  ),
+                ),
+              ],
             ),
           ],
         ),
-        Text(
-          "${widget.ticket.selectedPassengers.toString()} penumpang",
-          style: blackTextStyle.copyWith(
-            fontSize: 15,
-          ),
+        SizedBox(height: defaultMargin),
+        Row(
+          children: [
+            Icon(
+              Iconsax.clock,
+              size: 18,
+              color: kGreyColor,
+            ),
+            SizedBox(width: defaultMargin),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Jam Berangkat",
+                  style: subTitleTextStyle.copyWith(
+                    fontSize: 14,
+                  ),
+                ),
+                SizedBox(height: defaultMargin / 2),
+                Text(
+                  widget.ticket.departureTime,
+                  style: blackTextStyle.copyWith(
+                    fontSize: 14,
+                    fontWeight: bold,
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
-        SizedBox(height: defaultMargin * 2),
+        SizedBox(height: defaultMargin),
+        Row(
+          children: [
+            Icon(
+              Iconsax.user,
+              size: 18,
+              color: kGreyColor,
+            ),
+            SizedBox(width: defaultMargin),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Jam Penumpang",
+                  style: subTitleTextStyle.copyWith(
+                    fontSize: 14,
+                  ),
+                ),
+                SizedBox(height: defaultMargin / 2),
+                Text(
+                  "${widget.ticket.selectedPassengers} orang",
+                  style: blackTextStyle.copyWith(
+                    fontSize: 14,
+                    fontWeight: bold,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+        SizedBox(height: defaultMargin),
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Column(
               children: [
-                CircleAvatar(
-                  backgroundColor: kBackgroundColor,
-                  child: Icon(
-                    Iconsax.location_tick,
-                    color: kPrimaryColor,
-                    size: 20,
-                  ),
+                Icon(
+                  Iconsax.location_tick,
+                  color: kGreyColor,
+                  size: 18,
                 ),
                 Container(
                   width: 1,
-                  height: 130,
-                  color: kBackgroundColor,
-                ),
-                CircleAvatar(
-                  backgroundColor: kBackgroundColor,
-                  child: Icon(
-                    Iconsax.location,
-                    color: kPrimaryColor,
-                    size: 20,
+                  height: 100,
+                  decoration: BoxDecoration(
+                    color: kDivider,
                   ),
+                ),
+                Icon(
+                  Iconsax.location,
+                  color: kGreyColor,
+                  size: 18,
                 ),
               ],
             ),
@@ -314,18 +359,17 @@ class _TicketPendingPageState extends State<TicketPendingPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Lokasi Jemput",
+                    'Kota Asal',
                     style: subTitleTextStyle.copyWith(
                       fontSize: 14,
-                      fontWeight: bold,
                     ),
                   ),
                   SizedBox(height: defaultMargin / 2),
                   Text(
-                    widget.ticket.carFrom,
+                    lokasiJemput,
                     style: blackTextStyle.copyWith(
-                      fontSize: 15,
-                      fontWeight: bold,
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                   const SizedBox(height: 5),
@@ -335,20 +379,19 @@ class _TicketPendingPageState extends State<TicketPendingPage> {
                       fontSize: 14,
                     ),
                   ),
-                  SizedBox(height: defaultMargin * 3),
+                  SizedBox(height: defaultMargin * 2),
                   Text(
-                    "Lokasi Tujuan",
+                    'Kota Tujuan',
                     style: subTitleTextStyle.copyWith(
                       fontSize: 14,
-                      fontWeight: bold,
                     ),
                   ),
                   SizedBox(height: defaultMargin / 2),
                   Text(
-                    widget.ticket.carTo,
+                    lokasiTujuan,
                     style: blackTextStyle.copyWith(
-                      fontSize: 15,
-                      fontWeight: bold,
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                   const SizedBox(height: 5),
@@ -363,22 +406,33 @@ class _TicketPendingPageState extends State<TicketPendingPage> {
             ),
           ],
         ),
-        SizedBox(height: defaultMargin * 2),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        SizedBox(height: defaultMargin),
+        Row(
           children: [
-            Text(
-              "Permintaan Khusus",
-              style: titleTextStyle.copyWith(
-                fontSize: 14,
-                fontWeight: bold,
-              ),
+            Icon(
+              Iconsax.note,
+              size: 18,
+              color: kGreyColor,
             ),
-            const SizedBox(height: 5),
-            Text(
-              widget.ticket.specialRequest,
-              style: blackTextStyle.copyWith(
-                fontSize: 14,
+            SizedBox(width: defaultMargin),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Permintaan Khusus",
+                    style: subTitleTextStyle.copyWith(
+                      fontSize: 14,
+                    ),
+                  ),
+                  SizedBox(height: defaultMargin / 2),
+                  Text(
+                    widget.ticket.specialRequest,
+                    style: blackTextStyle.copyWith(
+                      fontSize: 14,
+                    ),
+                  ),
+                ],
               ),
             ),
           ],

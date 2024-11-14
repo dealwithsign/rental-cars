@@ -143,6 +143,7 @@ class BookingServices {
         'departure_time': departureTime,
         'user_phone': userPhoneNumber,
         'user_email': userEmail,
+
         'special_request': specialRequest.isEmpty
             ? 'Tidak ada permintaan khusus'
             : specialRequest,
