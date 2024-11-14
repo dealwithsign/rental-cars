@@ -199,7 +199,7 @@ class _ListCarPageState extends State<ListCarPage> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    const SizedBox(height: 5),
+                                    SizedBox(height: defaultMargin / 2),
                                     Text(
                                       car.carName,
                                       style: titleTextStyle.copyWith(
@@ -207,11 +207,23 @@ class _ListCarPageState extends State<ListCarPage> {
                                         fontWeight: bold,
                                       ),
                                     ),
-                                    Text(
-                                      'Dioperasikan oleh ${car.ownerCar}',
-                                      style: subTitleTextStyle.copyWith(
-                                        fontSize: 14,
-                                      ),
+                                    SizedBox(height: defaultMargin / 2),
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          Iconsax.clock,
+                                          size: 18,
+                                          color: kGreyColor,
+                                        ),
+                                        SizedBox(width: defaultMargin),
+                                        Text(
+                                          car.departureTime,
+                                          style: titleTextStyle.copyWith(
+                                            fontSize: 14,
+                                            fontWeight: bold,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                     SizedBox(height: defaultMargin),
                                     Text(

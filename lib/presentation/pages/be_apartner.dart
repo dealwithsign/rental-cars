@@ -228,30 +228,30 @@ class _HowToBePartnerState extends State<HowToBePartner> {
                     ),
                   ),
                 ),
-                SizedBox(height: defaultMargin * 2),
-                Container(
-                  padding: EdgeInsets.symmetric(vertical: defaultMargin),
-                  decoration: BoxDecoration(
-                    color: kWhiteColor,
-                    border: Border(
-                      top: BorderSide(color: kBackgroundColor, width: 2.5),
-                    ),
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-                    child: CustomButton(
-                      title: "Daftar Jadi Mitra",
-                      onPressed: () async {
-                        const url = 'https://forms.gle/vbhUEs6pdgSs2ntK6';
-                        if (await canLaunch(url)) {
-                          await launch(url);
-                        } else {
-                          throw 'Could not launch $url';
-                        }
-                      },
-                    ),
-                  ),
-                ),
+                // SizedBox(height: defaultMargin * 2),
+                // Container(
+                //   padding: EdgeInsets.symmetric(vertical: defaultMargin),
+                //   decoration: BoxDecoration(
+                //     color: kWhiteColor,
+                //     border: Border(
+                //       top: BorderSide(color: kBackgroundColor, width: 2.5),
+                //     ),
+                //   ),
+                //   child: Padding(
+                //     padding: EdgeInsets.symmetric(horizontal: defaultMargin),
+                //     child: CustomButton(
+                //       title: "Daftar Jadi Mitra",
+                //       onPressed: () async {
+                //         const url = 'https://forms.gle/vbhUEs6pdgSs2ntK6';
+                //         if (await canLaunch(url)) {
+                //           await launch(url);
+                //         } else {
+                //           throw 'Could not launch $url';
+                //         }
+                //       },
+                //     ),
+                //   ),
+                // ),
               ],
             ),
           ),

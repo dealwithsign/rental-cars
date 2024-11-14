@@ -33,12 +33,12 @@ class DetailBookingPage extends StatefulWidget {
   final CarsModels carModel;
   final DateTime selectedDate;
   final String selectedTime;
+  final String departureTime;
   final int selectedPassengers;
   final String selectedLocationPick;
   final String selectedLocationDrop; // Add this line
   final String id;
   final String specialRequest;
-
   final String carFrom;
   final String carTo;
   final DateTime carDate;
@@ -50,7 +50,7 @@ class DetailBookingPage extends StatefulWidget {
     required this.selectedPassengers,
     required this.selectedLocationPick,
     required this.selectedLocationDrop, // Add this line
-
+    required this.departureTime,
     required this.carModel,
     required this.carFrom,
     required this.carTo,
@@ -66,6 +66,7 @@ class DetailBookingPage extends StatefulWidget {
 class _DetailBookingPageState extends State<DetailBookingPage> {
   late String selectedDate;
   late String selectedTime;
+  late String departureTime;
   late String selectedPassengers;
   late String selectedLocationPick;
   late String selectedLocationDrop;
@@ -81,6 +82,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
     orderId = widget.id;
     selectedDate = DateFormat('dd MMMM yyyy').format(widget.selectedDate);
     selectedTime = widget.selectedTime;
+    departureTime = widget.departureTime;
     selectedPassengers = '${widget.selectedPassengers} Orang';
     selectedLocationPick = widget.selectedLocationPick;
     selectedLocationDrop = widget.selectedLocationDrop;
@@ -150,6 +152,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
                             prefs.remove('selectedDate');
                             prefs.remove('orderId');
                             prefs.remove('specialRequest');
+                            prefs.remove('departureTime');
                             Navigator.of(context)
                                 .pop(); // Close the bottom sheet
                             Navigator.of(context)
@@ -802,6 +805,83 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
+              ),
+            ],
+          ),
+          SizedBox(height: defaultMargin),
+          Row(
+            children: [
+              Text(
+                '${widget.carFrom} - ${widget.carTo}',
+                style: blackTextStyle.copyWith(
+                  fontSize: 16,
+                  fontWeight: bold,
+                ),
+              ),
+            ],
+          ),
+          Text(
+            "Dioperasikan oleh ${widget.carModel.ownerCar}",
+            style: subTitleTextStyle.copyWith(
+              fontSize: 14,
+            ),
+          ),
+          SizedBox(height: defaultMargin),
+          Row(
+            children: [
+              Icon(
+                Iconsax.calendar,
+                size: 18,
+                color: kGreyColor,
+              ),
+              SizedBox(width: defaultMargin),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Tanggal Berangkat",
+                    style: subTitleTextStyle.copyWith(
+                      fontSize: 14,
+                    ),
+                  ),
+                  Text(
+                    DateFormat('EEEE, d MMMM yyyy', 'id_ID')
+                        .format(widget.carDate),
+                    style: blackTextStyle.copyWith(
+                      fontSize: 14,
+                      fontWeight: bold,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          SizedBox(height: defaultMargin),
+          Row(
+            children: [
+              Icon(
+                Iconsax.clock,
+                size: 18,
+                color: kGreyColor,
+              ),
+              SizedBox(width: defaultMargin),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Jam Berangkat",
+                    style: subTitleTextStyle.copyWith(
+                      fontSize: 14,
+                    ),
+                  ),
+                  Text(
+                    departureTime,
+                    style: blackTextStyle.copyWith(
+                      fontSize: 14,
+                      fontWeight: bold,
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
