@@ -30,6 +30,7 @@ class BookWithDriverPage extends StatefulWidget {
   final String carFrom;
   final String carTo;
   final DateTime carDate;
+
   final int availableSeats;
   const BookWithDriverPage({
     super.key,
@@ -333,6 +334,7 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                             fontWeight: bold,
                           ),
                         ),
+                        SizedBox(height: defaultMargin / 2),
                         Text(
                           "Disediakan oleh ${widget.car.ownerCar}",
                           style: subTitleTextStyle.copyWith(
@@ -350,21 +352,21 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                       children: [
                         // Start point icon
                         Icon(
-                          Iconsax.location,
+                          Iconsax.location_tick,
                           color: kGreyColor,
                           size: 18,
                         ),
                         // Timeline line
                         Container(
                           width: 1,
-                          height: 40,
+                          height: 50,
                           decoration: BoxDecoration(
                             color: kDivider,
                           ),
                         ),
                         // End point icon
                         Icon(
-                          Iconsax.map,
+                          Iconsax.location,
                           color: kGreyColor,
                           size: 18,
                         ),
@@ -384,6 +386,7 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                                   fontSize: 14,
                                 ),
                               ),
+                              SizedBox(height: defaultMargin / 2),
                               Text(
                                 widget.carFrom,
                                 style: blackTextStyle.copyWith(
@@ -403,6 +406,7 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                                   fontSize: 14,
                                 ),
                               ),
+                              SizedBox(height: defaultMargin / 2),
                               Text(
                                 widget.carTo,
                                 style: blackTextStyle.copyWith(
@@ -435,6 +439,7 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                             fontSize: 14,
                           ),
                         ),
+                        SizedBox(height: defaultMargin / 2),
                         Text(
                           DateFormat('EEEE, d MMMM yyyy', 'id_ID')
                               .format(widget.carDate),
@@ -465,6 +470,7 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                             fontSize: 14,
                           ),
                         ),
+                        SizedBox(height: defaultMargin / 2),
                         Text(
                           widget.car.departureTime,
                           style: blackTextStyle.copyWith(

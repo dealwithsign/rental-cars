@@ -319,12 +319,24 @@ class _TicketScreenState extends State<TicketScreen> {
                     Row(
                       children: [
                         Expanded(
-                          child: Text(
-                            '${ticket.carFrom} - ${ticket.carTo}',
-                            style: titleTextStyle.copyWith(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '${ticket.carFrom} - ${ticket.carTo}',
+                                style: titleTextStyle.copyWith(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(height: defaultMargin / 2),
+                              Text(
+                                ticket.carName,
+                                style: blackTextStyle.copyWith(
+                                  fontSize: 15,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                         Icon(
@@ -334,42 +346,52 @@ class _TicketScreenState extends State<TicketScreen> {
                         ),
                       ],
                     ),
-                    SizedBox(height: defaultMargin / 2),
-                    Text(
-                      formatIndonesianDate(ticket.carDate),
-                      style: blackTextStyle.copyWith(
-                        fontSize: 14,
-                      ),
-                    ),
+                    SizedBox(height: defaultMargin),
                     Row(
                       children: [
-                        Text(
-                          ticket.selectedTime,
-                          style: blackTextStyle.copyWith(
-                            fontSize: 15,
-                          ),
-                        ),
-                        SizedBox(width: defaultMargin / 2),
                         Icon(
-                          Icons.circle,
-                          color: descGrey,
-                          size: 5,
+                          Iconsax.calendar,
+                          size: 18,
+                          color: kGreyColor,
                         ),
-                        SizedBox(width: defaultMargin / 2),
-                        Text(
-                          ticket.departureTime,
-                          style: blackTextStyle.copyWith(
-                            fontSize: 15,
-                          ),
+                        SizedBox(width: defaultMargin),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              DateFormat('EEEE, d MMMM yyyy', 'id_ID')
+                                  .format(ticket.carDate),
+                              style: blackTextStyle.copyWith(
+                                fontSize: 14,
+                                fontWeight: bold,
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
-                    SizedBox(height: defaultMargin),
-                    Text(
-                      ticket.carName,
-                      style: blackTextStyle.copyWith(
-                        fontSize: 14,
-                      ),
+                    SizedBox(height: defaultMargin / 2),
+                    Row(
+                      children: [
+                        Icon(
+                          Iconsax.clock,
+                          size: 18,
+                          color: kGreyColor,
+                        ),
+                        SizedBox(width: defaultMargin),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              ticket.departureTime,
+                              style: blackTextStyle.copyWith(
+                                fontSize: 14,
+                                fontWeight: bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                     SizedBox(height: defaultMargin / 2),
                     Divider(

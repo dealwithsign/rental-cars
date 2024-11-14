@@ -308,16 +308,16 @@ class DestinationLocationCard extends StatelessWidget {
           Row(
             children: [
               Container(
-                decoration: BoxDecoration(
-                  color: kBackgroundColor,
-                  shape: BoxShape.circle,
-                ),
-                padding:
-                    EdgeInsets.all(defaultMargin), // Adjust padding as needed
+                // decoration: BoxDecoration(
+                //   color: kBackgroundColor,
+                //   shape: BoxShape.circle,
+                // ),
+                // padding:
+                //     EdgeInsets.all(defaultMargin), // Adjust padding as needed
                 child: Icon(
                   icon,
                   color: kPrimaryColor,
-                  size: 20,
+                  size: 18,
                 ),
               ),
               SizedBox(width: defaultMargin),
