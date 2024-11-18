@@ -40,57 +40,75 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: kWhiteColor,
-      appBar: _buildAppBar(context),
-      body: BlocListener<TicketsBloc, TicketsState>(
-        listener: (context, state) {
-          if (state is TicketsError) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Error: ${state.message}')),
-            );
-          }
-        },
-        child: _buildBody(context),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        backgroundColor: kWhiteColor,
+        body: BlocListener<TicketsBloc, TicketsState>(
+          listener: (context, state) {
+            if (state is TicketsError) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('Error: ${state.message}')),
+              );
+            }
+          },
+          child: _buildCarDetails(),
+        ),
       ),
     );
   }
 
-  AppBar _buildAppBar(BuildContext context) {
-    return AppBar(
-      backgroundColor: kWhiteColor,
-      surfaceTintColor: kWhiteColor,
-      leading: IconButton(
-        icon: Icon(
-          Iconsax.arrow_left_2,
-          color: kPrimaryColor,
-        ),
-        onPressed: () {
-          Navigator.of(context).pop();
-        },
-      ),
-      title: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            '${widget.ticket.carFrom} - ${widget.ticket.carTo}',
-            style: titleTextStyle.copyWith(
-              fontSize: 16,
-              fontWeight: bold,
+  Widget _buildCarDetails() {
+    return Skeletonizer(
+      enabled: isLoading,
+      child: CustomScrollView(
+        physics: const BouncingScrollPhysics(),
+        slivers: [
+          SliverAppBar(
+            backgroundColor: Colors.white,
+            surfaceTintColor: kWhiteColor,
+            elevation: 0,
+            leading: IconButton(
+              icon: Icon(
+                Iconsax.arrow_left_2,
+                color: kPrimaryColor,
+              ),
+              onPressed: () => Navigator.of(context).pop(),
             ),
+            expandedHeight: MediaQuery.of(context).size.height * 0.3,
+            flexibleSpace: FlexibleSpaceBar(
+              background: _buildCarImage(),
+            ),
+            pinned: true,
           ),
-          const SizedBox(height: 5),
-          Text(
-            'Order ID: ${widget.ticket.bookingId.toUpperCase()}',
-            style: blackTextStyle.copyWith(
-              fontSize: 14,
+          SliverList(
+            delegate: SliverChildListDelegate(
+              [
+                _buildBody(context),
+              ],
             ),
           ),
         ],
       ),
-      centerTitle: false,
-      elevation: 0,
     );
+  }
+
+  Widget _buildCarImage() {
+    return Stack(
+      children: [
+        Container(
+          width: double.infinity,
+          decoration: const BoxDecoration(),
+          child: ClipRRect(
+            child: Image.network(widget.ticket.carImage, fit: BoxFit.cover),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSectionDivider() {
+    return const Divider(color: Color(0XFFEBEBEB), thickness: 1);
   }
 
   Widget _buildBody(BuildContext context) {
@@ -130,25 +148,28 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                     ),
                   ),
                   SizedBox(height: defaultMargin),
-                  Divider(
-                    color: kBackgroundColor,
-                    thickness: 5,
-                  ),
+                  _buildSectionDivider(),
                   SizedBox(height: defaultMargin),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: defaultMargin),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        Text(
+                          'Detail Pembayaran',
+                          style: titleTextStyle.copyWith(
+                            fontSize: 18,
+                            fontWeight: bold,
+                          ),
+                        ),
+                        SizedBox(height: defaultMargin),
                         _otherInformations(),
                         SizedBox(height: defaultMargin),
                         _buildDetailsPrice(),
-                        Padding(
-                            padding:
-                                EdgeInsets.only(bottom: defaultMargin * 2)),
                       ],
                     ),
                   ),
+                  Padding(padding: EdgeInsets.only(bottom: defaultMargin * 2)),
                 ],
               ),
             ),
@@ -171,6 +192,12 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Text('Order ID: ${widget.ticket.bookingId.toUpperCase()}',
+            style: subTitleTextStyle.copyWith(
+              fontSize: 14,
+              fontWeight: bold,
+            )),
+        SizedBox(height: defaultMargin / 2),
         Text(
           widget.ticket.carName,
           style: titleTextStyle.copyWith(
@@ -178,32 +205,21 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
             fontWeight: bold,
           ),
         ),
-        SizedBox(height: defaultMargin),
         Text(
           "Dioperasikan oleh ${widget.ticket.ownerCar}",
-          style: blackTextStyle.copyWith(
-            fontSize: 15,
+          style: subTitleTextStyle.copyWith(
+            fontSize: 14,
           ),
         ),
+        SizedBox(height: defaultMargin),
         Row(
           children: [
             Text(
-              formatIndonesianDate(widget.ticket.carDate),
+              DateFormat('EEEE, d MMMM yyyy', 'id_ID')
+                  .format(widget.ticket.carDate),
               style: blackTextStyle.copyWith(
                 fontSize: 15,
-              ),
-            ),
-            SizedBox(width: defaultMargin / 2),
-            Icon(
-              Icons.circle,
-              color: descGrey,
-              size: 5,
-            ),
-            SizedBox(width: defaultMargin / 2),
-            Text(
-              widget.ticket.selectedTime,
-              style: blackTextStyle.copyWith(
-                fontSize: 15,
+                fontWeight: bold,
               ),
             ),
             SizedBox(width: defaultMargin / 2),
@@ -217,14 +233,17 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
               widget.ticket.departureTime,
               style: blackTextStyle.copyWith(
                 fontSize: 15,
+                fontWeight: bold,
               ),
             ),
           ],
         ),
+        SizedBox(height: defaultMargin / 2),
         Text(
-          "${widget.ticket.selectedPassengers.toString()} penumpang",
+          "${widget.ticket.selectedPassengers} penumpang",
           style: blackTextStyle.copyWith(
             fontSize: 15,
+            fontWeight: bold,
           ),
         ),
         SizedBox(height: defaultMargin * 2),
@@ -237,20 +256,20 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                   backgroundColor: kBackgroundColor,
                   child: Icon(
                     Iconsax.location_tick,
-                    color: kPrimaryColor,
+                    color: kGreyColor,
                     size: 20,
                   ),
                 ),
                 Container(
                   width: 1,
-                  height: 130,
+                  height: 100,
                   color: kBackgroundColor,
                 ),
                 CircleAvatar(
                   backgroundColor: kBackgroundColor,
                   child: Icon(
                     Iconsax.location,
-                    color: kPrimaryColor,
+                    color: kGreyColor,
                     size: 20,
                   ),
                 ),
@@ -262,7 +281,7 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Lokasi Jemput",
+                    "Kota Asal",
                     style: subTitleTextStyle.copyWith(
                       fontSize: 14,
                       fontWeight: bold,
@@ -280,12 +299,12 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                   Text(
                     widget.ticket.selected_location_pick,
                     style: blackTextStyle.copyWith(
-                      fontSize: 14,
+                      fontSize: 15,
                     ),
                   ),
                   SizedBox(height: defaultMargin * 3),
                   Text(
-                    "Lokasi Tujuan",
+                    "Kota Tujuan",
                     style: subTitleTextStyle.copyWith(
                       fontSize: 14,
                       fontWeight: bold,
@@ -303,7 +322,7 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                   Text(
                     widget.ticket.selected_location_drop,
                     style: blackTextStyle.copyWith(
-                      fontSize: 14,
+                      fontSize: 15,
                     ),
                   ),
                 ],
@@ -311,22 +330,38 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
             ),
           ],
         ),
-        SizedBox(height: defaultMargin * 2),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        SizedBox(height: defaultMargin),
+        Row(
           children: [
-            Text(
-              "Permintaan Khusus",
-              style: titleTextStyle.copyWith(
-                fontSize: 14,
-                fontWeight: bold,
+            CircleAvatar(
+              backgroundColor: kBackgroundColor,
+              child: Icon(
+                Iconsax.note,
+                color: kGreyColor,
+                size: 20,
               ),
             ),
-            const SizedBox(height: 5),
-            Text(
-              widget.ticket.specialRequest,
-              style: blackTextStyle.copyWith(
-                fontSize: 14,
+            SizedBox(width: defaultMargin),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: defaultMargin),
+                  Text(
+                    "Permintaan Khusus",
+                    style: subTitleTextStyle.copyWith(
+                      fontSize: 14,
+                      fontWeight: bold,
+                    ),
+                  ),
+                  SizedBox(height: defaultMargin / 2),
+                  Text(
+                    widget.ticket.specialRequest,
+                    style: blackTextStyle.copyWith(
+                      fontSize: 15,
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
@@ -456,7 +491,7 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
           Text(
             displayValue,
             style: blackTextStyle.copyWith(
-              fontSize: 14,
+              fontSize: 15,
               fontWeight: FontWeight.bold,
               color: textColor,
             ),
@@ -509,7 +544,7 @@ Widget _otherInformations() {
           SizedBox(width: defaultMargin),
           Expanded(
             child: Text(
-              'Terima kasih! Pembayaranmu sudah diterima \nSilakan cek email untuk detail pemesanan',
+              'Terima kasih! Pembayaranmu sudah diterima \nSilakan cek email untuk detail pemesanan.',
               style: blackTextStyle.copyWith(
                 fontSize: 14,
                 fontWeight: FontWeight.bold,

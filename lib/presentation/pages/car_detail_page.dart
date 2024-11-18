@@ -7,6 +7,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:intl/intl.dart';
 
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -167,6 +168,18 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
             ),
           ),
         ),
+        SizedBox(height: defaultMargin / 2),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: defaultMargin),
+          child: Text(
+            "Rp. ${NumberFormat('#,##0', 'id_ID').format(int.parse(fetchedCar.carPrice))} / orang",
+            style: blackTextStyle.copyWith(
+              fontSize: 18,
+              fontWeight: bold,
+            ),
+          ),
+        ),
+        SizedBox(height: defaultMargin),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: defaultMargin),
           child: Text(
@@ -182,15 +195,12 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
           child: Text(
             fetchedCar.carDesc,
             style: blackTextStyle.copyWith(
-              fontSize: 14,
+              fontSize: 15,
             ),
           ),
         ),
         SizedBox(height: defaultMargin),
-        Divider(
-          color: kBackgroundColor,
-          thickness: 5,
-        ),
+        _buildSectionDivider(),
         SizedBox(height: defaultMargin),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: defaultMargin),
@@ -205,22 +215,10 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
         SizedBox(height: defaultMargin),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildFacilityRow(fetchedCar.facility1),
-              _buildFacilityRow(fetchedCar.facility2),
-              _buildFacilityRow(fetchedCar.facility3),
-              _buildFacilityRow(fetchedCar.facility4),
-              _buildFacilityRow(fetchedCar.facility5),
-            ],
-          ),
+          child: _buildFacilities(fetchedCar),
         ),
         SizedBox(height: defaultMargin),
-        Divider(
-          color: kBackgroundColor,
-          thickness: 5,
-        ),
+        _buildSectionDivider(),
         SizedBox(height: defaultMargin),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: defaultMargin),
@@ -238,10 +236,7 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
           child: _buildLocations(fetchedCar),
         ),
         SizedBox(height: defaultMargin),
-        Divider(
-          color: kBackgroundColor,
-          thickness: 5,
-        ),
+        _buildSectionDivider(),
         SizedBox(height: defaultMargin),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: defaultMargin),
@@ -264,30 +259,47 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
     );
   }
 
-  Widget _buildCarDetailsRow(IconData icon, String text) {
+  Widget _buildSectionDivider() {
+    return const Divider(color: Color(0XFFEBEBEB), thickness: 1);
+  }
+
+  Widget _buildFacilities(CarsModels fetchedCar) {
+    final facilities = [
+      fetchedCar.facility1,
+      fetchedCar.facility2,
+      fetchedCar.facility3,
+      fetchedCar.facility4,
+      fetchedCar.facility5,
+    ].where((facility) => facility.isNotEmpty).toList();
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: facilities
+              .map((facility) => _buildFacilityChip(facility))
+              .toList(),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildFacilityChip(String text) {
     return Container(
-      decoration: BoxDecoration(
-        color: kBackgroundColor,
-        borderRadius: BorderRadius.circular(
-          defaultRadius,
-        ),
+      padding: EdgeInsets.symmetric(
+        horizontal: defaultMargin,
+        vertical: defaultMargin / 2,
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Row(
-          children: [
-            FaIcon(
-              icon,
-              size: 15,
-              color: kIcon,
-            ),
-            const SizedBox(width: 8),
-            Text(
-              text,
-              style: subTitleTextStyle.copyWith(fontSize: 14),
-            ),
-          ],
-        ),
+      decoration: BoxDecoration(
+        color: Colors.grey[50],
+        borderRadius: BorderRadius.circular(defaultRadius),
+        border: Border.all(color: Colors.grey[200]!),
+      ),
+      child: Text(
+        text,
+        style: blackTextStyle.copyWith(fontSize: 15),
       ),
     );
   }
@@ -386,7 +398,7 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
             Text(
               "1. ",
               style: blackTextStyle.copyWith(
-                fontSize: 14,
+                fontSize: 15,
               ),
             ),
             SizedBox(width: defaultMargin / 2),
@@ -394,7 +406,7 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
               child: Text(
                 "Penumpang setidaknya 60 menit sebelum keberangkatan sudah mempersiapkan diri. Keterlambatan penumpang dapat menyebabkan tiket dibatalkan secara sepihak dan tidak mendapatkan pengembalian dana.",
                 style: blackTextStyle.copyWith(
-                  fontSize: 14,
+                  fontSize: 15,
                 ),
               ),
             ),
@@ -407,7 +419,7 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
             Text(
               "2. ",
               style: blackTextStyle.copyWith(
-                fontSize: 14,
+                fontSize: 15,
               ),
             ),
             SizedBox(width: defaultMargin / 2),
@@ -415,7 +427,7 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
               child: Text(
                 "Waktu keberangkatan yang tertera di aplikasi adalah waktu lokal di lokasi keberangkatan.",
                 style: blackTextStyle.copyWith(
-                  fontSize: 14,
+                  fontSize: 15,
                 ),
               ),
             ),
@@ -428,7 +440,7 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
             Text(
               "3. ",
               style: blackTextStyle.copyWith(
-                fontSize: 14,
+                fontSize: 15,
               ),
             ),
             SizedBox(width: defaultMargin / 2),
@@ -436,7 +448,7 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
               child: Text(
                 "Ukuran dan berat barang bawaan penumpang tidak boleh melebihi aturan yang di tentukan oleh agen. Penumpang yang membawa barang bawaan melebihi aturan akan dikenakan biaya tambahan.",
                 style: blackTextStyle.copyWith(
-                  fontSize: 14,
+                  fontSize: 15,
                 ),
               ),
             ),
@@ -449,7 +461,7 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
             Text(
               "4. ",
               style: blackTextStyle.copyWith(
-                fontSize: 14,
+                fontSize: 15,
               ),
             ),
             SizedBox(width: defaultMargin / 2),
@@ -457,7 +469,7 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
               child: Text(
                 "Perubahan jadwal keberangkatan tidak dapat di lakukan untuk pemesanan menggunakan aplikasi.",
                 style: blackTextStyle.copyWith(
-                  fontSize: 14,
+                  fontSize: 15,
                 ),
               ),
             ),
@@ -470,7 +482,7 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
             Text(
               "5. ",
               style: blackTextStyle.copyWith(
-                fontSize: 14,
+                fontSize: 15,
               ),
             ),
             SizedBox(width: defaultMargin / 2),
@@ -478,7 +490,7 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
               child: Text(
                 "Penumpang yang membatalkan perjalanan setelah melakukan pembayaran tiket tidak dapat membatalkan atau mengajukan pengembalian dana.",
                 style: blackTextStyle.copyWith(
-                  fontSize: 14,
+                  fontSize: 15,
                 ),
               ),
             ),

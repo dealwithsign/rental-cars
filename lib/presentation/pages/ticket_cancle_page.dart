@@ -2,11 +2,9 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -15,7 +13,6 @@ import 'package:http/http.dart' as http;
 import '../../blocs/tickets/tickets_bloc.dart';
 import '../../data/models/ticket_model.dart';
 import '../../utils/fonts.dart';
-import '../widgets/flushbar_widget.dart';
 
 class TicketCancelPage extends StatefulWidget {
   final TicketModels ticket;
@@ -41,56 +38,70 @@ class _TicketCancelPageState extends State<TicketCancelPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: kWhiteColor,
-      appBar: _buildAppBar(context),
-      body: BlocListener<TicketsBloc, TicketsState>(
-        listener: (context, state) {
-          if (state is TicketsError) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Error: ${state.message}')),
-            );
-          }
-        },
-        child: _buildBody(context),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        backgroundColor: kWhiteColor,
+        body: BlocListener<TicketsBloc, TicketsState>(
+          listener: (context, state) {
+            if (state is TicketsError) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('Error: ${state.message}')),
+              );
+            }
+          },
+          child: _buildCarDetails(),
+        ),
       ),
     );
   }
 
-  AppBar _buildAppBar(BuildContext context) {
-    return AppBar(
-      backgroundColor: kWhiteColor,
-      surfaceTintColor: kWhiteColor,
-      leading: IconButton(
-        icon: Icon(
-          Iconsax.arrow_left_2,
-          color: kPrimaryColor,
-        ),
-        onPressed: () {
-          Navigator.of(context).pop();
-        },
-      ),
-      title: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            '${widget.ticket.carFrom} - ${widget.ticket.carTo}',
-            style: titleTextStyle.copyWith(
-              fontSize: 16,
-              fontWeight: bold,
+  Widget _buildCarDetails() {
+    return Skeletonizer(
+      enabled: isLoading,
+      child: CustomScrollView(
+        physics: const BouncingScrollPhysics(),
+        slivers: [
+          SliverAppBar(
+            backgroundColor: Colors.white,
+            surfaceTintColor: kWhiteColor,
+            elevation: 0,
+            leading: IconButton(
+              icon: Icon(
+                Iconsax.arrow_left_2,
+                color: kPrimaryColor,
+              ),
+              onPressed: () => Navigator.of(context).pop(),
             ),
+            expandedHeight: MediaQuery.of(context).size.height * 0.3,
+            flexibleSpace: FlexibleSpaceBar(
+              background: _buildCarImage(),
+            ),
+            pinned: true,
           ),
-          const SizedBox(height: 5),
-          Text(
-            'Order ID: ${widget.ticket.bookingId.toUpperCase()}',
-            style: blackTextStyle.copyWith(
-              fontSize: 14,
+          SliverList(
+            delegate: SliverChildListDelegate(
+              [
+                _buildBody(context),
+              ],
             ),
           ),
         ],
       ),
-      centerTitle: false,
-      elevation: 0,
+    );
+  }
+
+  Widget _buildCarImage() {
+    return Stack(
+      children: [
+        Container(
+          width: double.infinity,
+          decoration: const BoxDecoration(),
+          child: ClipRRect(
+            child: Image.network(widget.ticket.carImage, fit: BoxFit.cover),
+          ),
+        ),
+      ],
     );
   }
 
@@ -131,16 +142,21 @@ class _TicketCancelPageState extends State<TicketCancelPage> {
                     ),
                   ),
                   SizedBox(height: defaultMargin),
-                  Divider(
-                    color: kBackgroundColor,
-                    thickness: 5,
-                  ),
+                  _buildSectionDivider(),
                   SizedBox(height: defaultMargin),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: defaultMargin),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        Text(
+                          'Detail Pembayaran',
+                          style: titleTextStyle.copyWith(
+                            fontSize: 18,
+                            fontWeight: bold,
+                          ),
+                        ),
+                        SizedBox(height: defaultMargin),
                         _otherInformations(),
                         SizedBox(height: defaultMargin),
                         _buildDetailsPrice(),
@@ -163,6 +179,10 @@ class _TicketCancelPageState extends State<TicketCancelPage> {
     );
   }
 
+  Widget _buildSectionDivider() {
+    return const Divider(color: Color(0XFFEBEBEB), thickness: 1);
+  }
+
   Widget _otherInformations() {
     return Container(
       decoration: BoxDecoration(
@@ -173,7 +193,7 @@ class _TicketCancelPageState extends State<TicketCancelPage> {
         ),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: EdgeInsets.all(defaultMargin / 2),
         child: Row(
           children: [
             Icon(
@@ -183,33 +203,20 @@ class _TicketCancelPageState extends State<TicketCancelPage> {
             ),
             SizedBox(width: defaultMargin),
             Expanded(
-              child: Text(
-                'Batas waktu pembayaranmu telah berakhir \nPesanan ini tidak dapat lagi digunakan',
-                style: blackTextStyle.copyWith(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Batas waktu pembayaranmu telah berakhir \nPesanan ini tidak dapat lagi digunakan.',
+                    style: blackTextStyle.copyWith(
+                      fontSize: 14,
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _infoPayment() {
-    return Container(
-      child: Row(
-        children: [
-          Expanded(
-            child: Text(
-              'Setelah pembayaran diverifikasi, detail pemesanan tiket akan \ndikirimkan ke email yang terdaftar.',
-              style: subTitleTextStyle.copyWith(
-                fontSize: 12,
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }
@@ -228,32 +235,21 @@ class _TicketCancelPageState extends State<TicketCancelPage> {
             fontWeight: bold,
           ),
         ),
-        SizedBox(height: defaultMargin),
         Text(
           "Dioperasikan oleh ${widget.ticket.ownerCar}",
-          style: blackTextStyle.copyWith(
-            fontSize: 15,
+          style: subTitleTextStyle.copyWith(
+            fontSize: 14,
           ),
         ),
+        SizedBox(height: defaultMargin),
         Row(
           children: [
             Text(
-              formatIndonesianDate(widget.ticket.carDate),
+              DateFormat('EEEE, d MMMM yyyy', 'id_ID')
+                  .format(widget.ticket.carDate),
               style: blackTextStyle.copyWith(
                 fontSize: 15,
-              ),
-            ),
-            SizedBox(width: defaultMargin / 2),
-            Icon(
-              Icons.circle,
-              color: descGrey,
-              size: 5,
-            ),
-            SizedBox(width: defaultMargin / 2),
-            Text(
-              widget.ticket.selectedTime,
-              style: blackTextStyle.copyWith(
-                fontSize: 15,
+                fontWeight: bold,
               ),
             ),
             SizedBox(width: defaultMargin / 2),
@@ -267,14 +263,17 @@ class _TicketCancelPageState extends State<TicketCancelPage> {
               widget.ticket.departureTime,
               style: blackTextStyle.copyWith(
                 fontSize: 15,
+                fontWeight: bold,
               ),
             ),
           ],
         ),
+        SizedBox(height: defaultMargin / 2),
         Text(
           "${widget.ticket.selectedPassengers.toString()} penumpang",
           style: blackTextStyle.copyWith(
             fontSize: 15,
+            fontWeight: bold,
           ),
         ),
         SizedBox(height: defaultMargin * 2),
@@ -287,20 +286,20 @@ class _TicketCancelPageState extends State<TicketCancelPage> {
                   backgroundColor: kBackgroundColor,
                   child: Icon(
                     Iconsax.location_tick,
-                    color: kPrimaryColor,
+                    color: kGreyColor,
                     size: 20,
                   ),
                 ),
                 Container(
                   width: 1,
-                  height: 130,
+                  height: 80,
                   color: kBackgroundColor,
                 ),
                 CircleAvatar(
                   backgroundColor: kBackgroundColor,
                   child: Icon(
                     Iconsax.location,
-                    color: kPrimaryColor,
+                    color: kGreyColor,
                     size: 20,
                   ),
                 ),
@@ -312,7 +311,7 @@ class _TicketCancelPageState extends State<TicketCancelPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Lokasi Jemput",
+                    "Kota Asal",
                     style: subTitleTextStyle.copyWith(
                       fontSize: 14,
                       fontWeight: bold,
@@ -330,12 +329,12 @@ class _TicketCancelPageState extends State<TicketCancelPage> {
                   Text(
                     widget.ticket.selected_location_pick,
                     style: blackTextStyle.copyWith(
-                      fontSize: 14,
+                      fontSize: 15,
                     ),
                   ),
                   SizedBox(height: defaultMargin * 3),
                   Text(
-                    "Lokasi Tujuan",
+                    "Kota Tujuan",
                     style: subTitleTextStyle.copyWith(
                       fontSize: 14,
                       fontWeight: bold,
@@ -353,7 +352,7 @@ class _TicketCancelPageState extends State<TicketCancelPage> {
                   Text(
                     widget.ticket.selected_location_drop,
                     style: blackTextStyle.copyWith(
-                      fontSize: 14,
+                      fontSize: 15,
                     ),
                   ),
                 ],
@@ -446,16 +445,17 @@ class _TicketCancelPageState extends State<TicketCancelPage> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            '$label:',
+            label,
             style: subTitleTextStyle.copyWith(
               fontSize: 14,
+              fontWeight: FontWeight.bold,
             ),
           ),
           SizedBox(height: defaultMargin),
           Text(
             displayValue,
             style: blackTextStyle.copyWith(
-              fontSize: 14,
+              fontSize: 15,
               fontWeight: FontWeight.bold,
               color: textColor,
             ),
@@ -478,45 +478,5 @@ class _TicketCancelPageState extends State<TicketCancelPage> {
       decimalDigits: 0,
     );
     return currencyFormatter.format(amount);
-  }
-
-  Widget _buildDetailItemWithClipboard(String label, String value) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          '$label:',
-          style: subTitleTextStyle.copyWith(
-            fontSize: 14,
-          ),
-        ),
-        Row(
-          children: [
-            Text(
-              value,
-              style: blackTextStyle.copyWith(
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            IconButton(
-              icon: Icon(
-                FontAwesomeIcons.copy,
-                size: 18,
-                color: kPrimaryColor,
-              ),
-              onPressed: () {
-                Clipboard.setData(ClipboardData(text: value));
-                showErrorFlushbar(
-                  context,
-                  "Virtual Disalin",
-                  "No. Virtual Account berhasil disalin",
-                );
-              },
-            ),
-          ],
-        ),
-      ],
-    );
   }
 }

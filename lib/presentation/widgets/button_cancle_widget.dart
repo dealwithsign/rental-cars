@@ -23,10 +23,9 @@ class CustomButtonCancel extends StatelessWidget {
       height: 45,
       margin: margin,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(
-          defaultRadius,
-        ),
-        color: const Color(0xffBABABA),
+        color: Colors.grey[50],
+        borderRadius: BorderRadius.circular(defaultRadius),
+        border: Border.all(color: Colors.grey[200]!),
       ),
       child: TextButton(
         onPressed: onPressed,

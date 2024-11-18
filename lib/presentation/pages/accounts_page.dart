@@ -101,10 +101,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
                   padding: EdgeInsets.symmetric(horizontal: defaultMargin),
                   child: _buildUserProfile(state.user!),
                 ),
-                Divider(
-                  color: kBackgroundColor,
-                  thickness: 5,
-                ),
+                _buildSectionDivider(),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: defaultMargin),
                   child: _buildSettings(),
@@ -123,6 +120,10 @@ class _AccountsScreenState extends State<AccountsScreen> {
         }
       },
     );
+  }
+
+  Widget _buildSectionDivider() {
+    return const Divider(color: Color(0XFFEBEBEB), thickness: 2);
   }
 
   Widget _buildUserProfile(UserModel user) {

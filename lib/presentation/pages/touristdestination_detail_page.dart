@@ -85,10 +85,7 @@ class _TouristdestinationDetailPageState
                               DestinationDescription(destination.description),
                         ),
                         SizedBox(height: defaultMargin),
-                        Divider(
-                          color: kBackgroundColor,
-                          thickness: 5,
-                        ),
+                        const Divider(color: Color(0XFFEBEBEB), thickness: 1),
                         SizedBox(height: defaultMargin),
                         Padding(
                           padding:
@@ -130,10 +127,7 @@ class _TouristdestinationDetailPageState
                           ),
                         ),
                         SizedBox(height: defaultMargin),
-                        Divider(
-                          color: kBackgroundColor,
-                          thickness: 5,
-                        ),
+                        const Divider(color: Color(0XFFEBEBEB), thickness: 1),
                         SizedBox(height: defaultMargin),
                         Padding(
                           padding:
@@ -152,9 +146,8 @@ class _TouristdestinationDetailPageState
                                 SizedBox(height: defaultMargin),
                                 Text(
                                   'Untuk pemesanan tiket atau informasi lainnya, silakan hubungi melalui email atau nomor di bawah ini',
-                                  style: subTitleTextStyle.copyWith(
-                                    fontSize: 14,
-                                    fontWeight: regular,
+                                  style: blackTextStyle.copyWith(
+                                    fontSize: 15,
                                   ),
                                 ),
                                 SizedBox(height: defaultMargin),
@@ -164,7 +157,7 @@ class _TouristdestinationDetailPageState
                                       children: [
                                         Icon(
                                           Iconsax.message,
-                                          color: kPrimaryColor,
+                                          color: kGreyColor,
                                           size: 20,
                                         ),
                                         SizedBox(width: defaultMargin),
@@ -172,7 +165,7 @@ class _TouristdestinationDetailPageState
                                           destination.email?.isNotEmpty == true
                                               ? destination.email!
                                               : 'Belum ada email terdaftar',
-                                          style: subTitleTextStyle.copyWith(
+                                          style: blackTextStyle.copyWith(
                                             fontSize: 14,
                                             fontWeight: bold,
                                             decoration:
@@ -186,7 +179,7 @@ class _TouristdestinationDetailPageState
                                       children: [
                                         Icon(
                                           Iconsax.call,
-                                          color: kPrimaryColor,
+                                          color: kGreyColor,
                                           size: 20,
                                         ),
                                         SizedBox(width: defaultMargin),
@@ -195,7 +188,7 @@ class _TouristdestinationDetailPageState
                                                   true
                                               ? destination.phoneNumber!
                                               : 'Belum ada nomor telepon terdaftar',
-                                          style: subTitleTextStyle.copyWith(
+                                          style: blackTextStyle.copyWith(
                                             fontSize: 14,
                                             fontWeight: bold,
                                             decoration:
@@ -307,17 +300,12 @@ class DestinationLocationCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              Container(
-                // decoration: BoxDecoration(
-                //   color: kBackgroundColor,
-                //   shape: BoxShape.circle,
-                // ),
-                // padding:
-                //     EdgeInsets.all(defaultMargin), // Adjust padding as needed
+              CircleAvatar(
+                backgroundColor: kBackgroundColor,
                 child: Icon(
                   icon,
-                  color: kPrimaryColor,
-                  size: 18,
+                  color: kGreyColor,
+                  size: 20,
                 ),
               ),
               SizedBox(width: defaultMargin),
@@ -327,8 +315,8 @@ class DestinationLocationCard extends StatelessWidget {
                   children: [
                     Text(
                       title,
-                      style: blackTextStyle.copyWith(
-                        fontSize: 16,
+                      style: subTitleTextStyle.copyWith(
+                        fontSize: 14,
                         fontWeight: bold,
                       ),
                     ),
@@ -337,9 +325,9 @@ class DestinationLocationCard extends StatelessWidget {
                     ),
                     Text(
                       message,
-                      style: subTitleTextStyle.copyWith(
-                        fontSize: 14,
-                        fontWeight: regular,
+                      style: titleTextStyle.copyWith(
+                        fontSize: 15,
+                        fontWeight: bold,
                       ),
                     ),
                   ],
@@ -363,7 +351,7 @@ class DestinationDescription extends StatelessWidget {
     return Text(
       description,
       style: blackTextStyle.copyWith(
-        fontSize: 14,
+        fontSize: 15,
       ),
     );
   }
@@ -379,8 +367,12 @@ class DestinationCategory extends StatelessWidget {
     return Text(
       category,
       style: blackTextStyle.copyWith(
-        fontSize: 14,
+        fontSize: 15,
       ),
     );
+  }
+
+  Widget _buildSectionDivider() {
+    return const Divider(color: Color(0XFFEBEBEB), thickness: 1);
   }
 }

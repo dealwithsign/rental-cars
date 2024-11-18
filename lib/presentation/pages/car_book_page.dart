@@ -203,12 +203,6 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            Text(
-              "Order ID: ${widget.id.toUpperCase()}",
-              style: blackTextStyle.copyWith(
-                fontSize: 14,
-              ),
-            ),
           ],
         ),
       ),
@@ -243,10 +237,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
                     child: _buildCarDetail(),
                   ),
                   SizedBox(height: defaultMargin),
-                  Divider(
-                    color: kBackgroundColor,
-                    thickness: 5,
-                  ),
+                  _buildSectionDivider(),
                   SizedBox(height: defaultMargin),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: defaultMargin),
@@ -256,20 +247,14 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
                     ),
                   ),
                   SizedBox(height: defaultMargin),
-                  Divider(
-                    color: kBackgroundColor,
-                    thickness: 5,
-                  ),
+                  _buildSectionDivider(),
                   SizedBox(height: defaultMargin),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: defaultMargin),
                     child: _buildUserProfile(state.user!),
                   ),
                   SizedBox(height: defaultMargin),
-                  Divider(
-                    color: kBackgroundColor,
-                    thickness: 5,
-                  ),
+                  _buildSectionDivider(),
                   SizedBox(height: defaultMargin),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: defaultMargin),
@@ -439,7 +424,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
         "phone": userPhone,
         "notes": "Pemesanan Tiket Sewa Mobil",
       },
-      "expiry": {"duration": 30, "unit": "minutes"},
+      "expiry": {"duration": 60, "unit": "minutes"},
       "usage_limit": 1,
       "item_details": [
         {
@@ -499,6 +484,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
               departureTime: widget.carModel.departureTime,
               userEmail: userEmail,
               userPhoneNumber: userPhone,
+              carImage: widget.carModel.carLogo,
             ),
           );
 
@@ -566,7 +552,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
         bottom: defaultMargin,
       ),
       decoration: BoxDecoration(
-        color: const Color(0xff018053),
+        color: const Color(0xffCEEAD6),
         borderRadius: BorderRadius.circular(defaultRadius),
         border: Border.all(
           color: kTransparentColor,
@@ -578,14 +564,14 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
           children: [
             Icon(
               Iconsax.info_circle,
-              color: kWhiteColor,
+              color: kGreenColor,
               size: 20,
             ),
             SizedBox(width: defaultMargin),
             Expanded(
               child: Text(
-                'Sebelum melanjutkan ke pembayaran, pastikan data \npemesanan sudah benar',
-                style: buttonColor.copyWith(
+                'Sebelum melanjutkan ke pembayaran, pastikan data pemesanan sudah benar.',
+                style: blackTextStyle.copyWith(
                   fontSize: 14,
                   fontWeight: bold,
                 ),
@@ -595,6 +581,10 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
         ),
       ),
     );
+  }
+
+  Widget _buildSectionDivider() {
+    return const Divider(color: Color(0XFFEBEBEB), thickness: 1);
   }
 
   Widget _buildDetailsPrice() {
@@ -635,7 +625,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
                 // Calculate the car price and the selected passengers, then format the result
                 'Rp ${NumberFormat("#,##0", "id_ID").format(totalPriceWithoutAdmin)}',
                 style: blackTextStyle.copyWith(
-                  fontSize: 14,
+                  fontSize: 15,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -654,7 +644,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
               Text(
                 'Rp ${NumberFormat("#,##0", "id_ID").format(costService)}',
                 style: blackTextStyle.copyWith(
-                  fontSize: 14,
+                  fontSize: 15,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -673,7 +663,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
               Text(
                 'Rp ${NumberFormat("#,##0", "id_ID").format(adminFee)}',
                 style: blackTextStyle.copyWith(
-                  fontSize: 14,
+                  fontSize: 15,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -761,9 +751,9 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
           Row(
             children: [
               Text(
-                '${widget.carFrom} - ${widget.carTo}',
+                '${widget.carFrom} → ${widget.carTo}',
                 style: blackTextStyle.copyWith(
-                  fontSize: 16,
+                  fontSize: 18,
                   fontWeight: bold,
                 ),
               ),
@@ -779,10 +769,13 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
           SizedBox(height: defaultMargin),
           Row(
             children: [
-              Icon(
-                Iconsax.calendar,
-                size: 18,
-                color: kGreyColor,
+              CircleAvatar(
+                backgroundColor: kBackgroundColor,
+                child: Icon(
+                  Iconsax.calendar,
+                  color: kGreyColor,
+                  size: 20,
+                ),
               ),
               SizedBox(width: defaultMargin),
               Column(
@@ -799,7 +792,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
                     DateFormat('EEEE, d MMMM yyyy', 'id_ID')
                         .format(widget.carModel.carDate),
                     style: blackTextStyle.copyWith(
-                      fontSize: 14,
+                      fontSize: 15,
                       fontWeight: bold,
                     ),
                   ),
@@ -810,10 +803,13 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
           SizedBox(height: defaultMargin),
           Row(
             children: [
-              Icon(
-                Iconsax.clock,
-                size: 18,
-                color: kGreyColor,
+              CircleAvatar(
+                backgroundColor: kBackgroundColor,
+                child: Icon(
+                  Iconsax.clock,
+                  color: kGreyColor,
+                  size: 20,
+                ),
               ),
               SizedBox(width: defaultMargin),
               Column(
@@ -829,7 +825,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
                   Text(
                     widget.carModel.departureTime,
                     style: blackTextStyle.copyWith(
-                      fontSize: 14,
+                      fontSize: 15,
                       fontWeight: bold,
                     ),
                   ),
@@ -840,10 +836,13 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
           SizedBox(height: defaultMargin),
           Row(
             children: [
-              Icon(
-                Iconsax.user,
-                size: 18,
-                color: kGreyColor,
+              CircleAvatar(
+                backgroundColor: kBackgroundColor,
+                child: Icon(
+                  Iconsax.user,
+                  color: kGreyColor,
+                  size: 20,
+                ),
               ),
               SizedBox(width: defaultMargin),
               Column(
@@ -859,7 +858,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
                   Text(
                     ' ${widget.selectedPassengers} orang',
                     style: blackTextStyle.copyWith(
-                      fontSize: 14,
+                      fontSize: 15,
                       fontWeight: bold,
                     ),
                   ),
@@ -873,10 +872,13 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
             children: [
               Column(
                 children: [
-                  Icon(
-                    Iconsax.location_tick,
-                    color: kGreyColor,
-                    size: 18,
+                  CircleAvatar(
+                    backgroundColor: kBackgroundColor,
+                    child: Icon(
+                      Iconsax.location,
+                      color: kGreyColor,
+                      size: 20,
+                    ),
                   ),
                   Container(
                     width: 1,
@@ -885,10 +887,13 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
                       color: kDivider,
                     ),
                   ),
-                  Icon(
-                    Iconsax.location,
-                    color: kGreyColor,
-                    size: 18,
+                  CircleAvatar(
+                    backgroundColor: kBackgroundColor,
+                    child: Icon(
+                      Iconsax.location_tick,
+                      color: kGreyColor,
+                      size: 20,
+                    ),
                   ),
                 ],
               ),
@@ -907,7 +912,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
                     Text(
                       lokasiJemput,
                       style: blackTextStyle.copyWith(
-                        fontSize: 14,
+                        fontSize: 15,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -925,7 +930,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
                           child: Text(
                             lokasiTujuan,
                             style: blackTextStyle.copyWith(
-                              fontSize: 14,
+                              fontSize: 15,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -943,31 +948,45 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
             specialRequest.isEmpty
                 ? 'Tidak ada permintaan khusus'
                 : specialRequest,
+            Iconsax.note,
           ),
         ],
       ),
     );
   }
 
-  Widget _buildDetailItem(String label, String value) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+  Widget _buildDetailItem(String label, String value, IconData icon) {
+    return Row(
       children: [
-        Text(
-          '$label:',
-          style: subTitleTextStyle.copyWith(
-            fontSize: 14,
+        CircleAvatar(
+          backgroundColor: kBackgroundColor,
+          child: Icon(
+            icon,
+            color: kGreyColor,
+            size: 20,
           ),
         ),
-        SizedBox(height: defaultMargin / 2),
-        Text(
-          value,
-          style: blackTextStyle.copyWith(
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
-          ),
+        SizedBox(width: defaultMargin),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              '$label:',
+              style: subTitleTextStyle.copyWith(
+                fontSize: 14,
+              ),
+            ),
+            SizedBox(height: defaultMargin / 2),
+            Text(
+              value,
+              style: blackTextStyle.copyWith(
+                fontSize: 15,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: defaultMargin),
+          ],
         ),
-        SizedBox(height: defaultMargin),
       ],
     );
   }
