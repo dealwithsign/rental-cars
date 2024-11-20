@@ -25,6 +25,7 @@ class BookingServices {
     required String userEmail,
     required int totalPayment,
     required bool isPayment,
+    required String carImage,
   }) async {
     try {
       // var uuid = Uuid();
@@ -52,6 +53,7 @@ class BookingServices {
         'is_payment': carModel.isPayment,
         'total_payment': totalPayment,
         'created_at': DateTime.now().toIso8601String(),
+        'car_image': carImage,
         // Consider adding user-related information if necessary
       };
 
@@ -119,6 +121,7 @@ class BookingServices {
     required String departureTime,
     required String userPhoneNumber,
     required String userEmail,
+    required String carImage,
   }) async {
     try {
       final response = await supabase.from('tickets').insert({
@@ -143,6 +146,7 @@ class BookingServices {
         'departure_time': departureTime,
         'user_phone': userPhoneNumber,
         'user_email': userEmail,
+        'car_image': carImage,
 
         'special_request': specialRequest.isEmpty
             ? 'Tidak ada permintaan khusus'

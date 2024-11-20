@@ -167,20 +167,14 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                     child: _buildDetailCarBooking(),
                   ),
                   SizedBox(height: defaultMargin),
-                  Divider(
-                    color: kBackgroundColor,
-                    thickness: 5,
-                  ),
+                  _buildSectionDivider(),
                   SizedBox(height: defaultMargin),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: defaultMargin),
                     child: _buildPickDateAndDropDate(),
                   ),
                   SizedBox(height: defaultMargin),
-                  Divider(
-                    color: kBackgroundColor,
-                    thickness: 5,
-                  ),
+                  _buildSectionDivider(),
                   SizedBox(height: defaultMargin),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: defaultMargin),
@@ -300,6 +294,10 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
     );
   }
 
+  Widget _buildSectionDivider() {
+    return const Divider(color: Color(0XFFEBEBEB), thickness: 1);
+  }
+
   Widget _buildDetailCarBooking() {
     print(widget.car.carDate);
     return Container(
@@ -330,7 +328,7 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                         Text(
                           widget.car.carName,
                           style: blackTextStyle.copyWith(
-                            fontSize: 16,
+                            fontSize: 18,
                             fontWeight: bold,
                           ),
                         ),
@@ -351,24 +349,30 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                     Column(
                       children: [
                         // Start point icon
-                        Icon(
-                          Iconsax.location_tick,
-                          color: kGreyColor,
-                          size: 18,
+                        CircleAvatar(
+                          backgroundColor: kBackgroundColor,
+                          child: Icon(
+                            Iconsax.location,
+                            color: kGreyColor,
+                            size: 20,
+                          ),
                         ),
                         // Timeline line
                         Container(
                           width: 1,
-                          height: 50,
+                          height: 40,
                           decoration: BoxDecoration(
                             color: kDivider,
                           ),
                         ),
                         // End point icon
-                        Icon(
-                          Iconsax.location,
-                          color: kGreyColor,
-                          size: 18,
+                        CircleAvatar(
+                          backgroundColor: kBackgroundColor,
+                          child: Icon(
+                            Iconsax.location_tick,
+                            color: kGreyColor,
+                            size: 20,
+                          ),
                         ),
                       ],
                     ),
@@ -390,7 +394,7 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                               Text(
                                 widget.carFrom,
                                 style: blackTextStyle.copyWith(
-                                  fontSize: 14,
+                                  fontSize: 15,
                                   fontWeight: bold,
                                 ),
                               ),
@@ -410,7 +414,7 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                               Text(
                                 widget.carTo,
                                 style: blackTextStyle.copyWith(
-                                  fontSize: 14,
+                                  fontSize: 15,
                                   fontWeight: bold,
                                 ),
                               ),
@@ -424,10 +428,13 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                 SizedBox(height: defaultMargin),
                 Row(
                   children: [
-                    Icon(
-                      Iconsax.calendar,
-                      size: 18,
-                      color: kGreyColor,
+                    CircleAvatar(
+                      backgroundColor: kBackgroundColor,
+                      child: Icon(
+                        Iconsax.calendar,
+                        color: kGreyColor,
+                        size: 20,
+                      ),
                     ),
                     SizedBox(width: defaultMargin),
                     Column(
@@ -444,7 +451,7 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                           DateFormat('EEEE, d MMMM yyyy', 'id_ID')
                               .format(widget.carDate),
                           style: blackTextStyle.copyWith(
-                            fontSize: 14,
+                            fontSize: 15,
                             fontWeight: bold,
                           ),
                         ),
@@ -455,10 +462,13 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                 SizedBox(height: defaultMargin),
                 Row(
                   children: [
-                    Icon(
-                      Iconsax.clock,
-                      size: 18,
-                      color: kGreyColor,
+                    CircleAvatar(
+                      backgroundColor: kBackgroundColor,
+                      child: Icon(
+                        Iconsax.clock,
+                        color: kGreyColor,
+                        size: 20,
+                      ),
                     ),
                     SizedBox(width: defaultMargin),
                     Column(
@@ -474,7 +484,7 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                         Text(
                           widget.car.departureTime,
                           style: blackTextStyle.copyWith(
-                            fontSize: 14,
+                            fontSize: 15,
                             fontWeight: bold,
                           ),
                         ),
@@ -693,7 +703,7 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                         Text(
                           selectedPassengers,
                           style: blackTextStyle.copyWith(
-                            fontSize: 14,
+                            fontSize: 15,
                             fontWeight: FontWeight.bold,
                           ),
                         )
@@ -744,7 +754,7 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                           Text(
                             _selectedLocationPick,
                             style: blackTextStyle.copyWith(
-                              fontSize: 14,
+                              fontSize: 15,
                               fontWeight: FontWeight.bold,
                             ),
                           )
@@ -796,7 +806,7 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                           Text(
                             _selectedLocationDrop,
                             style: blackTextStyle.copyWith(
-                              fontSize: 14,
+                              fontSize: 15,
                               fontWeight: FontWeight.bold,
                             ),
                           )
@@ -852,7 +862,7 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                       border: InputBorder.none,
                       hintText: "Tolong sediakan kursi di depan.",
                       hintStyle: subTitleTextStyle.copyWith(
-                        fontSize: 14,
+                        fontSize: 15,
                         fontWeight: regular,
                       ),
                     ),

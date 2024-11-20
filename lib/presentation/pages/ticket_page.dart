@@ -134,7 +134,7 @@ class _TicketScreenState extends State<TicketScreen> {
                   return _buildBookingCard(booking);
                 }
               },
-              padding: EdgeInsets.only(bottom: defaultMargin * 6),
+              // padding: EdgeInsets.only(bottom: defaultMargin * 6),
             ),
           );
         } else if (state is TicketsError) {
@@ -155,7 +155,7 @@ class _TicketScreenState extends State<TicketScreen> {
         bottom: defaultMargin,
       ),
       decoration: BoxDecoration(
-        color: const Color(0xff018053),
+        color: const Color(0xffCEEAD6),
         borderRadius: BorderRadius.circular(defaultRadius),
         border: Border.all(
           color: kTransparentColor,
@@ -167,14 +167,14 @@ class _TicketScreenState extends State<TicketScreen> {
           children: [
             Icon(
               Iconsax.info_circle,
-              color: kWhiteColor,
+              color: kGreenColor,
               size: 20,
             ),
             SizedBox(width: defaultMargin),
             Expanded(
               child: Text(
-                'Semua transaksi pemesanan tiket akan ditampilkan \ndi sini dan bisa diakses kapan saja',
-                style: buttonColor.copyWith(
+                'Semua transaksi pemesanan tiket akan ditampilkan di sini dan bisa diakses kapan saja.',
+                style: blackTextStyle.copyWith(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
                 ),
@@ -306,16 +306,6 @@ class _TicketScreenState extends State<TicketScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      "Order ID ${ticket.bookingId.toUpperCase()}",
-                      style: subTitleTextStyle.copyWith(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(
-                      height: defaultMargin,
-                    ),
                     Row(
                       children: [
                         Expanded(
@@ -323,9 +313,9 @@ class _TicketScreenState extends State<TicketScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                '${ticket.carFrom} - ${ticket.carTo}',
+                                '${ticket.carFrom} → ${ticket.carTo}',
                                 style: titleTextStyle.copyWith(
-                                  fontSize: 18,
+                                  fontSize: 16,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -341,55 +331,33 @@ class _TicketScreenState extends State<TicketScreen> {
                         ),
                         Icon(
                           LineIcons.angleRight,
-                          color: kPrimaryColor,
-                          size: 20,
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: defaultMargin),
-                    Row(
-                      children: [
-                        Icon(
-                          Iconsax.calendar,
-                          size: 18,
                           color: kGreyColor,
-                        ),
-                        SizedBox(width: defaultMargin),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              DateFormat('EEEE, d MMMM yyyy', 'id_ID')
-                                  .format(ticket.carDate),
-                              style: blackTextStyle.copyWith(
-                                fontSize: 14,
-                                fontWeight: bold,
-                              ),
-                            ),
-                          ],
+                          size: 18,
                         ),
                       ],
                     ),
                     SizedBox(height: defaultMargin / 2),
                     Row(
                       children: [
+                        Text(
+                          DateFormat('EEEE, d MMMM yyyy', 'id_ID')
+                              .format(ticket.carDate),
+                          style: blackTextStyle.copyWith(
+                            fontSize: 14,
+                          ),
+                        ),
+                        SizedBox(width: defaultMargin),
                         Icon(
-                          Iconsax.clock,
-                          size: 18,
+                          Icons.circle,
+                          size: 5,
                           color: kGreyColor,
                         ),
                         SizedBox(width: defaultMargin),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              ticket.departureTime,
-                              style: blackTextStyle.copyWith(
-                                fontSize: 14,
-                                fontWeight: bold,
-                              ),
-                            ),
-                          ],
+                        Text(
+                          ticket.departureTime,
+                          style: blackTextStyle.copyWith(
+                            fontSize: 14,
+                          ),
                         ),
                       ],
                     ),
@@ -399,12 +367,23 @@ class _TicketScreenState extends State<TicketScreen> {
                       thickness: 1,
                     ),
                     SizedBox(height: defaultMargin),
-                    Text(
-                      status,
-                      style: blackTextStyle.copyWith(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                        color: statusColor,
+                    Container(
+                      // padding: EdgeInsets.symmetric(
+                      //   horizontal: defaultMargin,
+                      //   vertical: defaultMargin / 2,
+                      // ),
+                      // decoration: BoxDecoration(
+                      //   color: Colors.grey[50],
+                      //   borderRadius: BorderRadius.circular(defaultRadius),
+                      //   border: Border.all(color: Colors.grey[200]!),
+                      // ),
+                      child: Text(
+                        status,
+                        style: blackTextStyle.copyWith(
+                          fontSize: 14,
+                          color: statusColor,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ],

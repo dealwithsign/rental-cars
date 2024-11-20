@@ -25,7 +25,7 @@ Color kBlackColor = const Color(0x0f222222);
 Color kAlertMessage = const Color(0xfffcf1f2);
 
 Color kGreyColor = const Color(0xff6B6B6B);
-Color kGreenColor = const Color(0xff0EC3AE);
+Color kGreenColor = const Color(0xff018053);
 Color kRedColor = const Color(0xffF34040);
 Color kflushBackError = const Color(0xffFFEAEA);
 Color kInactiveColor = const Color(0xffDBD7EC);
@@ -89,7 +89,7 @@ TextStyle greyTextStyle = GoogleFonts.interTight(
 );
 
 TextStyle greenTextStyle = GoogleFonts.interTight(
-  color: kButtonColor,
+  color: kGreenColor,
 );
 
 TextStyle redTextStyle = GoogleFonts.interTight(

@@ -210,18 +210,34 @@ class _ListCarPageState extends State<ListCarPage> {
                                     SizedBox(height: defaultMargin / 2),
                                     Row(
                                       children: [
-                                        Icon(
-                                          Iconsax.clock,
-                                          size: 18,
-                                          color: kGreyColor,
+                                        Row(
+                                          children: [
+                                            Text(
+                                              car.departureTime,
+                                              style: titleTextStyle.copyWith(
+                                                fontSize: 14,
+                                                fontWeight: bold,
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                        SizedBox(width: defaultMargin),
-                                        Text(
-                                          car.departureTime,
-                                          style: titleTextStyle.copyWith(
-                                            fontSize: 14,
-                                            fontWeight: bold,
-                                          ),
+                                        SizedBox(width: defaultMargin / 2),
+                                        Icon(
+                                          Icons.circle,
+                                          color: descGrey,
+                                          size: 5,
+                                        ),
+                                        SizedBox(width: defaultMargin / 2),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              ' ${car.seats} penumpang',
+                                              style: titleTextStyle.copyWith(
+                                                fontSize: 14,
+                                                fontWeight: bold,
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ],
                                     ),

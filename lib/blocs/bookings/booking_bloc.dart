@@ -31,6 +31,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
             userEmail: event.userEmail,
             isPayment: event.isPayment,
             totalPayment: event.totalPayment,
+            carImage: event.carImage,
           );
 
           emit(BookingSuccess(bookings as List<BookingModels>));
@@ -75,6 +76,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
             departureTime: event.departureTime,
             userPhoneNumber: event.userPhoneNumber,
             userEmail: event.userEmail,
+            carImage: event.carImage,
           );
           emit(BookingSuccess(paymentUrl as List<BookingModels>));
         } catch (e) {

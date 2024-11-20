@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:iconsax/iconsax.dart';
 
 import 'package:intl/intl.dart';
 
@@ -134,10 +135,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     SizedBox(height: defaultMargin),
                     _buildSearchTicket(),
                     SizedBox(height: defaultMargin),
-                    Divider(
-                      color: kBackgroundColor,
-                      thickness: 5,
-                    ),
+                    _buildSectionDivider(),
                     Container(
                       color: kWhiteColor,
                       child: buildBody(),
@@ -150,6 +148,10 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
     );
+  }
+
+  Widget _buildSectionDivider() {
+    return const Divider(color: Color(0XFFEBEBEB), thickness: 2);
   }
 
   Widget buildBody() {
@@ -176,9 +178,9 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               SizedBox(height: defaultMargin / 2),
               Text(
-                "Temukan inpirasi liburan dengan destinasi \nmenarik di Tana Toraja",
+                "Temukan inpirasi liburan dengan destinasi \nmenarik di Tana Toraja.",
                 style: blackTextStyle.copyWith(
-                  fontSize: 14,
+                  fontSize: 15,
                 ),
               ),
               SizedBox(height: defaultMargin),
@@ -186,11 +188,11 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
         ),
-        Padding(
-          padding: EdgeInsets.only(
-            bottom: defaultMargin * 4,
-          ),
-        ),
+        // Padding(
+        //   padding: EdgeInsets.only(
+        //     bottom: defaultMargin,
+        //   ),
+        // ),
       ],
     );
   }
@@ -212,17 +214,27 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: EdgeInsets.all(defaultMargin),
           child: Column(
             children: [
-              _buildCityPicker('Pilih Kota Asal', selectedFrom, (String city) {
-                setState(() {
-                  selectedFrom = city;
-                });
-              }),
+              _buildCityPicker(
+                'Pilih Kota Asal',
+                selectedFrom,
+                (String city) {
+                  setState(() {
+                    selectedFrom = city;
+                  });
+                },
+                Iconsax.location,
+              ),
               SizedBox(height: defaultMargin),
-              _buildCityPicker('Pilih Kota Tujuan', selectedTo, (String city) {
-                setState(() {
-                  selectedTo = city;
-                });
-              }),
+              _buildCityPicker(
+                'Pilih Kota Tujuan',
+                selectedTo,
+                (String city) {
+                  setState(() {
+                    selectedTo = city;
+                  });
+                },
+                Iconsax.location_tick,
+              ),
               SizedBox(height: defaultMargin),
               _buildDatePicker('Pilih Tanggal Jemput', selectedDate,
                   (DateTime date) {
@@ -261,8 +273,8 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildCityPicker(
-      String label, String selectedCity, Function(String) onCitySelected) {
+  Widget _buildCityPicker(String label, String selectedCity,
+      Function(String) onCitySelected, IconData icon) {
     return GestureDetector(
       onTap: () => _showCitySelectionModal(context, onCitySelected),
       child: Container(
@@ -277,6 +289,11 @@ class _HomeScreenState extends State<HomeScreen> {
         padding: const EdgeInsets.all(8.0),
         child: Row(
           children: [
+            Icon(
+              icon,
+              color: kGreyColor,
+              size: 20,
+            ),
             SizedBox(width: defaultMargin),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -319,9 +336,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           child: SizedBox(
-            height: MediaQuery.of(context).size.height -
-                56.0 -
-                MediaQuery.of(context).padding.top,
+            height: MediaQuery.of(context).size.height * 0.4,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
@@ -377,7 +392,10 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildDatePicker(
-      String label, DateTime selectedDate, Function(DateTime) onDateSelected) {
+    String label,
+    DateTime selectedDate,
+    Function(DateTime) onDateSelected,
+  ) {
     return GestureDetector(
       onTap: () async {
         showModalBottomSheet(
@@ -394,9 +412,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               child: SizedBox(
-                height: MediaQuery.of(context).size.height -
-                    56.0 -
-                    MediaQuery.of(context).padding.top,
+                height: MediaQuery.of(context).size.height * 0.4,
                 child: Theme(
                   data: ThemeData(
                     colorScheme: ColorScheme.light(
@@ -450,9 +466,14 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(8),
+          padding: EdgeInsets.all(defaultMargin / 2),
           child: Row(
             children: [
+              Icon(
+                Iconsax.calendar_1, // Added calendar icon here
+                color: kGreyColor,
+                size: 20,
+              ),
               SizedBox(width: defaultMargin),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -684,10 +705,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   Text(
                     title,
                     style: titleTextStyle.copyWith(
-                      fontSize: 14,
+                      fontSize: 15,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
+                  SizedBox(height: defaultMargin / 2),
                   Text(
                     location,
                     style: subTitleTextStyle.copyWith(
@@ -711,69 +733,53 @@ class _HomeScreenState extends State<HomeScreen> {
           MaterialPageRoute(builder: (context) => const HowToBePartner()),
         );
       },
-      child: Card(
-        clipBehavior: Clip.antiAlias,
-        color: kTransparentColor,
-        elevation: 0.5,
-        shape: RoundedRectangleBorder(
+      child: Container(
+        padding: EdgeInsets.all(defaultMargin),
+        decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(defaultRadius),
-          side: BorderSide(
-            color: kTransparentColor,
-            width: 1.0,
+          color: const Color(0xffd8f4cc), // Soft green background
+          border: Border.all(
+            color: const Color(0xffd8f4cc),
+            width: 1,
           ),
         ),
-        child: Stack(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Background image
-            // https://images.unsplash.com/photo-1612345642327-e79b84fd94f6?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.14,
-              width: double.infinity,
-              child: Image.asset(
-                'assets/images/be_a_partner.jpg',
-                fit: BoxFit.cover,
+            const Text(
+              'Pesan Tiket Sekarang',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+                color: Color(0xff018053),
               ),
             ),
-            // Semi-transparent overlay with custom colors
-            Container(
-              height: MediaQuery.of(context).size.height * 0.14,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    // const Color(0xff018053), // Overlay dengan warna hijau
-                    kPrimaryColor,
-                    kPrimaryColor.withOpacity(0.5), // Transparan
-                  ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
+            const SizedBox(height: 8),
+            Text(
+              'Temukan harga terbaik untuk perjalanan nyamanmu',
+              style: TextStyle(
+                fontSize: 14,
+                color: const Color(0xff018053).withOpacity(0.8),
+              ),
+            ),
+            const SizedBox(height: 16),
+            Row(
+              children: [
+                Text(
+                  'Mulai',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: const Color(0xff018053).withOpacity(0.9),
+                  ),
                 ),
-                borderRadius: BorderRadius.circular(defaultRadius),
-              ),
-            ),
-            // Text content
-            Padding(
-              padding: EdgeInsets.all(defaultMargin),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Cara pemesanan tiket mobil antar kota',
-                    style: buttonColor.copyWith(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: defaultMargin),
-                  Text(
-                    'Cek disini →',
-                    style: buttonColor.copyWith(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
+                const SizedBox(width: 4),
+                const Icon(
+                  Icons.arrow_forward,
+                  size: 16,
+                  color: Color(0xff018053),
+                ),
+              ],
             ),
           ],
         ),

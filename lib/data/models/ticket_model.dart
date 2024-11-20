@@ -58,6 +58,7 @@ class TicketModels extends Equatable {
   final String departureTime;
   final String userPhoneNumber;
   final String userEmail;
+  final String carImage;
   // final List<VirtualAccountNumber> vaNumbers; // Add this property
 
   const TicketModels({
@@ -91,6 +92,7 @@ class TicketModels extends Equatable {
     // required this.vaNumbers, // Add this initialization
     required this.userPhoneNumber,
     required this.userEmail,
+    required this.carImage,
   });
 
   factory TicketModels.fromJson(Map<String, dynamic> json) {
@@ -133,6 +135,7 @@ class TicketModels extends Equatable {
       departureTime: json['departure_time'] ?? '', // Add this parsing
       userPhoneNumber: json['user_phone'] ?? '',
       userEmail: json['user_email'] ?? '',
+      carImage: json['car_image'] ?? '',
       // vaNumbers: vaNumbers, // Add this parsing
     );
   }
@@ -168,6 +171,7 @@ class TicketModels extends Equatable {
       'departure_time': departureTime, // Add this field
       'user_phone': userPhoneNumber,
       'user_email': userEmail,
+      'car_image': carImage,
       // 'va_numbers':
       //     vaNumbers.map((va) => va.toJson()).toList(), // Add this field
       // 'bank': vaNumbers.map((va) => va.bank).toList(), // Add this field
@@ -205,6 +209,7 @@ class TicketModels extends Equatable {
         userPhoneNumber,
         userEmail,
         departureTime,
+        carImage,
         // vaNumbers, // Add this property
       ];
 }
