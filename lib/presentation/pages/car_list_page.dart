@@ -81,7 +81,7 @@ class _ListCarPageState extends State<ListCarPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '${widget.carFrom} - ${widget.carTo}',
+            '${widget.carFrom} ke ${widget.carTo}',
             style: titleTextStyle.copyWith(
               fontSize: 16,
               fontWeight: bold,

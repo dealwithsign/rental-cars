@@ -53,10 +53,7 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      color: kWhiteColor,
-      home: Scaffold(
+    return Scaffold(
         backgroundColor: kWhiteColor,
         body: BlocBuilder<CarBloc, CarState>(
           builder: (context, state) {
@@ -78,9 +75,7 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
               return const Center(child: Text('Data tidak tersedia'));
             }
           },
-        ),
-      ),
-    );
+        ));
   }
 
   Widget _buildCarDetails(CarsModels fetchedCar) {
@@ -168,7 +163,16 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
             ),
           ),
         ),
-        SizedBox(height: defaultMargin / 2),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: defaultMargin),
+          child: Text(
+            'Dioperasikan oleh ${fetchedCar.ownerCar}',
+            style: subTitleTextStyle.copyWith(
+              fontSize: 14,
+            ),
+          ),
+        ),
+        SizedBox(height: defaultMargin),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: defaultMargin),
           child: Text(
@@ -183,20 +187,125 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: defaultMargin),
           child: Text(
-            'Dioperasikan oleh ${fetchedCar.ownerCar}',
-            style: subTitleTextStyle.copyWith(
-              fontSize: 14,
+            fetchedCar.carDesc,
+            style: blackTextStyle.copyWith(
+              fontSize: 15,
+            ),
+          ),
+        ),
+        SizedBox(height: defaultMargin),
+        _buildSectionDivider(),
+        SizedBox(height: defaultMargin),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: defaultMargin),
+          child: Text(
+            "Rute Perjalanan",
+            style: titleTextStyle.copyWith(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
             ),
           ),
         ),
         SizedBox(height: defaultMargin),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-          child: Text(
-            fetchedCar.carDesc,
-            style: blackTextStyle.copyWith(
-              fontSize: 15,
-            ),
+          child: Row(
+            children: [
+              Text(
+                DateFormat('EEEE, d MMMM yyyy', 'id_ID').format(widget.carDate),
+                style: blackTextStyle.copyWith(
+                  fontSize: 15,
+                  fontWeight: bold,
+                ),
+              ),
+              SizedBox(width: defaultMargin / 2),
+              Icon(
+                Icons.circle,
+                color: descGrey,
+                size: 5,
+              ),
+              SizedBox(width: defaultMargin / 2),
+              Text(
+                fetchedCar.departureTime,
+                style: blackTextStyle.copyWith(
+                  fontSize: 15,
+                  fontWeight: bold,
+                ),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(height: defaultMargin * 2),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: defaultMargin),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Column(
+                children: [
+                  CircleAvatar(
+                    backgroundColor: kBackgroundColor,
+                    child: Icon(
+                      Iconsax.location,
+                      color: kGreyColor,
+                      size: 20,
+                    ),
+                  ),
+                  Container(
+                    width: 1,
+                    height: 50,
+                    color: kBackgroundColor,
+                  ),
+                  CircleAvatar(
+                    backgroundColor: kBackgroundColor,
+                    child: Icon(
+                      Iconsax.location_tick,
+                      color: kGreyColor,
+                      size: 20,
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(width: defaultMargin),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Kota Asal",
+                      style: subTitleTextStyle.copyWith(
+                        fontSize: 14,
+                        fontWeight: bold,
+                      ),
+                    ),
+                    SizedBox(height: defaultMargin / 2),
+                    Text(
+                      widget.carFrom,
+                      style: blackTextStyle.copyWith(
+                        fontSize: 15,
+                        fontWeight: bold,
+                      ),
+                    ),
+                    SizedBox(height: defaultMargin * 3),
+                    Text(
+                      "Kota Tujuan",
+                      style: subTitleTextStyle.copyWith(
+                        fontSize: 14,
+                        fontWeight: bold,
+                      ),
+                    ),
+                    SizedBox(height: defaultMargin / 2),
+                    Text(
+                      widget.carTo,
+                      style: blackTextStyle.copyWith(
+                        fontSize: 15,
+                        fontWeight: bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
         ),
         SizedBox(height: defaultMargin),

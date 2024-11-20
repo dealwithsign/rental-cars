@@ -233,7 +233,7 @@ class _PickDropState extends State<PickDrop> {
                         cursorColor: kPrimaryColor,
                         controller: _searchController,
                         decoration: InputDecoration(
-                          hintText: 'Masukkan lokasi drop, kota, dll',
+                          hintText: 'Masukkan lokasi tujuan, kota, dll',
                           hintStyle: subTitleTextStyle.copyWith(
                             fontSize: 15.0,
                           ),
@@ -281,7 +281,7 @@ class _PickDropState extends State<PickDrop> {
                           bottom: defaultMargin,
                         ),
                         child: Text(
-                          "Pilih Lokasi Drop",
+                          "Pilih Lokasi Tujuan",
                           style: titleTextStyle.copyWith(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,

@@ -197,7 +197,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Detail Pesanan',
+              'Konfirmasi Pesanan',
               style: titleTextStyle.copyWith(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
@@ -528,13 +528,13 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
                       ? user.phone_number.toString()
                       : '0${user.phone_number}',
                   style: subTitleTextStyle.copyWith(
-                    fontSize: 14,
+                    fontSize: 15,
                   ),
                 ),
                 Text(
                   user.email,
                   style: subTitleTextStyle.copyWith(
-                    fontSize: 14,
+                    fontSize: 15,
                   ),
                 ),
               ],
@@ -618,7 +618,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
               Text(
                 'Rp ${widget.carModel.carPrice} x ${widget.selectedPassengers} Orang',
                 style: subTitleTextStyle.copyWith(
-                  fontSize: 14,
+                  fontSize: 15,
                 ),
               ),
               Text(
@@ -638,7 +638,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
               Text(
                 'Biaya Pemesanan',
                 style: subTitleTextStyle.copyWith(
-                  fontSize: 14,
+                  fontSize: 15,
                 ),
               ),
               Text(
@@ -657,7 +657,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
               Text(
                 'Biaya Jasa ',
                 style: subTitleTextStyle.copyWith(
-                  fontSize: 14,
+                  fontSize: 15,
                 ),
               ),
               Text(
@@ -681,7 +681,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
               Text(
                 'Total Pembayaran',
                 style: blackTextStyle.copyWith(
-                  fontSize: 15,
+                  fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -689,7 +689,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
                 // Format the total price including admin fee
                 'Rp ${NumberFormat("#,##0", "id_ID").format(totalPrice)}',
                 style: blackTextStyle.copyWith(
-                  fontSize: 15,
+                  fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -751,15 +751,14 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
           Row(
             children: [
               Text(
-                '${widget.carFrom} → ${widget.carTo}',
+                widget.carModel.carName,
                 style: blackTextStyle.copyWith(
-                  fontSize: 18,
+                  fontSize: 20,
                   fontWeight: bold,
                 ),
               ),
             ],
           ),
-          SizedBox(height: defaultMargin / 2),
           Text(
             "Dioperasikan oleh ${widget.carModel.ownerCar}",
             style: subTitleTextStyle.copyWith(
@@ -767,104 +766,44 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
             ),
           ),
           SizedBox(height: defaultMargin),
+          Text(
+            "${widget.carModel.carFrom} ke ${widget.carModel.carTo}",
+            style: blackTextStyle.copyWith(
+              fontSize: 18,
+              fontWeight: bold,
+            ),
+          ),
           Row(
             children: [
-              CircleAvatar(
-                backgroundColor: kBackgroundColor,
-                child: Icon(
-                  Iconsax.calendar,
-                  color: kGreyColor,
-                  size: 20,
+              Text(
+                DateFormat('EEEE, d MMMM yyyy', 'id_ID').format(widget.carDate),
+                style: blackTextStyle.copyWith(
+                  fontSize: 15,
+                  fontWeight: bold,
                 ),
               ),
-              SizedBox(width: defaultMargin),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Tanggal Berangkat",
-                    style: subTitleTextStyle.copyWith(
-                      fontSize: 14,
-                    ),
-                  ),
-                  SizedBox(height: defaultMargin / 2),
-                  Text(
-                    DateFormat('EEEE, d MMMM yyyy', 'id_ID')
-                        .format(widget.carModel.carDate),
-                    style: blackTextStyle.copyWith(
-                      fontSize: 15,
-                      fontWeight: bold,
-                    ),
-                  ),
-                ],
+              SizedBox(width: defaultMargin / 2),
+              Icon(
+                Icons.circle,
+                color: descGrey,
+                size: 5,
+              ),
+              SizedBox(width: defaultMargin / 2),
+              Text(
+                widget.carModel.departureTime,
+                style: blackTextStyle.copyWith(
+                  fontSize: 15,
+                  fontWeight: bold,
+                ),
               ),
             ],
           ),
-          SizedBox(height: defaultMargin),
-          Row(
-            children: [
-              CircleAvatar(
-                backgroundColor: kBackgroundColor,
-                child: Icon(
-                  Iconsax.clock,
-                  color: kGreyColor,
-                  size: 20,
-                ),
-              ),
-              SizedBox(width: defaultMargin),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Jam Berangkat",
-                    style: subTitleTextStyle.copyWith(
-                      fontSize: 14,
-                    ),
-                  ),
-                  SizedBox(height: defaultMargin / 2),
-                  Text(
-                    widget.carModel.departureTime,
-                    style: blackTextStyle.copyWith(
-                      fontSize: 15,
-                      fontWeight: bold,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          SizedBox(height: defaultMargin),
-          Row(
-            children: [
-              CircleAvatar(
-                backgroundColor: kBackgroundColor,
-                child: Icon(
-                  Iconsax.user,
-                  color: kGreyColor,
-                  size: 20,
-                ),
-              ),
-              SizedBox(width: defaultMargin),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Jam Penumpang",
-                    style: subTitleTextStyle.copyWith(
-                      fontSize: 14,
-                    ),
-                  ),
-                  SizedBox(height: defaultMargin / 2),
-                  Text(
-                    ' ${widget.selectedPassengers} orang',
-                    style: blackTextStyle.copyWith(
-                      fontSize: 15,
-                      fontWeight: bold,
-                    ),
-                  ),
-                ],
-              ),
-            ],
+          Text(
+            '${widget.selectedPassengers} Penumpang',
+            style: blackTextStyle.copyWith(
+              fontSize: 15,
+              fontWeight: bold,
+            ),
           ),
           SizedBox(height: defaultMargin),
           Row(
@@ -903,7 +842,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Lokasi jemput',
+                      'Titik Jemput',
                       style: subTitleTextStyle.copyWith(
                         fontSize: 14,
                       ),
@@ -918,7 +857,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
                     ),
                     SizedBox(height: defaultMargin * 2),
                     Text(
-                      'Lokasi tujuan',
+                      'Titik Tujuan',
                       style: subTitleTextStyle.copyWith(
                         fontSize: 14,
                       ),
@@ -948,7 +887,7 @@ class _DetailBookingPageState extends State<DetailBookingPage> {
             specialRequest.isEmpty
                 ? 'Tidak ada permintaan khusus'
                 : specialRequest,
-            Iconsax.note,
+            Iconsax.document,
           ),
         ],
       ),

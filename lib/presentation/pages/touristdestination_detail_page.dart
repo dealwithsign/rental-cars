@@ -35,185 +35,178 @@ class _TouristdestinationDetailPageState
   Widget build(BuildContext context) {
     final destination = widget.destination;
 
-    return MaterialApp(
-      color: kWhiteColor,
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        backgroundColor: kWhiteColor,
-        body: Skeletonizer(
-          enabled: isLoading,
-          child: CustomScrollView(
-            physics: const BouncingScrollPhysics(),
-            slivers: [
-              SliverAppBar(
-                backgroundColor: kWhiteColor,
-                surfaceTintColor: kWhiteColor,
-                elevation: 0,
-                leading: IconButton(
-                  icon: Icon(
-                    Iconsax.arrow_left_2,
-                    color: kWhiteColor,
-                  ),
-                  onPressed: () => Navigator.of(context).pop(),
+    return Scaffold(
+      backgroundColor: kWhiteColor,
+      body: Skeletonizer(
+        enabled: isLoading,
+        child: CustomScrollView(
+          physics: const BouncingScrollPhysics(),
+          slivers: [
+            SliverAppBar(
+              backgroundColor: kWhiteColor,
+              surfaceTintColor: kWhiteColor,
+              elevation: 0,
+              leading: IconButton(
+                icon: Icon(
+                  Iconsax.arrow_left_2,
+                  color: kWhiteColor,
                 ),
-                expandedHeight: MediaQuery.of(context).size.height * 0.3,
-                pinned: true,
-                flexibleSpace: FlexibleSpaceBar(
-                  background: Image.network(
-                    destination.imageUrl,
-                    fit: BoxFit.cover,
-                  ),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+              expandedHeight: MediaQuery.of(context).size.height * 0.3,
+              pinned: true,
+              flexibleSpace: FlexibleSpaceBar(
+                background: Image.network(
+                  destination.imageUrl,
+                  fit: BoxFit.cover,
                 ),
               ),
-              SliverList(
-                delegate: SliverChildListDelegate(
-                  [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(height: defaultMargin),
-                        Padding(
-                          padding:
-                              EdgeInsets.symmetric(horizontal: defaultMargin),
-                          child: DestinationTitle(destination.name),
+            ),
+            SliverList(
+              delegate: SliverChildListDelegate(
+                [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: defaultMargin),
+                      Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: defaultMargin),
+                        child: DestinationTitle(destination.name),
+                      ),
+                      SizedBox(height: defaultMargin),
+                      Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: defaultMargin),
+                        child: DestinationDescription(destination.description),
+                      ),
+                      SizedBox(height: defaultMargin),
+                      const Divider(color: Color(0XFFEBEBEB), thickness: 1),
+                      SizedBox(height: defaultMargin),
+                      Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: defaultMargin),
+                        child: DestinationLocationCard(
+                          title: "Lokasi",
+                          message: destination.location,
+                          icon: Iconsax.location,
                         ),
-                        SizedBox(height: defaultMargin),
-                        Padding(
-                          padding:
-                              EdgeInsets.symmetric(horizontal: defaultMargin),
-                          child:
-                              DestinationDescription(destination.description),
+                      ),
+                      SizedBox(height: defaultMargin),
+                      Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: defaultMargin),
+                        child: DestinationLocationCard(
+                          title: "Katagori",
+                          message: destination.category,
+                          icon: Iconsax.category,
                         ),
-                        SizedBox(height: defaultMargin),
-                        const Divider(color: Color(0XFFEBEBEB), thickness: 1),
-                        SizedBox(height: defaultMargin),
-                        Padding(
-                          padding:
-                              EdgeInsets.symmetric(horizontal: defaultMargin),
-                          child: DestinationLocationCard(
-                            title: "Lokasi",
-                            message: destination.location,
-                            icon: Iconsax.location,
-                          ),
+                      ),
+                      SizedBox(height: defaultMargin),
+                      Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: defaultMargin),
+                        child: DestinationLocationCard(
+                          title: "Jam Operasional",
+                          message: destination.operatingHours,
+                          icon: Iconsax.clock,
                         ),
-                        SizedBox(height: defaultMargin),
-                        Padding(
-                          padding:
-                              EdgeInsets.symmetric(horizontal: defaultMargin),
-                          child: DestinationLocationCard(
-                            title: "Katagori",
-                            message: destination.category,
-                            icon: Iconsax.category,
-                          ),
+                      ),
+                      SizedBox(height: defaultMargin),
+                      Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: defaultMargin),
+                        child: DestinationLocationCard(
+                          title: "Harga Tiket",
+                          message: destination.ticketPrice,
+                          icon: Iconsax.ticket,
                         ),
-                        SizedBox(height: defaultMargin),
-                        Padding(
-                          padding:
-                              EdgeInsets.symmetric(horizontal: defaultMargin),
-                          child: DestinationLocationCard(
-                            title: "Jam Operasional",
-                            message: destination.operatingHours,
-                            icon: Iconsax.clock,
-                          ),
-                        ),
-                        SizedBox(height: defaultMargin),
-                        Padding(
-                          padding:
-                              EdgeInsets.symmetric(horizontal: defaultMargin),
-                          child: DestinationLocationCard(
-                            title: "Harga Tiket",
-                            message: destination.ticketPrice,
-                            icon: Iconsax.ticket,
-                          ),
-                        ),
-                        SizedBox(height: defaultMargin),
-                        const Divider(color: Color(0XFFEBEBEB), thickness: 1),
-                        SizedBox(height: defaultMargin),
-                        Padding(
-                          padding:
-                              EdgeInsets.symmetric(horizontal: defaultMargin),
-                          child: Container(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Punya pertanyaan?',
-                                  style: titleTextStyle.copyWith(
-                                    fontSize: 18,
-                                    fontWeight: bold,
+                      ),
+                      SizedBox(height: defaultMargin),
+                      const Divider(color: Color(0XFFEBEBEB), thickness: 1),
+                      SizedBox(height: defaultMargin),
+                      Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: defaultMargin),
+                        child: Container(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Punya pertanyaan?',
+                                style: titleTextStyle.copyWith(
+                                  fontSize: 18,
+                                  fontWeight: bold,
+                                ),
+                              ),
+                              SizedBox(height: defaultMargin),
+                              Text(
+                                'Untuk pemesanan tiket atau informasi lainnya, silakan hubungi melalui email atau nomor di bawah ini',
+                                style: blackTextStyle.copyWith(
+                                  fontSize: 15,
+                                ),
+                              ),
+                              SizedBox(height: defaultMargin),
+                              Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Icon(
+                                        Iconsax.message,
+                                        color: kGreyColor,
+                                        size: 20,
+                                      ),
+                                      SizedBox(width: defaultMargin),
+                                      Text(
+                                        destination.email?.isNotEmpty == true
+                                            ? destination.email!
+                                            : 'Belum ada email terdaftar',
+                                        style: blackTextStyle.copyWith(
+                                          fontSize: 14,
+                                          fontWeight: bold,
+                                          decoration: TextDecoration.underline,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ),
-                                SizedBox(height: defaultMargin),
-                                Text(
-                                  'Untuk pemesanan tiket atau informasi lainnya, silakan hubungi melalui email atau nomor di bawah ini',
-                                  style: blackTextStyle.copyWith(
-                                    fontSize: 15,
+                                  SizedBox(height: defaultMargin / 2),
+                                  Row(
+                                    children: [
+                                      Icon(
+                                        Iconsax.call,
+                                        color: kGreyColor,
+                                        size: 20,
+                                      ),
+                                      SizedBox(width: defaultMargin),
+                                      Text(
+                                        destination.phoneNumber?.isNotEmpty ==
+                                                true
+                                            ? destination.phoneNumber!
+                                            : 'Belum ada nomor telepon terdaftar',
+                                        style: blackTextStyle.copyWith(
+                                          fontSize: 14,
+                                          fontWeight: bold,
+                                          decoration: TextDecoration.underline,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ),
-                                SizedBox(height: defaultMargin),
-                                Column(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Icon(
-                                          Iconsax.message,
-                                          color: kGreyColor,
-                                          size: 20,
-                                        ),
-                                        SizedBox(width: defaultMargin),
-                                        Text(
-                                          destination.email?.isNotEmpty == true
-                                              ? destination.email!
-                                              : 'Belum ada email terdaftar',
-                                          style: blackTextStyle.copyWith(
-                                            fontSize: 14,
-                                            fontWeight: bold,
-                                            decoration:
-                                                TextDecoration.underline,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(height: defaultMargin / 2),
-                                    Row(
-                                      children: [
-                                        Icon(
-                                          Iconsax.call,
-                                          color: kGreyColor,
-                                          size: 20,
-                                        ),
-                                        SizedBox(width: defaultMargin),
-                                        Text(
-                                          destination.phoneNumber?.isNotEmpty ==
-                                                  true
-                                              ? destination.phoneNumber!
-                                              : 'Belum ada nomor telepon terdaftar',
-                                          style: blackTextStyle.copyWith(
-                                            fontSize: 14,
-                                            fontWeight: bold,
-                                            decoration:
-                                                TextDecoration.underline,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
+                                ],
+                              ),
+                            ],
                           ),
                         ),
-                        SizedBox(height: defaultMargin),
-                        Padding(
-                          padding: EdgeInsets.only(bottom: defaultMargin * 2),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+                      ),
+                      SizedBox(height: defaultMargin),
+                      Padding(
+                        padding: EdgeInsets.only(bottom: defaultMargin * 2),
+                      ),
+                    ],
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

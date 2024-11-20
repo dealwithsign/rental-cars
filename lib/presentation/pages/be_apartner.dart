@@ -30,15 +30,12 @@ class _HowToBePartnerState extends State<HowToBePartner> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        backgroundColor: kWhiteColor,
-        appBar: _buildAppBar(),
-        body: Skeletonizer(
-          enabled: isLoading,
-          child: _buildBody(),
-        ),
+    return Scaffold(
+      backgroundColor: kWhiteColor,
+      appBar: _buildAppBar(),
+      body: Skeletonizer(
+        enabled: isLoading,
+        child: _buildBody(),
       ),
     );
   }

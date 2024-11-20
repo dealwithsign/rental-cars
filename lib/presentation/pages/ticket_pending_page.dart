@@ -43,20 +43,17 @@ class _TicketPendingPageState extends State<TicketPendingPage> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        backgroundColor: kWhiteColor,
-        body: BlocListener<TicketsBloc, TicketsState>(
-          listener: (context, state) {
-            if (state is TicketsError) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Error: ${state.message}')),
-              );
-            }
-          },
-          child: _buildCarDetails(),
-        ),
+    return Scaffold(
+      backgroundColor: kWhiteColor,
+      body: BlocListener<TicketsBloc, TicketsState>(
+        listener: (context, state) {
+          if (state is TicketsError) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Error: ${state.message}')),
+            );
+          }
+        },
+        child: _buildCarDetails(),
       ),
     );
   }
@@ -373,7 +370,7 @@ class _TicketPendingPageState extends State<TicketPendingPage> {
             CircleAvatar(
               backgroundColor: kBackgroundColor,
               child: Icon(
-                Iconsax.note,
+                Iconsax.document,
                 color: kGreyColor,
                 size: 20,
               ),

@@ -122,13 +122,6 @@ class _HomeScreenState extends State<HomeScreen> {
                               fontSize: 18,
                             ),
                           ),
-                          const SizedBox(height: 5),
-                          Text(
-                            'Pesan tiketmu kapan saja dan di mana saja',
-                            style: buttonColor.copyWith(
-                              fontSize: 15,
-                            ),
-                          ),
                         ],
                       ),
                     ),
@@ -209,7 +202,7 @@ class _HomeScreenState extends State<HomeScreen> {
             width: 1.0,
           ),
         ),
-        elevation: 1,
+        elevation: 0.5,
         child: Padding(
           padding: EdgeInsets.all(defaultMargin),
           child: Column(
@@ -309,7 +302,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   selectedCity,
                   style: blackTextStyle.copyWith(
                     fontWeight: bold,
-                    fontSize: 14,
+                    fontSize: 15,
                   ),
                 ),
               ],
@@ -489,7 +482,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     DateFormat('EEE, dd MMMM yyyy', 'id_ID')
                         .format(selectedDate),
                     style: blackTextStyle.copyWith(
-                      fontSize: 14,
+                      fontSize: 15,
                       fontWeight: bold,
                     ),
                   ),
@@ -737,40 +730,38 @@ class _HomeScreenState extends State<HomeScreen> {
         padding: EdgeInsets.all(defaultMargin),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(defaultRadius),
-          color: const Color(0xffd8f4cc), // Soft green background
+          color: const Color(0xffe5e5e5), // Soft green background
           border: Border.all(
-            color: const Color(0xffd8f4cc),
-            width: 1,
+            color: const Color(0xffe5e5e5),
+            width: 0.5,
           ),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Pesan Tiket Sekarang',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-                color: Color(0xff018053),
-              ),
-            ),
-            const SizedBox(height: 8),
             Text(
-              'Temukan harga terbaik untuk perjalanan nyamanmu',
-              style: TextStyle(
+              'Pesan Tiket Sekarang',
+              style: blackTextStyle.copyWith(
                 fontSize: 14,
-                color: const Color(0xff018053).withOpacity(0.8),
+                fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: defaultMargin / 2),
+            Text(
+              'Lebih hemat dan temukan harga terbaik untuk perjalanan nyamanmu.',
+              style: blackTextStyle.copyWith(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: defaultMargin),
             Row(
               children: [
                 Text(
                   'Mulai',
-                  style: TextStyle(
+                  style: greenTextStyle.copyWith(
                     fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                    color: const Color(0xff018053).withOpacity(0.9),
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
                 const SizedBox(width: 4),
