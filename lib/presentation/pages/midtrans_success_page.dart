@@ -2,6 +2,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:rents_cars_app/presentation/pages/wrapper_auth_page.dart';
 
 import '../../utils/fonts.dart';
@@ -26,16 +27,16 @@ class _MidtransSuccessState extends State<MidtransSuccess> {
         title: Column(
           children: [
             Text(
-              'Pembayaran Berhasil',
+              'Transaksi Sukses',
               style: titleTextStyle.copyWith(
-                fontSize: 18,
+                fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
             ),
             Text(
               'Order ID: ${widget.orderId.toUpperCase()}',
-              style: blackTextStyle.copyWith(
-                fontSize: 14,
+              style: subTitleTextStyle.copyWith(
+                fontSize: 15,
               ),
             ),
           ],
@@ -49,18 +50,19 @@ class _MidtransSuccessState extends State<MidtransSuccess> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              ContextMenu(
-                title: 'Terima Kasih ',
-                message:
-                    'Pembayaran tiketmu berhasil \nSilakan cek email untuk detail pemesanan',
-                imagePath:
-                    'assets/images/success_payments.png', // Pass the image path as a string
-                kPrimaryColor: blackTextStyle.copyWith(
-                  fontSize: 16,
-                  fontWeight: bold,
-                ),
-                subTitleTextStyle: subTitleTextStyle.copyWith(
-                  fontSize: 14,
+              Center(
+                child: ContextMenu(
+                  title: 'Pembayaran Berhasil',
+                  message:
+                      'Terima kasih telah melakukan pembayaran.\nSilahkan lihat tiket Anda.',
+                  icon: Iconsax.receipt_text,
+                  kPrimaryColor: blackTextStyle.copyWith(
+                    fontSize: 18,
+                    fontWeight: bold,
+                  ),
+                  subTitleTextStyle: subTitleTextStyle.copyWith(
+                    fontSize: 15,
+                  ),
                 ),
               ),
               SizedBox(height: defaultMargin * 2),

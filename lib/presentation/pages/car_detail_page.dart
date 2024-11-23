@@ -175,11 +175,24 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
         SizedBox(height: defaultMargin),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-          child: Text(
-            "Rp. ${NumberFormat('#,##0', 'id_ID').format(int.parse(fetchedCar.carPrice))} / orang",
-            style: blackTextStyle.copyWith(
-              fontSize: 18,
-              fontWeight: bold,
+          child: RichText(
+            text: TextSpan(
+              children: [
+                TextSpan(
+                  text:
+                      "Rp. ${NumberFormat('#,##0', 'id_ID').format(int.parse(fetchedCar.carPrice))}",
+                  style: blackTextStyle.copyWith(
+                    fontSize: 16,
+                    fontWeight: bold,
+                  ),
+                ),
+                TextSpan(
+                  text: " / orang",
+                  style: subTitleTextStyle.copyWith(
+                    fontSize: 14,
+                  ),
+                ),
+              ],
             ),
           ),
         ),
@@ -243,26 +256,20 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
             children: [
               Column(
                 children: [
-                  CircleAvatar(
-                    backgroundColor: kBackgroundColor,
-                    child: Icon(
-                      Iconsax.location,
-                      color: kGreyColor,
-                      size: 20,
-                    ),
+                  Icon(
+                    Iconsax.location,
+                    color: kPrimaryColor,
+                    size: 20,
                   ),
                   Container(
                     width: 1,
-                    height: 50,
-                    color: kBackgroundColor,
+                    height: 80,
+                    color: const Color(0XFFEBEBEB),
                   ),
-                  CircleAvatar(
-                    backgroundColor: kBackgroundColor,
-                    child: Icon(
-                      Iconsax.location_tick,
-                      color: kGreyColor,
-                      size: 20,
-                    ),
+                  Icon(
+                    Iconsax.location_tick,
+                    color: kPrimaryColor,
+                    size: 20,
                   ),
                 ],
               ),

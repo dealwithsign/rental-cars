@@ -83,14 +83,14 @@ class _ListCarPageState extends State<ListCarPage> {
           Text(
             '${widget.carFrom} ke ${widget.carTo}',
             style: titleTextStyle.copyWith(
-              fontSize: 16,
+              fontSize: 18,
               fontWeight: bold,
             ),
           ),
           const SizedBox(height: 5),
           Text(
             DateFormat('EEEE, d MMMM yyyy', 'id_ID').format(widget.carDate),
-            style: blackTextStyle.copyWith(
+            style: subTitleTextStyle.copyWith(
               fontSize: 15,
               fontWeight: regular,
             ),
@@ -118,14 +118,13 @@ class _ListCarPageState extends State<ListCarPage> {
                 title: 'Jadwal Tidak Ditemukan',
                 message:
                     'Tidak ada jadwal untuk pilihanmu \nSilakan cari rute atau waktu yang berbeda',
-                imagePath:
-                    'assets/images/ticket_no_available.png', // Pass the image path as a string
+                icon: Iconsax.menu_board,
                 kPrimaryColor: blackTextStyle.copyWith(
-                  fontSize: 16,
+                  fontSize: 18,
                   fontWeight: bold,
                 ),
                 subTitleTextStyle: subTitleTextStyle.copyWith(
-                  fontSize: 14,
+                  fontSize: 15,
                 ),
               ),
             );
@@ -260,16 +259,29 @@ class _ListCarPageState extends State<ListCarPage> {
                                             fontSize: 12,
                                           ),
                                         ),
-                                        Text(
-                                          "Rp. ${NumberFormat('#,##0', 'id_ID').format(int.parse(car.carPrice))} / orang",
-                                          style: blackTextStyle.copyWith(
-                                            fontSize: 16,
-                                            fontWeight: bold,
+                                        RichText(
+                                          text: TextSpan(
+                                            children: [
+                                              TextSpan(
+                                                text:
+                                                    "Rp. ${NumberFormat('#,##0', 'id_ID').format(int.parse(car.carPrice))}",
+                                                style: blackTextStyle.copyWith(
+                                                  fontSize: 16,
+                                                  fontWeight: bold,
+                                                ),
+                                              ),
+                                              TextSpan(
+                                                text: " / orang",
+                                                style:
+                                                    subTitleTextStyle.copyWith(
+                                                  fontSize: 14,
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
                                       ],
                                     ),
-                                    const SizedBox(height: 5),
                                   ],
                                 ),
                               ),

@@ -38,20 +38,17 @@ class _TicketCancelPageState extends State<TicketCancelPage> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        backgroundColor: kWhiteColor,
-        body: BlocListener<TicketsBloc, TicketsState>(
-          listener: (context, state) {
-            if (state is TicketsError) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Error: ${state.message}')),
-              );
-            }
-          },
-          child: _buildCarDetails(),
-        ),
+    return Scaffold(
+      backgroundColor: kWhiteColor,
+      body: BlocListener<TicketsBloc, TicketsState>(
+        listener: (context, state) {
+          if (state is TicketsError) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Error: ${state.message}')),
+            );
+          }
+        },
+        child: _buildCarDetails(),
       ),
     );
   }
@@ -210,6 +207,7 @@ class _TicketCancelPageState extends State<TicketCancelPage> {
                     'Batas waktu pembayaranmu telah berakhir \nPesanan ini tidak dapat lagi digunakan.',
                     style: blackTextStyle.copyWith(
                       fontSize: 14,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ],
@@ -228,6 +226,14 @@ class _TicketCancelPageState extends State<TicketCancelPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Text(
+          'Kode Booking: ${widget.ticket.bookingId.toUpperCase()}',
+          style: subTitleTextStyle.copyWith(
+            fontSize: 14,
+            fontWeight: bold,
+          ),
+        ),
+        SizedBox(height: defaultMargin),
         Text(
           widget.ticket.carName,
           style: titleTextStyle.copyWith(
@@ -270,7 +276,7 @@ class _TicketCancelPageState extends State<TicketCancelPage> {
         ),
         SizedBox(height: defaultMargin / 2),
         Text(
-          "${widget.ticket.selectedPassengers.toString()} penumpang",
+          "${widget.ticket.selectedPassengers} penumpang",
           style: blackTextStyle.copyWith(
             fontSize: 15,
             fontWeight: bold,
@@ -282,26 +288,20 @@ class _TicketCancelPageState extends State<TicketCancelPage> {
           children: [
             Column(
               children: [
-                CircleAvatar(
-                  backgroundColor: kBackgroundColor,
-                  child: Icon(
-                    Iconsax.location_tick,
-                    color: kGreyColor,
-                    size: 20,
-                  ),
+                Icon(
+                  Iconsax.location,
+                  color: kPrimaryColor,
+                  size: 20,
                 ),
                 Container(
                   width: 1,
-                  height: 80,
-                  color: kBackgroundColor,
+                  height: 115,
+                  color: const Color(0XFFEBEBEB),
                 ),
-                CircleAvatar(
-                  backgroundColor: kBackgroundColor,
-                  child: Icon(
-                    Iconsax.location,
-                    color: kGreyColor,
-                    size: 20,
-                  ),
+                Icon(
+                  Iconsax.location_tick,
+                  color: kPrimaryColor,
+                  size: 20,
                 ),
               ],
             ),
@@ -311,21 +311,13 @@ class _TicketCancelPageState extends State<TicketCancelPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Kota Asal",
-                    style: subTitleTextStyle.copyWith(
-                      fontSize: 14,
-                      fontWeight: bold,
-                    ),
-                  ),
-                  SizedBox(height: defaultMargin / 2),
-                  Text(
                     widget.ticket.carFrom,
                     style: blackTextStyle.copyWith(
                       fontSize: 15,
                       fontWeight: bold,
                     ),
                   ),
-                  const SizedBox(height: 5),
+                  SizedBox(height: defaultMargin / 2),
                   Text(
                     widget.ticket.selected_location_pick,
                     style: blackTextStyle.copyWith(
@@ -334,23 +326,48 @@ class _TicketCancelPageState extends State<TicketCancelPage> {
                   ),
                   SizedBox(height: defaultMargin * 3),
                   Text(
-                    "Kota Tujuan",
-                    style: subTitleTextStyle.copyWith(
-                      fontSize: 14,
-                      fontWeight: bold,
-                    ),
-                  ),
-                  SizedBox(height: defaultMargin / 2),
-                  Text(
                     widget.ticket.carTo,
                     style: blackTextStyle.copyWith(
                       fontSize: 15,
                       fontWeight: bold,
                     ),
                   ),
-                  const SizedBox(height: 5),
+                  SizedBox(height: defaultMargin / 2),
                   Text(
                     widget.ticket.selected_location_drop,
+                    style: blackTextStyle.copyWith(
+                      fontSize: 15,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: defaultMargin),
+        Row(
+          children: [
+            Icon(
+              Iconsax.document,
+              color: kPrimaryColor,
+              size: 20,
+            ),
+            SizedBox(width: defaultMargin),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: defaultMargin),
+                  Text(
+                    "Permintaan Khusus",
+                    style: blackTextStyle.copyWith(
+                      fontSize: 15,
+                      fontWeight: bold,
+                    ),
+                  ),
+                  SizedBox(height: defaultMargin / 2),
+                  Text(
+                    widget.ticket.specialRequest,
                     style: blackTextStyle.copyWith(
                       fontSize: 15,
                     ),

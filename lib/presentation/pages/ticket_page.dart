@@ -45,10 +45,6 @@ class _TicketScreenState extends State<TicketScreen> {
     });
   }
 
-  void _navigateTo(String routeName) {
-    Navigator.pushNamed(context, routeName);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -99,17 +95,16 @@ class _TicketScreenState extends State<TicketScreen> {
           if (state.tickets.isEmpty) {
             return Center(
               child: ContextMenu(
-                title: 'Belum Ada Pesanan',
+                title: 'Tidak Ada Transaksi',
                 message:
-                    'Kamu belum memiliki pesanan tiket \nYuk pesan sekarang!',
-                imagePath:
-                    'assets/images/ticket_no_route.png', // Pass the image path as a string
+                    'Anda belum melakukan transaksi apapun.\nSilahkan pesan tiket terlebih dahulu.',
+                icon: Iconsax.note,
                 kPrimaryColor: blackTextStyle.copyWith(
-                  fontSize: 16,
+                  fontSize: 18,
                   fontWeight: bold,
                 ),
                 subTitleTextStyle: subTitleTextStyle.copyWith(
-                  fontSize: 14,
+                  fontSize: 15,
                 ),
               ),
             );
@@ -121,7 +116,7 @@ class _TicketScreenState extends State<TicketScreen> {
               context.read<TicketsBloc>().add(
                     FetchTransactionsUserEvent(state.tickets.first.userId),
                   );
-              await Future.delayed(const Duration(seconds: 5));
+              await Future.delayed(const Duration(seconds: 2));
             },
             child: ListView.builder(
               physics: const BouncingScrollPhysics(),
@@ -155,19 +150,19 @@ class _TicketScreenState extends State<TicketScreen> {
         bottom: defaultMargin,
       ),
       decoration: BoxDecoration(
-        color: const Color(0xffCEEAD6),
+        color: kBackgroundColor,
         borderRadius: BorderRadius.circular(defaultRadius),
         border: Border.all(
           color: kTransparentColor,
         ),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: EdgeInsets.all(defaultMargin / 2),
         child: Row(
           children: [
             Icon(
               Iconsax.info_circle,
-              color: kGreenColor,
+              color: kPrimaryColor,
               size: 20,
             ),
             SizedBox(width: defaultMargin),
@@ -218,24 +213,24 @@ class _TicketScreenState extends State<TicketScreen> {
           status = 'Error fetching status';
           statusColor = Colors.red;
         } else if (snapshot.hasData) {
-          // Jika data berhasil diambil, periksa detail transaksi
+          // Jika data Pembayaran Berhasil diambil, periksa detail transaksi
           final details = snapshot.data!;
           if (details.transaction_status == 'pending') {
             // Jika status transaksi 'pending', tampilkan "Menunggu Pembayaran"
             status = 'Menunggu Pembayaran';
-            statusColor = kPendingColor;
+            statusColor = pendingColor;
           } else if (details.transaction_status == 'settlement') {
-            // Jika status transaksi 'settlement', tampilkan "E-Tiket telah terbit"
-            status = 'E-Tiket telah terbit';
-            statusColor = kSuccessColor;
+            // Jika status transaksi 'settlement', tampilkan "Pembayaran Berhasil"
+            status = 'Pembayaran Berhasil';
+            statusColor = successColor;
           } else if (details.transaction_status.isEmpty) {
             // Jika status transaksi kosong, tampilkan "Menunggu Pembayaran"
-            status = 'Dibatalkan';
-            statusColor = descGrey;
+            status = 'Pesanan Dibatalkan';
+            statusColor = kSubTitle;
           } else {
             // Jika tidak, tampilkan "Waktu Pembayaran Habis"
             status = 'Waktu Pembayaran Habis';
-            statusColor = kFailedColor;
+            statusColor = failedColor;
           }
         } else {
           // Jika data tidak tersedia, tampilkan status "No status available"
@@ -249,8 +244,8 @@ class _TicketScreenState extends State<TicketScreen> {
               isLoading || snapshot.connectionState == ConnectionState.waiting,
           child: GestureDetector(
             onTap: () {
-              if (status == 'E-Tiket telah terbit') {
-                // Jika status 'E-Tiket telah terbit', navigasi ke detail tiket
+              if (status == 'Pembayaran Berhasil') {
+                // Jika status 'Pembayaran Berhasil', navigasi ke detail tiket
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -265,15 +260,15 @@ class _TicketScreenState extends State<TicketScreen> {
                     builder: (context) => TicketPendingPage(ticket: ticket),
                   ),
                 );
-              } else if (status == 'Dibatalkan') {
-                // Jika status 'Dibatalkan' atau 'Waktu Pembayaran Habis', tampilkan pesan batas waktu habis
+              } else if (status == 'Pesanan Dibatalkan') {
+                // Jika status 'Pesanan Dibatalkan' atau 'Waktu Pembayaran Habis', tampilkan pesan batas waktu habis
                 showErrorFlushbar(
                   context,
                   'Pesanan Dibatalkan',
-                  "Pesanan ini telah dibatalkan dan tidak dapat digunakan",
+                  "Pesanan ini tidak dapat digunakan",
                 );
               } else if (status == 'Waktu Pembayaran Habis') {
-                // Jika status 'Dibatalkan' atau 'Waktu Pembayaran Habis', tampilkan pesan batas waktu habis
+                // Jika status 'Pesanan Dibatalkan' atau 'Waktu Pembayaran Habis', tampilkan pesan batas waktu habis
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -285,12 +280,12 @@ class _TicketScreenState extends State<TicketScreen> {
                 showErrorFlushbar(
                   context,
                   'Pesanan Dibatalkan',
-                  "Pesanan ini telah dibatalkan dan tidak dapat digunakan",
+                  "Pesanan ini tidak dapat digunakan",
                 );
               }
             },
             child: Card(
-              margin: EdgeInsets.symmetric(vertical: defaultMargin),
+              margin: EdgeInsets.symmetric(vertical: defaultMargin / 2),
               clipBehavior: Clip.antiAlias,
               color: kWhiteColor,
               elevation: 0.5,
@@ -332,7 +327,7 @@ class _TicketScreenState extends State<TicketScreen> {
                         Icon(
                           LineIcons.angleRight,
                           color: kGreyColor,
-                          size: 18,
+                          size: 20,
                         ),
                       ],
                     ),
@@ -343,7 +338,7 @@ class _TicketScreenState extends State<TicketScreen> {
                           DateFormat('EEEE, d MMMM yyyy', 'id_ID')
                               .format(ticket.carDate),
                           style: blackTextStyle.copyWith(
-                            fontSize: 14,
+                            fontSize: 15,
                           ),
                         ),
                         SizedBox(width: defaultMargin),
@@ -356,31 +351,32 @@ class _TicketScreenState extends State<TicketScreen> {
                         Text(
                           ticket.departureTime,
                           style: blackTextStyle.copyWith(
-                            fontSize: 14,
+                            fontSize: 15,
                           ),
                         ),
                       ],
                     ),
-                    SizedBox(height: defaultMargin / 2),
+                    SizedBox(height: defaultMargin),
                     Divider(
                       color: kDivider,
                       thickness: 1,
                     ),
                     SizedBox(height: defaultMargin),
                     Container(
-                      // padding: EdgeInsets.symmetric(
-                      //   horizontal: defaultMargin,
-                      //   vertical: defaultMargin / 2,
-                      // ),
                       // decoration: BoxDecoration(
-                      //   color: Colors.grey[50],
+                      //   color: statusColor
+                      //       .withOpacity(0.1), // Light background with opacity
                       //   borderRadius: BorderRadius.circular(defaultRadius),
-                      //   border: Border.all(color: Colors.grey[200]!),
+                      //   border: Border.all(
+                      //       color:
+                      //           statusColor.withOpacity(0.3)), // Subtle border
                       // ),
+                      // padding: const EdgeInsets.symmetric(
+                      //     horizontal: 10, vertical: 5),
                       child: Text(
                         status,
                         style: blackTextStyle.copyWith(
-                          fontSize: 14,
+                          fontSize: 15,
                           color: statusColor,
                           fontWeight: FontWeight.bold,
                         ),

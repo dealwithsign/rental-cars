@@ -40,20 +40,17 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        backgroundColor: kWhiteColor,
-        body: BlocListener<TicketsBloc, TicketsState>(
-          listener: (context, state) {
-            if (state is TicketsError) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Error: ${state.message}')),
-              );
-            }
-          },
-          child: _buildCarDetails(),
-        ),
+    return Scaffold(
+      backgroundColor: kWhiteColor,
+      body: BlocListener<TicketsBloc, TicketsState>(
+        listener: (context, state) {
+          if (state is TicketsError) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Error: ${state.message}')),
+            );
+          }
+        },
+        child: _buildCarDetails(),
       ),
     );
   }
@@ -192,12 +189,14 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Order ID: ${widget.ticket.bookingId.toUpperCase()}',
-            style: subTitleTextStyle.copyWith(
-              fontSize: 14,
-              fontWeight: bold,
-            )),
-        SizedBox(height: defaultMargin / 2),
+        Text(
+          'Kode Booking: ${widget.ticket.bookingId.toUpperCase()}',
+          style: subTitleTextStyle.copyWith(
+            fontSize: 14,
+            fontWeight: bold,
+          ),
+        ),
+        SizedBox(height: defaultMargin),
         Text(
           widget.ticket.carName,
           style: titleTextStyle.copyWith(
@@ -252,26 +251,20 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
           children: [
             Column(
               children: [
-                CircleAvatar(
-                  backgroundColor: kBackgroundColor,
-                  child: Icon(
-                    Iconsax.location_tick,
-                    color: kGreyColor,
-                    size: 20,
-                  ),
+                Icon(
+                  Iconsax.location,
+                  color: kPrimaryColor,
+                  size: 20,
                 ),
                 Container(
                   width: 1,
-                  height: 100,
-                  color: kBackgroundColor,
+                  height: 115,
+                  color: const Color(0XFFEBEBEB),
                 ),
-                CircleAvatar(
-                  backgroundColor: kBackgroundColor,
-                  child: Icon(
-                    Iconsax.location,
-                    color: kGreyColor,
-                    size: 20,
-                  ),
+                Icon(
+                  Iconsax.location_tick,
+                  color: kPrimaryColor,
+                  size: 20,
                 ),
               ],
             ),
@@ -281,21 +274,13 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Kota Asal",
-                    style: subTitleTextStyle.copyWith(
-                      fontSize: 14,
-                      fontWeight: bold,
-                    ),
-                  ),
-                  SizedBox(height: defaultMargin / 2),
-                  Text(
                     widget.ticket.carFrom,
                     style: blackTextStyle.copyWith(
                       fontSize: 15,
                       fontWeight: bold,
                     ),
                   ),
-                  const SizedBox(height: 5),
+                  SizedBox(height: defaultMargin / 2),
                   Text(
                     widget.ticket.selected_location_pick,
                     style: blackTextStyle.copyWith(
@@ -304,21 +289,13 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                   ),
                   SizedBox(height: defaultMargin * 3),
                   Text(
-                    "Kota Tujuan",
-                    style: subTitleTextStyle.copyWith(
-                      fontSize: 14,
-                      fontWeight: bold,
-                    ),
-                  ),
-                  SizedBox(height: defaultMargin / 2),
-                  Text(
                     widget.ticket.carTo,
                     style: blackTextStyle.copyWith(
                       fontSize: 15,
                       fontWeight: bold,
                     ),
                   ),
-                  const SizedBox(height: 5),
+                  SizedBox(height: defaultMargin / 2),
                   Text(
                     widget.ticket.selected_location_drop,
                     style: blackTextStyle.copyWith(
@@ -333,13 +310,10 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
         SizedBox(height: defaultMargin),
         Row(
           children: [
-            CircleAvatar(
-              backgroundColor: kBackgroundColor,
-              child: Icon(
-                Iconsax.note,
-                color: kGreyColor,
-                size: 20,
-              ),
+            Icon(
+              Iconsax.document,
+              color: kPrimaryColor,
+              size: 20,
             ),
             SizedBox(width: defaultMargin),
             Expanded(
@@ -349,8 +323,8 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                   SizedBox(height: defaultMargin),
                   Text(
                     "Permintaan Khusus",
-                    style: subTitleTextStyle.copyWith(
-                      fontSize: 14,
+                    style: blackTextStyle.copyWith(
+                      fontSize: 15,
                       fontWeight: bold,
                     ),
                   ),
@@ -533,7 +507,7 @@ Widget _otherInformations() {
       ),
     ),
     child: Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: EdgeInsets.all(defaultMargin / 2),
       child: Row(
         children: [
           Icon(

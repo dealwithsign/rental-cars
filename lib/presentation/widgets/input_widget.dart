@@ -101,7 +101,7 @@ class _OutlineBorderTextFormFieldState
                   decoration: InputDecoration(
                     labelText: widget.labelText,
                     labelStyle: subTitleTextStyle.copyWith(
-                      fontSize: 14.0,
+                      fontSize: 15.0,
                     ),
                     fillColor: kWhiteColor,
                     filled: true,

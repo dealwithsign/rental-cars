@@ -1,19 +1,17 @@
 // presentation/pages/midtrans_page.dart
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-
 import 'package:rents_cars_app/presentation/widgets/button_cancle_widget.dart';
 import 'package:rents_cars_app/presentation/widgets/button_widget.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import '../../data/services/booking_services.dart';
-
 import '../../utils/fonts.dart';
 import 'midtrans_success_page.dart';
 import 'navigation_page.dart';
 
 class MidtransPayment extends StatefulWidget {
   final String redirectUrl;
-  final String token; // Token adalah ID di database
+  final String token;
 
   const MidtransPayment(
       {super.key, required this.redirectUrl, required this.token});
@@ -26,10 +24,8 @@ class _MidtransPaymentState extends State<MidtransPayment> {
   late WebViewController controller;
   double _loadingProgress = 0;
 
-  // Fungsi untuk mengekstrak Order ID dari URL
   String extractOrderIdFromUrl(String url) {
     var uri = Uri.parse(url);
-    // Mengambil parameter 'order_id' atau 'orderId' dari URL
     return uri.queryParameters['order_id'] ??
         uri.queryParameters['orderId'] ??
         '';
@@ -45,57 +41,34 @@ class _MidtransPaymentState extends State<MidtransPayment> {
         NavigationDelegate(
           onProgress: (int progress) {
             setState(() {
-              _loadingProgress =
-                  progress / 100.0; // Mengupdate progress loading
+              _loadingProgress = progress / 100.0;
             });
           },
           onPageStarted: (String url) {
-            Uri uri = Uri.parse(url); // Mengurai URL yang sedang dimuat
+            Uri uri = Uri.parse(url);
             String? orderId = uri.queryParameters['order_id'] ??
                 uri.queryParameters['orderId'];
-
-            // extract another data from uri
-            print('Order ID: $orderId'); // Menampilkan Order ID di konsol
-            print('URL: $url'); // Menampilkan URL di konsol
 
             BookingServices bookingServices = BookingServices();
             if (orderId != null) {
               try {
-                // success
                 if (url.contains(
                     'status_code=200&transaction_status=settlement')) {
-                  print(
-                      'Transaction Success'); // Menampilkan pesan sukses transaksi
-                  // Menyimpan transaksi ke database dengan ID
-                  bookingServices.updateOrderStatus(
-                    widget.token,
-                    true,
-                  ); // Menggunakan token yang diteruskan
-
+                  bookingServices.updateOrderStatus(widget.token, true);
                   Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute(
                       builder: (context) => MidtransSuccess(
-                        orderId: extractOrderIdFromUrl(
-                          url,
-                        ), // Mengirim Order ID ke halaman sukses
+                        orderId: extractOrderIdFromUrl(url),
                       ),
                     ),
-                    (Route<dynamic> route) =>
-                        false, // Menghapus semua route sebelumnya
+                    (Route<dynamic> route) => false,
                   );
-                }
-                // pending
-                else if (url.contains(
+                } else if (url.contains(
                         'status_code=201&transaction_status=pending') ||
                     url.contains(
                         'status_code=202&transaction_status=pending')) {
-                  print('Payment is pending');
-                  bookingServices.updateOrderStatus(
-                    widget.token,
-                    false,
-                  );
-                  print('Order ID: $orderId');
+                  bookingServices.updateOrderStatus(widget.token, false);
                   Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute(
@@ -103,31 +76,22 @@ class _MidtransPaymentState extends State<MidtransPayment> {
                     ),
                     (Route<dynamic> route) => false,
                   );
-                }
-                // deny
-                else if (url
+                } else if (url
                     .contains('status_code=400&transaction_status=deny')) {
-                  // Handle error payment
                   print('Payment was denied');
                 }
               } catch (e) {
-                print(
-                    'Error updating order status: $e'); // Menampilkan pesan kesalahan jika pembaruan gagal
+                print('Error updating order status: $e');
               }
             }
           },
-          onPageFinished: (String url) {
-            print(
-                'Page finished loading: $url'); // Menampilkan URL setelah selesai memuat
-          },
+          onPageFinished: (String url) {},
           onHttpError: (HttpResponseError error) {
-            print('HTTP error: $error'); // Menampilkan pesan kesalahan HTTP
+            print('HTTP error: $error');
           },
         ),
       )
-      ..loadRequest(
-        Uri.parse(widget.redirectUrl),
-      ); // Memuat URL untuk pembayaran
+      ..loadRequest(Uri.parse(widget.redirectUrl));
   }
 
   void _showConfirmationBottomSheet(BuildContext context) {
@@ -145,60 +109,52 @@ class _MidtransPaymentState extends State<MidtransPayment> {
               topRight: Radius.circular(defaultRadius),
             ),
           ),
-          child: Center(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-              child: Column(
-                mainAxisAlignment:
-                    MainAxisAlignment.center, // Center children vertically
-                children: [
-                  SizedBox(height: defaultMargin),
-                  Text(
-                    'Batalkan pesanan ini ?',
-                    textAlign: TextAlign.center, // Center text horizontally
-                    style: blackTextStyle.copyWith(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                    ),
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: defaultMargin),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(height: defaultMargin),
+                Text(
+                  'Batalkan pesanan ini ?',
+                  textAlign: TextAlign.center,
+                  style: blackTextStyle.copyWith(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
                   ),
-                  SizedBox(height: defaultMargin / 2),
-                  Text(
-                    'Pesanan ini akan dibatalkan dan tidak dapat digunakan.',
-                    textAlign: TextAlign.center, // Center text horizontally
-                    style: subTitleTextStyle.copyWith(
-                      fontSize: 14,
-                    ),
+                ),
+                SizedBox(height: defaultMargin / 2),
+                Text(
+                  'Pesanan ini akan dibatalkan dan transaksi tiket \ntidak dapat digunakan.',
+                  textAlign: TextAlign.center,
+                  style: subTitleTextStyle.copyWith(fontSize: 15),
+                ),
+                SizedBox(height: defaultMargin / 2),
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CustomButtonCancel(
+                        title: "Batalkan Pesanan",
+                        onPressed: () {
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const NavigationScreen(),
+                            ),
+                            (route) => false,
+                          );
+                        },
+                      ),
+                      SizedBox(height: defaultMargin),
+                      CustomButton(
+                        title: "Pilih Pembayaran",
+                        onPressed: () => Navigator.pop(context),
+                      ),
+                    ],
                   ),
-                  SizedBox(height: defaultMargin / 2),
-                  Expanded(
-                    // Make the buttons fill the available space
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        CustomButtonCancel(
-                          title: "Lihat Halaman Sebelumnya",
-                          onPressed: () async {
-                            Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const NavigationScreen(),
-                              ),
-                              (route) => false,
-                            ); // Go back to the previous page
-                          },
-                        ),
-                        SizedBox(height: defaultMargin),
-                        CustomButton(
-                          title: "Lanjutkan Pembayaran",
-                          onPressed: () {
-                            Navigator.pop(context); // Close the bottom sheet
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         );
@@ -212,43 +168,65 @@ class _MidtransPaymentState extends State<MidtransPayment> {
       backgroundColor: kWhiteColor,
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(
-            Iconsax.arrow_left_2,
-            color: kPrimaryColor,
-          ),
-          onPressed: () {
-            _showConfirmationBottomSheet(context);
-          },
+          icon: Icon(Iconsax.arrow_left_2, color: kPrimaryColor),
+          onPressed: () => _showConfirmationBottomSheet(context),
         ),
         title: Text(
-          'Lanjutkan Pembayaran',
+          'Pilih Pembayaran',
           style: titleTextStyle.copyWith(
-            fontSize: 18,
+            fontSize: 20,
             fontWeight: FontWeight.bold,
           ),
         ),
         flexibleSpace: Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: <Color>[
-                kWhiteColor,
-                kWhiteColor,
-              ],
+              colors: [kWhiteColor, kWhiteColor],
             ),
           ),
         ),
         elevation: 0,
       ),
-      body: Stack(
+      body: Column(
         children: [
-          WebViewWidget(
-            controller: controller,
-          ),
-          if (_loadingProgress < 1.0)
-            LinearProgressIndicator(
-              value: _loadingProgress, // Menampilkan indikator progress
-              backgroundColor: kWhiteColor,
+          Container(
+            width: double.infinity,
+            padding: EdgeInsets.all(defaultMargin / 2),
+            decoration: BoxDecoration(
+              color: kFailedColor,
             ),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.info_outline,
+                  color: kPrimaryColor,
+                  size: 20,
+                ),
+                SizedBox(width: defaultMargin / 2),
+                Expanded(
+                  child: Text(
+                    'Setelah memilih metode pembayaran, Anda tidak dapat mengubah ke metode pembayaran lain.',
+                    style: blackTextStyle.copyWith(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: Stack(
+              children: [
+                WebViewWidget(controller: controller),
+                if (_loadingProgress < 1.0)
+                  LinearProgressIndicator(
+                    value: _loadingProgress,
+                    backgroundColor: kWhiteColor,
+                  ),
+              ],
+            ),
+          ),
         ],
       ),
     );

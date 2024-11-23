@@ -71,7 +71,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
     return AppBar(
       backgroundColor: Colors.white,
       title: Text(
-        'Profile',
+        'Akun',
         style: titleTextStyle.copyWith(
           fontSize: 24,
           fontWeight: bold,
@@ -196,18 +196,17 @@ class _AccountsScreenState extends State<AccountsScreen> {
 
   Widget _buildSettings() {
     return Container(
-      margin: EdgeInsets.only(top: defaultMargin * 2),
+      margin: EdgeInsets.only(top: defaultMargin),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Akun',
+            'Pengaturan',
             style: titleTextStyle.copyWith(
               fontSize: 18,
               fontWeight: bold,
             ),
           ),
-          SizedBox(height: defaultMargin),
           _buildSettingItem(
             icon: Iconsax.message,
             title: 'Bantuan',
@@ -290,14 +289,14 @@ class _AccountsScreenState extends State<AccountsScreen> {
                 Text(
                   title,
                   style: blackTextStyle.copyWith(
-                    fontSize: 16,
+                    fontSize: 15,
                     fontWeight: bold,
                   ),
                 ),
                 Text(
                   subTitle,
                   style: subTitleTextStyle.copyWith(
-                    fontSize: 14,
+                    fontSize: 15,
                   ),
                 ),
               ],

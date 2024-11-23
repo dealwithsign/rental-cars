@@ -2,6 +2,7 @@
 import 'package:flutter/gestures.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsax/iconsax.dart';
 
@@ -81,7 +82,7 @@ class _SignUpPageState extends State<SignUpPage> {
             });
             showErrorFlushbar(
               context,
-              "Pendaftaran Gagal",
+              "Buat Akun Gagal",
               "Maaf, email ini sudah terdaftar. Silakan gunakan email lain",
             );
           }
@@ -185,7 +186,10 @@ class _SignUpPageState extends State<SignUpPage> {
             autofocus: false,
             tempTextEditingController: _phoneNumberController,
             myFocusNode: _phoneNumberFocusNode,
-            inputFormatters: const [],
+            inputFormatters: [
+              LengthLimitingTextInputFormatter(12),
+              FilteringTextInputFormatter.digitsOnly,
+            ],
             keyboardType: TextInputType.phone,
             textInputAction: TextInputAction.done,
             validation: (value) => null,
@@ -217,7 +221,7 @@ class _SignUpPageState extends State<SignUpPage> {
         _phoneNumberController.text.isEmpty) {
       showErrorFlushbar(
         context,
-        "Pendaftaran Gagal",
+        "Buat Akun Gagal",
         "Silakan lengkapi informasi yang diperlukan sebelum melanjutkan",
       );
     } else {

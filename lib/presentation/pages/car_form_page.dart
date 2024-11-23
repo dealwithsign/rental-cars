@@ -127,7 +127,7 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Selesaikan Pesananmu',
+              'Selesaikan Pesanan',
               style: titleTextStyle.copyWith(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
@@ -361,26 +361,20 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                   children: [
                     Column(
                       children: [
-                        CircleAvatar(
-                          backgroundColor: kBackgroundColor,
-                          child: Icon(
-                            Iconsax.location,
-                            color: kGreyColor,
-                            size: 20,
-                          ),
+                        Icon(
+                          Iconsax.location,
+                          color: kPrimaryColor,
+                          size: 20,
                         ),
                         Container(
                           width: 1,
-                          height: 50,
-                          color: kBackgroundColor,
+                          height: 80,
+                          color: const Color(0XFFEBEBEB),
                         ),
-                        CircleAvatar(
-                          backgroundColor: kBackgroundColor,
-                          child: Icon(
-                            Iconsax.location_tick,
-                            color: kGreyColor,
-                            size: 20,
-                          ),
+                        Icon(
+                          Iconsax.location_tick,
+                          color: kPrimaryColor,
+                          size: 20,
                         ),
                       ],
                     ),
@@ -816,7 +810,7 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: defaultMargin),
         child: CustomButton(
-          title: 'Lanjutkan',
+          title: 'Konfirmasi Pesanan',
           onPressed: () {
             if (_selectedLocationPick.isEmpty ||
                 _selectedLocationDrop.isEmpty) {

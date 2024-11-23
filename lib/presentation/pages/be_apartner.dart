@@ -45,7 +45,7 @@ class _HowToBePartnerState extends State<HowToBePartner> {
       backgroundColor: kWhiteColor,
       surfaceTintColor: kWhiteColor,
       title: Text(
-        'Pesan tiket sekarang',
+        'Pesan Tiket Sekarang',
         style: titleTextStyle.copyWith(
           fontSize: 20,
           fontWeight: FontWeight.bold,
@@ -92,19 +92,19 @@ class _HowToBePartnerState extends State<HowToBePartner> {
                         SizedBox(height: defaultMargin),
                         _buildHowToRegisterAsPartner(
                           'Pilih rincian perjalanan',
-                          'Masukkan tempat keberangkatan, tujuan, tanggal perjalanan dan kemudian klik Cari',
+                          'Masukkan tempat keberangkatan, tujuan, tanggal perjalanan dan kemudian klik Cari.',
                           Iconsax.driving,
                         ),
                         SizedBox(height: defaultMargin),
                         _buildHowToRegisterAsPartner(
                           'Pilih mobil dan masukkan data diri',
-                          'Pilih mobil dan isi rincian penumpang dan klik Pembayaran',
+                          'Pilih mobil dan isi rincian penumpang dan klik Pembayaran.',
                           Iconsax.personalcard,
                         ),
                         SizedBox(height: defaultMargin),
                         _buildHowToRegisterAsPartner(
-                          'Cara Pembayaran yang Mudah',
-                          'Pembayaran dapat dilakukan melalui transfer ATM, Internet banking, Alfamart, kartu Kredit/Debit, Mandiri Clickpay, Bca Clickpay dll',
+                          'Pilih Pembayaran',
+                          'Pembayaran dapat dilakukan melalui transfer ATM, Virtual Account dan E-Wallet.',
                           Iconsax.card,
                         ),
                       ],
@@ -144,103 +144,6 @@ class _HowToBePartnerState extends State<HowToBePartner> {
                     ),
                   ),
                 ),
-                // SizedBox(height: defaultMargin),
-                // Divider(
-                //   color: kBackgroundColor,
-                //   thickness: 5,
-                // ),
-                // SizedBox(height: defaultMargin),
-                // Padding(
-                //   padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-                //   child: Container(
-                //     child: Column(
-                //       crossAxisAlignment: CrossAxisAlignment.start,
-                //       children: [
-                //         Text(
-                //           'Punya pertanyaan?',
-                //           style: titleTextStyle.copyWith(
-                //             fontSize: 18,
-                //             fontWeight: bold,
-                //           ),
-                //         ),
-                //         SizedBox(height: defaultMargin),
-                //         Text(
-                //           'Untuk informasi lengkap, silakan hubungi kami \nmelalui Email atau Whatsapp.',
-                //           style: subTitleTextStyle.copyWith(
-                //             fontSize: 14,
-                //             fontWeight: regular,
-                //           ),
-                //         ),
-                //         SizedBox(height: defaultMargin),
-                //         Column(
-                //           children: [
-                //             Row(
-                //               children: [
-                //                 Icon(
-                //                   Iconsax.message,
-                //                   color: kPrimaryColor,
-                //                   size: 20,
-                //                 ),
-                //                 SizedBox(width: defaultMargin),
-                //                 Text(
-                //                   'helpmelalan@gmail.com',
-                //                   style: subTitleTextStyle.copyWith(
-                //                     fontSize: 14,
-                //                     fontWeight: bold,
-                //                     decoration: TextDecoration.underline,
-                //                   ),
-                //                 ),
-                //               ],
-                //             ),
-                //             SizedBox(height: defaultMargin / 2),
-                //             Row(
-                //               children: [
-                //                 Icon(
-                //                   Iconsax.call,
-                //                   color: kPrimaryColor,
-                //                   size: 20,
-                //                 ),
-                //                 SizedBox(width: defaultMargin),
-                //                 Text(
-                //                   '+6282134400200',
-                //                   style: subTitleTextStyle.copyWith(
-                //                     fontSize: 14,
-                //                     fontWeight: bold,
-                //                     decoration: TextDecoration.underline,
-                //                   ),
-                //                 ),
-                //               ],
-                //             ),
-                //           ],
-                //         ),
-                //       ],
-                //     ),
-                //   ),
-                // ),
-                // SizedBox(height: defaultMargin * 2),
-                // Container(
-                //   padding: EdgeInsets.symmetric(vertical: defaultMargin),
-                //   decoration: BoxDecoration(
-                //     color: kWhiteColor,
-                //     border: Border(
-                //       top: BorderSide(color: kBackgroundColor, width: 2.5),
-                //     ),
-                //   ),
-                //   child: Padding(
-                //     padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-                //     child: CustomButton(
-                //       title: "Daftar Jadi Mitra",
-                //       onPressed: () async {
-                //         const url = 'https://forms.gle/vbhUEs6pdgSs2ntK6';
-                //         if (await canLaunch(url)) {
-                //           await launch(url);
-                //         } else {
-                //           throw 'Could not launch $url';
-                //         }
-                //       },
-                //     ),
-                //   ),
-                // ),
               ],
             ),
           ),
@@ -263,13 +166,10 @@ class _HowToBePartnerState extends State<HowToBePartner> {
         children: [
           Row(
             children: [
-              CircleAvatar(
-                backgroundColor: kBackgroundColor,
-                child: Icon(
-                  icon,
-                  color: kGreyColor,
-                  size: 20,
-                ),
+              Icon(
+                icon,
+                color: kPrimaryColor,
+                size: 20,
               ),
               SizedBox(width: defaultMargin),
               Expanded(
@@ -317,19 +217,19 @@ class _HowToBePartnerState extends State<HowToBePartner> {
         SizedBox(height: defaultMargin),
         _buildHowToRegisterAsPartner(
           'Biaya final ',
-          'Pesan tiket bis anda dengan harga terbaik dan tanpa biaya tambahan.',
+          'Pesan tiket mobil antar kota dengan harga terbaik dan tanpa biaya tambahan.',
           Iconsax.dollar_square,
         ),
         SizedBox(height: defaultMargin),
         _buildHowToRegisterAsPartner(
           'Pembayaran mudah dan aman',
-          'Bayar tiket online anda dengan cara yang aman dan nyaman',
+          'Bayar tiket online anda dengan cara yang aman dan nyaman.',
           Iconsax.wallet,
         ),
         SizedBox(height: defaultMargin),
         _buildHowToRegisterAsPartner(
-          'Titik penjemputan lebih praktis',
-          'Pilih titik penjemputan yang lebih dekat dengan lokasi dan tujuan anda',
+          'Titik penjemputan dan tujuan',
+          'Pilih titik penjemputan dan tujuan yang sesuai dengan kebutuhan anda.',
           Iconsax.location_tick,
         ),
       ],

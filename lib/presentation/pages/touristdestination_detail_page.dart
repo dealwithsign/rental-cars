@@ -141,7 +141,7 @@ class _TouristdestinationDetailPageState
                               ),
                               SizedBox(height: defaultMargin),
                               Text(
-                                'Untuk pemesanan tiket atau informasi lainnya, silakan hubungi melalui email atau nomor di bawah ini',
+                                'Untuk pemesanan tiket atau informasi lainnya, silakan hubungi melalui email atau nomor di bawah ini.',
                                 style: blackTextStyle.copyWith(
                                   fontSize: 15,
                                 ),
@@ -293,13 +293,10 @@ class DestinationLocationCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              CircleAvatar(
-                backgroundColor: kBackgroundColor,
-                child: Icon(
-                  icon,
-                  color: kGreyColor,
-                  size: 20,
-                ),
+              Icon(
+                icon,
+                color: kPrimaryColor,
+                size: 20,
               ),
               SizedBox(width: defaultMargin),
               Expanded(
