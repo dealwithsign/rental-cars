@@ -2,11 +2,9 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 import 'package:rents_cars_app/presentation/pages/midtrans_page.dart';
@@ -17,7 +15,6 @@ import 'package:http/http.dart' as http;
 import '../../blocs/tickets/tickets_bloc.dart';
 import '../../data/models/ticket_model.dart';
 import '../../utils/fonts.dart';
-import '../widgets/flushbar_widget.dart';
 
 class TicketPendingPage extends StatefulWidget {
   final TicketModels ticket;
@@ -43,20 +40,17 @@ class _TicketPendingPageState extends State<TicketPendingPage> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        backgroundColor: kWhiteColor,
-        body: BlocListener<TicketsBloc, TicketsState>(
-          listener: (context, state) {
-            if (state is TicketsError) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Error: ${state.message}')),
-              );
-            }
-          },
-          child: _buildCarDetails(),
-        ),
+    return Scaffold(
+      backgroundColor: kWhiteColor,
+      body: BlocListener<TicketsBloc, TicketsState>(
+        listener: (context, state) {
+          if (state is TicketsError) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Error: ${state.message}')),
+            );
+          }
+        },
+        child: _buildCarDetails(),
       ),
     );
   }
@@ -198,7 +192,7 @@ class _TicketPendingPageState extends State<TicketPendingPage> {
         ),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: EdgeInsets.all(defaultMargin / 2),
         child: Row(
           children: [
             Icon(
@@ -229,12 +223,14 @@ class _TicketPendingPageState extends State<TicketPendingPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Order ID: ${widget.ticket.bookingId.toUpperCase()}',
-            style: subTitleTextStyle.copyWith(
-              fontSize: 14,
-              fontWeight: bold,
-            )),
-        SizedBox(height: defaultMargin / 2),
+        Text(
+          'Kode Booking: ${widget.ticket.bookingId.toUpperCase()}',
+          style: subTitleTextStyle.copyWith(
+            fontSize: 14,
+            fontWeight: bold,
+          ),
+        ),
+        SizedBox(height: defaultMargin),
         Text(
           widget.ticket.carName,
           style: titleTextStyle.copyWith(
@@ -289,26 +285,20 @@ class _TicketPendingPageState extends State<TicketPendingPage> {
           children: [
             Column(
               children: [
-                CircleAvatar(
-                  backgroundColor: kBackgroundColor,
-                  child: Icon(
-                    Iconsax.location_tick,
-                    color: kGreyColor,
-                    size: 20,
-                  ),
+                Icon(
+                  Iconsax.location,
+                  color: kPrimaryColor,
+                  size: 20,
                 ),
                 Container(
                   width: 1,
-                  height: 100,
-                  color: kBackgroundColor,
+                  height: 115,
+                  color: const Color(0XFFEBEBEB),
                 ),
-                CircleAvatar(
-                  backgroundColor: kBackgroundColor,
-                  child: Icon(
-                    Iconsax.location,
-                    color: kGreyColor,
-                    size: 20,
-                  ),
+                Icon(
+                  Iconsax.location_tick,
+                  color: kPrimaryColor,
+                  size: 20,
                 ),
               ],
             ),
@@ -318,21 +308,13 @@ class _TicketPendingPageState extends State<TicketPendingPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Kota Asal",
-                    style: subTitleTextStyle.copyWith(
-                      fontSize: 14,
-                      fontWeight: bold,
-                    ),
-                  ),
-                  SizedBox(height: defaultMargin / 2),
-                  Text(
                     widget.ticket.carFrom,
                     style: blackTextStyle.copyWith(
                       fontSize: 15,
                       fontWeight: bold,
                     ),
                   ),
-                  const SizedBox(height: 5),
+                  SizedBox(height: defaultMargin / 2),
                   Text(
                     widget.ticket.selected_location_pick,
                     style: blackTextStyle.copyWith(
@@ -341,21 +323,13 @@ class _TicketPendingPageState extends State<TicketPendingPage> {
                   ),
                   SizedBox(height: defaultMargin * 3),
                   Text(
-                    "Kota Tujuan",
-                    style: subTitleTextStyle.copyWith(
-                      fontSize: 14,
-                      fontWeight: bold,
-                    ),
-                  ),
-                  SizedBox(height: defaultMargin / 2),
-                  Text(
                     widget.ticket.carTo,
                     style: blackTextStyle.copyWith(
                       fontSize: 15,
                       fontWeight: bold,
                     ),
                   ),
-                  const SizedBox(height: 5),
+                  SizedBox(height: defaultMargin / 2),
                   Text(
                     widget.ticket.selected_location_drop,
                     style: blackTextStyle.copyWith(
@@ -370,13 +344,10 @@ class _TicketPendingPageState extends State<TicketPendingPage> {
         SizedBox(height: defaultMargin),
         Row(
           children: [
-            CircleAvatar(
-              backgroundColor: kBackgroundColor,
-              child: Icon(
-                Iconsax.note,
-                color: kGreyColor,
-                size: 20,
-              ),
+            Icon(
+              Iconsax.document,
+              color: kPrimaryColor,
+              size: 20,
             ),
             SizedBox(width: defaultMargin),
             Expanded(
@@ -386,8 +357,8 @@ class _TicketPendingPageState extends State<TicketPendingPage> {
                   SizedBox(height: defaultMargin),
                   Text(
                     "Permintaan Khusus",
-                    style: subTitleTextStyle.copyWith(
-                      fontSize: 14,
+                    style: blackTextStyle.copyWith(
+                      fontSize: 15,
                       fontWeight: bold,
                     ),
                   ),

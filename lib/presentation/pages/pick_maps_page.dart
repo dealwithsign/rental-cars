@@ -192,173 +192,171 @@ class _PickLocationsState extends State<PickLocations> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        resizeToAvoidBottomInset:
-            false, // This line ensures that the Scaffold's body is resized when the keyboard appears
-        body: Stack(
-          children: [
-            GoogleMap(
-              onMapCreated: _onMapCreated,
-              onTap: _onTap,
-              initialCameraPosition: const CameraPosition(
-                target: LatLng(-3.1048903, 119.8492578),
-                zoom: 15.0,
-              ),
-              markers: _markers,
+    return Scaffold(
+      backgroundColor: kWhiteColor,
+      resizeToAvoidBottomInset:
+          false, // This line ensures that the Scaffold's body is resized when the keyboard appears
+      body: Stack(
+        children: [
+          GoogleMap(
+            onMapCreated: _onMapCreated,
+            onTap: _onTap,
+            initialCameraPosition: const CameraPosition(
+              target: LatLng(-3.1048903, 119.8492578),
+              zoom: 15.0,
             ),
-            Positioned(
-              top: 40.0,
-              left: 15.0,
-              right: 15.0,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10.0),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 1,
-                      blurRadius: 7,
-                      offset: const Offset(0, 3), // changes position of shadow
+            markers: _markers,
+          ),
+          Positioned(
+            top: 40.0,
+            left: 15.0,
+            right: 15.0,
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10.0),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 1,
+                    blurRadius: 7,
+                    offset: const Offset(0, 3), // changes position of shadow
+                  ),
+                ],
+              ),
+              child: Row(
+                children: [
+                  IconButton(
+                    icon: Icon(
+                      Iconsax.arrow_left_2,
+                      color: kPrimaryColor,
                     ),
-                  ],
-                ),
-                child: Row(
-                  children: [
-                    IconButton(
-                      icon: Icon(
-                        Iconsax.arrow_left_2,
-                        color: kPrimaryColor,
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                  Expanded(
+                    child: TextField(
+                      cursorColor: kPrimaryColor,
+                      controller: _searchController,
+                      decoration: InputDecoration(
+                        hintText: 'Masukan lokasi jemput,kota, dll',
+                        hintStyle: subTitleTextStyle.copyWith(
+                          fontSize: 15.0,
+                        ),
+                        border: InputBorder.none,
+                        contentPadding: EdgeInsets.symmetric(
+                          vertical: defaultMargin,
+                        ),
                       ),
-                      onPressed: () {
-                        Navigator.pop(context);
+                      onSubmitted: (value) {
+                        searchAndNavigate(value);
                       },
                     ),
-                    Expanded(
-                      child: TextField(
-                        cursorColor: kPrimaryColor,
-                        controller: _searchController,
-                        decoration: InputDecoration(
-                          hintText: 'Masukan lokasi jemput,kota, dll',
-                          hintStyle: subTitleTextStyle.copyWith(
-                            fontSize: 15.0,
-                          ),
-                          border: InputBorder.none,
-                          contentPadding: EdgeInsets.symmetric(
-                            vertical: defaultMargin,
+                  ),
+                  IconButton(
+                    icon: Icon(
+                      Icons.search,
+                      color: kPrimaryColor,
+                    ),
+                    onPressed: () {
+                      String searchText = _searchController.text;
+                      if (searchText.isNotEmpty) {
+                        searchAndNavigate(searchText);
+                      }
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              color: kWhiteColor,
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (!isLocationFound)
+                      Container(
+                        margin: EdgeInsets.only(
+                          left: defaultMargin,
+                          right: defaultMargin,
+                          bottom: defaultMargin,
+                        ),
+                        child: const Text(
+                          "Lokasi tidak ditemukan",
+                          style: TextStyle(
+                            color: Colors.red, // Set color as needed
                           ),
                         ),
-                        onSubmitted: (value) {
-                          searchAndNavigate(value);
+                      ),
+                    Container(
+                      margin: EdgeInsets.only(
+                        top: defaultMargin,
+                        left: defaultMargin,
+                        bottom: defaultMargin,
+                      ),
+                      child: Text(
+                        "Pilih Titik Jemput",
+                        style: titleTextStyle.copyWith(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(
+                        left: defaultMargin,
+                        right: defaultMargin,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            selectedLocationName,
+                            style: blackTextStyle.copyWith(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(height: defaultMargin / 2),
+                          Text(
+                            selectedLocationAddress,
+                            style: subTitleTextStyle.copyWith(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(
+                        top: defaultMargin,
+                        left: defaultMargin,
+                        right: defaultMargin,
+                        bottom: defaultMargin,
+                      ),
+                      child: CustomButton(
+                        title: "Atur Lokasi Jemput",
+                        onPressed: () {
+                          String selectedLocation = selectedLocationAddress;
+                          _locationController.text = selectedLocation;
+                          Navigator.pop(context, selectedLocation);
                         },
                       ),
                     ),
-                    IconButton(
-                      icon: Icon(
-                        Icons.search,
-                        color: kPrimaryColor,
-                      ),
-                      onPressed: () {
-                        String searchText = _searchController.text;
-                        if (searchText.isNotEmpty) {
-                          searchAndNavigate(searchText);
-                        }
-                      },
-                    ),
                   ],
                 ),
               ),
             ),
-            Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: Container(
-                color: kWhiteColor,
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      if (!isLocationFound)
-                        Container(
-                          margin: EdgeInsets.only(
-                            left: defaultMargin,
-                            right: defaultMargin,
-                            bottom: defaultMargin,
-                          ),
-                          child: const Text(
-                            "Lokasi tidak ditemukan",
-                            style: TextStyle(
-                              color: Colors.red, // Set color as needed
-                            ),
-                          ),
-                        ),
-                      Container(
-                        margin: EdgeInsets.only(
-                          top: defaultMargin,
-                          left: defaultMargin,
-                          bottom: defaultMargin,
-                        ),
-                        child: Text(
-                          "Pilih Titik Jemput",
-                          style: titleTextStyle.copyWith(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(
-                          left: defaultMargin,
-                          right: defaultMargin,
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              selectedLocationName,
-                              style: blackTextStyle.copyWith(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            SizedBox(height: defaultMargin / 2),
-                            Text(
-                              selectedLocationAddress,
-                              style: subTitleTextStyle.copyWith(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(
-                          top: defaultMargin,
-                          left: defaultMargin,
-                          right: defaultMargin,
-                          bottom: defaultMargin,
-                        ),
-                        child: CustomButton(
-                          title: "Atur Lokasi Jemput",
-                          onPressed: () {
-                            String selectedLocation = selectedLocationAddress;
-                            _locationController.text = selectedLocation;
-                            Navigator.pop(context, selectedLocation);
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

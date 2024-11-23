@@ -41,16 +41,14 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        body: Stack(
-          children: [
-            _buildBackgroundImage(),
-            _buildGradientOverlay(),
-            _buildContent(),
-          ],
-        ),
+    return Scaffold(
+      backgroundColor: kWhiteColor,
+      body: Stack(
+        children: [
+          _buildBackgroundImage(),
+          _buildGradientOverlay(),
+          _buildContent(),
+        ],
       ),
     );
   }
@@ -113,7 +111,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Widget _buildTermsAndPrivacyText() {
     return _buildPaddedText(
-      "Pesan Tiket Online, Mudah & Nyaman!",
+      "Pesan tiket mobil antar kota, nikmati perjalanan nyaman. Mudah dan cepat, kapan saja, di mana saja.",
       style: blackTextStyle.copyWith(
         fontSize: 15,
       ),

@@ -331,18 +331,10 @@ class _TermsAndConditionsState extends State<TermsAndConditions> {
         children: [
           Row(
             children: [
-              Container(
-                decoration: BoxDecoration(
-                  color: kBackgroundColor,
-                  shape: BoxShape.circle,
-                ),
-                padding:
-                    EdgeInsets.all(defaultMargin), // Adjust padding as needed
-                child: Icon(
-                  icon,
-                  color: kPrimaryColor,
-                  size: 20,
-                ),
+              Icon(
+                icon,
+                color: kPrimaryColor,
+                size: 20,
               ),
               SizedBox(width: defaultMargin),
               Expanded(

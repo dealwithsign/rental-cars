@@ -2,8 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-double defaultMargin = 14.0;
-double defaultRadius = 8.0;
+double defaultMargin = 18.0;
+double defaultRadius = 5.0;
 
 Color kInputColor = const Color(0xfff7f7f7);
 
@@ -12,9 +12,14 @@ Color kBanner = const Color(0xff2b9a66);
 Color kPrimaryColor = const Color(0xFF191919);
 Color kSubTitle = const Color(0xff717171);
 
-Color kSuccessColor = const Color(0xff00AA13);
-Color kFailedColor = const Color(0xffEE2737);
-Color kPendingColor = const Color(0xffF06400);
+Color kSuccessColor = const Color(0xffCEEAD6);
+Color kFailedColor = const Color(0xffFAD2CF);
+Color kPendingColor = const Color(0xffFEEFC3);
+
+Color successColor = const Color(0xff0F9D58);
+Color failedColor = const Color(0xffE94335);
+Color pendingColor = const Color(0xffFBBB05);
+Color emptyColor = const Color(0xffF1F3F4);
 
 Color kIcon = const Color(0xFF191919);
 

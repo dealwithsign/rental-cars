@@ -47,62 +47,59 @@ class _SignInPageState extends State<SignInPage> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        appBar: AppBar(
-          backgroundColor: kWhiteColor,
-          surfaceTintColor: kWhiteColor,
-          elevation: 0,
-          leading: IconButton(
-            icon: Icon(
-              Iconsax.arrow_left_2,
-              color: kPrimaryColor,
-            ),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-        ),
+    return Scaffold(
+      appBar: AppBar(
         backgroundColor: kWhiteColor,
-        body: BlocConsumer<AuthBloc, AuthState>(
-          listener: (context, state) {
-            if (state is AuthSuccess) {
-              setState(() {
-                _isLoading = false;
-              });
-              _navigateTo(const WrapperAuth());
-            } else if (state is AuthFailure) {
-              setState(() {
-                _isLoading = false;
-              });
-              showErrorFlushbar(
-                context,
-                "Gagal Masuk",
-                "Email atau password tidak valid",
-              );
-            }
-          },
-          builder: (context, state) {
-            return SingleChildScrollView(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildHeader(),
-                    SizedBox(height: defaultMargin * 2),
-                    _buildForm(),
-                    SizedBox(height: defaultMargin * 2),
-                    // _buildForgotPassword(),
-                    // SizedBox(height: defaultMargin * 2),
-                    _buildTermsText(),
-                  ],
-                ),
-              ),
-            );
+        surfaceTintColor: kWhiteColor,
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(
+            Iconsax.arrow_left_2,
+            color: kPrimaryColor,
+          ),
+          onPressed: () {
+            Navigator.of(context).pop();
           },
         ),
+      ),
+      backgroundColor: kWhiteColor,
+      body: BlocConsumer<AuthBloc, AuthState>(
+        listener: (context, state) {
+          if (state is AuthSuccess) {
+            setState(() {
+              _isLoading = false;
+            });
+            _navigateTo(const WrapperAuth());
+          } else if (state is AuthFailure) {
+            setState(() {
+              _isLoading = false;
+            });
+            showErrorFlushbar(
+              context,
+              "Gagal Masuk",
+              "Email atau password tidak valid",
+            );
+          }
+        },
+        builder: (context, state) {
+          return SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: defaultMargin),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildHeader(),
+                  SizedBox(height: defaultMargin * 2),
+                  _buildForm(),
+                  SizedBox(height: defaultMargin * 2),
+                  // _buildForgotPassword(),
+                  // SizedBox(height: defaultMargin * 2),
+                  _buildTermsText(),
+                ],
+              ),
+            ),
+          );
+        },
       ),
     );
   }

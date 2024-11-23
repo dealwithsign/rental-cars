@@ -89,6 +89,7 @@ class _OutlineBorderTextFormFieldState
                   style: blackTextStyle.copyWith(
                     fontSize: 15,
                     color: kPrimaryColor,
+                    fontWeight: bold,
                   ),
                   autofocus: widget.autofocus,
                   keyboardType: widget.keyboardType,
@@ -99,9 +100,8 @@ class _OutlineBorderTextFormFieldState
                   maxLength: widget.maxLength,
                   decoration: InputDecoration(
                     labelText: widget.labelText,
-                    labelStyle: blackTextStyle.copyWith(
+                    labelStyle: subTitleTextStyle.copyWith(
                       fontSize: 15.0,
-                      color: kPrimaryColor,
                     ),
                     fillColor: kWhiteColor,
                     filled: true,

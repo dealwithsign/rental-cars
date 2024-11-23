@@ -108,40 +108,36 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      color: kWhiteColor,
-      home: Scaffold(
-        resizeToAvoidBottomInset: true,
+    return Scaffold(
+      resizeToAvoidBottomInset: true,
+      backgroundColor: kWhiteColor,
+      appBar: AppBar(
+        surfaceTintColor: kWhiteColor,
         backgroundColor: kWhiteColor,
-        appBar: AppBar(
-          surfaceTintColor: kWhiteColor,
-          backgroundColor: kWhiteColor,
-          leading: IconButton(
-            icon: Icon(
-              Iconsax.arrow_left_2,
-              color: kPrimaryColor,
-            ),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
+        leading: IconButton(
+          icon: Icon(
+            Iconsax.arrow_left_2,
+            color: kPrimaryColor,
           ),
-          title: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Selesaikan Pesananmu',
-                style: titleTextStyle.copyWith(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-          elevation: 0,
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
         ),
-        body: _buildBody(context),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Selesaikan Pesanan',
+              style: titleTextStyle.copyWith(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
+        elevation: 0,
       ),
+      body: _buildBody(context),
     );
   }
 
@@ -201,17 +197,11 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
   }
 
   Widget _accountInformations(UserModel user) {
-    TextEditingController phoneController =
-        TextEditingController(text: user.phone_number.toString());
-
     String displayedPhoneNumber = user.phone_number.toString();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          margin: EdgeInsets.only(
-            top: defaultMargin,
-          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -225,8 +215,8 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
               SizedBox(height: defaultMargin / 2),
               Text(
                 "Nomor WhatsApp ini akan digunakan untuk pengiriman \ninformasi tiket pesanan.",
-                style: blackTextStyle.copyWith(
-                  fontSize: 14,
+                style: subTitleTextStyle.copyWith(
+                  fontSize: 15,
                 ),
               ),
             ],
@@ -259,11 +249,6 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      // Icon(
-                      //   FontAwesomeIcons.penToSquare,
-                      //   color: kPrimaryColor,
-                      //   size: 20,
-                      // ),
                     ],
                   ),
                   SizedBox(
@@ -275,14 +260,14 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                         : (displayedPhoneNumber.startsWith('0')
                             ? displayedPhoneNumber
                             : '0$displayedPhoneNumber'),
-                    style: blackTextStyle.copyWith(
-                      fontSize: 14,
+                    style: subTitleTextStyle.copyWith(
+                      fontSize: 15,
                     ),
                   ),
                   Text(
                     user.email,
-                    style: blackTextStyle.copyWith(
-                      fontSize: 14,
+                    style: subTitleTextStyle.copyWith(
+                      fontSize: 15,
                     ),
                   ),
                 ],
@@ -308,16 +293,17 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            padding: EdgeInsets.all(defaultMargin),
-            decoration: BoxDecoration(
-              color: kWhiteColor,
-              borderRadius: BorderRadius.circular(defaultRadius),
-              border: Border.all(
-                color: kDivider,
-              ),
-            ),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Text(
+                  "Rute Perjalanan",
+                  style: titleTextStyle.copyWith(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: defaultMargin),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -332,9 +318,8 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                             fontWeight: bold,
                           ),
                         ),
-                        SizedBox(height: defaultMargin / 2),
                         Text(
-                          "Disediakan oleh ${widget.car.ownerCar}",
+                          "Dioperasikan oleh ${widget.car.ownerCar}",
                           style: subTitleTextStyle.copyWith(
                             fontSize: 14,
                           ),
@@ -346,33 +331,50 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                 SizedBox(height: defaultMargin),
                 Row(
                   children: [
+                    Text(
+                      DateFormat('EEEE, d MMMM yyyy', 'id_ID')
+                          .format(widget.carDate),
+                      style: blackTextStyle.copyWith(
+                        fontSize: 15,
+                        fontWeight: bold,
+                      ),
+                    ),
+                    SizedBox(width: defaultMargin / 2),
+                    Icon(
+                      Icons.circle,
+                      color: descGrey,
+                      size: 5,
+                    ),
+                    SizedBox(width: defaultMargin / 2),
+                    Text(
+                      widget.car.departureTime,
+                      style: blackTextStyle.copyWith(
+                        fontSize: 15,
+                        fontWeight: bold,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: defaultMargin * 2),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
                     Column(
                       children: [
-                        // Start point icon
-                        CircleAvatar(
-                          backgroundColor: kBackgroundColor,
-                          child: Icon(
-                            Iconsax.location,
-                            color: kGreyColor,
-                            size: 20,
-                          ),
+                        Icon(
+                          Iconsax.location,
+                          color: kPrimaryColor,
+                          size: 20,
                         ),
-                        // Timeline line
                         Container(
                           width: 1,
-                          height: 40,
-                          decoration: BoxDecoration(
-                            color: kDivider,
-                          ),
+                          height: 80,
+                          color: const Color(0XFFEBEBEB),
                         ),
-                        // End point icon
-                        CircleAvatar(
-                          backgroundColor: kBackgroundColor,
-                          child: Icon(
-                            Iconsax.location_tick,
-                            color: kGreyColor,
-                            size: 20,
-                          ),
+                        Icon(
+                          Iconsax.location_tick,
+                          color: kPrimaryColor,
+                          size: 20,
                         ),
                       ],
                     ),
@@ -381,114 +383,39 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Kota Asal",
-                                style: subTitleTextStyle.copyWith(
-                                  fontSize: 14,
-                                ),
-                              ),
-                              SizedBox(height: defaultMargin / 2),
-                              Text(
-                                widget.carFrom,
-                                style: blackTextStyle.copyWith(
-                                  fontSize: 15,
-                                  fontWeight: bold,
-                                ),
-                              ),
-                            ],
+                          Text(
+                            "Kota Asal",
+                            style: subTitleTextStyle.copyWith(
+                              fontSize: 14,
+                              fontWeight: bold,
+                            ),
                           ),
-                          const SizedBox(height: 25),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Kota Tujuan",
-                                style: subTitleTextStyle.copyWith(
-                                  fontSize: 14,
-                                ),
-                              ),
-                              SizedBox(height: defaultMargin / 2),
-                              Text(
-                                widget.carTo,
-                                style: blackTextStyle.copyWith(
-                                  fontSize: 15,
-                                  fontWeight: bold,
-                                ),
-                              ),
-                            ],
+                          SizedBox(height: defaultMargin / 2),
+                          Text(
+                            widget.carFrom,
+                            style: blackTextStyle.copyWith(
+                              fontSize: 15,
+                              fontWeight: bold,
+                            ),
+                          ),
+                          SizedBox(height: defaultMargin * 3),
+                          Text(
+                            "Kota Tujuan",
+                            style: subTitleTextStyle.copyWith(
+                              fontSize: 14,
+                              fontWeight: bold,
+                            ),
+                          ),
+                          SizedBox(height: defaultMargin / 2),
+                          Text(
+                            widget.carTo,
+                            style: blackTextStyle.copyWith(
+                              fontSize: 15,
+                              fontWeight: bold,
+                            ),
                           ),
                         ],
                       ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: defaultMargin),
-                Row(
-                  children: [
-                    CircleAvatar(
-                      backgroundColor: kBackgroundColor,
-                      child: Icon(
-                        Iconsax.calendar,
-                        color: kGreyColor,
-                        size: 20,
-                      ),
-                    ),
-                    SizedBox(width: defaultMargin),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Tanggal Berangkat",
-                          style: subTitleTextStyle.copyWith(
-                            fontSize: 14,
-                          ),
-                        ),
-                        SizedBox(height: defaultMargin / 2),
-                        Text(
-                          DateFormat('EEEE, d MMMM yyyy', 'id_ID')
-                              .format(widget.carDate),
-                          style: blackTextStyle.copyWith(
-                            fontSize: 15,
-                            fontWeight: bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                SizedBox(height: defaultMargin),
-                Row(
-                  children: [
-                    CircleAvatar(
-                      backgroundColor: kBackgroundColor,
-                      child: Icon(
-                        Iconsax.clock,
-                        color: kGreyColor,
-                        size: 20,
-                      ),
-                    ),
-                    SizedBox(width: defaultMargin),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Jam Berangkat",
-                          style: subTitleTextStyle.copyWith(
-                            fontSize: 14,
-                          ),
-                        ),
-                        SizedBox(height: defaultMargin / 2),
-                        Text(
-                          widget.car.departureTime,
-                          style: blackTextStyle.copyWith(
-                            fontSize: 15,
-                            fontWeight: bold,
-                          ),
-                        ),
-                      ],
                     ),
                   ],
                 ),
@@ -502,9 +429,6 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
 
   Widget _buildPickDateAndDropDate() {
     return Container(
-      margin: EdgeInsets.only(
-        top: defaultMargin,
-      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -518,8 +442,8 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
           SizedBox(height: defaultMargin / 2),
           Text(
             "Pastikan semua data di bawah ini sudah lengkap \nuntuk melanjutkan pemesanan.",
-            style: blackTextStyle.copyWith(
-              fontSize: 14,
+            style: subTitleTextStyle.copyWith(
+              fontSize: 15,
             ),
           ),
           SizedBox(height: defaultMargin),
@@ -799,7 +723,7 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Pilih Titik Drop-off",
+                            "Pilih Titik Tujuan",
                             style: subTitleTextStyle.copyWith(fontSize: 14),
                           ),
                           SizedBox(height: defaultMargin / 2),
@@ -886,7 +810,7 @@ class _BookWithDriverPageState extends State<BookWithDriverPage> {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: defaultMargin),
         child: CustomButton(
-          title: 'Lanjutkan',
+          title: 'Konfirmasi Pesanan',
           onPressed: () {
             if (_selectedLocationPick.isEmpty ||
                 _selectedLocationDrop.isEmpty) {

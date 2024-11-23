@@ -54,16 +54,16 @@ class NavigationScreen extends StatelessWidget {
                   onTap: (index) {
                     context.read<PagesBloc>().add(PageTapped(index));
                   },
-                  selectedItemColor: kPrimaryColor,
+                  selectedItemColor: kGreenColor,
                   unselectedItemColor: descGrey,
-                  selectedFontSize: 14,
-                  unselectedFontSize: 14,
+                  selectedFontSize: 15,
+                  unselectedFontSize: 15,
                   backgroundColor: Colors.white,
                   type: BottomNavigationBarType.fixed,
                   items: [
                     _buildNavItem(
-                      icon: Iconsax.home,
-                      activeIcon: Iconsax.home,
+                      icon: Iconsax.house,
+                      activeIcon: Iconsax.house,
                       label: 'Home',
                       isSelected: state.currentIndex == 0,
                     ),
@@ -76,7 +76,7 @@ class NavigationScreen extends StatelessWidget {
                     _buildNavItem(
                       icon: Iconsax.user,
                       activeIcon: Iconsax.user,
-                      label: 'Profile',
+                      label: 'Akun',
                       isSelected: state.currentIndex == 2,
                     ),
                   ],
@@ -108,13 +108,13 @@ class NavigationScreen extends StatelessWidget {
               isSelected ? activeIcon : icon,
               size: 20,
             ),
-            const SizedBox(height: 2), // Minimal spacing
+            const SizedBox(height: 5), // Minimal spacing
             Text(
               label,
               style: blackTextStyle.copyWith(
-                fontSize: 14,
-                fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
-                color: isSelected ? kPrimaryColor : descGrey,
+                fontSize: 15,
+                fontWeight: isSelected ? bold : regular,
+                color: isSelected ? kGreenColor : descGrey,
               ),
             ),
           ],

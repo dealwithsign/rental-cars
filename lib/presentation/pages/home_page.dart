@@ -52,15 +52,13 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   final CarsServices getSchedule = CarsServices();
-  void _navigateTo(BuildContext context, String routeName) {
-    Navigator.pushNamed(context, routeName);
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kWhiteColor,
       appBar: AppBar(
+        surfaceTintColor: kWhiteColor,
         backgroundColor: kWhiteColor,
         elevation: 0.0,
         title: Text(
@@ -94,12 +92,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 ClipPath(
                   clipper: ClipPathClass(),
                   child: Container(
-                    height: MediaQuery.of(context).size.height * 0.3,
+                    height: MediaQuery.of(context).size.height * 0.2,
                     decoration: const BoxDecoration(
                       gradient: LinearGradient(
                         colors: <Color>[
                           Color(0xff018053),
-                          Color(0xff018053),
+                          Color(0xff53bb97),
                         ],
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
@@ -110,29 +108,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Beli Tiket Mobil Antar Kota',
-                            style: buttonColor.copyWith(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                            ),
-                          ),
-                          const SizedBox(height: 5),
-                          Text(
-                            'Pesan tiketmu kapan saja dan di mana saja',
-                            style: buttonColor.copyWith(
-                              fontSize: 15,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: defaultMargin),
                     _buildSearchTicket(),
                     SizedBox(height: defaultMargin),
                     _buildSectionDivider(),
@@ -157,7 +132,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget buildBody() {
     return Column(
       children: [
-        SizedBox(height: defaultMargin / 2),
+        SizedBox(height: defaultMargin),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: defaultMargin),
           child: _buildHowToBePartners(),
@@ -170,7 +145,7 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               SizedBox(height: defaultMargin),
               Text(
-                "Destinasi Liburan Pilihan",
+                "Liburan Pilihan",
                 style: titleTextStyle.copyWith(
                   fontWeight: bold,
                   fontSize: 18,
@@ -188,11 +163,6 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
         ),
-        // Padding(
-        //   padding: EdgeInsets.only(
-        //     bottom: defaultMargin,
-        //   ),
-        // ),
       ],
     );
   }
@@ -209,7 +179,7 @@ class _HomeScreenState extends State<HomeScreen> {
             width: 1.0,
           ),
         ),
-        elevation: 1,
+        elevation: 0.5,
         child: Padding(
           padding: EdgeInsets.all(defaultMargin),
           child: Column(
@@ -236,7 +206,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Iconsax.location_tick,
               ),
               SizedBox(height: defaultMargin),
-              _buildDatePicker('Pilih Tanggal Jemput', selectedDate,
+              _buildDatePicker('Pilih Tanggal Berangkat', selectedDate,
                   (DateTime date) {
                 setState(() {
                   selectedDate = date;
@@ -291,7 +261,7 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             Icon(
               icon,
-              color: kGreyColor,
+              color: kPrimaryColor,
               size: 20,
             ),
             SizedBox(width: defaultMargin),
@@ -301,7 +271,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Text(
                   label,
                   style: subTitleTextStyle.copyWith(
-                    fontSize: 14,
+                    fontSize: 15,
                   ),
                 ),
                 SizedBox(height: defaultMargin / 2),
@@ -309,7 +279,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   selectedCity,
                   style: blackTextStyle.copyWith(
                     fontWeight: bold,
-                    fontSize: 14,
+                    fontSize: 15,
                   ),
                 ),
               ],
@@ -362,14 +332,14 @@ class _HomeScreenState extends State<HomeScreen> {
                             Text(
                               cities[index],
                               style: blackTextStyle.copyWith(
-                                fontSize: 14,
+                                fontSize: 15,
                                 fontWeight: bold,
                               ),
                             ),
                             Text(
                               'Semua titik di lokasi ini',
                               style: subTitleTextStyle.copyWith(
-                                fontSize: 14,
+                                fontSize: 15,
                                 fontWeight: bold,
                               ),
                             ),
@@ -471,7 +441,7 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               Icon(
                 Iconsax.calendar_1, // Added calendar icon here
-                color: kGreyColor,
+                color: kPrimaryColor,
                 size: 20,
               ),
               SizedBox(width: defaultMargin),
@@ -481,7 +451,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Text(
                     label,
                     style: subTitleTextStyle.copyWith(
-                      fontSize: 14,
+                      fontSize: 15,
                     ),
                   ),
                   SizedBox(height: defaultMargin / 2),
@@ -489,7 +459,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     DateFormat('EEE, dd MMMM yyyy', 'id_ID')
                         .format(selectedDate),
                     style: blackTextStyle.copyWith(
-                      fontSize: 14,
+                      fontSize: 15,
                       fontWeight: bold,
                     ),
                   ),
@@ -543,7 +513,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Text(
               title,
               style: blackTextStyle.copyWith(
-                fontSize: 14,
+                fontSize: 15,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -551,7 +521,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Text(
               description,
               style: subTitleTextStyle.copyWith(
-                fontSize: 14,
+                fontSize: 15,
               ),
             ),
           ],
@@ -654,7 +624,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               Padding(
                 padding: EdgeInsets.only(
-                  bottom: defaultMargin * 2,
+                  bottom: defaultMargin,
                 ),
               ),
             ],
@@ -713,7 +683,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Text(
                     location,
                     style: subTitleTextStyle.copyWith(
-                      fontSize: 14,
+                      fontSize: 15,
                     ),
                   )
                 ],
@@ -736,52 +706,63 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Container(
         padding: EdgeInsets.all(defaultMargin),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(defaultRadius),
-          color: const Color(0xffd8f4cc), // Soft green background
-          border: Border.all(
-            color: const Color(0xffd8f4cc),
-            width: 1,
+          gradient: const LinearGradient(
+            colors: [
+              Color(0xffbde0d5),
+              Color(0xffcfe6dd),
+            ],
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
           ),
+          borderRadius: BorderRadius.circular(defaultRadius),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Pesan Tiket Sekarang',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-                color: Color(0xff018053),
-              ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              'Temukan harga terbaik untuk perjalanan nyamanmu',
-              style: TextStyle(
-                fontSize: 14,
-                color: const Color(0xff018053).withOpacity(0.8),
-              ),
-            ),
-            const SizedBox(height: 16),
-            Row(
-              children: [
-                Text(
-                  'Mulai',
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                    color: const Color(0xff018053).withOpacity(0.9),
+        child: Container(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Text(
+                    'Pesan Tiket Sekarang',
+                    style: titleTextStyle.copyWith(
+                      fontSize: 18,
+                      fontWeight: bold,
+                    ),
                   ),
+                ],
+              ),
+              SizedBox(height: defaultMargin),
+              Text(
+                'Lebih hemat dan temukan harga terbaik untuk perjalanan nyamanmu.',
+                style: blackTextStyle.copyWith(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                  height: 1.3,
                 ),
-                const SizedBox(width: 4),
-                const Icon(
-                  Icons.arrow_forward,
-                  size: 16,
-                  color: Color(0xff018053),
+              ),
+              SizedBox(height: defaultMargin),
+              Container(
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'Mulai Sekarang',
+                      style: greenTextStyle.copyWith(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(width: defaultMargin / 2),
+                    Icon(
+                      Icons.arrow_forward_rounded,
+                      size: 20,
+                      color: kGreenColor,
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          ],
+              ),
+            ],
+          ),
         ),
       ),
     );

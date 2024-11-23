@@ -2,6 +2,7 @@
 import 'package:flutter/gestures.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsax/iconsax.dart';
 
@@ -52,60 +53,57 @@ class _SignUpPageState extends State<SignUpPage> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        appBar: AppBar(
-          backgroundColor: kWhiteColor,
-          surfaceTintColor: kWhiteColor,
-          elevation: 0,
-          leading: IconButton(
-            icon: Icon(
-              Iconsax.arrow_left_2,
-              color: kPrimaryColor,
-            ),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-        ),
+    return Scaffold(
+      appBar: AppBar(
         backgroundColor: kWhiteColor,
-        body: BlocConsumer<AuthBloc, AuthState>(
-          listener: (context, state) {
-            if (state is AuthSuccess) {
-              setState(() {
-                _isLoading = false;
-              });
-              _navigateTo(const WrapperAuth());
-            } else if (state is AuthFailure) {
-              setState(() {
-                _isLoading = false;
-              });
-              showErrorFlushbar(
-                context,
-                "Pendaftaran Gagal",
-                "Maaf, email ini sudah terdaftar. Silakan gunakan email lain",
-              );
-            }
-          },
-          builder: (context, state) {
-            return SingleChildScrollView(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildHeader(),
-                    SizedBox(height: defaultMargin * 2),
-                    _buildForm(),
-                    SizedBox(height: defaultMargin * 2),
-                    _buildTermsText(),
-                  ],
-                ),
-              ),
-            );
+        surfaceTintColor: kWhiteColor,
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(
+            Iconsax.arrow_left_2,
+            color: kPrimaryColor,
+          ),
+          onPressed: () {
+            Navigator.of(context).pop();
           },
         ),
+      ),
+      backgroundColor: kWhiteColor,
+      body: BlocConsumer<AuthBloc, AuthState>(
+        listener: (context, state) {
+          if (state is AuthSuccess) {
+            setState(() {
+              _isLoading = false;
+            });
+            _navigateTo(const WrapperAuth());
+          } else if (state is AuthFailure) {
+            setState(() {
+              _isLoading = false;
+            });
+            showErrorFlushbar(
+              context,
+              "Buat Akun Gagal",
+              "Maaf, email ini sudah terdaftar. Silakan gunakan email lain",
+            );
+          }
+        },
+        builder: (context, state) {
+          return SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: defaultMargin),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildHeader(),
+                  SizedBox(height: defaultMargin * 2),
+                  _buildForm(),
+                  SizedBox(height: defaultMargin * 2),
+                  _buildTermsText(),
+                ],
+              ),
+            ),
+          );
+        },
       ),
     );
   }
@@ -188,7 +186,10 @@ class _SignUpPageState extends State<SignUpPage> {
             autofocus: false,
             tempTextEditingController: _phoneNumberController,
             myFocusNode: _phoneNumberFocusNode,
-            inputFormatters: const [],
+            inputFormatters: [
+              LengthLimitingTextInputFormatter(12),
+              FilteringTextInputFormatter.digitsOnly,
+            ],
             keyboardType: TextInputType.phone,
             textInputAction: TextInputAction.done,
             validation: (value) => null,
@@ -220,7 +221,7 @@ class _SignUpPageState extends State<SignUpPage> {
         _phoneNumberController.text.isEmpty) {
       showErrorFlushbar(
         context,
-        "Pendaftaran Gagal",
+        "Buat Akun Gagal",
         "Silakan lengkapi informasi yang diperlukan sebelum melanjutkan",
       );
     } else {
